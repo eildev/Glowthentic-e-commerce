@@ -9,4 +9,9 @@
       format("truetype");
     font-weight: 100 900; /* Variable font range */
   }
+
+  body {
+    font-family: "Encode Sans", sans-serif;
+    background-color: #faf9f5;
+  }
 }
