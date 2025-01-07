@@ -1,10 +1,9 @@
-import React from "react";
 import Container from "./Container";
 import { Icon } from "@iconify/react";
 
-const Menu = () => {
+const NavbarForSmallDevice = () => {
   return (
-    <div className="px-2">
+    <div className="px-2 md:hidden">
       <Container>
         <div className="py-2 flex justify-start gap-1 items-center font-semibold text-lg ps-4 cursor-pointer">
           <Icon
@@ -36,9 +35,20 @@ const Menu = () => {
             Women Wake Up{" "}
             <Icon icon="solar:alt-arrow-right-bold" width="24" height="24" />
           </li>
-          <li className="bg-white py-2 px-5 flex justify-between border font-semibold cursor-pointer">
+          <li className="bg-white py-2 px-5  border font-normal cursor-pointer">
             Women Wake Up{" "}
-            <Icon icon="solar:alt-arrow-right-bold" width="24" height="24" />
+          </li>
+          <li className="bg-white py-2 px-5  border font-normal cursor-pointer">
+            Women Wake Up{" "}
+          </li>
+          <li className="bg-white py-2 px-5  border font-normal cursor-pointer">
+            Women Wake Up{" "}
+          </li>
+          <li className="bg-white py-2 px-5  border font-normal cursor-pointer">
+            Women Wake Up{" "}
+          </li>
+          <li className="bg-white py-2 px-5  border font-normal cursor-pointer">
+            Women Wake Up{" "}
           </li>
         </ul>
       </Container>
@@ -46,4 +56,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default NavbarForSmallDevice;
