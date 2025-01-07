@@ -1,9 +1,12 @@
 import React from "react";
+import Container from "../../components/Container";
 
 const HomePage = () => {
   return (
     <div>
-      <h2>This is Home Page</h2>
+      <Container>
+        <h2>This is Home Page</h2>
+      </Container>
     </div>
   );
 };
