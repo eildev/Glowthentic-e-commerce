@@ -1,8 +1,10 @@
-
+import { Icon } from "@iconify/react";
+import Container from "../components/Container";
 
 const Header = () => {
   return (
-    <div className="bg-[#0F1228]">
+    <div  className="bg-primary">
+      <Container>
       <div className="navbar text-white py-5	">
   <div className="navbar-start">
     <div className="dropdown">
@@ -37,16 +39,21 @@ const Header = () => {
     <a className="btn btn-ghost text-xl"> <img src="/logo/Glowthentic-Logo.svg" alt="Logo" className="h-12 w-auto" /></a>
   </div>
   <div className="navbar-center hidden lg:flex">
-    
       <div className="">
-      <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
+      <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-96" />
     </div>
   </div>
   <div className="navbar-end">
-    <a className="btn"><Icon icon="mdi-light:cart" width="24" height="24" />
+    <a className="px-2"><Icon icon="mdi-light:cart" width="24" height="24" />
     </a>
+    <a className="px-2"><Icon icon="mdi-light:heart" width="24" height="24" />
+    </a>
+    <a className="px-2"><Icon icon="line-md:account-small" width="24" height="24" />
+    </a>
+    
   </div>
 </div>
+</Container>
     </div>
   );
 };
