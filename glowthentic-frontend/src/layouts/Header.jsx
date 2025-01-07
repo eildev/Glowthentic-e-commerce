@@ -1,7 +1,9 @@
+
+
 const Header = () => {
   return (
-    <div>
-      <div className="navbar bg-base-100">
+    <div className="bg-[#0F1228]">
+      <div className="navbar text-white py-5	">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -32,25 +34,17 @@ const Header = () => {
         <li><a>Item 3</a></li>
       </ul>
     </div>
-    <a className="btn btn-ghost text-xl">ABC</a>
+    <a className="btn btn-ghost text-xl"> <img src="/logo/Glowthentic-Logo.svg" alt="Logo" className="h-12 w-auto" /></a>
   </div>
   <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1">
-      <li><a>Item 1</a></li>
-      <li>
-        <details>
-          <summary>Parent</summary>
-          <ul className="p-2">
-            <li><a>Submenu 1</a></li>
-            <li><a>Submenu 2</a></li>
-          </ul>
-        </details>
-      </li>
-      <li><a>Item 3</a></li>
-    </ul>
+    
+      <div className="">
+      <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
+    </div>
   </div>
   <div className="navbar-end">
-    <a className="btn">Button</a>
+    <a className="btn"><Icon icon="mdi-light:cart" width="24" height="24" />
+    </a>
   </div>
 </div>
     </div>
