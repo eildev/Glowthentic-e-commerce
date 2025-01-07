@@ -1,8 +1,14 @@
+import React from "react";
+import Menu from "../components/Menu";
+import Container from "../components/Container";
 
 const Navbar = () => {
   return (
     <div>
-      <h2>Navbar</h2>
+      <Container>
+        <h2>Navbar</h2>
+        <Menu />
+      </Container>
     </div>
   );
 };
