@@ -39,9 +39,16 @@ const Header = () => {
     <a className="btn btn-ghost text-xl"> <img src="/logo/Glowthentic-Logo.svg" alt="Logo" className="h-12 w-auto" /></a>
   </div>
   <div className="navbar-center hidden lg:flex">
-      <div className="">
-      <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-96" />
-    </div>
+    <div className="relative">
+    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+    <Icon icon="ic:outline-search" className="text-black " width="24" height="24" />
+    </span>
+    <input 
+      type="text" 
+      placeholder="Search for products, brands..." 
+      className="input input-bordered text-black h-9 rounded-e-3xl rounded-s-3xl md:w-96 pl-10"
+    />
+</div>
   </div>
   <div className="navbar-end">
     <a className="px-2"><Icon icon="mdi-light:cart" width="24" height="24" />
