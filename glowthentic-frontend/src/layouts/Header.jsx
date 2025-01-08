@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import Container from "../components/Container";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Searchbar from "../components/Searchbar";
 const Header = () => {
   const [query, setQuery] = useState(""); // Search query
   const [suggestions, setSuggestions] = useState([]); // Suggestions list
@@ -46,8 +47,6 @@ const Header = () => {
         image: "https://picsum.photos/50?random=7", // Random image from Lorem Picsum
       },
     ];
-    
-    
     
     const filteredData = mockData.filter((item) =>
       item.name.toLowerCase().includes(searchText.toLowerCase())
@@ -111,7 +110,6 @@ const Header = () => {
               </ul>
             </div>
             <Link className="text-xl">
-             
               <img
                 src="/logo/Glowthentic-Logo.svg"
                 alt="Logo"
@@ -150,34 +148,15 @@ const Header = () => {
                 {suggestions.length > 0 && (
                   <ul className="absolute left-0 right-0   pt-5  text-black  bg-white rounded-b-xl ">
                     {suggestions.map((item, index) => (
-                      <li
-                        key={index}
-                        className="px-4 py-2 hover:bg-gray-100 hover:rounded-b-3xl cursor-pointerc  flex items-center gap-4"
-                        onClick={() => {
-                          setQuery(item.name); // Fill input with selected suggestion
-                          setSuggestions([]); // Clear suggestions
-                        }}
-                      >
-                         <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-10 h-10 object-cover rounded"
-                        />
-                        
-                        {/* Name and price on the right */}
-                        <div>
-                          <p className="font-medium text-m">{item.name}</p>
-                          <p className="text-gray-500 text-m">{item.price}</p>
-                        </div>
-                      </li>
+                      <Searchbar  key={index} item={item} setQuery={setQuery} setSuggestions={setSuggestions}></Searchbar>
                     ))}
-
                     {/* //Search Show Text End */}
                   </ul>
                 )}
               </div>
             </div>
           </div>
+          
           <div className="navbar-end">
             <a className="px-2">
               <Icon icon="mdi-light:cart" width="24" height="24" />
