@@ -1,14 +1,11 @@
-import React from "react";
-import Menu from "../components/Menu";
-import Container from "../components/Container";
+import NavbarForLargeDevice from "../components/NavbarForLargeDevice";
+import NavbarForSmallDevice from "../components/NavbarForSmallDevice";
 
 const Navbar = () => {
   return (
     <div>
-      <Container>
-        <h2>Navbar</h2>
-        <Menu />
-      </Container>
+      <NavbarForLargeDevice />
+      <NavbarForSmallDevice />
     </div>
   );
 };
