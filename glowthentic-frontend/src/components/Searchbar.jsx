@@ -19,8 +19,8 @@ const Searchbar = ({ item, setQuery, setSuggestions }) => {
 
         {/* Name and price on the right */}
         <div>
-          <p className="font-medium text-m">{name}</p>
-          <p className="text-gray-500 text-m">{price}</p>
+          <p className="font-medium text-m ">{name}</p>
+          <p className=" text-m text-[#A27754]">{price}</p>
         </div>
       </li>
     </div>
