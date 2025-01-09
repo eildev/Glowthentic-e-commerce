@@ -11,6 +11,9 @@ export default {
         secondary: '#FA8232',
         dark: '#0c0c0c',
         gray: '#606060',
+        'white-gray': '#CBCBCB',
+        'secondary-gradient-1': 'rgba(250, 130, 50, 0.3)', // 30% opacity
+        'secondary-gradient-2': 'rgba(250, 130, 50, 0.15)', // 15% opacity
    
       }
     },
