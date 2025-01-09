@@ -1,14 +1,14 @@
 import cn from "../../utils/cn";
-const Toggle = ({ className }) => {
+const Checkbox = ({ className }) => {
   return (
     <span>
       <input
         type="checkbox"
-        className={`${cn("toggle  toggle-success", className)}`}
+        className={`${cn("checkbox", className)}`}
         defaultChecked
       />
     </span>
   );
 };
 
-export default Toggle;
+export default Checkbox;
