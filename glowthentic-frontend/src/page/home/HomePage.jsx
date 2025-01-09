@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import Badge from "../../components/typography/Badge";
+import Toggle from "../../components/typography/Toggle";
 
 const HomePage = () => {
   return (
@@ -22,7 +23,9 @@ const HomePage = () => {
         <Badge>
            Save 50%
         </Badge>
+        
         </div>
+        <Toggle></Toggle>
         <Icon icon="solar:airbuds-remove-outline" width="24" height="24" />
       </Container>
     </div>
