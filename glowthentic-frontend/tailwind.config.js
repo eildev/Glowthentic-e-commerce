@@ -12,7 +12,10 @@ export default {
         dark: '#0c0c0c',
         gray: '#606060',
    
-      }
+      },
+      fontWeight: {
+        'extra-bold': '700',
+    },
     },
   },
   plugins: [
