@@ -5,10 +5,13 @@
 @layer base {
   @font-face {
     font-family: "Encode Sans", serif;
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: url("./assets/fonts/Encode_Sans/static/EncodeSans-Regular.ttf")
+    src: url("./assets/fonts/Encode_Sans/EncodeSans-VariableFont_wdth,wght.ttf")
       format("truetype");
+    font-weight: 100 900; /* Variable font range */
+  }
+
+  body {
+    font-family: "Encode Sans", sans-serif;
+    background-color: #faf9f5;
   }
 }
