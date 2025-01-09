@@ -63,8 +63,7 @@ const MegaMenu = ({ showMegaMenu }) => {
               capture totale super potent rich cream
             </h4>
             <p className="text-xs">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Doloribus incidunt minima dolorem nulla reprehenderit!
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloribu
             </p>
           </div>
         </div>
