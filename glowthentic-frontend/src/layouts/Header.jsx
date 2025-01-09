@@ -6,13 +6,13 @@ import Searchbar from "../components/Searchbar";
 const Header = () => {
   const [query, setQuery] = useState(""); // Search query
   const [suggestions, setSuggestions] = useState([]); // Suggestions list
-
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const fetchSuggestions = async (searchText) => {
     // Replace this with an actual API call
- 
+
     const mockData = [
       {
-        name: "Lipstick",
+        name: "Wet n wild MegaLast Liquid Catsuit Matte Lipstick - Give Me Mocha",
         price: "$12.99",
         image: "https://picsum.photos/50?random=1", // Random image from Lorem Picsum
       },
@@ -47,7 +47,7 @@ const Header = () => {
         image: "https://picsum.photos/50?random=7", // Random image from Lorem Picsum
       },
     ];
-    
+
     const filteredData = mockData.filter((item) =>
       item.name.toLowerCase().includes(searchText.toLowerCase())
     );
@@ -109,6 +109,21 @@ const Header = () => {
                 </li>
               </ul>
             </div>
+            {/* //Logo Start*/}
+            <div className="navbar-start hidden lg:flex">
+              <Link className="text-xl">
+                <img
+                  src="/logo/Glowthentic-Logo.svg"
+                  alt="Logo"
+                  className="h-12 w-auto"
+                />
+              </Link>
+            </div>
+            {/* //Logo End */}
+            
+          </div>
+          {/* //Small Device logo// */}
+          <div className="lg:flex lg:hidden xl:hidden 2xl:hidden">
             <Link className="text-xl">
               <img
                 src="/logo/Glowthentic-Logo.svg"
@@ -117,10 +132,13 @@ const Header = () => {
               />
             </Link>
           </div>
+          {/* //Small Device logo// */}
           <div className="navbar-center hidden lg:flex">
+            {/* //Full Search Start */}
             <div className="relative">
+              
               <div className="relative z-20 ">
-                {/* //Search icon */}
+                {/* //Search icon Start*/}
                 <a href="">
                   <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                     <Icon
@@ -132,6 +150,7 @@ const Header = () => {
                   </span>
                 </a>
                 {/* //Search icon End*/}
+
                 {/* //Search Input// */}
                 <input
                   type="text"
@@ -148,26 +167,52 @@ const Header = () => {
                 {suggestions.length > 0 && (
                   <ul className="absolute left-0 right-0   pt-5  text-black  bg-white rounded-b-xl ">
                     {suggestions.map((item, index) => (
-                      <Searchbar  key={index} item={item} setQuery={setQuery} setSuggestions={setSuggestions}></Searchbar>
+                      <Searchbar
+                        key={index}
+                        item={item}
+                        setQuery={setQuery}
+                        setSuggestions={setSuggestions}
+                      ></Searchbar>
                     ))}
-                    {/* //Search Show Text End */}
                   </ul>
                 )}
               </div>
+              {/* //Search Show Text End */}
             </div>
+            {/* //Full Search End */}
           </div>
-          
-          <div className="navbar-end">
-            <a className="px-2">
+
+          {/* //Search Icon Samll Device */}
+          <div className="navbar-end pe-7 lg:hidden xl:hidden 2xl:hidden">
+            <Link>
+              <span onClick={() => setIsSearchOpen(!isSearchOpen)}>
+                <Icon
+                  icon="ic:outline-search"
+                  className="text-whitw "
+                  width="30"
+                  height="30"
+                />
+              </span>
+            </Link>
+          </div>
+          {/* //Search Icon Samll Device End */}
+
+          {/* //Cart wishlist start// */}
+
+          <div className="navbar-end hidden lg:flex">
+            <Link className="px-2">
               <Icon icon="mdi-light:cart" width="24" height="24" />
-            </a>
-            <a className="px-2">
+            </Link>
+
+            <Link className="px-2">
               <Icon icon="mdi-light:heart" width="24" height="24" />
-            </a>
-            <a className="px-2">
+            </Link>
+
+            <Link className="px-2">
               <Icon icon="line-md:account-small" width="24" height="24" />
-            </a>
+            </Link>
           </div>
+          {/* //Cart wishlist End// */}
         </div>
       </Container>
     </div>
