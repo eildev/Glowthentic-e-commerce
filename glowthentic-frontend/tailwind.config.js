@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        white: 'ffffff',
         primary: '#0F1228',
         secondary: '#FA8232',
         dark: '#0c0c0c',
@@ -17,11 +18,10 @@ export default {
         bodergraythin: '#AFAFAF',
         bodergraybold: '#7A7A7A',
         
-   
       },
       fontWeight: {
         'extra-bold': '700',
-    },
+      },
     },
   },
   plugins: [
