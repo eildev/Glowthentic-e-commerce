@@ -6,7 +6,7 @@ import Searchbar from "../components/Searchbar";
 const Header = () => {
   const [query, setQuery] = useState(""); // Search query
   const [suggestions, setSuggestions] = useState([]); // Suggestions list
-
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const fetchSuggestions = async (searchText) => {
     // Replace this with an actual API call
 
@@ -110,8 +110,8 @@ const Header = () => {
               </ul>
             </div>
             {/* //Logo Start*/}
-            <div className=" hidden lg:flex">
-            <Link className="text-xl">
+            <div className="navbar-start hidden lg:flex">
+              <Link className="text-xl">
                 <img
                   src="/logo/Glowthentic-Logo.svg"
                   alt="Logo"
@@ -120,22 +120,23 @@ const Header = () => {
               </Link>
             </div>
             {/* //Logo End */}
+            
           </div>
-          
-          <div className="navbar-center lg:flex lg:hidden xl:hidden 2xl:hidden">
+          {/* //Small Device logo// */}
+          <div className="lg:flex lg:hidden xl:hidden 2xl:hidden">
             <Link className="text-xl">
-                <img
-                  src="/logo/Glowthentic-Logo.svg"
-                  alt="Logo"
-                  className="h-12 w-auto"
-                />
-              </Link>
+              <img
+                src="/logo/Glowthentic-Logo.svg"
+                alt="Logo"
+                className="h-12 w-auto"
+              />
+            </Link>
           </div>
-
-
+          {/* //Small Device logo// */}
           <div className="navbar-center hidden lg:flex">
             {/* //Full Search Start */}
             <div className="relative">
+              
               <div className="relative z-20 ">
                 {/* //Search icon Start*/}
                 <a href="">
@@ -160,8 +161,6 @@ const Header = () => {
                 />
                 {/* //Search Input End// */}
               </div>
-              
-            
 
               {/* //Search Show Text */}
               <div className="relative  z-10 -top-4">
@@ -183,22 +182,23 @@ const Header = () => {
             {/* //Full Search End */}
           </div>
 
-           {/* //Search Icon Samll Device */}
-           <div className="navbar-end pe-7  lg:hidden xl:hidden 2xl:hidden">
+          {/* //Search Icon Samll Device */}
+          <div className="navbar-end pe-7 lg:hidden xl:hidden 2xl:hidden">
             <Link>
-            <span className="">
+              <span onClick={() => setIsSearchOpen(!isSearchOpen)}>
                 <Icon
                   icon="ic:outline-search"
                   className="text-whitw "
                   width="30"
                   height="30"
                 />
-              </span></Link>
-            </div>
-           {/* //Search Icon Samll Device End */}
+              </span>
+            </Link>
+          </div>
+          {/* //Search Icon Samll Device End */}
 
           {/* //Cart wishlist start// */}
-              
+
           <div className="navbar-end hidden lg:flex">
             <Link className="px-2">
               <Icon icon="mdi-light:cart" width="24" height="24" />
