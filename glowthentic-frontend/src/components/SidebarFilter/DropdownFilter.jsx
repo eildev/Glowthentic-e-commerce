@@ -75,7 +75,7 @@ const DropdownFilter = () => {
           ))}
         </div>
       </div>
-      <hr className="text-gray-thin" />
+      <hr className="text-hr-thin" />
       <div className="collapse collapse-arrow ">
         <input type="checkbox" className="peer" id="skin-condition" />
         <div
@@ -102,7 +102,7 @@ const DropdownFilter = () => {
           ))}
         </div>
       </div>
-      <hr className="text-gray-thin" />
+      <hr className="text-hr-thin" />
       <div className="collapse collapse-arrow ">
         <input type="checkbox" className="peer" id="featured" />
         <div
@@ -129,7 +129,7 @@ const DropdownFilter = () => {
           ))}
         </div>
       </div>
-      <hr className="text-gray-thin" />
+      <hr className="text-hr-thin" />
       <div className="collapse collapse-arrow ">
         <input type="checkbox" className="peer" id="price" />
         <div

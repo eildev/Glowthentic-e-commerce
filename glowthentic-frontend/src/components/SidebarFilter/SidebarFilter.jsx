@@ -14,7 +14,7 @@ const SidebarFilter = () => {
         <div className="mt-5 p-2">
           <HeadTitle>Filter</HeadTitle>
           <div className="mt-5 ">
-            <hr className="text-gray-thin" />
+            <hr className="text-hr-thin" />
             <div className="p-4">
               <HeadTitle className="text-sm md:text-lg lg:text-lg xl:text-lg">
                 Applied filters
@@ -26,14 +26,14 @@ const SidebarFilter = () => {
             <div className="p-4">
               <Link className="text-secondary ">Clear All Filters</Link>
             </div>
-            <hr className="text-gray-thin" />
+            <hr className="text-hr-thin" />
             <div className=" flex justify-between items-center  p-4">
               <HeadTitle className="text-sm md:text-lg lg:text-lg xl:text-lg">
                 Out Of Stock Items
               </HeadTitle>
               <Toggle className="mt-1"> </Toggle>
             </div>
-            <hr className="text-gray-thin" />
+            <hr className="text-hr-thin" />
             {/* //DropdownFilter // */}
 
            <DropdownFilter></DropdownFilter>
@@ -42,7 +42,7 @@ const SidebarFilter = () => {
          
           
         </div>
-        <hr className="text-gray-thin" />
+           <hr className="text-hr-thin" />
            <div className="flex justify-between items-center py-4 pe-1">
               <RegularButton className="bg-transparent text-secondary ">Clear filters</RegularButton>
               <RegularButton className="py-2">Apply filters</RegularButton>

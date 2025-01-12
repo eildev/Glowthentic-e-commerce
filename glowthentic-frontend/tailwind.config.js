@@ -18,7 +18,8 @@ export default {
         'secondary-gradient-2': 'rgba(250, 130, 50, 0.15)', // 15% opacity
         "gray-thin": '#AFAFAF',
         "gray-bold": '#7A7A7A',
-
+        "hr-thin": '#e7e7e7',
+        
       },
     },
   },
