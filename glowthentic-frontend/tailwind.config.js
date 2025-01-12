@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        white: 'ffffff',
+        white: '#ffffff',
         primary: '#0F1228',
         secondary: '#FA8232',
         dark: '#0c0c0c',
@@ -17,7 +17,6 @@ export default {
         'secondary-gradient-2': 'rgba(250, 130, 50, 0.15)', // 15% opacity
         bodergraythin: '#AFAFAF',
         bodergraybold: '#7A7A7A',
-      
       },
       fontWeight: {
         'extra-bold': '700',
