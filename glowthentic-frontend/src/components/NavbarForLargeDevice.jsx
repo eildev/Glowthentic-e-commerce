@@ -26,7 +26,7 @@ const NavbarForLargeDevice = () => {
                   className={`flex items-center gap-1 ${
                     data.dropdown
                       ? ""
-                      : "bg-white px-4 py-1 text-black rounded-2xl"
+                      : "bg-white px-4 py-1 text-black rounded-2xl font-medium leading-5"
                   }`}
                 >
                   {data.title ?? ""}
