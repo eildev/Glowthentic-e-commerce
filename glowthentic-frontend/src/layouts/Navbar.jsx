@@ -1,11 +1,11 @@
 import NavbarForLargeDevice from "../components/NavbarForLargeDevice";
 import NavbarForSmallDevice from "../components/NavbarForSmallDevice";
 
-const Navbar = () => {
+const Navbar = ({ showMobileMenu }) => {
   return (
-    <div>
+    <div className="relative">
       <NavbarForLargeDevice />
-      <NavbarForSmallDevice />
+      <NavbarForSmallDevice showMobileMenu={showMobileMenu} />
     </div>
   );
 };

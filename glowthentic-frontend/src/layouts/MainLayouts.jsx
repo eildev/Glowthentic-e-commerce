@@ -6,16 +6,18 @@ import AppBar from "./AppBar";
 import { useState } from "react";
 
 const MainLayouts = () => {
-  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   return (
     <div>
-      <Header
-        showSearchBar={showSearchBar}
-        setShowSearchBar={setShowSearchBar}
-      />
-      <Navbar />
+      {/*--------- Header -----------*/}
+      <Header setShowMobileMenu={setShowMobileMenu} />
+      {/*--------- Navbar -----------*/}
+      <Navbar showMobileMenu={showMobileMenu} />
+      {/*--------- Outlet -----------*/}
       <Outlet />
+      {/*--------- Footer -----------*/}
       <Footer />
+      {/*--------- AppBar -----------*/}
       <AppBar />
     </div>
   );
