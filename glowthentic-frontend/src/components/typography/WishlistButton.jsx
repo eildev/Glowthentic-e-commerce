@@ -8,5 +8,4 @@ const WishlistButton = ({className}) => {
         </span>
     );
 };
-
 export default WishlistButton;

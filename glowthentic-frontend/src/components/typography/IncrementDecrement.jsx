@@ -19,7 +19,7 @@ const IncrementDecrement = () => {
         >
          <Icon icon="majesticons:minus" width="1.3em" height="1.3em"  />
         </span>
-        <span className="text-lg font-thin">{count}</span>
+        <input className="text-lg text-center font-thin w-7" value={count}/>
         <span
           className="cursor-pointer  border-2  border-bodergraybold rounded-md  bg-gray-200 text-lg font-thin  hover:bg-gray-300"
           onClick={handleIncrement}

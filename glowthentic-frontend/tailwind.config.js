@@ -20,9 +20,6 @@ export default {
         "gray-bold": '#7A7A7A',
 
       },
-      fontWeight: {
-        'extra-bold': '700',
-      },
     },
   },
   plugins: [
