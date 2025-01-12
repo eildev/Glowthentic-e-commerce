@@ -61,7 +61,12 @@ const SearchBar = ({ className }) => {
     <>
       {/* //Full Search Start */}
       <div className={`${cn("relative", className)}`}>
-        <div className="relative z-20 md:w-[450px] lg:w-[600px] bg-white rounded-e-3xl rounded-s-3xl shadow-[0_4px_6px_rgba(0,0,0,0.1)]">
+        <div
+          className={`${cn(
+            "relative bg-white rounded-3xl shadow-[0_4px_6px_rgba(0,0,0,0.1)] overflow-hidden z-40",
+            className
+          )}`}
+        >
           {/* //Search icon Start*/}
           <a href="">
             <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 ">
@@ -81,15 +86,15 @@ const SearchBar = ({ className }) => {
             placeholder="Search for products, brands..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="ps-4 border-none focus:outline-none text-black h-9   pe-10 "
+            className="ps-4 border-none w-full focus:outline-none text-black h-9"
           />
           {/* //Search Input End// */}
         </div>
 
         {/* //Search Show Text */}
-        <div className="relative  z-10 -top-4">
+        <div className="relative z-30 -top-4 drop-shadow-xl">
           {suggestions.length > 0 && (
-            <ul className="absolute left-0 right-0   pt-5  text-black  bg-white rounded-b-xl ">
+            <ul className="absolute left-0 right-0 pt-5 text-black bg-white rounded-b-xl ">
               {suggestions.map((item, index) => (
                 <SuggestionProduct
                   key={index}

@@ -3,7 +3,10 @@ import Container from "../components/Container";
 import { Link } from "react-router-dom";
 import Logo from "../components/Logo";
 import SearchBar from "../components/search/SearchBar";
-const Header = ({ showSearchBar, setShowSearchBar }) => {
+import { useState } from "react";
+const Header = ({ setShowMobileMenu }) => {
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
   return (
     <div className="bg-primary">
       <Container>
@@ -11,7 +14,11 @@ const Header = ({ showSearchBar, setShowSearchBar }) => {
         <div className="navbar text-white py-5 relative">
           <div className="navbar-start">
             {/*--------- show menu icon on small Device -----------*/}
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <div
+              role="button"
+              className="btn btn-ghost lg:hidden"
+              onClick={() => setShowMobileMenu((prev) => !prev)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -44,20 +51,26 @@ const Header = ({ showSearchBar, setShowSearchBar }) => {
 
           {/*--------- large Device Search bar  Start -----------*/}
           <div className="navbar-center hidden lg:flex">
-            <SearchBar />
+            <SearchBar className="w-[600px]" />
           </div>
           {/*--------- large Device Search bar End -----------*/}
 
           {/*--------- Search bar show in small Device  Start -----------*/}
-          <div className="absolute -bottom-9 w-full">
+          <div
+            className={`absolute -bottom-9 w-full transition-all duration-300 ease-in-out transform ${
+              showSearchBar
+                ? "opacity-100 visible translate-y-0"
+                : "opacity-0 invisible -translate-y-5"
+            }`}
+          >
             <SearchBar className="w-full" />
           </div>
           {/*--------- Search bar show in small Device End -----------*/}
 
           {/*--------- Search Icon show on Small Device -----------*/}
           <div className="navbar-end pe-7 lg:hidden xl:hidden 2xl:hidden">
-            <Link>
-              <span onClick={setShowSearchBar(true)}>
+            <Link to="#" onClick={() => setShowSearchBar((prev) => !prev)}>
+              <span>
                 <Icon
                   icon="ic:outline-search"
                   className="text-whitw "

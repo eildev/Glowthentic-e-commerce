@@ -5,7 +5,7 @@ import image from "../assets/img/navbar.jpg";
 const MegaMenu = ({ showMegaMenu }) => {
   return (
     <div
-      className={`bg-white w-full text-black absolute top-[100%] left-0 z-50 shadow-lg 
+      className={`bg-white w-full text-black absolute top-[100%] left-0 z-20 shadow-lg 
       transition-all duration-300 ease-in-out transform 
       ${
         showMegaMenu
