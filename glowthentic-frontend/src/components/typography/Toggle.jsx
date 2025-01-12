@@ -6,7 +6,7 @@ const Toggle = ({ className }) => {
       <input
         type="checkbox"
         className={`${cn(
-          "toggle checked:toggle-primary   checked:border-orange-500 [--tglbg:#fff] checked:[--tglbg:#FA8232] ",
+          "toggle rounded-none bg-white hover:bg-white border-gray  checked:border-orange-500 [--tglbg:#606060] checked:[--tglbg:#FA8232] ",
           className
         )}`}
         defaultChecked

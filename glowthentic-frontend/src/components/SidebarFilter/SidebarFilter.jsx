@@ -3,10 +3,12 @@ import Container from "../Container";
 import HeadTitle from "../typography/HeadTitle";
 import Toggle from "../typography/Toggle";
 import DropdownFilter from "./DropdownFilter";
+import RegularButton from "../typography/RegularButton";
+//Category Data
 
 const SidebarFilter = () => {
   return (
-    <div>
+    <div className="p-3 ">
       <Container>
         <div className="max-w-72 mt-5">
           <HeadTitle>Filter</HeadTitle>
@@ -29,16 +31,21 @@ const SidebarFilter = () => {
                 Out Of Stock Items
               </HeadTitle>
               <Toggle className="mt-1"> </Toggle>
-            
             </div>
             <hr className="text-gray-thin" />
             {/* //DropdownFilter // */}
-            <div>
-            <DropdownFilter></DropdownFilter>
-            </div>
+
+           <DropdownFilter></DropdownFilter>
+           <hr className="text-gray-thin" />
+          </div>
+         
+          <div className="flex justify-between items-center py-4">
+              <RegularButton className="bg-transparent text-secondary ">Clear filters</RegularButton>
+              <RegularButton className="py-2">Apply filters</RegularButton>
           </div>
         </div>
       </Container>
+   
     </div>
   );
 };

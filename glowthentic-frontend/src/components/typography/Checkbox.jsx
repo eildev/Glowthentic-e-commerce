@@ -1,11 +1,11 @@
 import cn from "../../utils/cn";
-const Checkbox = ({ className }) => {
+const Checkbox = ({ className,  onChange,checked}) => {
   return (
     <span>
       <input
-        type="checkbox"
-        className={`${cn("checkbox", className)}`}
-        defaultChecked
+        type="checkbox"  checked={checked}
+        onChange={onChange} className={`${cn("checkbox ", className)}`}
+
       />
     </span>
   );
