@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
 import { Icon } from "@iconify/react";
+import CartIcon from "../components/navbar/CartIcon";
 
 const AppBar = () => {
-  const cartCount = 5;
+  const cartCount = 10;
   return (
     <div className="fixed bottom-1 bg-white w-full right-0 lg:hidden rounded-3xl drop-shadow-xl">
       <Container>
@@ -19,7 +20,7 @@ const AppBar = () => {
             </Link>
           </li>
           <li className="text-secondary">
-            <Link to="#" className="relative">
+            {/* <Link to="#" className="relative">
               <Icon icon="proicons:cart" width="35" height="35" />
               <span
                 className={`absolute top-0 right-0 border-2 bg-white border-secondary text-secondary w-4 h-4 rounded-full text-[10px] flex justify-center items-center ${
@@ -28,7 +29,8 @@ const AppBar = () => {
               >
                 {cartCount}
               </span>
-            </Link>
+            </Link> */}
+            <CartIcon cartCount={cartCount} className="border-secondary text-secondary flex justify-center items-center" />
           </li>
           <li>
             <Link to="#">
