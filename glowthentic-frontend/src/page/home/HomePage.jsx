@@ -1,8 +1,8 @@
 
 import Container from "../../components/Container";
 import { Icon } from "@iconify/react";
-import HeadTitle from "../../components/typography/HeadTitle";
-import RegularButton from "../../components/typography/RegularButton";
+// import HeadTitle from "../../components/typography/HeadTitle";
+// import RegularButton from "../../components/typography/RegularButton";
 import Badge from "../../components/typography/Badge";
 import Toggle from "../../components/typography/Toggle";
 import Checkbox from "../../components/typography/Checkbox";

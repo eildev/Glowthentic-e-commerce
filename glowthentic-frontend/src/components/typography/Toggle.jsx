@@ -4,7 +4,7 @@ const Toggle = ({ className }) => {
     <span>
       <input
         type="checkbox"
-        className={`${cn("toggle  toggle-success", className)}`}
+        className={`${cn("toggle  toggle-white  [--tglbg:#FA8232] ", className)}`}
         defaultChecked
       />
     </span>
