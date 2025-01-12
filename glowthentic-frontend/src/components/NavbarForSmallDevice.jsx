@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 
 const NavbarForSmallDevice = () => {
   return (
-    <div className="px-2 md:hidden">
+    <div className="px-2 lg:hidden">
       <Container>
         <div className="py-2 flex justify-start gap-1 items-center font-semibold text-lg ps-4 cursor-pointer">
           <Icon
