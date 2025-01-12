@@ -8,6 +8,7 @@ import Toggle from "../../components/typography/Toggle";
 import Checkbox from "../../components/typography/Checkbox";
 import WishlistButton from "../../components/typography/WishlistButton";
 import IncrementDecrement from "../../components/typography/IncrementDecrement";
+import SidebarFilter from "../../components/SidebarFilter/SidebarFilter";
 
 
 const HomePage = () => {
@@ -22,6 +23,7 @@ const HomePage = () => {
         <RegularButton>
         Apply filters
         </RegularButton> */}
+        <SidebarFilter></SidebarFilter>
         <h2>This is Home Page</h2>
         <div className="py-5">
         <Badge>
