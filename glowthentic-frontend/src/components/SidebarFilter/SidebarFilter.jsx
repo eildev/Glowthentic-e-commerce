@@ -37,12 +37,13 @@ const SidebarFilter = () => {
 
            <DropdownFilter></DropdownFilter>
            <hr className="text-gray-thin" />
-          </div>
-         
-          <div className="flex justify-between items-center py-4">
+           <div className="flex justify-between items-center py-4 pe-1">
               <RegularButton className="bg-transparent text-secondary ">Clear filters</RegularButton>
               <RegularButton className="py-2">Apply filters</RegularButton>
           </div>
+          </div>
+         
+          
         </div>
       </Container>
    
