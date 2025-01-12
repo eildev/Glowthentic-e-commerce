@@ -4,10 +4,11 @@ const Checkbox = ({ className,  onChange,checked}) => {
     <span>
       <input
         type="checkbox"  checked={checked}
-        onChange={onChange} className={`${cn("checkbox ", className)}`}
-
+        onChange={onChange}  className={`${cn("checkbox  checkbox-warning", className)}`}
+    
       />
     </span>
+    
   );
 };
 

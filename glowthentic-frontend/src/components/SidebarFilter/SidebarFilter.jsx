@@ -10,9 +10,19 @@ const SidebarFilter = () => {
   return (
     <div className="p-3 ">
       <Container >
+      <HeadTitle className="mt-5 lg:text-3xl   px-2">Women skincare </HeadTitle>
+       <div className="flex justify-between items-center">
+       <HeadTitle className="mt-5  px-2">Filter</HeadTitle>
+      <div>
+      <select className="select select-bordered w-full max-w-xs">
+      <option disabled selected>Who shot first?</option>
+      <option>Han Solo</option>
+      <option>Greedo</option>
+    </select>
+      </div>
+       </div>
+
         <div className="max-w-72 bg-white">
-        <div className="mt-5 p-2">
-          <HeadTitle>Filter</HeadTitle>
           <div className="mt-5 ">
             <hr className="text-hr-thin" />
             <div className="p-4">
@@ -41,7 +51,7 @@ const SidebarFilter = () => {
           </div>
          
           
-        </div>
+       
            <hr className="text-hr-thin" />
            <div className="flex justify-between items-center py-4 pe-1">
               <RegularButton className="bg-transparent text-secondary ">Clear filters</RegularButton>

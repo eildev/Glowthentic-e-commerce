@@ -66,7 +66,7 @@ const DropdownFilter = () => {
                 onChange={() => handleCheckboxChange(category.name)}
               />
               <span
-                className="ml-3 font-thin mb-1 cursor-pointer"
+                className="ml-3 font-normal mb-1 cursor-pointer"
                 onClick={() => handleCheckboxChange(category.name)}
               >
                 {category.name}
@@ -93,7 +93,7 @@ const DropdownFilter = () => {
                 onChange={() => handleCheckboxChange(skin.name)}
               />
               <span
-                className="ml-3 font-thin mb-1 cursor-pointer"
+                className="ml-3 font-normal mb-1 cursor-pointer"
                 onClick={() => handleCheckboxChange(skin.name)}
               >
                 {skin.name}
@@ -120,7 +120,7 @@ const DropdownFilter = () => {
                 onChange={() => handleCheckboxChange(featured.name)}
               />
               <span
-                className="ml-3 font-thin mb-1 cursor-pointer"
+                className="ml-3 font-normal mb-1 cursor-pointer"
                 onClick={() => handleCheckboxChange(featured.name)}
               >
                 {featured.name}
@@ -147,7 +147,7 @@ const DropdownFilter = () => {
                 onChange={() => handleCheckboxChange(price.price)}
               />
               <span
-                className="ml-3 font-thin mb-1 cursor-pointer"
+                className="ml-3 font-normal mb-1 cursor-pointer"
                 onClick={() => handleCheckboxChange(price.price)}
               >
                 {price.price}
