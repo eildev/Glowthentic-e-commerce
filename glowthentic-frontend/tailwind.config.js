@@ -25,5 +25,15 @@ export default {
   plugins: [
     require('daisyui'),
   ],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          "primary": "#ffffff", // Override primary color to white
+        },
+      },
+    ],
+  },
+ 
 }
 
