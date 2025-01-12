@@ -10,7 +10,7 @@ const NavbarForLargeDevice = () => {
   return (
     <>
       <div
-        className="hidden md:block bg-primary text-white border-t border-gray-500 py-5 relative"
+        className="hidden lg:block bg-primary text-white border-t border-gray-500 py-5 relative"
         onMouseLeave={() => setShowMegaMenu(false)}
       >
         <Container>
