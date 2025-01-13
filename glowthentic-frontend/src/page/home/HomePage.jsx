@@ -14,32 +14,10 @@ const HomePage = () => {
       {/*--------- HomeSlider Section -----------*/}
       <HomeSlider></HomeSlider>
       <Container>
-        {/* <HeadTitle>
-        <span>Discover the Latest <br />
-        Beauty Trends
-        </span>
-        </HeadTitle>
-        <RegularButton>
-        Apply filters
-        </RegularButton> */}
-        <BannerSection/>
-      <CategorySection></CategorySection>
-       <TagSection></TagSection>
-       <SpecialOffers></SpecialOffers>
-        <h2>This is Home Page</h2>
-        <div className="py-5">
-        <Badge>
-           Save 50%
-        </Badge>
-        
-        </div>
-        <Toggle></Toggle>
-        <Checkbox></Checkbox>
-        <WishlistButton></WishlistButton>
-        <IncrementDecrement/>
-        <Icon icon="solar:airbuds-remove-outline" width="24" height="24" />
         {/*--------- Banner Section -----------*/}
         <BannerSection />
+        <CategorySection/>
+        <TagSection/>
       </Container>
       {/*---------  OnlineChatButton -----------*/}
       <OnlineChatButton></OnlineChatButton>
