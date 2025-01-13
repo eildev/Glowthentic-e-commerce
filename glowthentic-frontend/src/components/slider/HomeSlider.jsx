@@ -1,4 +1,3 @@
-
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import image from "../../assets/img/homeslider/Hero.png";
@@ -20,7 +19,7 @@ const HomeSlider = () => {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src={image} alt="Slider Image" />
+        <img src={image} alt="Slider Image"/>
         </SwiperSlide>
         <SwiperSlide>
           <img src={image} alt="Slider Image" />

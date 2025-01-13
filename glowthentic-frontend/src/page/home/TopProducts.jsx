@@ -1,4 +1,3 @@
-import React from 'react';
 import TopProduct from '../../components/product_card/TopProduct';
 
 const TopProducts = () => {
