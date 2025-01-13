@@ -14,7 +14,7 @@ const SidebarFilter = () => {
        <div className="flex justify-between items-center">
        <HeadTitle className="mt-5  px-2">Filter</HeadTitle>
       <div>
-      <select className="select select-bordered w-full max-w-xs">
+      <select className="select select-bordered border-none shadow-lg w-full max-w-xs">
       <option disabled selected>Who shot first?</option>
       <option>Han Solo</option>
       <option>Greedo</option>
