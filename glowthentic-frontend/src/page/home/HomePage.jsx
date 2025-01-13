@@ -10,6 +10,7 @@ import WishlistButton from "../../components/typography/WishlistButton";
 import IncrementDecrement from "../../components/typography/IncrementDecrement";
 import HomeSlider from "../../components/slider/HomeSlider";
 import BannerSection from "./BannerSection";
+import TopProducts from "./TopProducts";
 
 
 const HomePage = () => {
@@ -26,6 +27,7 @@ const HomePage = () => {
         Apply filters
         </RegularButton> */}
         <BannerSection/>
+        <TopProducts></TopProducts>
       
        
         <h2>This is Home Page</h2>
