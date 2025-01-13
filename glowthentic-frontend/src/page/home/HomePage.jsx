@@ -1,13 +1,8 @@
 
 import Container from "../../components/Container";
-import { Icon } from "@iconify/react";
-import Badge from "../../components/typography/Badge";
+
 import ScrolTop from "../../components/ScrolTop";
 import OnlineChatButton from "../../components/OnlineChatButton";
-import Toggle from "../../components/typography/Toggle";
-import Checkbox from "../../components/typography/Checkbox";
-import WishlistButton from "../../components/typography/WishlistButton";
-import IncrementDecrement from "../../components/typography/IncrementDecrement";
 import HomeSlider from "../../components/slider/HomeSlider";
 import BannerSection from "./BannerSection";
 import CategorySection from "../category-section/CategorySection";
@@ -16,7 +11,8 @@ import SpecialOffers from "../special-offers/SpecialOffers";
 const HomePage = () => {
   return (
     <div>
-        <HomeSlider></HomeSlider>
+      {/*--------- HomeSlider Section -----------*/}
+      <HomeSlider></HomeSlider>
       <Container>
         {/* <HeadTitle>
         <span>Discover the Latest <br />
@@ -42,8 +38,12 @@ const HomePage = () => {
         <WishlistButton></WishlistButton>
         <IncrementDecrement/>
         <Icon icon="solar:airbuds-remove-outline" width="24" height="24" />
+        {/*--------- Banner Section -----------*/}
+        <BannerSection />
       </Container>
+      {/*---------  OnlineChatButton -----------*/}
       <OnlineChatButton></OnlineChatButton>
+      {/*---------  ScrolTop -----------*/}
       <ScrolTop></ScrolTop>
     </div>
   );
