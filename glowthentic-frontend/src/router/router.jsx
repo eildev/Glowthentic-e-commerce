@@ -15,16 +15,16 @@ import ContactUs from "../page/contact-us/ContactUs";
 import FaqPage from "../page/faq/FaqPage";
 import TrackOrderPage from "../page/track-order/TrackOrderPage";
 
-const ErrorBoundary = ({ error }) => {
-  console.error("Error caught:", error);
-  return <Page404 />;
-};
+// const ErrorBoundary = ({ error }) => {
+//   console.error("Error caught:", error);
+//   return <Page404 />;
+// };
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
-    errorElement: <ErrorBoundary />, // Error Boundary
+    // errorElement: <ErrorBoundary />, // Error Boundary
     children: [
       {
         path: "/",

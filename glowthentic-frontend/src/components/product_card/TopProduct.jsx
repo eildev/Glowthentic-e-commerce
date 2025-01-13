@@ -1,3 +1,5 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
+
 const TopProduct = () => {
     return (
         <div>

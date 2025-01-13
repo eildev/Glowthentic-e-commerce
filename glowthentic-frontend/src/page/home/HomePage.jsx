@@ -8,6 +8,9 @@ import BannerSection from "./BannerSection";
 import TopProducts from "./TopProducts";
 
 
+import CategorySection from "../category-section/CategorySection";
+import TagSection from "../tag-section/TagSection";
+import SpecialOffers from "../special-offers/SpecialOffers";
 const HomePage = () => {
   return (
     <div>
@@ -18,6 +21,8 @@ const HomePage = () => {
         <BannerSection />
 
         <TopProducts></TopProducts>
+        <CategorySection/>
+        <TagSection/>
       </Container>
       {/*---------  OnlineChatButton -----------*/}
       <OnlineChatButton></OnlineChatButton>
