@@ -9,12 +9,16 @@ const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   return (
     <div>
-      {/*--------- Header -----------*/}
-      <Header setShowMobileMenu={setShowMobileMenu} />
-      {/*--------- Navbar -----------*/}
-      <Navbar showMobileMenu={showMobileMenu} />
-      {/*--------- Outlet -----------*/}
-      <Outlet />
+      <div className="fixed top-0 left-0 w-full z-50">
+        {/*--------- Header -----------*/}
+        <Header setShowMobileMenu={setShowMobileMenu} />
+        {/*--------- Navbar -----------*/}
+        <Navbar showMobileMenu={showMobileMenu} />
+      </div>
+      <div className="mt-40">
+        {/*--------- Outlet -----------*/}
+        <Outlet />
+      </div>
       {/*--------- Footer -----------*/}
       <Footer />
       {/*--------- AppBar -----------*/}
