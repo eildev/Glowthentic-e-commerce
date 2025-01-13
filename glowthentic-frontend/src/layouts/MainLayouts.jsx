@@ -11,7 +11,7 @@ const MainLayouts = () => {
       <Navbar />
       <Outlet />
       <Footer />
-      <AppBar />
+      {/* <AppBar /> */}
     </div>
   );
 };

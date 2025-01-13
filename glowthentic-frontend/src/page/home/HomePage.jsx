@@ -4,6 +4,8 @@ import { Icon } from "@iconify/react";
 import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import Badge from "../../components/typography/Badge";
+import ScrolTop from "../../components/ScrolTop";
+import OnlineChatButton from "../../components/OnlineChatButton";
 
 const HomePage = () => {
   return (
@@ -141,6 +143,8 @@ const HomePage = () => {
           repudiandae.
         </p>
       </Container>
+      <OnlineChatButton></OnlineChatButton>
+      <ScrolTop></ScrolTop>
     </div>
   );
 };
