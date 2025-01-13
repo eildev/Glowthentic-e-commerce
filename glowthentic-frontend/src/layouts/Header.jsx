@@ -58,10 +58,11 @@ const Header = ({ setShowMobileMenu }) => {
 
           {/*--------- Search bar show in small Device  Start -----------*/}
           <div
-            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${showSearchBar
+            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${
+              showSearchBar
                 ? "opacity-100 visible translate-y-0"
                 : "opacity-0 invisible -translate-y-5"
-              }`}
+            }`}
           >
             <SearchBar className="w-full" />
           </div>
@@ -85,16 +86,21 @@ const Header = ({ setShowMobileMenu }) => {
           {/*--------- Cart wishlist start -----------*/}
           <div className="navbar-end hidden lg:flex">
             {/* Cart Icon  */}
-            <CartIcon cartCount={10} className="border-primary text-primary flex justify-center items-center" />
+            <div className="px-2">
+              <CartIcon
+                cartCount={10}
+                className="border-primary text-primary flex justify-center items-center"
+              />
+            </div>
 
             {/* Wishlist  */}
-            <Link className="px-2">
-              <Icon icon="mdi-light:heart" width="35" height="35" />
+            <Link to="/wishlist" className="px-2">
+              <Icon icon="mdi-light:heart" width="30" height="30" />
             </Link>
 
             {/* user  */}
-            <Link className="px-2">
-              <Icon icon="line-md:account-small" width="35" height="35" />
+            <Link to="/login" className="px-2">
+              <Icon icon="line-md:account-small" width="30" height="30" />
             </Link>
           </div>
           {/*--------- Cart wishlist End -----------*/}
