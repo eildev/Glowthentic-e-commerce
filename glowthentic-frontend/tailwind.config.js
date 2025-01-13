@@ -16,15 +16,29 @@ export default {
         'white-gray': '#CBCBCB',
         'secondary-gradient-1': 'rgba(250, 130, 50, 0.3)', // 30% opacity
         'secondary-gradient-2': 'rgba(250, 130, 50, 0.15)', // 15% opacity
-        "gray-thin": '#AFAFAF',
-        "gray-bold": '#7A7A7A',
-        "hr-thin": '#e7e7e7',
-        
+        'gray-gradient': 'rgba(0, 0, 0, 0.15)', // 15% opacity
+        'gray-thin': '#AFAFAF',
+        'gray-bold': '#7A7A7A',
+        'hr-thin': '#e7e7e7',
+
+      },
+      fontFamily: {
+        'encode': ['Encode Sans', 'sans-serif'],
       },
     },
   },
   plugins: [
     require('daisyui'),
   ],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          warning: "#FA8232",
+        },
+      },
+    ],
+  },
+
 }
 

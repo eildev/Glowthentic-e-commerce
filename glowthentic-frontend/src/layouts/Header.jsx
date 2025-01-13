@@ -1,14 +1,15 @@
 import { Icon } from "@iconify/react";
 import Container from "../components/Container";
 import { Link } from "react-router-dom";
-import Logo from "../components/Logo";
 import SearchBar from "../components/search/SearchBar";
 import { useState } from "react";
+import Logo from "../components/navbar/Logo";
+import CartIcon from "../components/navbar/CartIcon";
 const Header = ({ setShowMobileMenu }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   return (
-    <div className="bg-primary">
+    <div className="bg-primary border-b border-[rgba(255,255,255,0.25)]">
       <Container>
         {/*--------- navbar -----------*/}
         <div className="navbar text-white py-5 relative">
@@ -57,11 +58,10 @@ const Header = ({ setShowMobileMenu }) => {
 
           {/*--------- Search bar show in small Device  Start -----------*/}
           <div
-            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${
-              showSearchBar
+            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${showSearchBar
                 ? "opacity-100 visible translate-y-0"
                 : "opacity-0 invisible -translate-y-5"
-            }`}
+              }`}
           >
             <SearchBar className="w-full" />
           </div>
@@ -85,18 +85,16 @@ const Header = ({ setShowMobileMenu }) => {
           {/*--------- Cart wishlist start -----------*/}
           <div className="navbar-end hidden lg:flex">
             {/* Cart Icon  */}
-            <Link className="px-2">
-              <Icon icon="mdi-light:cart" width="24" height="24" />
-            </Link>
+            <CartIcon cartCount={10} className="border-primary text-primary flex justify-center items-center" />
 
             {/* Wishlist  */}
             <Link className="px-2">
-              <Icon icon="mdi-light:heart" width="24" height="24" />
+              <Icon icon="mdi-light:heart" width="35" height="35" />
             </Link>
 
             {/* user  */}
             <Link className="px-2">
-              <Icon icon="line-md:account-small" width="24" height="24" />
+              <Icon icon="line-md:account-small" width="35" height="35" />
             </Link>
           </div>
           {/*--------- Cart wishlist End -----------*/}
