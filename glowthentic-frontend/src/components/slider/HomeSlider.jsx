@@ -19,7 +19,7 @@ const HomeSlider = () => {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src={image} alt="Slider Image" />
+        <img src={image} alt="Slider Image"/>
         </SwiperSlide>
         <SwiperSlide>
           <img src={image} alt="Slider Image" />
