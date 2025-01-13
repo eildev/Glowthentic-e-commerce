@@ -1,4 +1,4 @@
-import React from "react";
+
 import Container from "../components/Container";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { twMerge } from "tailwind-merge";

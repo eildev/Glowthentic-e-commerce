@@ -10,8 +10,9 @@ import WishlistButton from "../../components/typography/WishlistButton";
 import IncrementDecrement from "../../components/typography/IncrementDecrement";
 import HomeSlider from "../../components/slider/HomeSlider";
 import BannerSection from "./BannerSection";
-
-
+import CategorySection from "../category-section/CategorySection";
+import TagSection from "../tag-section/TagSection";
+import SpecialOffers from "../special-offers/SpecialOffers";
 const HomePage = () => {
   return (
     <div>
@@ -26,8 +27,9 @@ const HomePage = () => {
         Apply filters
         </RegularButton> */}
         <BannerSection/>
-      
-       
+      <CategorySection></CategorySection>
+       <TagSection></TagSection>
+       <SpecialOffers></SpecialOffers>
         <h2>This is Home Page</h2>
         <div className="py-5">
         <Badge>
