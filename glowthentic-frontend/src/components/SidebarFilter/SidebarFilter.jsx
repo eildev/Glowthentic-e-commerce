@@ -9,18 +9,34 @@ import RegularButton from "../typography/RegularButton";
 const SidebarFilter = () => {
   return (
     <div className="p-3 ">
-      <Container >
-      <HeadTitle className="mt-5 lg:text-3xl   px-2">Women skincare </HeadTitle>
-       <div className="flex justify-between items-center">
-       <HeadTitle className="mt-5  px-2">Filter</HeadTitle>
-      <div>
-      <select className="select select-bordered border-none shadow-lg w-full max-w-xs">
-      <option disabled selected>Who shot first?</option>
-      <option>Han Solo</option>
-      <option>Greedo</option>
-    </select>
-      </div>
-       </div>
+      <Container>
+        <HeadTitle className="mt-5 lg:text-3xl   px-2">
+          Women skincare{" "}
+        </HeadTitle>
+        <div className="flex justify-between items-center">
+          <HeadTitle className="mt-5  px-2">Filter</HeadTitle>
+          <div>
+            <select className="select select-bordered focus:outline-none shadow-lg w-full max-w-xs"
+            >
+              <option disabled>Sort :</option>
+
+              <option value="Recommended">Recommended</option>
+              <option className="py-3" value="Price High To Low">
+                Price High To Low
+              </option>
+              <option className="py-3" value="Price Low To High">
+                Price Low To High
+              </option>
+              <option className="py-3" value="Latest Arrival">
+                Latest Arrival
+              </option>
+              <option className="py-3" value="Discount % High To Low">
+                Discount % High To Low
+              </option>
+            </select>
+            
+          </div>
+        </div>
 
         <div className="max-w-72 bg-white">
           <div className="mt-5 ">
@@ -46,20 +62,18 @@ const SidebarFilter = () => {
             <hr className="text-hr-thin" />
             {/* //DropdownFilter // */}
 
-           <DropdownFilter></DropdownFilter>
-          
+            <DropdownFilter></DropdownFilter>
           </div>
-         
-          
-       
-           <hr className="text-hr-thin" />
-           <div className="flex justify-between items-center py-4 pe-1">
-              <RegularButton className="bg-transparent text-secondary ">Clear filters</RegularButton>
-              <RegularButton className="py-2">Apply filters</RegularButton>
+
+          <hr className="text-hr-thin" />
+          <div className="flex justify-between items-center py-4 pe-1">
+            <RegularButton className="bg-transparent text-secondary ">
+              Clear filters
+            </RegularButton>
+            <RegularButton className="py-2">Apply filters</RegularButton>
           </div>
-          </div>
+        </div>
       </Container>
-   
     </div>
   );
 };

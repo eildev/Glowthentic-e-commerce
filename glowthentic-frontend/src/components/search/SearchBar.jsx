@@ -86,7 +86,7 @@ const SearchBar = ({ className }) => {
             placeholder="Search for products, brands..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="ps-4 border-none w-full focus:outline-none text-black h-9"
+            className="ps-4 border-none w-full focus:outline-none text-black h-9 placeholder:font-normal placeholder:text-gray-gradient"
           />
           {/* //Search Input End// */}
         </div>

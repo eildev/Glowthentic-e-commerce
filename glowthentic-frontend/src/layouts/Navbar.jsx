@@ -1,5 +1,5 @@
-import NavbarForLargeDevice from "../components/NavbarForLargeDevice";
-import NavbarForSmallDevice from "../components/NavbarForSmallDevice";
+import NavbarForLargeDevice from '../components/navbar/NavbarForLargeDevice';
+import NavbarForSmallDevice from '../components/navbar/NavbarForSmallDevice';
 
 const Navbar = ({ showMobileMenu }) => {
   return (
