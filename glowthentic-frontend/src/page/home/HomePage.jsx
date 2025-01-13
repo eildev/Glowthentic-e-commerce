@@ -2,6 +2,8 @@
 import Container from "../../components/Container";
 import { Icon } from "@iconify/react";
 import Badge from "../../components/typography/Badge";
+import ScrolTop from "../../components/ScrolTop";
+import OnlineChatButton from "../../components/OnlineChatButton";
 import Toggle from "../../components/typography/Toggle";
 import Checkbox from "../../components/typography/Checkbox";
 import WishlistButton from "../../components/typography/WishlistButton";
@@ -39,6 +41,8 @@ const HomePage = () => {
         <IncrementDecrement/>
         <Icon icon="solar:airbuds-remove-outline" width="24" height="24" />
       </Container>
+      <OnlineChatButton></OnlineChatButton>
+      <ScrolTop></ScrolTop>
     </div>
   );
 };
