@@ -23,7 +23,7 @@ const NavbarForLargeDevice = () => {
                 onMouseEnter={() => data.dropdown && setShowMegaMenu(true)}
               >
                 <Link
-                  to="/"
+                  to="/products"
                   className={`flex items-center gap-1 hover:text-secondary ${
                     data.dropdown
                       ? ""

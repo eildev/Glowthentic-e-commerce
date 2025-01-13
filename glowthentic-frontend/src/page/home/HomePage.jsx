@@ -1,15 +1,13 @@
 
 import Container from "../../components/Container";
 import { Icon } from "@iconify/react";
-// import HeadTitle from "../../components/typography/HeadTitle";
-// import RegularButton from "../../components/typography/RegularButton";
 import Badge from "../../components/typography/Badge";
 import Toggle from "../../components/typography/Toggle";
 import Checkbox from "../../components/typography/Checkbox";
 import WishlistButton from "../../components/typography/WishlistButton";
 import IncrementDecrement from "../../components/typography/IncrementDecrement";
-import SidebarFilter from "../../components/SidebarFilter/SidebarFilter";
 import HomeSlider from "../../components/slider/HomeSlider";
+import BannerSection from "./BannerSection";
 
 
 const HomePage = () => {
@@ -25,8 +23,9 @@ const HomePage = () => {
         <RegularButton>
         Apply filters
         </RegularButton> */}
+        <BannerSection/>
       
-        <SidebarFilter></SidebarFilter>
+       
         <h2>This is Home Page</h2>
         <div className="py-5">
         <Badge>
