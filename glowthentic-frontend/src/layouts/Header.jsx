@@ -73,7 +73,7 @@ const Header = ({ setShowMobileMenu }) => {
               <span>
                 <Icon
                   icon="ic:outline-search"
-                  className="text-whitw "
+                  className="text-white"
                   width="30"
                   height="30"
                 />
