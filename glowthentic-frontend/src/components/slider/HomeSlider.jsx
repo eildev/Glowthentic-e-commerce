@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import image from "../../assets/img/homeslider/Hero.png";
@@ -28,9 +28,15 @@ const HomeSlider = () => {
         <SwiperSlide>
           <img src={image} alt="Slider Image" />
         </SwiperSlide>
+        <SwiperSlide>
+          <img src={image} alt="Slider Image" />
+        </SwiperSlide>
+
       </Swiper>
-      <div className="custom-pagination mt-4 flex justify-center"></div>
+      <div className="custom-pagination mt-4 flex justify-center "></div>
+
     </div>
+    
   );
 };
 
