@@ -16,7 +16,7 @@ const data = [
         button: 'book now',
         url: '#',
         image: bannerImage1,
-        colspan: 4,
+        colspan: 2,
     },
     {
         title: 'Beauty & Care',
@@ -34,7 +34,7 @@ const data = [
         button: 'Shop Now',
         url: '#',
         image: bannerImage3,
-        colspan: 4,
+        colspan: 2,
     },
     {
         title: 'Check This Out',
@@ -43,7 +43,7 @@ const data = [
         button: 'Shop Now',
         url: '#',
         image: bannerImage4,
-        colspan: 1,
+        colspan: 2,
     },
     {
         title: 'Body Lotion',
@@ -52,20 +52,21 @@ const data = [
         button: 'Shop Now',
         url: '#',
         image: bannerImage5,
-        colspan: 1,
+        colspan: 2,
     },
 ]
 
 const BannerSection = () => {
     return (
-        <div className="py-5 px-5 grid lg:grid-cols-6 gap-5">
+        <div className="py-5 px-5 grid lg:grid-cols-3 gap-5">
             {data.map((element, index) => (
-                <DynamicBanner image={element?.image} key={index} className={`rounded-xl col-span-${element?.colspan}`} >
+                <DynamicBanner image={element?.image} key={index} className={`rounded-xl text-center text-white`} >
                     <HeadTitle className="text-white">{element?.title ?? ""}</HeadTitle>
-                    <p className="text-white">{element?.details ?? ""}</p>
-                    <RegularButton >{element?.button ?? ""}</RegularButton>
+                    <p className=" text-xs">{element?.details ?? ""}</p>
+                    <RegularButton className="bg-white text-primary rounded-3xl px-8" >{element?.button ?? ""}</RegularButton>
                 </DynamicBanner>
-            ))}
+            )
+            )}
         </div>
 
 

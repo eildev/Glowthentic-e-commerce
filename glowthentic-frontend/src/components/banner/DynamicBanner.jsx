@@ -1,6 +1,8 @@
 import cn from "../../utils/cn";
 
 const DynamicBanner = ({ children, image, className }) => {
+
+  console.log(className);
     return (
         <div className={cn('overflow-hidden rounded-md h-[300px] w-full', className)}>
             <div
