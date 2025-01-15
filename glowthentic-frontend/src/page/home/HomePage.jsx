@@ -18,6 +18,7 @@ const HomePage = () => {
         <BannerSection />
         <CategorySection/>
         <TagSection/>
+        <SpecialOffers></SpecialOffers>
       </Container>
       {/*---------  OnlineChatButton -----------*/}
       <OnlineChatButton></OnlineChatButton>
