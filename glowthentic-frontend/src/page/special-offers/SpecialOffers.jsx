@@ -7,7 +7,7 @@ const SpecialOffers = () => {
     <div >
       <Container>
         <div className="flex flex-wrap mt-3 ">
-          <div className="w-full sm:w-1/2">
+          <div className="w-full px-5 lg:px-2  sm:w-1/2">
             <img
               src={image1}
               alt="Special Offer 1"
