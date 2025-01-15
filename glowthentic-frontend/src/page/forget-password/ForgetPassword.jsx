@@ -37,7 +37,7 @@ const ForgetPassword = () => {
           </Link>
           
         </div>
-        {/*-------------Children Start ------------ */}
+        {/*-------------Children End ------------ */}
      </DynamicForm>
     </div>
   );

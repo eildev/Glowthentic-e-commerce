@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+
 import loginImage from "../../assets/img/login/Left Content.png";
 import smallimage from "../../assets/img/login/Login-Images-2.jpg";
 const DynamicForm = ({ title, handleForm, children = " " }) => {
@@ -9,6 +9,7 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
       password: e.target.password?.value,
       firstName: e.target.firstName?.value,
       lastName: e.target.lastName?.value,
+      confirmPassword: e.target.confirmpassword?.value,
     };
     handleForm(data);
   };

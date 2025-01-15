@@ -14,6 +14,8 @@ import CheckoutPage from "../page/checkout/CheckoutPage";
 import ContactUs from "../page/contact-us/ContactUs";
 import FaqPage from "../page/faq/FaqPage";
 import TrackOrderPage from "../page/track-order/TrackOrderPage";
+import NewPassword from "../page/new-password/NewPassword";
+import PasswordVarification from "../page/password-varification/PasswordVarification";
 
 // const ErrorBoundary = ({ error }) => {
 //   console.error("Error caught:", error);
@@ -83,6 +85,14 @@ const router = createBrowserRouter([
   {
     path: "/forget-password",
     element: <ForgetPassword />,
+  },
+  {
+    path: "/new-password",
+    element: <NewPassword />,
+  },
+  {
+    path: "/password-varification",
+    element: <PasswordVarification />,
   },
 ]);
 

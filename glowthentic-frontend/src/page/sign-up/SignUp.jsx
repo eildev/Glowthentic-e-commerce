@@ -97,10 +97,13 @@ const SignUp = () => {
             Facebook
           </button>
         </div>
-          <div className="flex gap-4 md:flex-row mt-4 ">
-           <Checkbox></Checkbox> <span className="text-gray">By clicking Create account, I agree that I have read and accepted
-             the Terms of Use and Privacy Policy.</span>
-          </div>
+        <div className="flex gap-4 md:flex-row mt-4 ">
+          <Checkbox></Checkbox>{" "}
+          <span className="text-gray">
+            By clicking Create account, I agree that I have read and accepted
+            the Terms of Use and Privacy Policy.
+          </span>
+        </div>
         <p className="text-xs text-gray-400 mt-6 text-center">
           Protected by reCAPTCHA and subject to the Rhombus{" "}
           <a href="#" className="text-secondary">
