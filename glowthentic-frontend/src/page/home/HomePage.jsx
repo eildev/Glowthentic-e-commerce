@@ -8,6 +8,7 @@ import CategorySection from "../category-section/CategorySection";
 import TagSection from "../tag-section/TagSection";
 import SpecialOffers from "../special-offers/SpecialOffers";
 import HomeSlider from "../slider/HomeSlider";
+import LatestBannerSection from "./LatestBannerSection";
 const HomePage = () => {
   return (
     <div>
@@ -16,6 +17,8 @@ const HomePage = () => {
       <Container>
         {/*--------- Banner Section -----------*/}
         <BannerSection />
+        {/*--------- Banner Section -----------*/}
+        <LatestBannerSection/>
 
         <TopProducts></TopProducts>
         <CategorySection />
