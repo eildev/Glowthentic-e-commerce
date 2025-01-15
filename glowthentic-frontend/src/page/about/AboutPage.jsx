@@ -7,6 +7,7 @@ const AboutPage = () => {
     <div>
       <Container>
         <HeadTitle>This is About Page</HeadTitle>
+        <h2>Hello World!</h2>
       </Container>
     </div>
   );
