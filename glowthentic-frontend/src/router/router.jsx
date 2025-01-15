@@ -5,7 +5,7 @@ import AboutPage from "../page/about/AboutPage";
 import Login from "../page/login/Login";
 import SignUp from "../page/sign-up/SignUp";
 import ForgetPassword from "../page/forget-password/ForgetPassword";
-import Page404 from "../page/error/Page404";
+// import Page404 from "../page/error/Page404";
 import AllProductPage from "../page/product/AllProductPage";
 import ProductDetails from "../page/product-details/ProductDetails";
 import WishlistPage from "../page/wishlist/WishlistPage";

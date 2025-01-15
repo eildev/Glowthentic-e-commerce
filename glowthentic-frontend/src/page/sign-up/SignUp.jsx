@@ -1,9 +1,18 @@
-import HeadTitle from "../../components/typography/HeadTitle";
+import DynamicForm from "../../components/dynamic-form/DynamicForm";
 
 const SignUp = () => {
+  const signUpHandleData = (data) => {
+    // handle form data here
+    console.log(data);
+  };
   return (
     <div>
-      <HeadTitle>This is Sign up page.</HeadTitle>
+     <DynamicForm
+     title="Sign Up"
+     handleForm={signUpHandleData}
+     >
+
+     </DynamicForm>
     </div>
   );
 };
