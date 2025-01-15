@@ -3,7 +3,7 @@ import RegularButton from "../../components/typography/RegularButton";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import loginImage from "../../assets/img/login/Left Content.png";
-import smallimage from "../../assets/img/login/small-logo.jpg";
+import smallimage from "../../assets/img/login/Login-Images-2.jpg";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
