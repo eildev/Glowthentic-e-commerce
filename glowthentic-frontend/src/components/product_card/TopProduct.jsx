@@ -1,26 +1,37 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-
+import RoundedIcon from "../typography/RoundedIcon";
+import image from "../../assets/img/Product/20.png"
+import Paragraph from "../typography/Paragraph";
+import HeadTitle from "../typography/HeadTitle";
 const TopProduct = () => {
-    return (
-        <div>
-            <div className="card bg-base-100 w-96 shadow-xl">
-                <figure>
-                    <img
-                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                    alt="Shoes" />
-                </figure>
-                <span className="badge top-0 right-0 bottom-[50px]">Badge</span>
-                <span><Icon icon="bi:cart4" width="16" height="16" /></span>
-                <div className="card-body items-center text-center">
-                    <h2 className="card-title">Shoes!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Buy Now</button>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div>
+      <div className="card bg-light w-96 shadow-xl rounded-[30px]">
+        <figure className="relative">
+          <img
+            className="h-[380px] object-cover py-5"
+            src={image}
+            alt="Shoes"
+          />
+
+          <span className="bg-secondary text-white px-5 py-1 rounded-r-[25px] absolute top-[30px] left-0 font-semibold">
+            Save 50%
+          </span>
+          <RoundedIcon className="absolute bottom-[20px] right-5" iconName="bi:cart4"/>
+          <RoundedIcon className="absolute bg-gray-light top-[30px] right-5" iconName="proicons:heart"/>
+        </figure>
+
+        <div className="card-body items-center text-center bg-primary text-white rounded-b-[30px]">
+          <HeadTitle className="text-white">Beautya Capture Total Dreamskin Care & Perfect</HeadTitle>
+          <Paragraph className="text-md">
+          Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration
+            </Paragraph>
+          <Paragraph className="text-xl text-secondary">
+          <span>৳760.00</span>
+            </Paragraph>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default TopProduct;

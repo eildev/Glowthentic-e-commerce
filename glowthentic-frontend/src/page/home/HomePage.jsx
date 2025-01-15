@@ -7,7 +7,7 @@ import TopProducts from "./TopProducts";
 import CategorySection from "../category-section/CategorySection";
 import TagSection from "../tag-section/TagSection";
 import SpecialOffers from "../special-offers/SpecialOffers";
-import HomeSlider from "../slider/HomeSlider";
+import HomeSlider from "./HomeSlider";
 import LatestBannerSection from "./LatestBannerSection";
 const HomePage = () => {
   return (

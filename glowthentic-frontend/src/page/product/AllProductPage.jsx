@@ -18,9 +18,9 @@ const AllProductPage = () => {
       <div className="flex justify-between items-center">
         <div className="">
           <HeadTitle className="mt-5 px-2 block lg:hidden">Filter</HeadTitle>
-          <RegularButton>
-          <Icon icon="material-symbols:tune" width="24" height="24" />
-          Filter
+          <RegularButton className="flex justify-center items-center py-2 px-5 ">
+            <Icon icon="material-symbols:tune" width="24" height="24" />
+            Filter
           </RegularButton>
         </div>
 
