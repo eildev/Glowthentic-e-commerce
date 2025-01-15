@@ -23,6 +23,7 @@ const HomePage = () => {
         <TopProducts></TopProducts>
         <CategorySection/>
         <TagSection/>
+        <SpecialOffers></SpecialOffers>
       </Container>
       {/*---------  OnlineChatButton -----------*/}
       <OnlineChatButton></OnlineChatButton>
