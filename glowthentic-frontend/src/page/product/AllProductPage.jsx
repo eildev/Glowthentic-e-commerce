@@ -12,20 +12,20 @@ const AllProductPage = () => {
       <Breadcrumb className=''>
         <li>Products</li>
       </Breadcrumb>
-      <HeadTitle className="mt-5 lg:text-3xl   px-2">
+      <HeadTitle className="mt-5 lg:text-3xl mx-5">
         Women skincare{" "}
       </HeadTitle>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-5 mx-5">
         <div className="">
-          <HeadTitle className="mt-5 px-2 block lg:hidden">Filter</HeadTitle>
-          <RegularButton className="flex justify-center items-center py-2 px-5 ">
+          <HeadTitle className="mt-5 px-2 lg:block hidden">Filter</HeadTitle>
+          <RegularButton className="flex justify-center items-center py-2 px-5 bg-white text-primary border border-primary rounded-none lg:hidden gap-2 shadow-lg">
             <Icon icon="material-symbols:tune" width="24" height="24" />
             Filter
           </RegularButton>
         </div>
 
         <div>
-          <select className="select select-bordered focus:outline-none shadow-lg w-full max-w-xs">
+          <select className="select select-bordered focus:outline-none shadow-lg w-full max-w-xs rounded-none">
             <option disabled>Sort :</option>
             <option value="Recommended">Recommended</option>
             <option className="py-3" value="Price High To Low">
