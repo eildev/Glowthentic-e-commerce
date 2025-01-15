@@ -1,7 +1,7 @@
 import cn from "../../utils/cn";
 const Checkbox = ({ className,  onChange,checked}) => {
   const checkColor = {
-    "--chkfg": "oklch(0.91 0.06 38.75)", // CSS variable dynamically set
+    "--chkfg": "#fff", // CSS variable dynamically set
   }; 
   return (
     <span>
