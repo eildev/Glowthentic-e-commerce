@@ -2,7 +2,7 @@ import RoundedIcon from "../typography/RoundedIcon";
 import image from "../../assets/img/Product/20.png"
 import Paragraph from "../typography/Paragraph";
 import HeadTitle from "../typography/HeadTitle";
-const TopProduct = () => {
+const Product = () => {
   return (
     <div>
       <div className="card bg-light w-96 shadow-xl rounded-[30px]">
@@ -34,4 +34,4 @@ const TopProduct = () => {
   );
 };
 
-export default TopProduct;
+export default Product;

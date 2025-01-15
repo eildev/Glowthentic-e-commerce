@@ -1,4 +1,4 @@
-import React from 'react';
+
 import cn from "../../utils/cn";
 import { Icon } from '@iconify/react/dist/iconify.js';
 const RoundedIcon = ({className, iconName}) => {
