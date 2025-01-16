@@ -41,10 +41,6 @@
   border: 2px solid #ffffff; /* Border color */
   color: #ffffff; /* Icon color */
 }
-.swiper-button-next{
-  background-color: #007bff; /* Set your desired background color */
-  margin-right: -25px;
-}
 
 /* Change the arrow icons using pseudo-elements */
 .swiper-button-next::after,
@@ -57,7 +53,7 @@
 /* Add hover effect */
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background-color: #0056b3; /* Darker background on hover */
+  background-color: #FA8232; /* Darker background on hover */
   border-color: #e0e0e0; /* Border color on hover */
 }
 

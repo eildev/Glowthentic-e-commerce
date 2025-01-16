@@ -14,7 +14,6 @@ import { Autoplay, FreeMode, Navigation } from "swiper/modules";
 
 const Slider = ({children}) => {
   return (
-    <div className="mycls custom-border px-5 overflow-visible">
       <Swiper
         slidesPerView={2}
         spaceBetween={20}
@@ -41,11 +40,10 @@ const Slider = ({children}) => {
         }}
         navigation={true}
         modules={[Autoplay, FreeMode, Navigation]}
-        className="mySwiper px-5 overflow-visible custom-border"
+        className="mySwiper"
       >
         {children}
       </Swiper>
-    </div>
   );
 };
 
