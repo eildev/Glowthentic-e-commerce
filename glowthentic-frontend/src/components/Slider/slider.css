@@ -1,0 +1,63 @@
+.swiper {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: transparent;
+  
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .swiper {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .custom-border{
+    border: 1px solid red;
+  }
+
+  /* Custom styles for Swiper navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: #afb1b4; /* Set your desired background color */
+  border-radius: 10%; /* Make the buttons circular */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff; /* Border color */
+  color: #ffffff; /* Icon color */
+}
+.swiper-button-next{
+  background-color: #007bff; /* Set your desired background color */
+  margin-right: -25px;
+}
+
+/* Change the arrow icons using pseudo-elements */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff; /* Change arrow color */
+}
+
+/* Add hover effect */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #0056b3; /* Darker background on hover */
+  border-color: #e0e0e0; /* Border color on hover */
+}
+

@@ -5,10 +5,10 @@ import HeadTitle from "../typography/HeadTitle";
 const Product = () => {
   return (
     <div>
-      <div className="card bg-light w-96 shadow-xl rounded-[30px]">
+      <div className="card bg-light w-full shadow-xl rounded-[30px]">
         <figure className="relative">
           <img
-            className="h-[380px] object-cover py-5"
+            className="h-[350px] object-cover py-5"
             src={image}
             alt="Shoes"
           />
