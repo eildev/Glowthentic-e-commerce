@@ -8,7 +8,7 @@ import TagSection from "../tag-section/TagSection";
 import SpecialOffers from "../special-offers/SpecialOffers";
 import HomeSlider from "./HomeSlider";
 import LatestBannerSection from "./LatestBannerSection";
-import TopProducts from "./TopProducts";
+import TopProductsSection from "./TopProductsSection";
 const HomePage = () => {
   return (
     <div>
@@ -20,10 +20,10 @@ const HomePage = () => {
         {/*--------- Banner Section -----------*/}
         <LatestBannerSection/>
 
-        <TopProducts />
         <CategorySection />
+        <TopProductsSection></TopProductsSection>
         <TagSection />
-        <TopProducts></TopProducts>
+        {/* <TopProducts></TopProducts> */}
       </Container>
       <div className="bg-[#FBEFF2]">
        <SpecialOffers></SpecialOffers>
