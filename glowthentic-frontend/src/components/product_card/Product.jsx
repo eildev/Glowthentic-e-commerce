@@ -69,7 +69,7 @@ const Product = ({ product, isDark }) => {
             : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"
           }
         </Paragraph>
-        <div className={`flex gap-3 items-center ${isDark ? "text-center" : "text-left"}`}>
+        <div className={`flex gap-3 items-center ${isDark ? "justify-center" : ""}`}>
           <Paragraph className="lg:text-xl text-lg text-secondary">
             <span>{finalPrice}</span>
           </Paragraph>
