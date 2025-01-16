@@ -4,17 +4,15 @@ import Breadcrumb from "../../components/navbar/Breadcrumb";
 import SidebarFilter from "../../components/SidebarFilter/SidebarFilter";
 import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
+import AllProduct from "./AllProduct";
 
 const AllProductPage = () => {
   return (
     <Container>
-
-      <Breadcrumb className=''>
+      <Breadcrumb className="">
         <li>Products</li>
       </Breadcrumb>
-      <HeadTitle className="mt-5 lg:text-3xl mx-5">
-        Women skincare{" "}
-      </HeadTitle>
+      <HeadTitle className="mt-5 lg:text-3xl mx-5">Women skincare </HeadTitle>
       <div className="flex justify-between items-center mb-5 mx-5">
         <div className="">
           <HeadTitle className="mt-5 px-2 lg:block hidden">Filter</HeadTitle>
@@ -44,7 +42,10 @@ const AllProductPage = () => {
         </div>
       </div>
 
-      <SidebarFilter></SidebarFilter>
+      <div className="lg:flex lg:gap-5">
+        <SidebarFilter></SidebarFilter>
+        <AllProduct />
+      </div>
     </Container>
   );
 };

@@ -7,7 +7,7 @@ import RegularButton from "../typography/RegularButton";
 
 const SidebarFilter = () => {
   return (
-    <div className="max-w-72 bg-white p-3 hidden lg:block">
+    <div className="min-w-72 bg-white p-3 hidden lg:block">
       <div className="mt-5 ">
         <hr className="text-hr-thin" />
         <div className="p-4">
@@ -42,7 +42,6 @@ const SidebarFilter = () => {
         <RegularButton className="py-2">Apply filters</RegularButton>
       </div>
     </div>
-
   );
 };
 
