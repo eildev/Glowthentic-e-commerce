@@ -5,11 +5,15 @@ const RoundedIcon = ({ className, iconName }) => {
     <>
       <span
         className={`${cn(
-          "bg-primary rounded-full text-white p-2 align-middle",
+          "bg-primary rounded-full text-white p-2 align-middle cursor-pointer hover:drop-shadow-sm transition-all duration-300 ease-in-out transform",
           className
         )}`}
       >
-        <Icon icon={iconName} width="24" height="24" />
+        <Icon
+          icon={iconName}
+          width={window.innerWidth >= 1024 ? 24 : 16}
+          height={window.innerWidth >= 1024 ? 24 : 16}
+        />
       </span>
     </>
   );

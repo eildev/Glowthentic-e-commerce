@@ -16,6 +16,7 @@ import FaqPage from "../page/faq/FaqPage";
 import TrackOrderPage from "../page/track-order/TrackOrderPage";
 import NewPassword from "../page/new-password/NewPassword";
 import PasswordVarification from "../page/password-varification/PasswordVarification";
+import AllComponents from "../page/components/AllComponents";
 
 // const ErrorBoundary = ({ error }) => {
 //   console.error("Error caught:", error);
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "/track-order",
         element: <TrackOrderPage />,
+      },
+      {
+        path: "/components",
+        element: <AllComponents />,
       },
     ],
   },
