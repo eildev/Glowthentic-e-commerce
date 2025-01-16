@@ -42,7 +42,7 @@ const Product = ({ product, isDark }) => {
           iconName="proicons:heart"
         />
         <RoundedIcon
-          className="absolute bottom-[20px] right-5 cursor-pointer"
+          className="absolute bottom-[20px] right-3 lg:right-5 cursor-pointer"
           iconName="bi:cart4"
         />
 
