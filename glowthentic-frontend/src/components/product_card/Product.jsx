@@ -1,4 +1,3 @@
-import RoundedIcon from "../typography/RoundedIcon";
 import defaultImage from "../../assets/img/Product/20.png";
 import Paragraph from "../typography/Paragraph";
 import HeadTitle from "../typography/HeadTitle";
