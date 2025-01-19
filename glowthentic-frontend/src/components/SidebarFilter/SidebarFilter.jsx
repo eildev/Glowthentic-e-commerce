@@ -3,11 +3,12 @@ import HeadTitle from "../typography/HeadTitle";
 import Toggle from "../typography/Toggle";
 import DropdownFilter from "./DropdownFilter";
 import RegularButton from "../typography/RegularButton";
+import cn from "../../utils/cn";
 //Category Data
 
-const SidebarFilter = () => {
+const SidebarFilter = ({ className }) => {
   return (
-    <div className="min-w-72 bg-white p-3 hidden lg:block">
+    <div className={cn(`min-w-72 bg-white p-3 `, className)}>
       <div className="mt-5 ">
         <hr className="text-hr-thin" />
         <div className="p-4">

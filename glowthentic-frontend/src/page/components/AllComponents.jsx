@@ -1,6 +1,7 @@
 import Badge from "../../components/typography/Badge";
 import Checkbox from "../../components/typography/Checkbox";
 import IncrementDecrement from "../../components/typography/IncrementDecrement";
+import RegularButton from "../../components/typography/RegularButton";
 import Toggle from "../../components/typography/Toggle";
 import WishlistButton from "../../components/typography/WishlistButton";
 
@@ -16,7 +17,9 @@ const AllComponents = () => {
             <Checkbox></Checkbox>
             <WishlistButton></WishlistButton>
             <IncrementDecrement />
+            <RegularButton>Hello World</RegularButton>
         </div>
+
     );
 };
 
