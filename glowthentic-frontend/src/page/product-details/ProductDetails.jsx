@@ -16,6 +16,13 @@ import RegularButton from "../../components/typography/RegularButton";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 const ProductDetails = () => {
+  const images = [
+    "https://picsum.photos/200/300",
+    "https://picsum.photos/300/300",
+    "https://picsum.photos/300/200",
+    "https://picsum.photos/400/300",
+  ];
+  
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [expanded, setExpanded] = useState({
     productDetails: false,
@@ -34,7 +41,7 @@ const ProductDetails = () => {
       <Container>
         <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
           {/* <---Small Device Right Section Start ----> */}
-          <div className="lg:hidden block mt-4 p-2">
+          <div className="sm:hidden block mt-4 p-2">
             <HeadTitle>
               Pierre Cardin Matte Rouge Lipstick Fushion Pink 745
             </HeadTitle>
@@ -50,6 +57,7 @@ const ProductDetails = () => {
             </h4>
           </div>
           {/* <---Small Device Right Section End ----> */}
+               {/* Slide */}
           <div className="sm:col-span-7 ">
             <Swiper
               style={{
@@ -93,7 +101,7 @@ const ProductDetails = () => {
               freeMode={true}
               watchSlidesProgress={true}
               modules={[FreeMode, Navigation, Thumbs]}
-              className="mySwiper "
+              className="mySwiper mySwiper-image "
             >
               <SwiperSlide>
                 <img src={image} />
@@ -115,10 +123,12 @@ const ProductDetails = () => {
               </SwiperSlide>
             </Swiper>
           </div>
+              {/* Slide End*/}
           {/* ///Right Section // */}
           <div className="sm:col-span-3 p-4">
+
             {/* //show big device small device hidden Start// */}
-            <div className="hidden sm:block">
+            <div className="hidden sm:block w-full">
               <HeadTitle>
                 Pierre Cardin Matte Rouge Lipstick Fushion Pink 745
               </HeadTitle>
@@ -163,7 +173,7 @@ const ProductDetails = () => {
             {/* //Select price end// */}
             {/* //Button// */}
             <div className="mt-4">
-              <RegularButton className="me-4 px-6 text-sm">
+              <RegularButton className="me-4 my-1 px-6 text-sm">
                 Add To Cart
               </RegularButton>
               <RegularButton className="px-6 text-sm">Buy Now</RegularButton>
@@ -507,7 +517,156 @@ const ProductDetails = () => {
               </p>
             </div>
           </div>
+       
         </div>
+        {/* //Banner section  big Screen// */}
+        <div className="bg-primary my-6 hidden sm:block">
+        <div className="grid grid-cols-4 gap-4 p-6 mx-10   text-center">
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Image ${index + 1}`}
+            className="w-full h-40 object-cover rounded-lg shadow-lg"
+          />
+        ))}
+      </div>
+          <div className="text-center text-white pb-7 text-sm">
+            <p className="pb-1">In just 1 week: <span className="text-gray-thin "> it appears firmer, stronger and smoother.</span></p>
+            <p className="pb-1">In 3 weeks: <span className="text-gray-thin">2x improvement in the look or feel of skin elasticity</span></p>
+            <p className="pb-1">After 1 month: <span className="text-gray-thin"> The skin looks firmer+60% | The skin looks denser +56%</span> </p>
+          </div>
+        </div>
+         {/* //Banner section  big Screen End// */}
+           {/*  //Bottom Accordian  Start*/}
+           <div className=" ">
+            <HeadTitle className="text-center pt-4 pb-1">Prestige lA micro-huile serum frequently asked questions</HeadTitle>
+          <div className="collapse collapse-plus bg-base-200">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium">
+            What is the best way to use this product?
+            </div>
+            <div className="collapse-content font-normal text-sm  text-justify">
+              <p>
+                Beautya s 1st revitalizing serum that concentrates the double
+                power of the Rose de Granville from the stem to the flower to
+                revitalize the skin twice as fast (1) and visibly rejuvenate.
+                Created after 20 years of research, the 10,000 (2) micro-pearls
+                rich in revitalizing rose micro-nutrients are now completed by
+                the power of the Rose sap. The next-generation, 92%
+                natural-origin (3) formula of La Micro-Huile de Rose Advanced
+                Serum is twice as concentrated,(4) combining the nourishing
+                richness of an oil with the deep penetration of a serum. From
+                the first application of the serum, the skin appears plumped. In
+                3 weeks, 2x improvement in the look or feel of skin
+                elasticity.(5) With regular use, skin looks and feels
+                transformed. As if replenished from within, the skin seems
+                denser and firmer, and wrinkles appear noticeably reduced. As if
+                lifted, facial contours appear enhanced. Reveal your
+                extraordinary beauty with Beautya Prestige. (1) Instrumental
+                test, 32 panelists, after 30 min.
+              </p>
+            </div>
+          </div>
+          <div className="collapse collapse-plus bg-base-200">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium">
+            Can this product be used on all skin types?
+            </div>
+            <div className="collapse-content font-normal text-sm text-justify">
+              <p>
+              Our product is suitable for most skin types, including normal, oily, dry, and combination skin. However, if you have sensitive skin or a skin condition, we recommend performing a patch test before using the product all over your face. Apply a small amount of the product to the inside of your elbow and wait 24 hours to make sure you do not have an allergic reaction or irritation. 
+              If you experience any discomfort, discontinue use of the product immediately.
+              </p>
+            </div>
+          </div>
+          <div className="collapse collapse-plus bg-base-200">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium">How often should I use this product?</div>
+            <div className="collapse-content font-normal text-sm text-justify">
+              <p>
+                Richness of an oil with the deep penetration of a serum. From
+                the first application of the serum, the skin appears plumped. In
+                3 weeks, 2x improvement in the look or feel of skin
+                elasticity.(5) With regular use, skin looks and feels
+                transformed. As if replenished from within, the skin seems
+              </p>
+            </div>
+          </div>
+          <div className="collapse collapse-plus bg-base-200">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium">
+            Can this product be used during pregnancy?
+            </div>
+            <div className="collapse-content font-normal text-sm text-justify">
+              <p>
+                Created after 20 years of research, the 10,000 (2) micro-pearls
+                rich in revitalizing rose micro-nutrients are now completed by
+                the power of the Rose sap. The next-generation, 92%
+                natural-origin (3) formula of La Micro-Huile de Rose Advanced
+                Serum is twice as concentrated
+              </p>
+            </div>
+          </div>
+          <div className="collapse collapse-plus bg-base-200">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium">
+            How often should I use this product?
+            </div>
+            <div className="collapse-content font-normal text-sm text-justify">
+              <p>
+                As if replenished from within, the skin seems denser and firmer,
+                and wrinkles appear noticeably reduced. As if lifted, facial
+                contours appear enhanced. Reveal your extraordinary beauty with
+                Beautya Prestige. (1) Instrumental test, 32 panelists
+              </p>
+            </div>
+          </div>
+          <div className="collapse collapse-plus bg-base-200">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium">
+            How should I store this product?
+            </div>
+            <div className="collapse-content font-normal text-sm text-justify">
+              <p>
+                As if replenished from within, the skin seems denser and firmer,
+                and wrinkles appear noticeably reduced. As if lifted, facial
+                contours appear enhanced. Reveal your extraordinary beauty with
+                Beautya Prestige. (1) Instrumental test, 32 panelists
+              </p>
+            </div>
+          </div>
+          <div className="collapse collapse-plus bg-base-200">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium">
+            How long will it take to see results from using this product?
+            </div>
+            <div className="collapse-content font-normal text-sm text-justify">
+              <p>
+                As if replenished from within, the skin seems denser and firmer,
+                and wrinkles appear noticeably reduced. As if lifted, facial
+                contours appear enhanced. Reveal your extraordinary beauty with
+                Beautya Prestige. (1) Instrumental test, 32 panelists
+              </p>
+            </div>
+          </div>
+          <div className="collapse collapse-plus bg-base-200">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium">
+            Can this product be used in conjunction with other skincare products?
+            </div>
+            <div className="collapse-content font-normal text-sm text-justify">
+              <p>
+                As if replenished from within, the skin seems denser and firmer,
+                and wrinkles appear noticeably reduced. As if lifted, facial
+                contours appear enhanced. Reveal your extraordinary beauty with
+                Beautya Prestige. (1) Instrumental test, 32 panelists
+              </p>
+            </div>
+          </div>
+       
+        </div>
+           {/*  //Bottom Accordian  End*/}
       </Container>
     </div>
   );
