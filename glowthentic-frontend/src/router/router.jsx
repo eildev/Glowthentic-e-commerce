@@ -46,6 +46,10 @@ const router = createBrowserRouter([
         element: <ProductDetails />,
       },
       {
+        path: "/products-details", // Dynamic route with :title
+        element: <ProductDetails />,
+      },
+      {
         path: "/wishlist",
         element: <WishlistPage />,
       },

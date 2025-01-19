@@ -2,61 +2,33 @@ import { useEffect, useState } from "react";
 import SuggestionProduct from "./SuggestionProduct";
 import cn from "../../utils/cn";
 import { Icon } from "@iconify/react";
+import {
+  useGetProductsQuery,
+  useSearchProductsQuery,
+} from "../../redux/features/api/product-api/productApi";
 
 const SearchBar = ({ className }) => {
   const [query, setQuery] = useState(""); // Search query
-  const [suggestions, setSuggestions] = useState([]); // Suggestions list
-  const fetchSuggestions = async (searchText) => {
-    const mockData = [
-      {
-        name: "Wet n wild MegaLast Liquid Catsuit Matte Lipstick - Give Me Mocha",
-        price: "$12.99",
-        image: "https://picsum.photos/50?random=1", // Random image from Lorem Picsum
-      },
-      {
-        name: "Foundation",
-        price: "$24.99",
-        image: "https://picsum.photos/50?random=2", // Random image from Lorem Picsum
-      },
-      {
-        name: "Mascara",
-        price: "$15.99",
-        image: "https://picsum.photos/50?random=3", // Random image from Lorem Picsum
-      },
-      {
-        name: "Eyeliner",
-        price: "$9.99",
-        image: "https://picsum.photos/50?random=4", // Random image from Lorem Picsum
-      },
-      {
-        name: "Blush",
-        price: "$14.99",
-        image: "https://picsum.photos/50?random=5", // Random image from Lorem Picsum
-      },
-      {
-        name: "Nail Polish",
-        price: "$6.99",
-        image: "https://picsum.photos/50?random=6", // Random image from Lorem Picsum
-      },
-      {
-        name: "Eyeshadow Palette",
-        price: "$29.99",
-        image: "https://picsum.photos/50?random=7", // Random image from Lorem Picsum
-      },
-    ];
+  // const [suggestions, setSuggestions] = useState([]); // Suggestions list
+  // const { data, isLoading, error } = useGetProductsQuery();
+  // const fetchSuggestions = async (searchText) => {
+  //   const filteredData = data.products.filter((item) =>
+  //     item.title.toLowerCase().includes(searchText.toLowerCase())
+  //   );
+  //   setSuggestions(filteredData);
+  // };
+  // useEffect(() => {
+  //   if (query) {
+  //     fetchSuggestions(query);
+  //   } else {
+  //     setSuggestions([]); // Clear suggestions when query is empty
+  //   }
+  // }, [query]);
 
-    const filteredData = mockData.filter((item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-    setSuggestions(filteredData);
-  };
-  useEffect(() => {
-    if (query) {
-      fetchSuggestions(query);
-    } else {
-      setSuggestions([]); // Clear suggestions when query is empty
-    }
-  }, [query]);
+  const { data, isLoading, error } = useSearchProductsQuery(query, {
+    skip: query.length === 0,
+  });
+
   return (
     <>
       {/* //Full Search Start */}
@@ -93,14 +65,15 @@ const SearchBar = ({ className }) => {
 
         {/* //Search Show Text */}
         <div className="relative z-30 -top-4 drop-shadow-xl">
-          {suggestions.length > 0 && (
-            <ul className="absolute left-0 right-0 pt-5 text-black bg-white rounded-b-xl ">
-              {suggestions.map((item, index) => (
+          {isLoading && <p>Loading...</p>}
+          {error && <p>Error loading suggestions</p>}
+          {data?.products?.length > 0 && (
+            <ul className="absolute left-0 right-0 pt-5 text-black bg-white rounded-b-xl max-h-screen overflow-y-scroll">
+              {data.products.map((item, index) => (
                 <SuggestionProduct
                   key={index}
                   item={item}
                   setQuery={setQuery}
-                  setSuggestions={setSuggestions}
                 />
               ))}
             </ul>
