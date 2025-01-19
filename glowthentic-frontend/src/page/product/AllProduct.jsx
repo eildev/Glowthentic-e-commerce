@@ -1,10 +1,19 @@
+import { useEffect } from "react";
 import Product from "../../components/product_card/Product";
 import Loading from "../../components/spinners/Loading";
-import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
+import {
+  useGetProductsQuery,
+  useLazyGetProductsQuery,
+} from "../../redux/features/api/product-api/productApi";
 
 const AllProduct = () => {
   const { data, isLoading, error } = useGetProductsQuery();
+
   console.log(data);
+
+  // useEffect(() => {
+  //   trigger(); // Fetch data when the component mounts
+  // }, [trigger]);
   if (isLoading) return <Loading />;
   if (error) return <p>Error: {error}</p>;
   return (

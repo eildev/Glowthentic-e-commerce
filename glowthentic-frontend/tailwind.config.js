@@ -19,7 +19,7 @@ export default {
         'secondary-gradient-2': 'rgba(250, 130, 50, 0.15)', // 15% opacity
         'gray-gradient': 'rgba(0, 0, 0, 0.15)', // 15% opacity
         'gray-thin': '#AFAFAF',
-         ' ': '#D7D7D7',
+        'gray-light': '#D7D7D7',
         'gray-bold': '#7A7A7A',
         'hr-thin': '#e7e7e7',
 
@@ -38,7 +38,7 @@ export default {
         mytheme: {
           warning: "#FA8232",
         },
-        
+
       },
     ],
   },

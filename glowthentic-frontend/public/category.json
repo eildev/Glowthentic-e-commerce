@@ -1,0 +1,165 @@
+[
+    {
+      "id": 1,
+      "name": "Skincare",
+      "slug": "skincare",
+      "isButton": true,
+      "tags": [
+        { "id": 1101, "category_id": 1, "name": "Natural", "slug": "natural" },
+        { "id": 1102, "category_id": 1, "name": "Hydrating", "slug": "hydrating" }
+      ],
+      "types": [
+        { "id": 1201, "category_id": 1, "name": "Cream", "slug": "cream" }
+      ],
+      "offers": [
+        { "id": 1301, "category_id": 1, "name": "Discount", "slug": "discount" }
+      ],
+      "subcategories": [
+        { "id": 101, "name": "Moisturizers", "slug": "moisturizers" },
+        { "id": 102, "name": "Cleansers", "slug": "cleansers" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Makeup",
+      "slug": "makeup",
+      "isButton": false,
+      "tags": [
+        { "id": 2101, "category_id": 2, "name": "Vegan", "slug": "vegan" }
+      ],
+      "types": [
+        { "id": 2201, "category_id": 2, "name": "Powder", "slug": "powder" },
+        { "id": 2202, "category_id": 2, "name": "Liquid", "slug": "liquid" }
+      ],
+      "offers": [],
+      "subcategories": [
+        { "id": 201, "name": "Foundations", "slug": "foundations" },
+        { "id": 202, "name": "Lipsticks", "slug": "lipsticks" }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Haircare",
+      "slug": "haircare",
+      "isButton": true,
+      "tags": [],
+      "types": [],
+      "offers": [
+        { "id": 3301, "category_id": 3, "name": "Free Shipping", "slug": "free-shipping" }
+      ],
+      "subcategories": [
+        { "id": 301, "name": "Shampoos", "slug": "shampoos" },
+        { "id": 302, "name": "Conditioners", "slug": "conditioners" }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Fragrances",
+      "slug": "fragrances",
+      "isButton": false,
+      "tags": [
+        { "id": 4101, "category_id": 4, "name": "Luxury", "slug": "luxury" }
+      ],
+      "types": [],
+      "offers": [
+        { "id": 4301, "category_id": 4, "name": "Limited Time Offer", "slug": "limited-time" }
+      ],
+      "subcategories": [
+        { "id": 401, "name": "Perfumes", "slug": "perfumes" },
+        { "id": 402, "name": "Body Mists", "slug": "body-mists" }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Bodycare",
+      "slug": "bodycare",
+      "isButton": true,
+      "tags": [],
+      "types": [
+        { "id": 5201, "category_id": 5, "name": "Lotion", "slug": "lotion" }
+      ],
+      "offers": [],
+      "subcategories": [
+        { "id": 501, "name": "Body Lotions", "slug": "body-lotions" },
+        { "id": 502, "name": "Body Washes", "slug": "body-washes" }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Nailcare",
+      "slug": "nailcare",
+      "isButton": false,
+      "tags": [],
+      "types": [],
+      "offers": [],
+      "subcategories": [
+        { "id": 601, "name": "Nail Polishes", "slug": "nail-polishes" },
+        { "id": 602, "name": "Nail Treatments", "slug": "nail-treatments" }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Men's Grooming",
+      "slug": "mens-grooming",
+      "isButton": false,
+      "tags": [
+        { "id": 7101, "category_id": 7, "name": "Beard Care", "slug": "beard-care" }
+      ],
+      "types": [
+        { "id": 7201, "category_id": 7, "name": "Gel", "slug": "gel" }
+      ],
+      "offers": [
+        { "id": 7301, "category_id": 7, "name": "Buy 1 Get 1", "slug": "bogo" }
+      ],
+      "subcategories": [
+        { "id": 701, "name": "Shaving Creams", "slug": "shaving-creams" },
+        { "id": 702, "name": "Beard Oils", "slug": "beard-oils" }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Tools & Accessories",
+      "slug": "tools-accessories",
+      "isButton": false,
+      "tags": [],
+      "types": [
+        { "id": 8201, "category_id": 8, "name": "Brush", "slug": "brush" }
+      ],
+      "offers": [],
+      "subcategories": [
+        { "id": 801, "name": "Makeup Brushes", "slug": "makeup-brushes" },
+        { "id": 802, "name": "Hair Tools", "slug": "hair-tools" }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Oral Care",
+      "slug": "oral-care",
+      "isButton": true,
+      "tags": [
+        { "id": 9101, "category_id": 9, "name": "Whitening", "slug": "whitening" }
+      ],
+      "types": [],
+      "offers": [],
+      "subcategories": [
+        { "id": 901, "name": "Toothpastes", "slug": "toothpastes" },
+        { "id": 902, "name": "Toothbrushes", "slug": "toothbrushes" }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Bath & Shower",
+      "slug": "bath-shower",
+      "isButton": false,
+      "tags": [],
+      "types": [],
+      "offers": [
+        { "id": 10301, "category_id": 10, "name": "Seasonal Discount", "slug": "seasonal-discount" }
+      ],
+      "subcategories": [
+        { "id": 1001, "name": "Bath Bombs", "slug": "bath-bombs" },
+        { "id": 1002, "name": "Shower Gels", "slug": "shower-gels" }
+      ]
+    }
+  ]
+  

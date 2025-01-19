@@ -4,6 +4,10 @@ import Header from "./Header";
 import Navbar from "./Navbar";
 import AppBar from "./AppBar";
 import { useState } from "react";
+import ScrollTop from "../components/ScrollTop";
+import OnlineChatButton from "../components/OnlineChatButton";
+
+
 
 const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -23,6 +27,11 @@ const MainLayouts = () => {
       <Footer />
       {/*--------- AppBar -----------*/}
       <AppBar />
+
+      {/*--------- OnlineChatButton  -----------*/}
+      <OnlineChatButton></OnlineChatButton>
+      {/*---------  ScrollTop -----------*/}
+      <ScrollTop />
     </div>
   );
 };
