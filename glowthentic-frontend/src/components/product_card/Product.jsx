@@ -45,7 +45,6 @@ const Product = ({ product, isDark }) => {
           className="absolute bottom-[20px] right-3 lg:right-5 cursor-pointer"
           iconName="bi:cart4"
         />
-
       </figure>
 
       <div
