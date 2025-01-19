@@ -180,7 +180,7 @@ const ProductDetails = () => {
             </div>
             {/* //Button End// */}
             <div className="bg-[#fbeff2] p-2 font-normal text-sm mt-4">
-              <p className="flex items-center py-1">
+              <p className="flex items-center py-1">  
                 <Icon icon="mdi:wallet-giftcard" width="2em" height="2em" />
                 <span className="ps-2">
                   Receive 2 free samples when you spend $100
