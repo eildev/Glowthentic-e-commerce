@@ -27,20 +27,41 @@ const PasswordVarification = () => {
                 maxLength={1}
                 className="w-12 h-12 me-5 text-center border border-gray-thin rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none"
                 onChange={(e) => {
-                    const value = e.target.value;
-                    if (value.length === 1 && e.target.nextSibling) {
-                      e.target.nextSibling.focus();
+                  const value = e.target.value;
+                  if (value.length === 1 && e.target.nextSibling) {
+                    e.target.nextSibling.focus();
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Backspace") {
+                    if (e.target.value === "" && e.target.previousSibling) {
+                      e.target.previousSibling.focus();
+                    } else {
+                      e.target.value = ""; // Clear the current input
                     }
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Backspace") {
-                      if (e.target.value === "" && e.target.previousSibling) {
-                        e.target.previousSibling.focus();
-                      } else {
-                        e.target.value = ""; // Clear the current input
+                  }
+                }}
+                //paste code auto fill up
+                onPaste={(e) => {
+                  e.preventDefault(); // Prevent default paste behavior
+                  const pasteData = e.clipboardData.getData("text");
+                  const inputs = Array.from(
+                    e.target.parentElement.querySelectorAll("input")
+                  );
+
+                  pasteData
+                    .slice(0, 4) // Take only the first 4 characters
+                    .split("")
+                    .forEach((char, i) => {
+                      if (inputs[i]) {
+                        inputs[i].value = char;
+                        if (inputs[i + 1]) {
+                          inputs[i + 1].focus();
+                        }
                       }
-                    }
-                  }}
+                    });
+                }}
+                //paste code auto fill up end
               />
             ))}
         </div>
