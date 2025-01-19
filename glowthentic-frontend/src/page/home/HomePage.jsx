@@ -1,7 +1,4 @@
 import Container from "../../components/Container";
-import ScrolTop from "../../components/ScrolTop";
-import OnlineChatButton from "../../components/OnlineChatButton";
-
 import BannerSection from "./BannerSection";
 import CategorySection from "../category-section/CategorySection";
 import TagSection from "../tag-section/TagSection";
@@ -13,12 +10,12 @@ const HomePage = () => {
   return (
     <div>
       {/*--------- HomeSlider Section -----------*/}
-    <HomeSlider></HomeSlider>
+      <HomeSlider></HomeSlider>
       <Container>
         {/*--------- Banner Section -----------*/}
         <BannerSection />
         {/*--------- Banner Section -----------*/}
-        <LatestBannerSection/>
+        <LatestBannerSection />
 
         <CategorySection />
         <TopProductsSection></TopProductsSection>
@@ -26,12 +23,8 @@ const HomePage = () => {
         {/* <TopProducts></TopProducts> */}
       </Container>
       <div className="bg-[#FBEFF2]">
-       <SpecialOffers></SpecialOffers>
-       </div>
-      {/*--------- OnlineChatButton  -----------*/}
-      <OnlineChatButton></OnlineChatButton>
-      {/*---------  ScrolTop -----------*/}
-      <ScrolTop></ScrolTop>
+        <SpecialOffers></SpecialOffers>
+      </div>
     </div>
   );
 };
