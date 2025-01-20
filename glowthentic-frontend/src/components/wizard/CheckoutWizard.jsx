@@ -1,4 +1,4 @@
-// import React, { SVGProps } from "react";
+import React from "react";
 import FormWizard from "react-form-wizard-component";
 import "react-form-wizard-component/dist/style.css";
 import InputInfo from "../checkout/InputInfo";
@@ -9,29 +9,66 @@ import Item from "../checkout/Item";
 import ItemDetails from "../checkout/ItemDetails";
 
 const CheckoutWizard = () => {
+  const formWizardRef = React.createRef();
+  const handelPrev = () => {
+    console.log("prevTab");
+    formWizardRef.current?.prevTab();
+  };
   const handleComplete = () => {
     console.log("Form completed!");
     // Handle form completion logic here
   };
+
   function icon1() {
-    return <Icon icon="mingcute:box-3-fill" width="2em" height="2em" />;
+    return <Icon icon="mingcute:box-3-fill" width="1.7em" height="1.7em" />;
   }
   function icon2() {
-    return <Icon icon="mdi:credit-card-check" width="2em" height="2em" />;
+    return <Icon icon="mdi:credit-card-check" width="1.7em" height="1.7em" />;
   }
   function icon3() {
     return (
-      <Icon icon="majesticons:clipboard-check-line" width="2em" height="2em" />
+      <Icon
+        icon="majesticons:clipboard-check-line"
+        width="1.7em"
+        height="1.7em"
+      />
     );
   }
 
   return (
     <div>
+      <div className="bg-white py-5">
+        <button
+          className="sample-refrence-button ps-5 font-medium flex items-center"
+          onClick={handelPrev}
+        >
+          <Icon
+            icon="line-md:arrow-left"
+            width="1.5em"
+            height="1.5em"
+            className="mr-2"
+          />
+          Checkout
+        </button>
+      </div>
       <FormWizard
+        ref={formWizardRef}
         onComplete={handleComplete}
         removeBackgroundTab={true}
         removeBackgroundTabColor="white"
         nextButtonText="Save"
+        finishButtonTemplate={(handleComplete) => (
+          <button
+            className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center"
+            onClick={handleComplete}
+          >
+            PLACE ORDER
+            <Icon icon="mdi:arrow-right" width="1.5em" height="1.5em" />
+          </button>
+        )}
+        backButtonTemplate={(handlePrevious) => (
+          <button className="base-button" onClick={handlePrevious}></button>
+        )}
       >
         <FormWizard.TabContent title="Shipping" icon={icon1()}>
           <InputInfo></InputInfo>

@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+
 const ItemDetails = () => {
     return (
     
@@ -24,11 +24,7 @@ const ItemDetails = () => {
           <span className="text-sm text-gray font-bold">Total</span>
           <span className="text-lg font-medium  ">$434.01</span>
         </div>
-        <button className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center">
-          PLACE ORDER
-          {/* <Icon icon="mdi-light:arrow-right" width="1.5em" height="2em" /> */}
-          <Icon icon="mdi:arrow-right" width="1.5em" height="1.5em" />
-        </button>
+        
       </div>
       
     );

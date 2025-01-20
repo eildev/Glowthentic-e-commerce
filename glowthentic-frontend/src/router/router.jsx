@@ -17,6 +17,7 @@ import TrackOrderPage from "../page/track-order/TrackOrderPage";
 import NewPassword from "../page/new-password/NewPassword";
 import PasswordVarification from "../page/password-varification/PasswordVarification";
 import AllComponents from "../page/components/AllComponents";
+import OrderConfirmation from "../page/orderConfirmation/OrderConfirmation";
 
 // const ErrorBoundary = ({ error }) => {
 //   console.error("Error caught:", error);
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <CheckoutPage />,
+      },
+      {
+        path: "/order-confirmation",
+        element: <OrderConfirmation />,
       },
       {
         path: "/about",
