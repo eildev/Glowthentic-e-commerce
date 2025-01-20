@@ -1,0 +1,24 @@
+
+.smooth-border-left-to-right{
+    border:2px solid #FF9800!important;
+}
+.wizard-icon-container {
+    background-color: #faf9f5;
+}
+.wizard-icon{
+    color: #6f7384;
+    background-color: transparent !important;
+}
+.wizard-icon  {
+    color: #6f7384!important;
+}
+.wizard-card-footer .wizard-btn {
+    background-color: #f97316;
+    display: flex;
+    justify-content: center; /* Centers the button horizontally */
+    align-items: center; /* Centers the button vertically */
+    width: 100%; /* Ensures the container stretches across the parent */
+    height: 100%; /* Ensures the container takes up full height if needed */
+}
+
+ 

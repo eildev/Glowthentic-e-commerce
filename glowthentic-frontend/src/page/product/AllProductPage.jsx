@@ -10,13 +10,13 @@ import { useState } from "react";
 const AllProductPage = () => {
   const [toggleFilter, setToggleFilter] = useState(false);
 
-
   return (
     <Container>
       <Breadcrumb className="">
         <li>Products</li>
       </Breadcrumb>
-      <HeadTitle className="mt-5 lg:text-3xl mx-5 mb-3">Women skincare
+      <HeadTitle className="mt-5 lg:text-3xl mx-5 mb-3">
+        Women skincare
         <span className="text-gray text-sm lg:text-lg ms-1">(110)</span>
       </HeadTitle>
       <div className="flex justify-between items-center mb-5 mx-5 gap-2">
@@ -24,7 +24,8 @@ const AllProductPage = () => {
           <HeadTitle className="mt-5 px-2 lg:block hidden">Filter</HeadTitle>
           <RegularButton
             onClick={() => setToggleFilter((prev) => !prev)}
-            className="flex justify-center items-center py-3 px-3 w-full text-sm bg-white text-primary border border-gray-thin lg:hidden gap-2 shadow-sm rounded-md">
+            className="flex justify-center items-center py-3 px-3 w-full text-sm bg-white text-primary border border-gray-thin lg:hidden gap-2 shadow-sm rounded-md"
+          >
             <Icon icon="material-symbols:tune" width="18" height="18" />
             Filter
           </RegularButton>
@@ -55,7 +56,13 @@ const AllProductPage = () => {
         <AllProduct />
       </div>
 
-      <div className={`fixed top-0 left-0 w-full z-[60] h-full overflow-y-scroll bg-white transition-all duration-300 ease-in-out transform ${toggleFilter ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-5'}`}>
+      <div
+        className={`fixed top-0 left-0 w-full z-[60] h-full overflow-y-scroll bg-white transition-all duration-300 ease-in-out transform ${
+          toggleFilter
+            ? "opacity-100 visible translate-y-0"
+            : "opacity-0 invisible -translate-y-[100%]"
+        }`}
+      >
         <div className="">
           <div className="flex justify-between items-center px-5">
             <HeadTitle className="mt-5 px-2">Filter</HeadTitle>

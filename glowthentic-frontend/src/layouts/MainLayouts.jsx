@@ -4,6 +4,8 @@ import Header from "./Header";
 import Navbar from "./Navbar";
 import AppBar from "./AppBar";
 import { useState } from "react";
+import ScrollTop from "../components/ScrollTop";
+import OnlineChatButton from "../components/OnlineChatButton";
 
 const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -15,7 +17,7 @@ const MainLayouts = () => {
         {/*--------- Navbar -----------*/}
         <Navbar showMobileMenu={showMobileMenu} />
       </div>
-      <div className="mt-[88px] lg:mt-[185px] xl:mt-[160px]">
+      <div className="mt-[81px] lg:mt-[185px] xl:mt-[160px]">
         {/*--------- Outlet -----------*/}
         <Outlet />
       </div>
@@ -23,6 +25,11 @@ const MainLayouts = () => {
       <Footer />
       {/*--------- AppBar -----------*/}
       <AppBar />
+
+      {/*--------- OnlineChatButton  -----------*/}
+      <OnlineChatButton></OnlineChatButton>
+      {/*---------  ScrollTop -----------*/}
+      <ScrollTop />
     </div>
   );
 };

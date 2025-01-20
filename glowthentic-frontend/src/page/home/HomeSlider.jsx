@@ -5,7 +5,7 @@ import "swiper/css/pagination";
 
 import "./HomeSlider.css";
 // import required modules
-import { Pagination } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 const HomeSlider = () => {
   return (
     <div className="relative w-full h-fit">
@@ -13,15 +13,17 @@ const HomeSlider = () => {
         spaceBetween={30}
         pagination={{
           clickable: true,
-          el: ".custom-pagination", 
+          el: ".custom-pagination",
         }}
-        modules={[Pagination]}
+        loop={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        modules={[Autoplay, Pagination]}
         className="mySwiper"
       >
         <SwiperSlide>
-        <img src={image} alt="Slider Image"/>
-        </SwiperSlide>
-        <SwiperSlide>
           <img src={image} alt="Slider Image" />
         </SwiperSlide>
         <SwiperSlide>
@@ -30,12 +32,12 @@ const HomeSlider = () => {
         <SwiperSlide>
           <img src={image} alt="Slider Image" />
         </SwiperSlide>
-
+        <SwiperSlide>
+          <img src={image} alt="Slider Image" />
+        </SwiperSlide>
       </Swiper>
       <div className="custom-pagination mt-4 flex justify-center "></div>
-
     </div>
-    
   );
 };
 
