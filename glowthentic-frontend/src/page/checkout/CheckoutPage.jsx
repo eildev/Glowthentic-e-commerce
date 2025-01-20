@@ -31,7 +31,7 @@ const CheckoutPage = () => {
 
           {/* Right Column: Order Summary */}
           <div className="col-span-5  md:col-span-3    ">
-         <div className=" bg-white p-6 shadow rounded-lg">
+            <div className=" bg-white shadow rounded-lg">
 
             <OrderSummary></OrderSummary>
 
