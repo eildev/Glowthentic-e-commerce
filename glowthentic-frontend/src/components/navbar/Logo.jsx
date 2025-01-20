@@ -6,7 +6,7 @@ const Logo = () => {
       <img
         src="/logo/Glowthentic-Logo.svg"
         alt="Logo"
-        className="h-12 w-auto"
+        className="h-16 lg:h-12 w-auto"
       />
     </Link>
   );

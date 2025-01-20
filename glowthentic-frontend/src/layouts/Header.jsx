@@ -12,7 +12,7 @@ const Header = ({ setShowMobileMenu }) => {
     <div className="bg-primary border-b border-[rgba(255,255,255,0.25)]">
       <Container>
         {/*--------- navbar -----------*/}
-        <div className="navbar text-white py-5 relative">
+        <div className="navbar text-white lg:py-5 py-2 relative">
           <div className="navbar-start">
             {/*--------- show menu icon on small Device -----------*/}
             <div

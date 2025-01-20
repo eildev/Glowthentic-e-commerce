@@ -1,15 +1,13 @@
 import Container from "../Container";
 import { Icon } from "@iconify/react";
 
-
-
 const NavbarForSmallDevice = ({ showMobileMenu }) => {
   return (
     <div
-      className={`px-5 absolute top-0 left-0 w-full z-10 bg-white shadow-lg transition-all duration-300 ease-in-out transform ${
+      className={`px-5 absolute top-0 left-0 w-full z-10 bg-white shadow-lg transition-all duration-500 ease-in-out transform ${
         showMobileMenu
           ? "opacity-100 visible translate-y-0"
-          : "opacity-0 invisible -translate-y-5"
+          : "opacity-0 invisible -translate-y-[100%]"
       }`}
     >
       <Container>
