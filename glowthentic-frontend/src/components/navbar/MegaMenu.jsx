@@ -33,7 +33,7 @@ const MegaMenu = ({ showMegaMenu, data }) => {
             <h2 className="font-semibold">By Subcategory</h2>
             <ul>
               {subcategories.map((subcategory) => (
-                <li key={subcategory.id}>{subcategory.name}</li>
+                <li className="font-normal" key={subcategory.id}>{subcategory.name}</li>
               ))}
               {/* <li>Exfoliators</li>
               <li>Toners</li>
@@ -46,7 +46,7 @@ const MegaMenu = ({ showMegaMenu, data }) => {
             <h2 className="font-semibold">By Product Type</h2>
             <ul>
               {types.map((type) => (
-                <li key={type.id}>{type.name}</li>
+                <li className="font-normal" key={type.id}>{type.name}</li>
               ))}
 
               {/* <li>Cleansers</li>
@@ -61,7 +61,7 @@ const MegaMenu = ({ showMegaMenu, data }) => {
             <h2 className="font-semibold">By Skin Condition</h2>
             <ul>
               {tags.map((offer) => (
-                <li key={offer.id}>{offer.name}</li>
+                <li className="font-normal" key={offer.id}>{offer.name}</li>
               ))}
               {/* <li>Cleansers</li>
               <li>Exfoliators</li>

@@ -1,24 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Container from "../Container";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import MegaMenu from "./MegaMenu";
 
-const NavbarForLargeDevice = () => {
+const NavbarForLargeDevice = ({category}) => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
-  const [category, setCategory] = useState([]);
+  
 
-  useEffect(() => {
-    fetch('category.json')
-      .then(res => res.json())
-      .then(data => {
-        // Sort categories to show `isButton: false` first
-        const sortedData = data.sort((a, b) => a.isButton - b.isButton);
-        setCategory(sortedData);
-      });
-  }, []);
-
-  console.log(category);
+  // console.log(category);
 
   return (
     <>
@@ -42,11 +32,17 @@ const NavbarForLargeDevice = () => {
                 >
                   {data.name ?? ""}
                   <Icon
-                    className={data.dropdown ? "block" : "hidden"}
+                    className={data.isButton ? "hidden" : "block"}
                     icon="solar:alt-arrow-down-line-duotone"
                     width="24"
                     height="24"
                   />
+                   {/* <Icon
+                    className={`${data.isButton ? "hidden" : "block"} ${hoveredCategory === index ? 'rotate-' : ''}`}
+                    icon="ep:arrow-right"
+                    width="24"
+                    height="24"
+                  /> */}
                 </Link>
                 <MegaMenu showMegaMenu={hoveredCategory === index} data={data} />
               </div>

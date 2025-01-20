@@ -22,6 +22,7 @@ export default {
         'gray-light': '#D7D7D7',
         'gray-bold': '#7A7A7A',
         'hr-thin': '#e7e7e7',
+        'body': '#FAF9F5',
 
       },
       fontFamily: {

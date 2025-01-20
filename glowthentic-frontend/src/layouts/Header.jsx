@@ -5,7 +5,7 @@ import SearchBar from "../components/search/SearchBar";
 import { useState } from "react";
 import Logo from "../components/navbar/Logo";
 import CartIcon from "../components/navbar/CartIcon";
-const Header = ({ setShowMobileMenu }) => {
+const Header = ({ setShowMobileMenu, showMobileMenu }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   return (
@@ -17,7 +17,7 @@ const Header = ({ setShowMobileMenu }) => {
             {/*--------- show menu icon on small Device -----------*/}
             <div
               role="button"
-              className="btn btn-ghost lg:hidden"
+              className={`btn btn-ghost lg:hidden`}
               onClick={() => setShowMobileMenu((prev) => !prev)}
             >
               <svg
@@ -58,11 +58,10 @@ const Header = ({ setShowMobileMenu }) => {
 
           {/*--------- Search bar show in small Device  Start -----------*/}
           <div
-            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${
-              showSearchBar
-                ? "opacity-100 visible translate-y-0"
-                : "opacity-0 invisible -translate-y-5"
-            }`}
+            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${showSearchBar
+              ? "opacity-100 visible translate-y-0"
+              : "opacity-0 invisible -translate-y-5"
+              }`}
           >
             <SearchBar className="w-full" />
           </div>
