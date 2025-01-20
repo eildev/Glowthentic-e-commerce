@@ -1,25 +1,27 @@
 import Container from "../Container";
 import image from "../../assets/img/navbar.jpg";
 
-
 const MegaMenu = ({ showMegaMenu, data }) => {
   const { tags, types, offers, subcategories } = data;
   return (
     <div
       className={`bg-white w-full text-black absolute top-[100%] left-0 z-20 shadow-lg 
       transition-all duration-300 ease-in-out transform 
-      ${showMegaMenu
+      ${
+        showMegaMenu
           ? "opacity-100 visible translate-y-0"
           : "opacity-0 invisible -translate-y-5"
-        }`}
+      }`}
     >
       <Container>
         <div className="grid grid-cols-5 gap-5 py-10">
           <div>
             <ul className="font-semibold text-lg">
-              {
-                tags.map(tag => <li key={tag.id} className="cursor-pointer">{tag.name ?? ""}</li>)
-              }
+              {offers.map((tag) => (
+                <li key={tag.id} className="cursor-pointer">
+                  {tag.name ?? ""}
+                </li>
+              ))}
               {/* <li className="cursor-pointer">New</li>
               <li className="cursor-pointer">Travel Size</li>
               <li className="cursor-pointer">Professional Treatments</li>
@@ -30,9 +32,9 @@ const MegaMenu = ({ showMegaMenu, data }) => {
           <div>
             <h2 className="font-semibold">By Subcategory</h2>
             <ul>
-              {
-                subcategories.map(subcategory => <li key={subcategory.id}>{subcategory.name}</li>)
-              }
+              {subcategories.map((subcategory) => (
+                <li className="font-normal" key={subcategory.id}>{subcategory.name}</li>
+              ))}
               {/* <li>Exfoliators</li>
               <li>Toners</li>
               <li>Retinols</li>
@@ -43,9 +45,9 @@ const MegaMenu = ({ showMegaMenu, data }) => {
           <div>
             <h2 className="font-semibold">By Product Type</h2>
             <ul>
-              {
-                types.map(type => <li key={type.id}>{type.name}</li>)
-              }
+              {types.map((type) => (
+                <li className="font-normal" key={type.id}>{type.name}</li>
+              ))}
 
               {/* <li>Cleansers</li>
               <li>Exfoliators</li>
@@ -56,11 +58,11 @@ const MegaMenu = ({ showMegaMenu, data }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold">Offers</h2>
+            <h2 className="font-semibold">By Skin Condition</h2>
             <ul>
-              {
-                offers.map(offer => <li key={offer.id}>{offer.name}</li>)
-              }
+              {tags.map((offer) => (
+                <li className="font-normal" key={offer.id}>{offer.name}</li>
+              ))}
               {/* <li>Cleansers</li>
               <li>Exfoliators</li>
               <li>Toners</li>
