@@ -1,182 +1,108 @@
 import Container from "../../components/Container";
+import Checkbox from "../../components/typography/Checkbox";
 import HeadTitle from "../../components/typography/HeadTitle";
+import IncrementDecrement from "../../components/typography/IncrementDecrement";
+import RegularButton from "../../components/typography/RegularButton";
 
 const CartPage = () => {
   return (
-    <Container>
-      <div className="py-10">
-      <div className="overflow-x-auto">
-        <table className="table">
-          {/* head */}
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* row 1 */}
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle h-12 w-12">
-                      <img
-                        src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                        alt="Avatar Tailwind CSS Component"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-bold">Hart Hagerty</div>
-                    <div className="text-sm opacity-50">United States</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Zemlak, Daniel and Leannon
-                <br />
-                <span className="badge badge-ghost badge-sm">
-                  Desktop Support Technician
-                </span>
-              </td>
-              <td>Purple</td>
-              <th>
-                <button className="btn btn-ghost btn-xs">details</button>
-              </th>
-            </tr>
-            {/* row 2 */}
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle h-12 w-12">
-                      <img
-                        src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-                        alt="Avatar Tailwind CSS Component"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-bold">Brice Swyre</div>
-                    <div className="text-sm opacity-50">China</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Carroll Group
-                <br />
-                <span className="badge badge-ghost badge-sm">
-                  Tax Accountant
-                </span>
-              </td>
-              <td>Red</td>
-              <th>
-                <button className="btn btn-ghost btn-xs">details</button>
-              </th>
-            </tr>
-            {/* row 3 */}
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle h-12 w-12">
-                      <img
-                        src="https://img.daisyui.com/images/profile/demo/4@94.webp"
-                        alt="Avatar Tailwind CSS Component"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-bold">Marjy Ferencz</div>
-                    <div className="text-sm opacity-50">Russia</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Rowe-Schoen
-                <br />
-                <span className="badge badge-ghost badge-sm">
-                  Office Assistant I
-                </span>
-              </td>
-              <td>Crimson</td>
-              <th>
-                <button className="btn btn-ghost btn-xs">details</button>
-              </th>
-            </tr>
-            {/* row 4 */}
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle h-12 w-12">
-                      <img
-                        src="https://img.daisyui.com/images/profile/demo/5@94.webp"
-                        alt="Avatar Tailwind CSS Component"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-bold">Yancy Tear</div>
-                    <div className="text-sm opacity-50">Brazil</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Wyman-Ledner
-                <br />
-                <span className="badge badge-ghost badge-sm">
-                  Community Outreach Specialist
-                </span>
-              </td>
-              <td>Indigo</td>
-              <th>
-                <button className="btn btn-ghost btn-xs">details</button>
-              </th>
-            </tr>
-          </tbody>
-          {/* foot */}
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-              <th></th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+    <div className="py-10">
+      <Container>
+        <div className="grid lg:grid-cols-3 gap-4">
+          <div className="bg-white p-5 lg:col-span-2">
+            <div className="flex justify-between">
+            <HeadTitle className="bg-white p-5">My Shoping Cart</HeadTitle>
+            <a href="#">Remove all</a>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="table ">
+                {/* head */}
+                <thead className="bg-gray-light">
+                  <tr className="uppercase border-none">
+                    <th>
+                      <Checkbox />
+                    </th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* row 1 */}
+                  <tr className="border-none">
+                    <th>
+                      <Checkbox />
+                    </th>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle h-12 w-12">
+                            <img
+                              src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                              alt="Avatar Tailwind CSS Component"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-bold">Hart Hagerty</div>
+                          <div className="text-sm opacity-50">
+                            United States
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>100 <span>$</span></td>
+                    <td className="flex gap-3 items-center">
+                     <IncrementDecrement />
+                    </td>
+                    <td>100 <span>$</span></td>
+                  </tr>
+                </tbody>
+                {/* foot */}
+              </table>
+            </div>
+          </div>
+
+          <div className="card bg-base-100 w-96 shadow-xl">
+            <div className="card-body">
+              <h2 className="card-title">Cart Total</h2>
+              <div className="border-b py-2">
+                <ul className="flex justify-between">
+                  <li>Product Total</li>
+                  <li>
+                    100 <span>$</span>
+                  </li>
+                </ul>
+                <ul className="flex justify-between">
+                  <li>Product Total</li>
+                  <li>
+                    100 <span>$</span>
+                  </li>
+                </ul>
+                <ul className="flex justify-between">
+                  <li>Product Total</li>
+                  <li>
+                    100 <span>$</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="pb-3">
+                <ul className="flex justify-between">
+                  <li>Product Total</li>
+                  <li>
+                    100 <span>$</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="card-actions justify-center">
+                <RegularButton className="btn-wide">Checkout</RegularButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
     </div>
-    </Container>
   );
 };
 
