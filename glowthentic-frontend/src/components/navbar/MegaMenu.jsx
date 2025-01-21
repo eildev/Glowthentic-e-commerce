@@ -22,53 +22,36 @@ const MegaMenu = ({ showMegaMenu, data }) => {
                   {tag.name ?? ""}
                 </li>
               ))}
-              {/* <li className="cursor-pointer">New</li>
-              <li className="cursor-pointer">Travel Size</li>
-              <li className="cursor-pointer">Professional Treatments</li>
-              <li className="cursor-pointer">Daily Defense</li>
-              <li className="cursor-pointer">Virtual Skincare Analysis</li> */}
             </ul>
           </div>
           <div>
             <h2 className="font-semibold">By Subcategory</h2>
             <ul>
               {subcategories.map((subcategory) => (
-                <li className="font-normal" key={subcategory.id}>{subcategory.name}</li>
+                <li className="font-normal" key={subcategory.id}>
+                  {subcategory.name}
+                </li>
               ))}
-              {/* <li>Exfoliators</li>
-              <li>Toners</li>
-              <li>Retinols</li>
-              <li>Virtual Skincare Analysis</li>
-              <li>Peels and Masques</li> */}
             </ul>
           </div>
           <div>
             <h2 className="font-semibold">By Product Type</h2>
             <ul>
               {types.map((type) => (
-                <li className="font-normal" key={type.id}>{type.name}</li>
+                <li className="font-normal" key={type.id}>
+                  {type.name}
+                </li>
               ))}
-
-              {/* <li>Cleansers</li>
-              <li>Exfoliators</li>
-              <li>Toners</li>
-              <li>Retinols</li>
-              <li>Virtual Skincare Analysis</li>
-              <li>Peels and Masques</li> */}
             </ul>
           </div>
           <div>
             <h2 className="font-semibold">By Skin Condition</h2>
             <ul>
               {tags.map((offer) => (
-                <li className="font-normal" key={offer.id}>{offer.name}</li>
+                <li className="font-normal" key={offer.id}>
+                  {offer.name}
+                </li>
               ))}
-              {/* <li>Cleansers</li>
-              <li>Exfoliators</li>
-              <li>Toners</li>
-              <li>Retinols</li>
-              <li>Virtual Skincare Analysis</li>
-              <li>Peels and Masques</li> */}
             </ul>
           </div>
           <div className="grid">
