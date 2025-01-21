@@ -19,6 +19,7 @@ import Container from "../../components/Container";
         <div className="text-green-500 text-5xl mb-4">
           <i className="fas fa-check-circle"></i>
         </div>
+        
         <h2 className="text-2xl font-bold mb-4">
           Your order has been placed successfully
         </h2>

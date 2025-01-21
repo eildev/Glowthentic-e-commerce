@@ -22,7 +22,7 @@ const ProductDetails = () => {
     "https://picsum.photos/300/200",
     "https://picsum.photos/400/300",
   ];
-  
+
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [expanded, setExpanded] = useState({
     productDetails: false,
@@ -57,7 +57,7 @@ const ProductDetails = () => {
             </h4>
           </div>
           {/* <---Small Device Right Section End ----> */}
-               {/* Slide */}
+          {/* Slide */}
           <div className="sm:col-span-7 ">
             <Swiper
               style={{
@@ -93,7 +93,8 @@ const ProductDetails = () => {
                 <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
               </SwiperSlide>
             </Swiper>
-            <Swiper
+         <div >
+         <Swiper
               onSwiper={setThumbsSwiper}
               loop={true}
               spaceBetween={10}
@@ -104,29 +105,29 @@ const ProductDetails = () => {
               className="mySwiper mySwiper-image "
             >
               <SwiperSlide>
-                <img src={image} />
+                <img src={image}   className="w-full h-[300px] object-cover"/>
               </SwiperSlide>
               <SwiperSlide>
-                <img src={image1} />
+                <img src={image1}  className="w-full h-[300px] object-cover" />
               </SwiperSlide>
               <SwiperSlide>
-                <img src={image2} />
+                <img src={image2}  className="w-full h-[300px] object-cover" />
               </SwiperSlide>
               <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+                <img src="https://swiperjs.com/demos/images/nature-4.jpg" className="w-full h-[300px] object-cover" />
               </SwiperSlide>
               <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+                <img src="https://swiperjs.com/demos/images/nature-5.jpg"  className="w-full h-[300px] object-cover"/>
               </SwiperSlide>
               <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+                <img src="https://swiperjs.com/demos/images/nature-6.jpg"  className="w-full h-[300px] object-cover"/>
               </SwiperSlide>
             </Swiper>
+         </div>
           </div>
-              {/* Slide End*/}
+          {/* Slide End*/}
           {/* ///Right Section // */}
-          <div className="sm:col-span-3 p-4">
-
+          <div className="sm:col-span-3 p-4 ">
             {/* //show big device small device hidden Start// */}
             <div className="hidden sm:block w-full">
               <HeadTitle>
@@ -157,7 +158,7 @@ const ProductDetails = () => {
                 50% OFF
               </span>
             </div>
-            {/* //Select price// */} 
+            {/* //Select price// */}
             <div className="flex items-center justify-between mt-4">
               <div>
                 <select className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray">
@@ -180,7 +181,7 @@ const ProductDetails = () => {
             </div>
             {/* //Button End// */}
             <div className="bg-[#fbeff2] p-2 font-normal text-sm mt-4">
-              <p className="flex items-center py-1">  
+              <p className="flex items-center py-1">
                 <Icon icon="mdi:wallet-giftcard" width="2em" height="2em" />
                 <span className="ps-2">
                   Receive 2 free samples when you spend $100
@@ -517,34 +518,52 @@ const ProductDetails = () => {
               </p>
             </div>
           </div>
-       
         </div>
         {/* //Banner section  big Screen// */}
         <div className="bg-primary my-6 hidden sm:block">
-        <div className="grid grid-cols-4 gap-4 p-6 mx-10   text-center">
-        {images.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Image ${index + 1}`}
-            className="w-full h-40 object-cover rounded-lg shadow-lg"
-          />
-        ))}
-      </div>
+          <div className="grid grid-cols-4 gap-4 p-6 mx-10   text-center">
+            {images.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`Image ${index + 1}`}
+                className="w-full h-40 object-cover rounded-lg shadow-lg"
+              />
+            ))}
+          </div>
           <div className="text-center text-white pb-7 text-sm">
-            <p className="pb-1">In just 1 week: <span className="text-gray-thin "> it appears firmer, stronger and smoother.</span></p>
-            <p className="pb-1">In 3 weeks: <span className="text-gray-thin">2x improvement in the look or feel of skin elasticity</span></p>
-            <p className="pb-1">After 1 month: <span className="text-gray-thin"> The skin looks firmer+60% | The skin looks denser +56%</span> </p>
+            <p className="pb-1">
+              In just 1 week:{" "}
+              <span className="text-gray-thin ">
+                {" "}
+                it appears firmer, stronger and smoother.
+              </span>
+            </p>
+            <p className="pb-1">
+              In 3 weeks:{" "}
+              <span className="text-gray-thin">
+                2x improvement in the look or feel of skin elasticity
+              </span>
+            </p>
+            <p className="pb-1">
+              After 1 month:{" "}
+              <span className="text-gray-thin">
+                {" "}
+                The skin looks firmer+60% | The skin looks denser +56%
+              </span>{" "}
+            </p>
           </div>
         </div>
-         {/* //Banner section  big Screen End// */}
-           {/*  //Bottom Accordian  Start*/}
-           <div className=" ">
-            <HeadTitle className="text-center pt-4 pb-1">Prestige lA micro-huile serum frequently asked questions</HeadTitle>
+        {/* //Banner section  big Screen End// */}
+        {/*  //Bottom Accordian  Start*/}
+        <div className=" ">
+          <HeadTitle className="text-center pt-4 pb-1">
+            Prestige lA micro-huile serum frequently asked questions
+          </HeadTitle>
           <div className="collapse collapse-plus bg-base-200">
             <input type="checkbox" />
             <div className="collapse-title text-lg font-medium">
-            What is the best way to use this product?
+              What is the best way to use this product?
             </div>
             <div className="collapse-content font-normal text-sm  text-justify">
               <p>
@@ -571,18 +590,26 @@ const ProductDetails = () => {
           <div className="collapse collapse-plus bg-base-200">
             <input type="checkbox" />
             <div className="collapse-title text-lg font-medium">
-            Can this product be used on all skin types?
+              Can this product be used on all skin types?
             </div>
             <div className="collapse-content font-normal text-sm text-justify">
               <p>
-              Our product is suitable for most skin types, including normal, oily, dry, and combination skin. However, if you have sensitive skin or a skin condition, we recommend performing a patch test before using the product all over your face. Apply a small amount of the product to the inside of your elbow and wait 24 hours to make sure you do not have an allergic reaction or irritation. 
-              If you experience any discomfort, discontinue use of the product immediately.
+                Our product is suitable for most skin types, including normal,
+                oily, dry, and combination skin. However, if you have sensitive
+                skin or a skin condition, we recommend performing a patch test
+                before using the product all over your face. Apply a small
+                amount of the product to the inside of your elbow and wait 24
+                hours to make sure you do not have an allergic reaction or
+                irritation. If you experience any discomfort, discontinue use of
+                the product immediately.
               </p>
             </div>
           </div>
           <div className="collapse collapse-plus bg-base-200">
             <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">How often should I use this product?</div>
+            <div className="collapse-title text-lg font-medium">
+              How often should I use this product?
+            </div>
             <div className="collapse-content font-normal text-sm text-justify">
               <p>
                 Richness of an oil with the deep penetration of a serum. From
@@ -596,7 +623,7 @@ const ProductDetails = () => {
           <div className="collapse collapse-plus bg-base-200">
             <input type="checkbox" />
             <div className="collapse-title text-lg font-medium">
-            Can this product be used during pregnancy?
+              Can this product be used during pregnancy?
             </div>
             <div className="collapse-content font-normal text-sm text-justify">
               <p>
@@ -611,7 +638,7 @@ const ProductDetails = () => {
           <div className="collapse collapse-plus bg-base-200">
             <input type="checkbox" />
             <div className="collapse-title text-lg font-medium">
-            How often should I use this product?
+              How often should I use this product?
             </div>
             <div className="collapse-content font-normal text-sm text-justify">
               <p>
@@ -625,7 +652,7 @@ const ProductDetails = () => {
           <div className="collapse collapse-plus bg-base-200">
             <input type="checkbox" />
             <div className="collapse-title text-lg font-medium">
-            How should I store this product?
+              How should I store this product?
             </div>
             <div className="collapse-content font-normal text-sm text-justify">
               <p>
@@ -639,7 +666,7 @@ const ProductDetails = () => {
           <div className="collapse collapse-plus bg-base-200">
             <input type="checkbox" />
             <div className="collapse-title text-lg font-medium">
-            How long will it take to see results from using this product?
+              How long will it take to see results from using this product?
             </div>
             <div className="collapse-content font-normal text-sm text-justify">
               <p>
@@ -653,7 +680,8 @@ const ProductDetails = () => {
           <div className="collapse collapse-plus bg-base-200">
             <input type="checkbox" />
             <div className="collapse-title text-lg font-medium">
-            Can this product be used in conjunction with other skincare products?
+              Can this product be used in conjunction with other skincare
+              products?
             </div>
             <div className="collapse-content font-normal text-sm text-justify">
               <p>
@@ -664,9 +692,8 @@ const ProductDetails = () => {
               </p>
             </div>
           </div>
-       
         </div>
-           {/*  //Bottom Accordian  End*/}
+        {/*  //Bottom Accordian  End*/}
       </Container>
     </div>
   );
