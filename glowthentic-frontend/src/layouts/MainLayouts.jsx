@@ -13,7 +13,10 @@ const MainLayouts = () => {
     <div>
       <div className="fixed top-0 left-0 w-full z-50">
         {/*--------- Header -----------*/}
-        <Header showMobileMenu={showMobileMenu} setShowMobileMenu={setShowMobileMenu} />
+        <Header
+          showMobileMenu={showMobileMenu}
+          setShowMobileMenu={setShowMobileMenu}
+        />
         {/*--------- Navbar -----------*/}
         <Navbar showMobileMenu={showMobileMenu} />
       </div>
