@@ -17,6 +17,7 @@ export default {
         'white-gray': '#CBCBCB',
         'secondary-gradient-1': 'rgba(250, 130, 50, 0.3)', // 30% opacity
         'secondary-gradient-2': 'rgba(250, 130, 50, 0.15)', // 15% opacity
+        'overlay': 'rgba(0, 0, 0, 0.25)', // 15% opacity
         'gray-gradient': 'rgba(0, 0, 0, 0.15)', // 15% opacity
         'gray-thin': '#AFAFAF',
         'gray-light': '#D7D7D7',

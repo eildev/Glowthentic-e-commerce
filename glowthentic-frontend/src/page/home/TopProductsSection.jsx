@@ -5,7 +5,7 @@ import { useGetProductsQuery } from "../../redux/features/api/product-api/produc
 import Loading from "../../components/spinners/Loading";
 const TopProductsSection = () => {
   const { data, isLoading, error } = useGetProductsQuery();
-  console.log(data);
+  // console.log(data);
   if (isLoading) return <Loading />;
   if (error) return <p>Error: {error}</p>;
   return (

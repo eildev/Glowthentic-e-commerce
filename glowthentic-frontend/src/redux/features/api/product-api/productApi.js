@@ -8,8 +8,7 @@ const productApi = createApi({
             query: () => '/products?skip=0',
         }),
         searchProducts: builder.query({
-            // query: ({ skip = 0, limit = 1000 }) => `/products?skip=${skip}&limit=${limit}`,
-            query: () => `/products?limit=0`,
+            query: (product) => `/products/search?q=${product}`,
         }),
         getProductByDetails: builder.query({
             query: (id) => `/products/${id}`,

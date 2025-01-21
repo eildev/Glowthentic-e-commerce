@@ -18,8 +18,10 @@ const HomePage = () => {
         <LatestBannerSection />
 
         <CategorySection />
-        <TopProductsSection></TopProductsSection>
         <TagSection />
+        <div className="my-10">
+          <TopProductsSection></TopProductsSection>
+        </div>
         {/* <TopProducts></TopProducts> */}
       </Container>
       <div className="bg-[#FBEFF2]">

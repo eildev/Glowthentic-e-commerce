@@ -5,7 +5,7 @@ import SearchBar from "../components/search/SearchBar";
 import { useState } from "react";
 import Logo from "../components/navbar/Logo";
 import CartIcon from "../components/navbar/CartIcon";
-const Header = ({ setShowMobileMenu, showMobileMenu }) => {
+const Header = ({ setShowMobileMenu }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   return (
