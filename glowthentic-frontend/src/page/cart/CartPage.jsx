@@ -9,16 +9,16 @@ const CartPage = () => {
     <div className="py-10">
       <Container>
         <div className="grid lg:grid-cols-3 gap-4">
-          <div className="bg-white p-5 lg:col-span-2">
+          <div className="grid bg-white p-5 lg:col-span-2">
             <div className="flex justify-between">
-            <HeadTitle className="bg-white p-5">My Shoping Cart</HeadTitle>
-            <a href="#">Remove all</a>
+              <HeadTitle className="bg-white p-5 font-medium">My Shoping Cart</HeadTitle>
+              <a href="#" className="text-secondary">Remove all</a>
             </div>
             <div className="overflow-x-auto">
               <table className="table ">
                 {/* head */}
-                <thead className="bg-gray-light">
-                  <tr className="uppercase border-none">
+                <thead className="bg-light">
+                  <tr className="uppercase border-none text-gray">
                     <th>
                       <Checkbox />
                     </th>
@@ -52,11 +52,15 @@ const CartPage = () => {
                         </div>
                       </div>
                     </td>
-                    <td>100 <span>$</span></td>
-                    <td className="flex gap-3 items-center">
-                     <IncrementDecrement />
+                    <td>
+                      100 <span>$</span>
                     </td>
-                    <td>100 <span>$</span></td>
+                    <td className="flex gap-3 items-center">
+                      <IncrementDecrement />
+                    </td>
+                    <td>
+                      100 <span>$</span>
+                    </td>
                   </tr>
                 </tbody>
                 {/* foot */}
@@ -64,39 +68,58 @@ const CartPage = () => {
             </div>
           </div>
 
-          <div className="card bg-base-100 w-96 shadow-xl">
-            <div className="card-body">
-              <h2 className="card-title">Cart Total</h2>
-              <div className="border-b py-2">
-                <ul className="flex justify-between">
-                  <li>Product Total</li>
-                  <li>
-                    100 <span>$</span>
-                  </li>
-                </ul>
-                <ul className="flex justify-between">
-                  <li>Product Total</li>
-                  <li>
-                    100 <span>$</span>
-                  </li>
-                </ul>
-                <ul className="flex justify-between">
-                  <li>Product Total</li>
-                  <li>
-                    100 <span>$</span>
-                  </li>
-                </ul>
+          <div className="grid gap-5">
+            <div className="card bg-base-100 shadow-sm rounded-[5px]">
+              <div className="card-body">
+                <h2 className="card-title font-medium">Cart Total</h2>
+                <div className="border-b border-gray py-2 text-gray text-sm">
+                  <ul className="flex justify-between">
+                    <li>Product Total</li>
+                    <li>
+                      100 <span>$</span>
+                    </li>
+                  </ul>
+                  <ul className="flex justify-between">
+                    <li>Product Total</li>
+                    <li>
+                      100 <span>$</span>
+                    </li>
+                  </ul>
+                  <ul className="flex justify-between">
+                    <li>Product Total</li>
+                    <li>
+                      100 <span>$</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="pb-3">
+                  <ul className="flex justify-between">
+                    <li>Product Total</li>
+                    <li>
+                      100 <span>$</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="card-actions justify-center">
+                  <RegularButton className="btn-wide">Checkout</RegularButton>
+                </div>
               </div>
-              <div className="pb-3">
-                <ul className="flex justify-between">
-                  <li>Product Total</li>
-                  <li>
-                    100 <span>$</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="card-actions justify-center">
-                <RegularButton className="btn-wide">Checkout</RegularButton>
+            </div>
+
+            <div className="card bg-base-100  shadow-sm rounded-[5px]">
+              <div className="card-body">
+                <h2 className="card-title font-medium border-b border-gray py-2">Cart Total</h2>
+                <div className="py-3">
+                  <input
+                    id="phone"
+                    type="text"
+                    placeholder="Voucher Code"
+                    className="focus:outline-none focus:ring-2 focus:ring-orange-500 border focus:border-none border-gray-thin rounded p-2 w-full"
+                  />
+                </div>
+                <div className="card-actions justify-center">
+                  <RegularButton className="btn-wide">Checkout</RegularButton>
+                </div>
               </div>
             </div>
           </div>

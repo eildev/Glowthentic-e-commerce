@@ -13,7 +13,7 @@ const WishlistPage = () => {
           <div className="overflow-x-auto">
             <table className="table ">
               {/* head */}
-              <thead className="bg-gray-light">
+              <thead className="bg-light">
                 <tr className="uppercase border-none">
                   <th>
                     <Checkbox />
