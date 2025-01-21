@@ -62,7 +62,7 @@ const Footer = () => {
             </form>
           </footer>
 
-          <footer className="footer grid md:grid-cols-2 lg:grid-cols-3 text-neutral-content items-center px-5 py-4">
+          <footer className="footer grid md:grid-cols-2 text-white lg:grid-cols-3  items-center px-5 py-4">
             <aside className="grid-flow-row lg:grid-flow-col items-center gap-5">
               <div className="flex justify-between gap-1">
                 <span>

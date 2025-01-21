@@ -1,4 +1,3 @@
-import React from "react";
 
 const SuggestionProduct = ({ item, setQuery, setSuggestions }) => {
   const { title, thumbnail, price } = item;
