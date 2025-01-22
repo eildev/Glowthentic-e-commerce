@@ -18,13 +18,13 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
     <div>
       <div className="min-h-screen flex flex-col md:flex-row bg-white">
         {/* Left Section */}
-        <div className="w-full md:w-1/2 text-white bg-[#0E1027]  flex flex-col justify-center items-center">
+        <div className="w-full md:w-1/2 text-white bg-[#0E1027] flex flex-col justify-center items-center">
           {/* Image for Small Devices */}
           <div className="md:hidden w-full h-44	">
             <img src={smallimage} alt="Small Device Image" className="w-full" />
           </div>
           {/* Image for Medium and Larger Devices */}
-          <div className="hidden md:flex mt-auto w-fit">
+          <div className="hidden md:flex mt-auto w-full h-full">
             <img src={loginImage} alt="Login Image" />
           </div>
         </div>

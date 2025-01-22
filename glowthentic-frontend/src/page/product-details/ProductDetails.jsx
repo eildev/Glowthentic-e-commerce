@@ -152,8 +152,8 @@ const ProductDetails = () => {
               <span className="text-gray text-sm font-thin  pe-2 ">
                 <del>$1040.00 |</del>
               </span>
-              <span className="text-black text-sm pe-3">Save ৳651.00</span>
-              <span className="bg-secondary  text-white sm:text:xs   text-sm p-1 ">
+              <span className="text-black text-sm pe-2">Save ৳651.00</span>
+              <span className="bg-secondary rounded-tl-[20px]  rounded-br-[20px] text-white    text-xs p-1 px-2">
                 {" "}
                 50% OFF
               </span>

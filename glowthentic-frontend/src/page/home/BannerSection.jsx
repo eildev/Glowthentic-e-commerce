@@ -45,15 +45,15 @@ const data = [
     image: bannerImage4,
     colspan: 2,
   },
-  {
-    title: "Get Your 50% Off",
-    details: "Nourish your skin with toxin-free cosmetic products.",
-    price: "",
-    button: "Shop Now",
-    url: "#",
-    image: bannerImage4,
-    colspan: 2,
-  },
+//   {
+//     title: "Get Your 50% Off",
+//     details: "Nourish your skin with toxin-free cosmetic products.",
+//     price: "",
+//     button: "Shop Now",
+//     url: "#",
+//     image: bannerImage4,
+//     colspan: 2,
+//   },
 ];
 
 const BannerSection = () => {
