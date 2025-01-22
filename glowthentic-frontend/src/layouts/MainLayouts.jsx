@@ -13,23 +13,21 @@ import RedirectTop from "../components/RedirectTop";
 
 const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.app.loading);
+  // const dispatch = useDispatch();
+  // const isLoading = useSelector((state) => state.app.loading);
 
-  useEffect(() => {
-    // Simulate loading delay or actual data fetching
-    const timer = setTimeout(() => dispatch(stopLoading(), 2000));
-    return () => clearTimeout(timer);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   // Simulate loading delay or actual data fetching
+  //   const timer = setTimeout(() => dispatch(stopLoading(), 2000));
+  //   return () => clearTimeout(timer);
+  // }, [dispatch]);
   return (
     <div>
-      {isLoading && <Loading />}
+      {/* {isLoading && <Loading />} */}
       <RedirectTop />
       <div className="fixed top-0 left-0 w-full z-50">
         {/*--------- Header -----------*/}
-        <Header
-          setShowMobileMenu={setShowMobileMenu}
-        />
+        <Header setShowMobileMenu={setShowMobileMenu} />
         {/*--------- Navbar -----------*/}
         <Navbar showMobileMenu={showMobileMenu} />
       </div>
