@@ -5,7 +5,7 @@ const MegaMenu = ({ showMegaMenu, data }) => {
   const { tags, types, offers, subcategories } = data;
   return (
     <div
-      className={`bg-white w-full text-black absolute top-[100%] left-0 z-20 shadow-lg 
+      className={`bg-white w-full text-black  absolute top-[100%] left-0 z-20 shadow-lg 
       transition-all duration-300 ease-in-out transform 
       ${
         showMegaMenu
