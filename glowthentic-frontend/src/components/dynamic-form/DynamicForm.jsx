@@ -1,5 +1,5 @@
 
-import loginImage from "../../assets/img/login/Left Content.png";
+import loginImage from "../../assets/img/login/Left Content.gif";
 import smallimage from "../../assets/img/login/Login-Images-2.jpg";
 const DynamicForm = ({ title, handleForm, children = " " }) => {
   const handleSubmit = (e) => {
@@ -18,7 +18,7 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
     <div>
       <div className="min-h-screen flex flex-col md:flex-row bg-white">
         {/* Left Section */}
-        <div className="w-full md:w-1/2 text-white flex flex-col justify-center items-center">
+        <div className="w-full md:w-1/2 text-white bg-[#0E1027]  flex flex-col justify-center items-center">
           {/* Image for Small Devices */}
           <div className="md:hidden w-full h-44	">
             <img src={smallimage} alt="Small Device Image" className="w-full" />
