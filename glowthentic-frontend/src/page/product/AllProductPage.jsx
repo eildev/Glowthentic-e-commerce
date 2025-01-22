@@ -52,16 +52,17 @@ const AllProductPage = () => {
       </div>
 
       <div className="lg:flex lg:gap-5">
-        <SidebarFilter className="hidden lg:block"></SidebarFilter>
-        <AllProduct />
+        <div className="hidden lg:block lg:sticky top-0">
+          <SidebarFilter ></SidebarFilter>
+        </div>
+        <AllProduct className="ml-72" />
       </div>
 
       <div
-        className={`fixed top-0 left-0 w-full z-[60] h-full overflow-y-scroll bg-white transition-all duration-300 ease-in-out transform ${
-          toggleFilter
-            ? "opacity-100 visible translate-y-0"
-            : "opacity-0 invisible -translate-y-[100%]"
-        }`}
+        className={`fixed top-0 left-0 w-full z-[60] h-full overflow-y-scroll bg-white transition-all duration-300 ease-in-out transform ${toggleFilter
+          ? "opacity-100 visible translate-y-0"
+          : "opacity-0 invisible -translate-y-[100%]"
+          }`}
       >
         <div className="">
           <div className="flex justify-between items-center px-5">
