@@ -13,7 +13,7 @@ const NavbarForLargeDevice = ({category}) => {
   return (
     <>
       <div
-        className="hidden lg:block bg-primary text-white py-5"
+        className="hidden lg:block h-[72px] bg-primary text-white py-5"
       >
         <Container>
           <div className="flex justify-between items-center gap-2">
