@@ -16,7 +16,7 @@ const FaqPage = () => {
           FAQs
         </h2>
 
-        <div className="flex flex-col lg:flex-row lg:justify-between">
+        <div className="flex flex-col lg:flex-row lg:justify-between gap-5">
           {/* FAQ menus */}
           <div className="w-full lg:w-[288px] mb-6 lg:mb-0">
             <div className="flex flex-row justify-between border-b border-b-white-gray lg:flex-col lg:bg-white lg:border-t lg:border-t-white-gray lg:shadow-md shadow-white-gray">
@@ -57,25 +57,25 @@ const FaqPage = () => {
           </div>
 
           {/* FAQs */}
-          <div className="w-full lg:w-[912px]">
-            <div className="bg-white border-t border-t-white-gray shadow-md shadow-white-gray">
-              <div className="collapse collapse-plus bg-base-200 border-b border-b-white-gray rounded-none">
-                <input type="radio" name="my-accordion-3" defaultChecked />
+          <div className="w-full relative">
+            <div className="bg-white border-t border-t-white-gray shadow-md shadow-white-gray relative">
+              <div className="collapse collapse-plus bg-base-200 border-b border-b-white-gray rounded-none relative">
+                <input type="checkbox" name="my-accordion-3" defaultChecked />
                 <div className="collapse-title text-[20px] font-bold font-encode text-secondary">
                   Does your company test on animals?
                 </div>
                 <div className="collapse-content">
                   <p className="text-[18px] font-normal font-encode">
                     Glowthentic has a strong belief that cosmetic animal testing
-                    is not necessary and should be eliminated worldwide. We do not
-                    test on animals and our company is helping to bring about
-                    change in countries where animal testing is conducted on
-                    cosmetics as required by law.
+                    is not necessary and should be eliminated worldwide. We do
+                    not test on animals and our company is helping to bring
+                    about change in countries where animal testing is conducted
+                    on cosmetics as required by law.
                   </p>
                 </div>
               </div>
-              <div className="collapse collapse-plus bg-base-200 border-b border-b-white-gray rounded-none">
-                <input type="radio" name="my-accordion-3" />
+              <div className="collapse collapse-plus bg-base-200 border-b border-b-white-gray rounded-none relative">
+                <input type="checkbox" name="my-accordion-3" />
                 <div className="collapse-title text-[20px] font-bold font-encode text-secondary">
                   What is your return policy?
                 </div>
@@ -83,12 +83,14 @@ const FaqPage = () => {
                   <p className="text-[18px] font-normal font-encode">
                     We offer a 30-day return policy for all unused products in
                     their original packaging. Contact our support team for more
-                    details.
+                    details. not test on animals and our company is helping to
+                    bring about change in countries where animal testing is
+                    conducted on cosmetics as required by law.
                   </p>
                 </div>
               </div>
-              <div className="collapse collapse-plus bg-base-200 border-b border-b-white-gray rounded-none">
-                <input type="radio" name="my-accordion-3" />
+              <div className="collapse collapse-plus bg-base-200 border-b border-b-white-gray rounded-none relative">
+                <input type="checkbox" name="my-accordion-3" />
                 <div className="collapse-title text-[20px] font-bold font-encode text-secondary">
                   How can I track my order?
                 </div>
@@ -96,6 +98,10 @@ const FaqPage = () => {
                   <p className="text-[18px] font-normal font-encode">
                     You can track your order using the tracking link provided in
                     your email or by logging into your account on our website.
+                    their original packaging. Contact our support team for more
+                    details. not test on animals and our company is helping to
+                    bring about change in countries where animal testing is
+                    conducted on cosmetics as required by law.
                   </p>
                 </div>
               </div>

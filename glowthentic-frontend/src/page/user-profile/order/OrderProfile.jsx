@@ -1,0 +1,39 @@
+import CommonTitle from "../../../components/user-profile/CommonTitle";
+import { NavLink, Outlet } from "react-router-dom";
+
+const OrderProfile = () => {
+  return (
+    <div className="px-2 md:w-[600px] mx-auto">
+      <CommonTitle title={"My Orders"} />
+
+      <nav className="flex space-x-4">
+        <NavLink
+          to="ongoing"
+          className={({ isActive }) =>
+            isActive
+              ? "text-md md:text-lg font-bold font-encode border-b-2 border-dark text-dark py-2"
+              : "text-md md:text-lg font-bold font-encode text-gray border-b-2 border-transparent py-2"
+          }
+        >
+          Ongoing
+        </NavLink>
+        <NavLink
+          to="history"
+          className={({ isActive }) =>
+            isActive
+              ? "text-md md:text-lg font-bold font-encode border-b-2 border-dark text-dark py-2"
+              : "text-md md:text-lg font-bold font-encode text-gray border-b-2 border-transparent py-2"
+          }
+        >
+          History
+        </NavLink>
+      </nav>
+
+      <div>
+        <Outlet />
+      </div>
+    </div>
+  );
+};
+
+export default OrderProfile;
