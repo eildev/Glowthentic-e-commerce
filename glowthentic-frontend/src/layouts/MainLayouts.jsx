@@ -26,10 +26,10 @@ const MainLayouts = () => {
       {/* {isLoading && <Loading />} */}
       <RedirectTop />
       <div className="fixed top-0 left-0 w-full z-50">
-        {/*--------- Header -----------*/}
+        {/*--------- Header -----------*/} 
         <Header setShowMobileMenu={setShowMobileMenu} />
         {/*--------- Navbar -----------*/}
-        <Navbar showMobileMenu={showMobileMenu} />
+        <Navbar showMobileMenu={showMobileMenu} />       
       </div>
       <div className="mt-[81px] lg:mt-[185px] xl:mt-[160px]">
         {/*--------- Outlet -----------*/}

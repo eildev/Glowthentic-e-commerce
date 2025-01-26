@@ -16,7 +16,6 @@ const HomePage = () => {
         <BannerSection />
         {/*--------- Banner Section -----------*/}
         <LatestBannerSection />
-
         <CategorySection />
         <TagSection />
         <div className="my-10 lg:my-20">
