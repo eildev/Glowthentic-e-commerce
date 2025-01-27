@@ -8,7 +8,7 @@ const EditAccount = () => {
 
       <form>
         {/* Avatar Upload */}
-        <div className="w-24 h-24 md:w-32 md:h-32 mx-auto my-4 rounded-full">
+        <div className="w-24 h-24 lg:w-32 lg:h-32 mx-auto my-4 rounded-full">
           <img
             className="w-full h-full rounded-full object-cover"
             src={avatar}
@@ -52,7 +52,7 @@ const EditAccount = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="my-4">
             <label className="block text-xl text-dark font-normal font-encode mb-2">
               Country
@@ -132,7 +132,7 @@ const EditAccount = () => {
 
         <button
           type="submit"
-          className="block w-full px-6 py-4 md:px-8 md:py-6 rounded-md text-lg font-normal font-encode text-white bg-secondary hover:bg-secondary-dark transition"
+          className="block w-full px-6 py-4 lg:px-8 lg:py-6 rounded-md text-lg font-normal font-encode text-white bg-secondary hover:bg-secondary-dark transition"
         >
           Save Changes
         </button>

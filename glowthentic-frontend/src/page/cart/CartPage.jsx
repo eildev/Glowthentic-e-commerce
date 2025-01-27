@@ -1,4 +1,5 @@
 import Container from "../../components/Container";
+import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import Checkbox from "../../components/typography/Checkbox";
 import HeadTitle from "../../components/typography/HeadTitle";
 import IncrementDecrement from "../../components/typography/IncrementDecrement";
@@ -7,12 +8,17 @@ import RegularButton from "../../components/typography/RegularButton";
 const CartPage = () => {
   return (
     <div className="py-10">
+      <DynamicHelmet title="Cart Page" />
       <Container>
         <div className="grid lg:grid-cols-3 gap-4">
           <div className="grid bg-white p-5 lg:col-span-2">
             <div className="flex justify-between">
-              <HeadTitle className="bg-white p-5 font-medium">My Shoping Cart</HeadTitle>
-              <a href="#" className="text-secondary">Remove all</a>
+              <HeadTitle className="bg-white p-5 font-medium">
+                My Shoping Cart
+              </HeadTitle>
+              <a href="#" className="text-secondary">
+                Remove all
+              </a>
             </div>
             <div className="overflow-x-auto">
               <table className="table ">
@@ -108,7 +114,9 @@ const CartPage = () => {
 
             <div className="card bg-base-100  shadow-sm rounded-[5px]">
               <div className="card-body">
-                <h2 className="card-title font-medium border-b border-gray py-2">Cart Total</h2>
+                <h2 className="card-title font-medium border-b border-gray py-2">
+                  Cart Total
+                </h2>
                 <div className="py-3">
                   <input
                     id="phone"

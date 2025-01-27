@@ -1,4 +1,5 @@
 import Container from "../../components/Container";
+import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import Checkbox from "../../components/typography/Checkbox";
 import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
@@ -7,6 +8,7 @@ import RoundedIcon from "../../components/typography/RoundedIcon";
 const WishlistPage = () => {
   return (
     <div className="py-10">
+      <DynamicHelmet title="Wishlist Page" />
       <Container>
         <div className="bg-white p-5">
           <HeadTitle className="bg-white p-5">Wishlist</HeadTitle>

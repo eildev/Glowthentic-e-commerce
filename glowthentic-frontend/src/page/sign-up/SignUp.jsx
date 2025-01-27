@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import RegularButton from "../../components/typography/RegularButton";
 import { Link } from "react-router-dom";
 import Checkbox from "../../components/typography/Checkbox";
+import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -16,6 +17,7 @@ const SignUp = () => {
   };
   return (
     <div>
+      <DynamicHelmet title="Sign Up" />
       <DynamicForm title="Sign Up" handleForm={signUpHandleData}>
         {/*-------------Children Start ------------ */}
         <p className="mb-6 text-gray-500 text-center">

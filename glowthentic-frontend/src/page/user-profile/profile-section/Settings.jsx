@@ -2,7 +2,7 @@ import CommonTitle from "../../../components/user-profile/CommonTitle";
 
 const Settings = () => {
   return (
-    <div className="px-2 md:w-[600px] mx-auto">
+    <div className="px-2 w-full mx-auto">
       <CommonTitle title={"Account Settings"} />
 
       <div>
