@@ -20,20 +20,20 @@ const ContactUs = () => {
             <Breadcrumb>
               <li>Contact Us</li>
             </Breadcrumb>
-            <h2 className="text-[24px] lg:text-3xl font-bold text-dark font-encode my-4">
+            <h2 className="text-lg lg:text-3xl font-bold text-dark my-4">
               Contact Us
             </h2>
-            <p className="text-sm lg:text-lg font-normal text-dark font-encode">
+            <p className="text-sm lg:text-lg font-normal text-dark">
               Beautya Client Service Center is happy to help you with any
               questions you may have regarding our products and corporate
               information.
             </p>
-            <p className="text-sm lg:text-lg font-normal text-dark font-encode my-2">
+            <p className="text-sm lg:text-lg font-normal text-dark my-2">
               Contact us by phone: 1-802-526-2463 Monday to Friday, 9am to 9pm,
               and Saturday-Sunday, 9am to 6pm or <br /> fill in the form below
               to send us an email.
             </p>
-            <p className="text-xs lg:text-sm font-normal text-gray font-encode">
+            <p className="text-xs lg:text-sm font-normal text-gray">
               Please fill in this form to send us your inquiry. Well be more
               than happy to help and will reply to you as soon as possible.
             </p>
