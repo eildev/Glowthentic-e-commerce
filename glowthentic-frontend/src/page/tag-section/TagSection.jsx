@@ -54,31 +54,30 @@ const tags = [
 ];
 
 const TagSection = () => {
-    return (
-       <div>
-         <HeadTitle className="text-center mt-8">CARE BY CONCERN</HeadTitle>
+  return (
+    <div>
+      <HeadTitle className="text-center mt-8">CARE BY CONCERN</HeadTitle>
       <Container>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-6">
-      
           {tags.map((tags, index) => (
-         
-            <div key={index} className=" lg:px-16 px-5 md:px-10  items-center justify-center">
+            <div
+              key={index}
+              className=" lg:px-16 px-5 md:px-10  items-center justify-center"
+            >
               <img
-                src={images}  
+                src={images}
                 alt={tags.name}
                 className="w-full  object-cover rounded"
               />
-              <h3 className="text-sm text-gray-600 mt-2 text-center">{tags.name}</h3>
+              <h3 className="text-sm text-gray-600 mt-2 text-center">
+                {tags.name}
+              </h3>
             </div>
-          
           ))}
-            
         </div>
       </Container>
-       </div>
-    
-
-    );
+    </div>
+  );
 };
 
 export default TagSection;
