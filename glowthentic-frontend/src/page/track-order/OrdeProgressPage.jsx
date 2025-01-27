@@ -7,6 +7,7 @@ import imageTruck from "../../assets/img/order-track/order-progress/truck.png";
 import RegularButton from "../../components/typography/RegularButton";
 import HeadTitle from "../../components/typography/HeadTitle";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import ProgressProductTitle from "../../components/track-order/order-progress/ProgressProductTitle";
 
 const OrdeProgressPage = () => {
   const items = [
@@ -42,8 +43,8 @@ const OrdeProgressPage = () => {
     <div>
       <div className="bg-primary h-[250px]"></div>
       <Container>
-        <div className="bg-gray-50  mt-[-150px] px-2">
-          <div className=" bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-gray-50  mt-[-150px] px-2 drop-shadow-sm ">
+          <div className=" bg-white rounded-2xl shadow-md overflow-hidden">
             <div className=" text-secondary flex flex-col items-center justify-center align-middle text-center py-4">
               <img
                 src={imageCart}
@@ -145,46 +146,54 @@ const OrdeProgressPage = () => {
                   {items.map((item, index) => (
                     <div
                       key={index}
-                      className="lg:flex flex  items-center gap-2 lg:gap-4 border-b py-4"
+                      className="lg:flex  flex-col lg:flex-row items-center gap-2 lg:gap-4 border-b py-4"
                     >
+                      <div className="flex  gap-4 lg:gap-0">
                         <img
                           src={item.image}
                           alt={item.title}
                           className="w-16 h-16 object-cover rounded"
                         />
-                      
-                      <div className="w-full">
-                        <div className="lg:flex lg:justify-between">
-                          <HeadTitle className="text-md lg:text-xl">
-                            {item.title}
-                          </HeadTitle>
-                          <p className="text-sm text-gray-500 mt-1">
-                            SM-F721BLVFXID
-                          </p>
+                        <div className="lg:hidden">
+                          <ProgressProductTitle
+                            title={item.title}
+                          ></ProgressProductTitle>
                         </div>
+                      </div>
+
+                      <div className="w-full">
+                        <div className="hidden lg:block">
+                          {" "}
+                          <ProgressProductTitle
+                            title={item.title}
+                          ></ProgressProductTitle>
+                        </div>
+
                         <div className="text-left">
                           <p className="text-sm text-justify text-gray-500 mt-1">
                             {item.description}
                           </p>
                         </div>
                         <div className="flex mt-2 justify-between text-left">
-                          <p className="font-medium text-gray-800">
+                          <p className="font-medium lg:text-md text-sm text-gray-800">
                             Price: <br />{" "}
-                            <span className="font-bold">
+                            <span className="font-bold lg:text-md text-xs">
                               ${item.price.toFixed(2)}
                             </span>
                           </p>
-                          <p className=" font-medium  text-gray-500">
+                          <p className=" font-medium  lg:text-md text-sm text-gray-500">
                             Qty: <br />{" "}
-                            <span className="font-bold">{item.quantity}</span>
+                            <span className="font-bold lg:text-md text-xs">
+                              {item.quantity}
+                            </span>
                           </p>
-                          <p className="font-medium text-gray-800">
+                          <p className="font-medium lg:text-md text-sm text-gray-800">
                             Subtotal: <br />{" "}
-                            <span className="font-bold">
+                            <span className="font-bold lg:text-md text-xs">
                               ${item.subtotal.toFixed(2)}
                             </span>
                           </p>
-                          <RegularButton className="py-0  rounded-xl">
+                          <RegularButton className="py-0 lg:h-11  bg-secondary  border h-8  hover:border-secondary text-white lg:bg-secondary  lg:text-md text-xs rounded-xl">
                             Read More
                           </RegularButton>
                         </div>
@@ -193,27 +202,27 @@ const OrdeProgressPage = () => {
                   ))}
 
                   {/* Order Summary */}
-                  <div className="mt-6 bg-gray-100 p-4 rounded-lg">
+                  <div className="mt-6 bg-gray-100 p-2 rounded-lg">
                     <div className="flex justify-between">
-                      <HeadTitle>Order Summary</HeadTitle>
-                      <HeadTitle>
+                      <HeadTitle className="text-md lg:text-2xl">Order Summary</HeadTitle>
+                      <HeadTitle className="text-md lg:text-xl">
                         Paid with{" "}
-                        <span className="font-normal">Credit Card</span>
+                        <span className="font-normal text-md lg:text-xl">Credit Card</span>
                       </HeadTitle>
                     </div>
 
-                    <p className="py-2">Your order is now confirmed!</p>
+                    <p className="py-2 lg:text-lg text-sm">Your order is now confirmed!</p>
                     <div className="flex justify-between text-sm text-gray-700">
-                      <p>Subtotal:</p>
-                      <p>$1,300.00 USD</p>
+                      <p className="lg:text-lg text-sm">Subtotal:</p>
+                      <p className="lg:text-lg text-sm">$1,300.00 USD</p>
                     </div>
                     <div className="flex justify-between text-sm text-gray-700">
-                      <p>Shipping & Handling:</p>
-                      <p>$5.95 USD</p>
+                      <p className="lg:text-lg text-sm">Shipping & Handling:</p>
+                      <p className="lg:text-lg text-sm">$5.95 USD</p>
                     </div>
                     <div className="flex justify-between text-sm text-gray-700">
-                      <p>Est Sales Tax:</p>
-                      <p>$0.69 USD</p>
+                      <p className="lg:text-lg text-sm">Est Sales Tax:</p>
+                      <p className="lg:text-lg text-sm">$0.69 USD</p>
                     </div>
                     <div className="flex justify-end text-lg mt-4">
                       <p className="px-4">Total(3Item):</p>
@@ -223,7 +232,7 @@ const OrdeProgressPage = () => {
 
                   {/* Order Confirmation */}
                   <div className="mt-6 text-center">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm  text-gray-600">
                       Your order <span className="font-medium">#239483929</span>{" "}
                       has been placed!
                     </p>
@@ -302,50 +311,37 @@ const OrdeProgressPage = () => {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+          {/* Call Us Section */}
+          <div className="mt-6 bg-orange-500 text-white text-center py-4 pyb-0  shadow">
+            <p className="text-sm lg:text-lg">
+              Call us at <span className="font-bold">1-800-748-94200</span> or
+              reply this email
+            </p>
+          </div>
 
-              {/* Call Us Section */}
-              <div className="mt-6 bg-orange-500 text-white text-center py-4 pyb-0  shadow">
-                <p className="text-lg">
-                  Call us at <span className="font-bold">1-800-748-94200</span>{" "}
-                  or reply this email
-                </p>
-              </div>
-
-              {/* Features */}
-              <div className=" mb-5 grid grid-cols-2 md:grid-cols-4  text-center text-[#85888D]">
-                <div className="flex flex-col py-8 border-e-0 border-t-0 border-[#D3D8E3] items-center border p-5">
-                  <img
-                    src={imageCreditCard}
-                    alt="Payment Secured"
-                    className="w-10 mb-2"
-                  />
-                  <p className="text-gray-700">Payment 100% Secured</p>
-                </div>
-                <div className="flex flex-col border border-e-0 border-t-0  py-8 border-[#D3D8E3] items-center p-5">
-                  <img
-                    src={imageclock}
-                    alt="Safe Delivery"
-                    className="w-10 mb-2"
-                  />
-                  <p className="text-gray-700">Guaranteed Safe Delivery</p>
-                </div>
-                <div className="flex flex-col border border-e-0  py-8  border-t-0 border-[#D3D8E3] items-center p-5">
-                  <img
-                    src={imageTruck}
-                    alt="Fast Service"
-                    className="w-10 mb-2"
-                  />
-                  <p className="text-gray-700">Fast Service Delivery</p>
-                </div>
-                <div className="flex flex-col border  border-t-0 py-8 border-[#D3D8E3]  items-center p-5">
-                  <img
-                    src={imageRefresh}
-                    alt="Easy Return"
-                    className="w-10 mb-2"
-                  />
-                  <p className="text-gray-700">100% Easy Return</p>
-                </div>
-              </div>
+          {/* Features */}
+          <div className=" mb-5 grid grid-cols-2 md:grid-cols-4  text-center text-[#85888D]">
+            <div className="flex flex-col py-8 border-e-0 border-t-0 border-[#D3D8E3] items-center border p-5">
+              <img
+                src={imageCreditCard}
+                alt="Payment Secured"
+                className="w-10 mb-2"
+              />
+              <p className="text-gray-700">Payment 100% Secured</p>
+            </div>
+            <div className="flex flex-col border border-e-0 border-t-0  py-8 border-[#D3D8E3] items-center p-5">
+              <img src={imageclock} alt="Safe Delivery" className="w-10 mb-2" />
+              <p className="text-gray-700">Guaranteed Safe Delivery</p>
+            </div>
+            <div className="flex flex-col border border-e-0  py-8  border-t-0 border-[#D3D8E3] items-center p-5">
+              <img src={imageTruck} alt="Fast Service" className="w-10 mb-2" />
+              <p className="text-gray-700">Fast Service Delivery</p>
+            </div>
+            <div className="flex flex-col border  border-t-0 py-8 border-[#D3D8E3]  items-center p-5">
+              <img src={imageRefresh} alt="Easy Return" className="w-10 mb-2" />
+              <p className="text-gray-700">100% Easy Return</p>
             </div>
           </div>
         </div>
