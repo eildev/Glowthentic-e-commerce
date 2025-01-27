@@ -204,25 +204,25 @@ const OrdeProgressPage = () => {
                   {/* Order Summary */}
                   <div className="mt-6 bg-gray-100 p-2 rounded-lg">
                     <div className="flex justify-between">
-                      <HeadTitle>Order Summary</HeadTitle>
-                      <HeadTitle>
+                      <HeadTitle className="text-md lg:text-2xl">Order Summary</HeadTitle>
+                      <HeadTitle className="text-md lg:text-xl">
                         Paid with{" "}
-                        <span className="font-normal">Credit Card</span>
+                        <span className="font-normal text-md lg:text-xl">Credit Card</span>
                       </HeadTitle>
                     </div>
 
-                    <p className="py-2">Your order is now confirmed!</p>
+                    <p className="py-2 lg:text-lg text-sm">Your order is now confirmed!</p>
                     <div className="flex justify-between text-sm text-gray-700">
-                      <p>Subtotal:</p>
-                      <p>$1,300.00 USD</p>
+                      <p className="lg:text-lg text-sm">Subtotal:</p>
+                      <p className="lg:text-lg text-sm">$1,300.00 USD</p>
                     </div>
                     <div className="flex justify-between text-sm text-gray-700">
-                      <p>Shipping & Handling:</p>
-                      <p>$5.95 USD</p>
+                      <p className="lg:text-lg text-sm">Shipping & Handling:</p>
+                      <p className="lg:text-lg text-sm">$5.95 USD</p>
                     </div>
                     <div className="flex justify-between text-sm text-gray-700">
-                      <p>Est Sales Tax:</p>
-                      <p>$0.69 USD</p>
+                      <p className="lg:text-lg text-sm">Est Sales Tax:</p>
+                      <p className="lg:text-lg text-sm">$0.69 USD</p>
                     </div>
                     <div className="flex justify-end text-lg mt-4">
                       <p className="px-4">Total(3Item):</p>
@@ -232,7 +232,7 @@ const OrdeProgressPage = () => {
 
                   {/* Order Confirmation */}
                   <div className="mt-6 text-center">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm  text-gray-600">
                       Your order <span className="font-medium">#239483929</span>{" "}
                       has been placed!
                     </p>
