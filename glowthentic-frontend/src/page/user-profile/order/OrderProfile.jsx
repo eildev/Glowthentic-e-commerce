@@ -3,12 +3,12 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const OrderProfile = () => {
   return (
-    <div className="px-2 md:w-[600px] mx-auto">
+    <div className="px-2 w-full mx-auto">
       <CommonTitle title={"My Orders"} />
 
       <nav className="flex space-x-4">
         <NavLink
-          to="ongoing"
+          to="/user-profile/orders"
           className={({ isActive }) =>
             isActive
               ? "text-md md:text-lg font-bold font-encode border-b-2 border-dark text-dark py-2"
@@ -18,7 +18,7 @@ const OrderProfile = () => {
           Ongoing
         </NavLink>
         <NavLink
-          to="history"
+          to="/user-profile/orders/history"
           className={({ isActive }) =>
             isActive
               ? "text-md md:text-lg font-bold font-encode border-b-2 border-dark text-dark py-2"

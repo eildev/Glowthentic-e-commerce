@@ -6,9 +6,11 @@ import SpecialOffers from "../special-offers/SpecialOffers";
 import HomeSlider from "./HomeSlider";
 import LatestBannerSection from "./LatestBannerSection";
 import TopProductsSection from "./TopProductsSection";
+import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 const HomePage = () => {
   return (
     <div>
+      <DynamicHelmet title="Home page" />
       {/*--------- HomeSlider Section -----------*/}
       <HomeSlider></HomeSlider>
       <Container>

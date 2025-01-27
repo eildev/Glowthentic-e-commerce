@@ -3,6 +3,7 @@ import DynamicForm from "../../components/dynamic-form/DynamicForm";
 import RegularButton from "../../components/typography/RegularButton";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
+import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 
 const NewPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,6 +20,7 @@ const NewPassword = () => {
   };
   return (
     <div>
+      <DynamicHelmet title="New Password" />
       <DynamicForm title="New Password?" handleForm={newPasswordHandleData}>
         <p className="mb-6 text-gray text-center">
           Please create a new password that you don’t use on any other site.

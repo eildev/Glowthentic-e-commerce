@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import DynamicForm from "../../components/dynamic-form/DynamicForm";
 import RegularButton from "../../components/typography/RegularButton";
+import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 
 const PasswordVarification = () => {
   const varificationPasswordHandleData = (data) => {
@@ -8,6 +9,7 @@ const PasswordVarification = () => {
   };
   return (
     <div>
+      <DynamicHelmet title="Verification" />
       <DynamicForm
         title="Verification"
         handleForm={varificationPasswordHandleData}

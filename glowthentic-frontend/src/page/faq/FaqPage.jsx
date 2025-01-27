@@ -1,9 +1,11 @@
 import Container from "../../components/Container";
+import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import Breadcrumb from "../../components/navbar/Breadcrumb";
 
 const FaqPage = () => {
   return (
     <Container>
+      <DynamicHelmet title="Faqs Page" />
       <div className="w-full mx-auto my-10 px-5 lg:px-0">
         {/* Title and description */}
         <div className="mb-8">

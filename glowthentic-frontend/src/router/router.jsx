@@ -128,7 +128,7 @@ const router = createBrowserRouter([
                 element: <OrderOngoing />,
               },
               {
-                path: "order-history",
+                path: "history",
                 element: <OrderHistory />,
               },
             ],

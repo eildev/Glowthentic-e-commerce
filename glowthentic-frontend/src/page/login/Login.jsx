@@ -3,6 +3,7 @@ import DynamicForm from "../../components/dynamic-form/DynamicForm";
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import RegularButton from "../../components/typography/RegularButton";
+import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +16,7 @@ const Login = () => {
   };
   return (
     <div>
+      <DynamicHelmet title="Sign In" />
       <DynamicForm title="Sign in" handleForm={signInHandleData}>
         {/*-------------Children Start ------------ */}
         <p className="mb-6 text-gray-500 text-center">

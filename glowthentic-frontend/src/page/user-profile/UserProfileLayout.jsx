@@ -1,18 +1,21 @@
 import { Outlet } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
+import Container from "../../components/Container";
 
 const UserProfileLayout = () => {
   return (
-    <div className="w-full lg:w-[1224px] mx-auto my-10 px-5 lg:px-0">
-      <div className="flex justify-between">
-        <div className="hidden md:block md:w-[350px]">
-          <ProfileMenu />
-        </div>
-        <div className="w-full md:w-[850px]">
-          <Outlet />
+    <Container>
+      <div className="w-full mx-auto py-10 lg:py-20 px-5 lg:px-0">
+        <div className="flex justify-between gap-5">
+          <div className="hidden lg:block lg:w-[350px]">
+            <ProfileMenu />
+          </div>
+          <div className="w-full">
+            <Outlet />
+          </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
