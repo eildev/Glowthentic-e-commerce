@@ -5,7 +5,7 @@ import SearchBar from "../components/search/SearchBar";
 import { useState } from "react";
 import Logo from "../components/navbar/Logo";
 import CartIcon from "../components/navbar/CartIcon";
-const Header = ({ setShowMobileMenu }) => {
+const Header = ({ setShowMobileMenu, showMobileMenu }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   return (
@@ -20,20 +20,23 @@ const Header = ({ setShowMobileMenu }) => {
               className={`btn btn-ghost lg:hidden`}
               onClick={() => setShowMobileMenu((prev) => !prev)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
+              <div className="transition-transform duration-300 ease-in-out">
+                {showMobileMenu ? (
+                  <Icon
+                    icon="radix-icons:cross-2"
+                    width="24"
+                    height="24"
+                    className="transform rotate-90"
+                  />
+                ) : (
+                  <Icon
+                    icon="ci:menu-alt-04"
+                    width="30"
+                    height="30"
+                    className="transform rotate-0"
+                  />
+                )}
+              </div>
             </div>
             {/*--------- show menu icon on small Device End -----------*/}
 
@@ -58,10 +61,11 @@ const Header = ({ setShowMobileMenu }) => {
 
           {/*--------- Search bar show in small Device  Start -----------*/}
           <div
-            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${showSearchBar
-              ? "opacity-100 visible translate-y-0"
-              : "opacity-0 invisible -translate-y-5"
-              }`}
+            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${
+              showSearchBar
+                ? "opacity-100 visible translate-y-0"
+                : "opacity-0 invisible -translate-y-5"
+            }`}
           >
             <SearchBar className="w-full" />
           </div>

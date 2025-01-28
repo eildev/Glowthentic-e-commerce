@@ -6,7 +6,7 @@ import CartIcon from "../components/navbar/CartIcon";
 const AppBar = () => {
   const cartCount = 10;
   return (
-    <div className="fixed bottom-1 bg-white w-full right-0 lg:hidden rounded-3xl drop-shadow-xl z-20">
+    <div className="fixed bottom-1 bg-white w-full right-0 lg:hidden rounded-3xl drop-shadow-xl border border-secondary z-20">
       <Container>
         <ul className="flex justify-between items-center my-2 mx-5 text-gray-thin">
           <li className="">

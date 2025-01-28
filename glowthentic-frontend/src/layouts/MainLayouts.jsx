@@ -29,7 +29,10 @@ const MainLayouts = () => {
         <RedirectTop />
         <div className="fixed top-0 left-0 w-full z-50">
           {/*--------- Header -----------*/}
-          <Header setShowMobileMenu={setShowMobileMenu} />
+          <Header
+            setShowMobileMenu={setShowMobileMenu}
+            showMobileMenu={showMobileMenu}
+          />
           {/*--------- Navbar -----------*/}
           <Navbar showMobileMenu={showMobileMenu} />
         </div>
