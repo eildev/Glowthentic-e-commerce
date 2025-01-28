@@ -3,6 +3,7 @@ import SuggestionProduct from "./SuggestionProduct";
 import cn from "../../utils/cn";
 import { Icon } from "@iconify/react";
 import { useSearchProductsQuery } from "../../redux/features/api/product-api/productApi";
+
 // Skeleton loader for product items
 const ProductItemSkeleton = () => (
   <div className="flex w-full flex-col gap-4  mt-2 mx-4">
@@ -101,7 +102,7 @@ const SearchBar = ({ className }) => {
             )}
 
             {data?.products?.length > 0 && (
-              <ul className="absolute left-0 right-0 pt-5 text-black bg-white rounded-b-xl max-h-[600px] overflow-y-scroll">
+              <ul className="absolute left-0 right-0 pt-5 text-black bg-white rounded-b-xl max-h-[600px] overflow-y-scroll ">
                 {data.products.map((item, index) => (
                   <li
                     key={index}
