@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import SubMenuItems from "./SubMenuItems";
 
-const MenuForSmallDevice = ({ menu, index }) => {
+const MenuForSmallDevice = ({ category, menu, setMenu, index }) => {
   return (
     <>
       {/* submenu  */}

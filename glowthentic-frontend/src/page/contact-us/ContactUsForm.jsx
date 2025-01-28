@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 
 const ContactUsForm = () => {
     return (
-        <div className="bg-white lg:border lg:border-gray-light lg:shadow-lg px-4 lg:py-5 lg:px-12">
+        <div className="bg-white lg:border lg:border-gray-light lg:shadow-lg px-5 lg:py-10 py-5 lg:px-12">
             <div className="hidden lg:flex items-center text-secondary font-bold text-base lg:text-lg font-encode mb-4">
                 <Icon icon="mdi-light:email" />
                 <span className="ml-2">Write Us</span>
@@ -16,7 +16,7 @@ const ContactUsForm = () => {
                         Your Information
                     </h3>
                     <input
-                        className="outline-none border-b border-b-gray w-full h-[48px] lg:h-[56px] text-md lg:text-xl text-gray font-encode px-4 mb-4"
+                        className="outline-none border-b border-b-gray w-full h-[48px] lg:h-[56px] text-md lg:text-xl text-gray font-encode font-light px-4 mb-4"
                         type="text"
                         placeholder="Title"
                     />
@@ -43,8 +43,7 @@ const ContactUsForm = () => {
                         />
                         <input
                             className="outline-none border-b border-b-gray w-full lg:w-[48%] h-[48px] lg:h-[56px] text-md lg:text-xl text-gray font-encode px-4"
-                            type="text"
-                            name="phone"
+                               name="phone"
                             placeholder="Phone Number"
                         />
                     </div>

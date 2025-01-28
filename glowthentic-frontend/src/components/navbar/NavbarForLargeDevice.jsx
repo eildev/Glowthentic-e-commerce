@@ -4,31 +4,31 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import MegaMenu from "./MegaMenu";
 
-const NavbarForLargeDevice = ({category}) => {
+const NavbarForLargeDevice = ({ category }) => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
-  
 
   // console.log(category);
 
   return (
     <>
-      <div
-        className="hidden lg:block h-[72px] bg-primary text-white py-5"
-      >
+      <div className="hidden lg:block h-[72px] bg-primary text-white py-5">
         <Container>
           <div className="flex justify-between items-center gap-2">
+            {/* category data fetch  */}
             {category.map((data, index) => (
               <div
                 key={index}
                 onMouseEnter={() => setHoveredCategory(index)}
                 onMouseLeave={() => setHoveredCategory(null)}
               >
+                {/* dynamic link passes  */}
                 <Link
                   to="/products"
-                  className={`flex items-center gap-1 hover:text-secondary ${data.isButton
-                    ? "bg-white px-4 py-1 text-black rounded-2xl font-medium"
-                    : ""
-                    }`}
+                  className={`flex items-center gap-1 hover:text-secondary ${
+                    data.isButton
+                      ? "bg-white px-4 py-1 text-black rounded-2xl font-medium"
+                      : ""
+                  }`}
                 >
                   {data.name ?? ""}
                   <Icon
@@ -37,19 +37,16 @@ const NavbarForLargeDevice = ({category}) => {
                     width="24"
                     height="24"
                   />
-                   {/* <Icon
-                    className={`${data.isButton ? "hidden" : "block"} ${hoveredCategory === index ? 'rotate-' : ''}`}
-                    icon="ep:arrow-right"
-                    width="24"
-                    height="24"
-                  /> */}
                 </Link>
-                <MegaMenu showMegaMenu={hoveredCategory === index} data={data} />
+                {/* megaMenu  Start Here */}
+                <MegaMenu
+                  showMegaMenu={hoveredCategory === index}
+                  data={data}
+                />
               </div>
             ))}
           </div>
         </Container>
-
       </div>
     </>
   );
