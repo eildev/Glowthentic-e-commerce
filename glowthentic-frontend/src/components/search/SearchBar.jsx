@@ -2,10 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import SuggestionProduct from "./SuggestionProduct";
 import cn from "../../utils/cn";
 import { Icon } from "@iconify/react";
-import {
-  useSearchProductsQuery,
-} from "../../redux/features/api/product-api/productApi";
-
+import { useSearchProductsQuery } from "../../redux/features/api/product-api/productApi";
+// Skeleton loader for product items
+const ProductItemSkeleton = () => (
+  <div className="flex w-full flex-col gap-4  mt-2 mx-4">
+    <div className="flex items-center gap-4">
+      <div className="skeleton h-16 bg-[#0f12281a] w-16 shrink-0 "></div>
+      <div className="flex flex-col w-full gap-4">
+        <div className="skeleton bg-[#0f12281a] h-4 w-60"></div>
+        <div className="skeleton bg-[#0f12281a] h-4 w-40"></div>
+      </div>
+    </div>
+  </div>
+);
 const SearchBar = ({ className }) => {
   const [query, setQuery] = useState(""); // Search query
   const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false); // Toggle suggestions visibility
@@ -73,10 +82,26 @@ const SearchBar = ({ className }) => {
         {/* Search Show Text */}
         {isSuggestionsVisible && (
           <div className="relative z-30 -top-4 drop-shadow-xl">
-            {isLoading && <p>Loading...</p>}
+            {isLoading && (
+              <div className="absolute left-0 right-0 pt-5 text-black bg-white rounded-b-xl">
+                {/* Show multiple skeletons for product items */}
+                {[...Array(8)].map((_, index) => (
+                  <ProductItemSkeleton key={index} />
+                ))}
+              </div>
+            )}
             {error && <p>Error loading suggestions</p>}
+            {!isLoading && !error && data?.products?.length === 0 && (
+             <ul className="absolute left-0 right-0 flex items-center justify-center text-center pt-5 text-black bg-white rounded-b-xl max-h-screen overflow-y-scroll">
+             <li className="px-4 py-2 font-bold text-gray-500 flex items-center">
+               No results found.
+             </li>
+           </ul>
+           
+            )}
+
             {data?.products?.length > 0 && (
-              <ul className="absolute left-0 right-0 pt-5 text-black bg-white rounded-b-xl max-h-screen overflow-y-scroll">
+              <ul className="absolute left-0 right-0 pt-5 text-black bg-white rounded-b-xl max-h-[600px] overflow-y-scroll">
                 {data.products.map((item, index) => (
                   <li
                     key={index}
