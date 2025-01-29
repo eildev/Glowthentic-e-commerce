@@ -3,10 +3,10 @@
     <div class="sidebar-header">
         <a href="{{ route('admin.dashboard') }}" class="d-flex">
             <div>
-                <img src="{{ asset('backend') }}/assets/images/logo.svg" class="logo-icon" alt="logo icon">
+                {{-- <img src="{{ asset('backend') }}/assets/images/logo.svg" class="logo-icon" alt="logo icon"> --}}
             </div>
             <div>
-                <h4 class="logo-text">Sobrokom</h4>
+                <h4 class="logo-text">Glowthentic</h4>
             </div>
         </a>
         <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
@@ -78,7 +78,8 @@
 
                         <li> <a href="{{ route('purchase') }}"><i class="bx bx-right-arrow-alt"></i>Add Purchase</a>
                         </li>
-                        <li> <a href="{{ route('purchase.view') }}"><i class="bx bx-right-arrow-alt"></i>Manage  Purchase</a>
+                        <li> <a href="{{ route('purchase.view') }}"><i class="bx bx-right-arrow-alt"></i>Manage
+                                Purchase</a>
                         </li>
                     </ul>
                 </li>
@@ -159,7 +160,7 @@
             </ul>
         </li>
 
-         <li>
+        <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon">
                     <i class='bx bx-message-rounded-dots'></i>
@@ -181,7 +182,8 @@
                 <div class="parent-icon">
                     <i class="fas fa-bell"></i>
                 </div>
-                <div class="menu-title">Order <span class="
+                <div class="menu-title">Order <span
+                        class="
                     badge bg-primary">{{ $new_orders ?? '' }}</span></div>
             </a>
             <ul>
@@ -216,212 +218,219 @@
                 </li>
             </ul>
         </li>
-        @if(Auth::user()->email != 'asad@sobrokom.store')
-        {{-- popup menu  --}}
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class='bx bx-message-rounded-dots'></i>
-                </div>
-                <div class="menu-title">Popup Message</div>
-            </a>
-            <ul>
+        @if (Auth::user()->email != 'asad@sobrokom.store')
+            {{-- popup menu  --}}
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-message-rounded-dots'></i>
+                    </div>
+                    <div class="menu-title">Popup Message</div>
+                </a>
+                <ul>
 
-                <li> <a href="{{ route('popupMessage') }}"><i class="bx bx-right-arrow-alt"></i>Add Popup Message</a>
-                </li>
-                <li> <a href="{{ route('popupMessage.view') }}"><i class="bx bx-right-arrow-alt"></i>Manage Popup
-                        Message</a>
-                </li>
-            </ul>
-        </li>
-        {{-- Home Banner menu  --}}
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class='bx bx-image-alt'></i>
-                </div>
-                <div class="menu-title">Home Banner</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('banner') }}"><i class="bx bx-right-arrow-alt"></i>Add Banner</a>
-                </li>
-                <li> <a href="{{ route('banner.view') }}"><i class="bx bx-right-arrow-alt"></i>Manage Banner</a>
-                </li>
-            </ul>
-        </li>
-        {{-- Offer Banner menu  --}}
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class='bx bx-image-alt'></i>
-                </div>
-                <div class="menu-title">Offer Banner </div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('offerbanner') }}"><i class="bx bx-right-arrow-alt"></i>Add Banner</a>
-                </li>
-                <li> <a href="{{ route('offerbanner.view') }}"><i class="bx bx-right-arrow-alt"></i>Manage Banner</a>
-                </li>
-            </ul>
-        </li>
-        {{-- Subscriber list  --}}
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="menu-title">Subscriber <span class="
-                    badge bg-primary">{{ $subscribers  ?? '' }}</span></div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('subscribe.view') }}"><i class="bx bx-right-arrow-alt"></i>Subscriber list</a>
-                </li>
-            </ul>
-        </li>
-        {{-- Coupon --}}
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="menu-title">Global Coupon</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('global.coupon') }}"><i class="bx bx-right-arrow-alt"></i>Add Global
-                        Coupon</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="menu-title">Stock Management</div>
-            </a>
-            <ul>
-                <li>
-                    <a href="{{ route('stock.view') }}"><i class="bx bx-right-arrow-alt"></i>View Stock</a>
-                </li>
-            </ul>
-        </li>
-        {{-- //Manege Blog Start --}}
-        <li>
-            <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class="fab fa-blogger"></i>
-                </div>
-                <div class="menu-title">Manage Blog</div>
-            </a>
-            <ul class="mm-collapse">
-                {{-- //Blog Category --}}
-                <li>
-                    <a href="javascript:;" class="has-arrow">
-                        <div class="parent-icon">
-                            <i class="fab fa-slack"></i>
-                        </div>
-                        <div class="menu-title">Blog Category</div>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="{{ route('blog.category.view') }}"><i class="bx bx-right-arrow-alt"></i>Add Blog
-                                Category</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('blog.all.category.view') }}"><i
-                                    class="bx bx-right-arrow-alt"></i>Manage Blog
-                                Category</a>
-                        </li>
-                    </ul>
-                </li>
+                    <li> <a href="{{ route('popupMessage') }}"><i class="bx bx-right-arrow-alt"></i>Add Popup
+                            Message</a>
+                    </li>
+                    <li> <a href="{{ route('popupMessage.view') }}"><i class="bx bx-right-arrow-alt"></i>Manage Popup
+                            Message</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- Home Banner menu  --}}
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-image-alt'></i>
+                    </div>
+                    <div class="menu-title">Home Banner</div>
+                </a>
+                <ul>
+                    <li> <a href="{{ route('banner') }}"><i class="bx bx-right-arrow-alt"></i>Add Banner</a>
+                    </li>
+                    <li> <a href="{{ route('banner.view') }}"><i class="bx bx-right-arrow-alt"></i>Manage Banner</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- Offer Banner menu  --}}
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-image-alt'></i>
+                    </div>
+                    <div class="menu-title">Offer Banner </div>
+                </a>
+                <ul>
+                    <li> <a href="{{ route('offerbanner') }}"><i class="bx bx-right-arrow-alt"></i>Add Banner</a>
+                    </li>
+                    <li> <a href="{{ route('offerbanner.view') }}"><i class="bx bx-right-arrow-alt"></i>Manage
+                            Banner</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- Subscriber list  --}}
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="menu-title">Subscriber <span
+                            class="
+                    badge bg-primary">{{ $subscribers ?? '' }}</span></div>
+                </a>
+                <ul>
+                    <li> <a href="{{ route('subscribe.view') }}"><i class="bx bx-right-arrow-alt"></i>Subscriber
+                            list</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- Coupon --}}
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="menu-title">Global Coupon</div>
+                </a>
+                <ul>
+                    <li> <a href="{{ route('global.coupon') }}"><i class="bx bx-right-arrow-alt"></i>Add Global
+                            Coupon</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="menu-title">Stock Management</div>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{ route('stock.view') }}"><i class="bx bx-right-arrow-alt"></i>View Stock</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- //Manege Blog Start --}}
+            <li>
+                <a class="has-arrow" href="javascript:;">
+                    <div class="parent-icon"><i class="fab fa-blogger"></i>
+                    </div>
+                    <div class="menu-title">Manage Blog</div>
+                </a>
+                <ul class="mm-collapse">
+                    {{-- //Blog Category --}}
+                    <li>
+                        <a href="javascript:;" class="has-arrow">
+                            <div class="parent-icon">
+                                <i class="fab fa-slack"></i>
+                            </div>
+                            <div class="menu-title">Blog Category</div>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{ route('blog.category.view') }}"><i class="bx bx-right-arrow-alt"></i>Add
+                                    Blog
+                                    Category</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('blog.all.category.view') }}"><i
+                                        class="bx bx-right-arrow-alt"></i>Manage Blog
+                                    Category</a>
+                            </li>
+                        </ul>
+                    </li>
 
-                {{-- //Blog post --}}
-                <li>
-                    <a href="javascript:;" class="has-arrow">
-                        <div class="parent-icon">
-                            <i class="fas fa-blog"></i>
-                        </div>
-                        <div class="menu-title">Blog Post</div>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="{{ route('blog.post.add.view') }}"><i class="bx bx-right-arrow-alt"></i>Add
-                                Blog</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('blog.all.post.view') }}"><i class="bx bx-right-arrow-alt"></i>Manage
-                                Blog</a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- //Blog Comment --}}
-                <li>
-                    <a href="javascript:;" class="has-arrow">
-                        <div class="parent-icon">
-                            <i class="far fa-comment"></i>
-                        </div>
-                        <div class="menu-title">Blog Comment</div>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="{{ route('blog.all.pending.comment') }}"><i
-                                    class="bx bx-right-arrow-alt"></i>Pending
-                                Comment</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('blog.all.approved.comment') }}"><i
-                                    class="bx bx-right-arrow-alt"></i>Approve
-                                Comment</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        {{-- //Blog Manage End --}}
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="menu-title">Contact Messages</div>
-            </a>
-            <ul>
-                <li>
-                    <a href="{{ route('contact-message.show') }}"><i class="bx bx-right-arrow-alt"></i>View New
-                        Message</a>
-                </li>
+                    {{-- //Blog post --}}
+                    <li>
+                        <a href="javascript:;" class="has-arrow">
+                            <div class="parent-icon">
+                                <i class="fas fa-blog"></i>
+                            </div>
+                            <div class="menu-title">Blog Post</div>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{ route('blog.post.add.view') }}"><i class="bx bx-right-arrow-alt"></i>Add
+                                    Blog</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('blog.all.post.view') }}"><i
+                                        class="bx bx-right-arrow-alt"></i>Manage
+                                    Blog</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- //Blog Comment --}}
+                    <li>
+                        <a href="javascript:;" class="has-arrow">
+                            <div class="parent-icon">
+                                <i class="far fa-comment"></i>
+                            </div>
+                            <div class="menu-title">Blog Comment</div>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{ route('blog.all.pending.comment') }}"><i
+                                        class="bx bx-right-arrow-alt"></i>Pending
+                                    Comment</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('blog.all.approved.comment') }}"><i
+                                        class="bx bx-right-arrow-alt"></i>Approve
+                                    Comment</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            {{-- //Blog Manage End --}}
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="menu-title">Contact Messages</div>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{ route('contact-message.show') }}"><i class="bx bx-right-arrow-alt"></i>View New
+                            Message</a>
+                    </li>
 
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="menu-title">User Tracker <span class="
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="menu-title">User Tracker <span
+                            class="
                     badge bg-primary">{{ $visitors ?? '' }}</span></div>
-            </a>
-            <ul>
-                <li>
-                    <a href="{{ route('user-tracker.show') }}"><i class="bx bx-right-arrow-alt"></i>View Online
-                        User</a>
-                </li>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{ route('user-tracker.show') }}"><i class="bx bx-right-arrow-alt"></i>View Online
+                            User</a>
+                    </li>
 
-            </ul>
-        </li>
-        {{-- All Users Information --}}
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class='bx bx-user'></i>
-                </div>
-                <div class="menu-title">Users</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('all.users') }}"><i class="bx bx-right-arrow-alt"></i>Manage
-                        Users</a>
-                </li>
-            </ul>
-        </li>
+                </ul>
+            </li>
+            {{-- All Users Information --}}
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-user'></i>
+                    </div>
+                    <div class="menu-title">Users</div>
+                </a>
+                <ul>
+                    <li> <a href="{{ route('all.users') }}"><i class="bx bx-right-arrow-alt"></i>Manage
+                            Users</a>
+                    </li>
+                </ul>
+            </li>
         @endif
         <li>
             <a href="javascript:;" class="has-arrow">
