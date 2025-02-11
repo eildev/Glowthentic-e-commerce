@@ -28,6 +28,7 @@ import OrderOngoing from "../page/user-profile/order/order-section/OrderOngoing"
 import OrderHistory from "../page/user-profile/order/order-section/OrderHistory";
 import ProfileMenu from "../page/user-profile/ProfileMenu";
 
+
 // const ErrorBoundary = ({ error }) => {
 //   console.error("Error caught:", error);
 //   return <Page404 />;
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
         path: "/products-details", // Dynamic route with :title
         element: <ProductDetails />,
       },
+    
       {
         path: "/wishlist",
         element: <WishlistPage />,
