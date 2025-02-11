@@ -43,7 +43,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
     {{-- main jquery file --}}
     <script src="{{ asset('backend') }}/assets/js/jquery.min.js"></script>
-    <title>Sobrokom Control Panel</title>
+    <title>Glowthentic Control Panel</title>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -135,7 +135,7 @@
     {{-- Jquery data table  --}}
     <script src="{{ asset('backend') }}/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('backend') }}/assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
-    
+
 
     <script src="{{ asset('backend') }}/assets/plugins/select2/js/select2.min.js"></script>
     <script src="{{ asset('backend') }}/assets/plugins/select2/js/select2.custom.js"></script>
@@ -193,7 +193,7 @@
     <script src="{{ asset('backend') }}/assets/js/app.js"></script>
 
     <script>
-        //  image onload event 
+        //  image onload event
         $(document).ready(function() {
             $('#image').change(function() {
                 const file = this.files[0];
@@ -221,7 +221,7 @@
             });
         });
 
-        // multiImage 
+        // multiImage
         $(document).ready(function() {
             $('#imageGallery').change(function() {
                 const files = this.files;
@@ -585,7 +585,7 @@
 
 
 
-        // purchase calculation function 
+        // purchase calculation function
         function calculation() {
             let unitPrice = parseFloat(document.querySelector('#unit_price').value) || 0;
             let quantity = parseFloat(document.querySelector('#quantity').value) || 0;
