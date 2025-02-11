@@ -57,7 +57,7 @@ const ProductDetails = () => {
             </h4>
           </div>
           {/* <---Small Device Right Section End ----> */}
-          {/* Slide */}
+          {/* -----------------------Slide Start----------------------------- */}
           <div className="sm:col-span-7 ">
             <Swiper
               style={{
@@ -94,7 +94,7 @@ const ProductDetails = () => {
               </SwiperSlide>
             </Swiper>
          <div >
-         <Swiper
+             <Swiper
               onSwiper={setThumbsSwiper}
               loop={true}
               spaceBetween={10}
@@ -125,7 +125,8 @@ const ProductDetails = () => {
             </Swiper>
          </div>
           </div>
-          {/* Slide End*/}
+          {/*-------------------------- Slide End----------------------------*/}
+
           {/* ///Right Section // */}
           <div className="sm:col-span-3 p-4 ">
             {/* //show big device small device hidden Start// */}
@@ -519,6 +520,11 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
+        {/* //-------------------------Review Section Start----------------------// */}
+         <div>
+                  
+         </div>
+        {/* //---------------------------Review Section End---------------------------// */}
         {/* //Banner section  big Screen// */}
         <div className="bg-primary my-6 hidden sm:block">
           <div className="grid grid-cols-4 gap-4 p-6 mx-10   text-center">
