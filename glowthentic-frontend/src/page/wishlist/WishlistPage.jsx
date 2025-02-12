@@ -1,15 +1,26 @@
+import { useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+import PreviousPage from "../../components/previous-page/PreviousPage";
 import Checkbox from "../../components/typography/Checkbox";
 import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import RoundedIcon from "../../components/typography/RoundedIcon";
 
 const WishlistPage = () => {
+  const navigate = useNavigate();
   return (
-    <div className="py-10">
+    <div className="md:py-10">
       <DynamicHelmet title="Wishlist Page" />
       <Container>
+      <div className="bg-white p-2 block md:hidden ">
+        <div className="flex justify-between">
+        <button onClick={() => navigate(-1)}><PreviousPage title={"My Cart"}></PreviousPage></button>
+       
+        </div>
+      
+          
+        </div>
         <div className="bg-white p-0">
           <HeadTitle className="bg-white p-5">Wishlist</HeadTitle>
           <div className="overflow-x-auto ">
