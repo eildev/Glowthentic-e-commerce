@@ -11,7 +11,13 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      "/sanctum": {
+        target: "http://127.0.0.1:8000",
+        changeOrigin: true,
+        secure: false,
+      },
     },
+
     host: "0.0.0.0", // This allows access from any network interface
     port: 5173, // Optional: Specify the port if you want to use a specific one
   },

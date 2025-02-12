@@ -17,40 +17,50 @@ const MainLogin = () => {
     const onSubmit = async (data) => {
         dispatch(loginStart());
         try {
-            // Fetch CSRF cookie
-            // Step 1: Fetch CSRF cookie
-        await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-            method: "GET",
-            credentials: "include", // Include cookies
-        });
-            // await fetch("/sanctum/csrf-cookie");
-
-            // Login request
-            const response = await fetch("/api/login", {
+            // Step 1: Fetch CSRF cookie (use absolute URL)
+            const csrfResponse = await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+                method: "GET",
+                credentials: "include", // Allow cookies
+            });
+    
+            // Check if CSRF cookie was set
+            if (!csrfResponse.ok) {
+                throw new Error("Failed to fetch CSRF cookie");
+            }
+    
+            // Step 2: Get CSRF token from cookies
+            const csrfToken = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('XSRF-TOKEN='))
+                ?.split('=')[1];
+    
+            if (!csrfToken) {
+                throw new Error("CSRF token not found in cookies");
+            }
+    
+            // Step 3: Make login request with CSRF token
+            const response = await fetch("http://127.0.0.1:8000/api/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Accept: "application/json",
+                    "Accept": "application/json",
+                    "X-XSRF-TOKEN": decodeURIComponent(csrfToken),
                 },
                 body: JSON.stringify(data),
                 credentials: "include", // Include cookies
             });
-
-            console.log(response);
+    
             const result = await response.json();
-
-        if (response.ok) {
-            console.log("Login successful:", result);
-            // Handle successful login (e.g., redirect to dashboard)
-        } else {
-            console.error("Login failed:", result.message);
-            // Handle login error
-        }
+    
+            if (response.ok) {
+                console.log("Login successful:", result);
+            } else {
+                console.error("Login failed:", result.message);
+            }
         } catch (err) {
-            dispatch(loginFailure("An error occurred"));
+            dispatch(loginFailure(err.message));
         }
     };
-
     return (
         <div>
             {/* <DynamicHelmet title="Sign In" /> */}
