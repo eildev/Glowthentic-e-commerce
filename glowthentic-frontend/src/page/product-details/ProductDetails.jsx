@@ -14,6 +14,7 @@ import "./ProductDetails.css";
 import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import ProductReviews from "./ProductReviews";
 
 const ProductDetails = () => {
   const images = [
@@ -539,7 +540,7 @@ const ProductDetails = () => {
         </div>
         {/* //-------------------------Review Section Start----------------------// */}
         <div>
-
+<ProductReviews images={images}></ProductReviews>
         </div>
         {/* //---------------------------Review Section End---------------------------// */}
         {/* //Banner section  big Screen// */}
