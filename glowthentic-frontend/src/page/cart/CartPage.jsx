@@ -1,20 +1,29 @@
+import { useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+import PreviousPage from "../../components/previous-page/PreviousPage";
 import Checkbox from "../../components/typography/Checkbox";
 import HeadTitle from "../../components/typography/HeadTitle";
 import IncrementDecrement from "../../components/typography/IncrementDecrement";
 import RegularButton from "../../components/typography/RegularButton";
 import { BiEditAlt } from "react-icons/bi";
 
+
 const CartPage = () => {
+  const navigate = useNavigate();
   return (
-    <div className="py-10">
+    <div className="md:py-10">
       <DynamicHelmet title="Cart Page" />
+      <div className="bg-white p-2 block md:hidden">
+      <button onClick={() => navigate(-1)}><PreviousPage title={"My Cart"}></PreviousPage></button>
+          
+        </div>
       <Container>
+        
         <div className="grid lg:grid-cols-3 gap-4">
-          <div className="grid bg-white p-5 lg:col-span-2">
+          <div className="grid  md:bg-white p-5 lg:col-span-2">
             <div className="flex justify-between">
-              <HeadTitle className="bg-white p-5 font-medium text-base md:text-2xl leading-[24px] md:leading-[36px] ">
+              <HeadTitle className="md:bg-white p-5 font-medium text-base md:text-2xl leading-[24px] md:leading-[36px] ">
                 My Shoping Cart
               </HeadTitle>
               <a href="#" className="text-secondary p-5 font-medium 
