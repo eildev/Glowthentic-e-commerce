@@ -67,9 +67,9 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
           <div className="sm:col-span-7 my-[35px]">
-  <div className="flex flex-col sm:flex-row-reverse justify-end gap-6 items-center flex-nowrap">
+  <div className="flex flex-col lg:flex-row-reverse lg:justify-end justify-center gap-6 items-center flex-nowrap">
     {/* Main Slider */}
-    <div className="max-w-full sm:max-w-[704px]">
+    <div className="max-w-full xl:w-[704px] w-[500px] md:h-[605px] h-[350px]">
       <Swiper
         ref={mainSwiperRef}
         spaceBetween={10}
@@ -82,18 +82,18 @@ const ProductDetails = () => {
           disableOnInteraction: false,
         }}
         modules={[Navigation, Thumbs, Autoplay]}
-        className="max-h-[605px] max-w-full sm:max-w-[704px]"
+        className="max-h-[605px] max-w-full lg:max-w-[704px]"
       >
         {images.map((image, index) => (
-          <SwiperSlide key={index} className="max-h-[605px] min-h-[605px]">
-            <img src={image} alt="" className="object-cover max-w-full  min-h-[605px]" />
+          <SwiperSlide key={index} className="max-h-[605px] md:min-h-[605px] min-h-[350px]">
+            <img src={image} alt="" className="object-cover max-w-full  md:min-h-[605px] min-h-[350px]" />
           </SwiperSlide>
         ))}
       </Swiper>
     </div>
 
     {/* Thumbnail Slider (Vertical) */}
-    <div className="sm:min-w-[80px] w-full relative sm:w-[80px]">
+    <div className="sm:min-w-[80px] w-full relative sm:w-[80px]  lg:block hidden">
       <div
         className="w-[80px] h-[32px] flex justify-center items-center border-[#DFDFDF] border bg-white cursor-pointer"
         onClick={() => thumbsSwiper?.slidePrev()}
@@ -117,7 +117,7 @@ const ProductDetails = () => {
         }}
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} 
         modules={[Thumbs, Autoplay]}
-        className="sm:max-w-[80px] w-full"
+        className="max-w-[80px] w-full"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index} className="min-h-[80px] max-w-[80px]">
@@ -140,6 +140,34 @@ const ProductDetails = () => {
         </svg>
       </div>
     </div>
+   <div className="lg:hidden block max-w-full overflow-auto">
+   <Swiper
+        ref={thumbsSwiperRef} 
+        onSwiper={setThumbsSwiper}
+        spaceBetween={24}
+        slidesPerView={6}
+        freeMode
+        watchSlidesProgress
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false, 
+        }}
+        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} 
+        modules={[Thumbs, Autoplay]}
+        className=""
+      >
+        {images.map((image, index) => (
+          <SwiperSlide key={index} className="min-h-[68px] min-w-[68px]">
+            <img
+              src={image}
+              alt=""
+              className={`max-w-[68px] max-h-[68px] min-h-[68px] object-cover cursor-pointer ${activeIndex === index ? 'border-2 border-[#FA8232]' : ''}`}
+              onClick={() => thumbsSwiper?.slideTo(index)} 
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+   </div>
   </div>
 </div>
 
