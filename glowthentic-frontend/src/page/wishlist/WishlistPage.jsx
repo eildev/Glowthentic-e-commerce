@@ -10,26 +10,26 @@ const WishlistPage = () => {
     <div className="py-10">
       <DynamicHelmet title="Wishlist Page" />
       <Container>
-        <div className="bg-white p-5">
+        <div className="bg-white p-0">
           <HeadTitle className="bg-white p-5">Wishlist</HeadTitle>
-          <div className="overflow-x-auto">
-            <table className="table ">
+          <div className="overflow-x-auto ">
+            <table className="table -ml-20">
               {/* head */}
               <thead className="bg-light">
-                <tr className="uppercase border-none">
+                <tr className="uppercase border-none text-[#475156]  font-medium text-xs">
                   <th>
-                    <Checkbox />
+                 
                   </th>
                   <th>Product</th>
                   <th>Price</th>
-                  <th>Action</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {/* row 1 */}
-                <tr className="border-none">
+                <tr className="border-none ">
                   <th>
-                    <Checkbox />
+                    
                   </th>
                   <td>
                     <div className="flex items-center gap-3">
@@ -48,20 +48,26 @@ const WishlistPage = () => {
                     </div>
                   </td>
                   <td>Purple</td>
-                  <td className="flex gap-3 items-center">
-                    <RegularButton className="flex gap-2 uppercase justify-center items-center">
+                  <td className="flex gap-3 justify-between items-center">
+                  <RoundedIcon
+                      className="bg-transparent rounded-none p-2 text-secondary"
+                      iconName="hugeicons:delete-03"
+                    ></RoundedIcon>
+                    <div className="flex items-center gap-4">
+                    <RegularButton className="flex gap-2 font-bold text-[13px] leading-10 uppercase justify-center items-center">
                       Add to Cart
                       <RoundedIcon
                         className="bg-transparent rounded-none p-0"
                         iconName="meteor-icons:cart-shopping"
                       ></RoundedIcon>
                     </RegularButton>
-
-                    <RoundedIcon
-                      className="bg-transparent rounded-none p-2 text-secondary"
-                      iconName="hugeicons:delete-03"
-                    ></RoundedIcon>
+                    <Checkbox />
+                    </div>
+                 
+                   
+                    
                   </td>
+                 
                 </tr>
               </tbody>
               {/* foot */}
