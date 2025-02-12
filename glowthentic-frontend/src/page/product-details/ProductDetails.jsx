@@ -1,5 +1,5 @@
 import Container from "../../components/Container";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -7,7 +7,7 @@ import image from "../../assets/img/homeslider/Hero.png";
 
 import image1 from "../../assets/img/special-offer/13.png";
 import image2 from "../../assets/img/special-offer/14.png";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 import "swiper/css/pagination";
 import "./ProductDetails.css";
@@ -23,7 +23,13 @@ const ProductDetails = () => {
     "https://picsum.photos/400/300",
   ];
 
+  const [activeIndex, setActiveIndex] = useState(0);
+  console.log(activeIndex);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  console.log(thumbsSwiper);
+  const mainSwiperRef = useRef(null);
+  const thumbsSwiperRef = useRef(null);
+
   const [expanded, setExpanded] = useState({
     productDetails: false,
     howToApply: false,
@@ -36,6 +42,7 @@ const ProductDetails = () => {
 
   const truncateText = (text, limit, isExpanded) =>
     isExpanded ? text : `${text.substring(0, limit)}...`;
+  
   return (
     <div>
       <Container>
@@ -58,73 +65,83 @@ const ProductDetails = () => {
           </div>
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
-          <div className="sm:col-span-7 ">
-            <Swiper
-              style={{
-                "--swiper-navigation-color": "#fff",
-                "--swiper-pagination-color": "#fff",
-              }}
-              loop={true}
-              spaceBetween={10}
-              navigation={true}
-              thumbs={{ swiper: thumbsSwiper }}
-              modules={[FreeMode, Navigation, Thumbs]}
-              className="mySwiper2"
-            >
-              <SwiperSlide>
-                <img src={image} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={image1} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={image2} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-              </SwiperSlide>
-            </Swiper>
-         <div >
-             <Swiper
-              onSwiper={setThumbsSwiper}
-              loop={true}
-              spaceBetween={10}
-              slidesPerView={4}
-              freeMode={true}
-              watchSlidesProgress={true}
-              modules={[FreeMode, Navigation, Thumbs]}
-              className="mySwiper mySwiper-image "
-            >
-              <SwiperSlide>
-                <img src={image}   className="w-full h-[300px] object-cover"/>
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={image1}  className="w-full h-[300px] object-cover" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={image2}  className="w-full h-[300px] object-cover" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-4.jpg" className="w-full h-[300px] object-cover" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-5.jpg"  className="w-full h-[300px] object-cover"/>
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="https://swiperjs.com/demos/images/nature-6.jpg"  className="w-full h-[300px] object-cover"/>
-              </SwiperSlide>
-            </Swiper>
-         </div>
-          </div>
+          <div className="sm:col-span-7 my-[35px]">
+  <div className="flex flex-col sm:flex-row-reverse justify-end gap-6 items-center flex-nowrap">
+    {/* Main Slider */}
+    <div className="max-w-full sm:max-w-[704px]">
+      <Swiper
+        ref={mainSwiperRef}
+        spaceBetween={10}
+        slidesPerView={1}
+        navigation
+        thumbs={{ swiper: thumbsSwiper }}
+        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        modules={[Navigation, Thumbs, Autoplay]}
+        className="max-h-[605px] max-w-full sm:max-w-[704px]"
+      >
+        {images.map((image, index) => (
+          <SwiperSlide key={index} className="max-h-[605px] min-h-[605px]">
+            <img src={image} alt="" className="object-cover max-w-full  min-h-[605px]" />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+
+    {/* Thumbnail Slider (Vertical) */}
+    <div className="sm:min-w-[80px] w-full relative sm:w-[80px]">
+      <div
+        className="w-[80px] h-[32px] flex justify-center items-center border-[#DFDFDF] border bg-white cursor-pointer"
+        onClick={() => thumbsSwiper?.slidePrev()}
+      >
+        <svg className="rotate-[180deg]" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.333008 0.666585L6.99967 7.33325L13.6663 0.666585L0.333008 0.666585Z" fill="#0C0C0C" />
+        </svg>
+      </div>
+
+      <Swiper
+        ref={thumbsSwiperRef} 
+        onSwiper={setThumbsSwiper}
+        spaceBetween={24}
+        slidesPerView={5}
+        direction="vertical" 
+        freeMode
+        watchSlidesProgress
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false, 
+        }}
+        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} 
+        modules={[Thumbs, Autoplay]}
+        className="sm:max-w-[80px] w-full"
+      >
+        {images.map((image, index) => (
+          <SwiperSlide key={index} className="min-h-[80px] max-w-[80px]">
+            <img
+              src={image}
+              alt=""
+              className={`w-[80px] max-h-[80px] object-cover cursor-pointer ${activeIndex === index ? 'border-2 border-[#FA8232]' : ''}`}
+              onClick={() => thumbsSwiper?.slideTo(index)} 
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      <div
+        className="next w-[80px] h-[32px] flex justify-center items-center border-[#DFDFDF] border absolute bottom-[-8px] left-0 z-20 bg-white cursor-pointer"
+        onClick={() => thumbsSwiper?.slideNext()}
+      >
+        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.333008 0.666585L6.99967 7.33325L13.6663 0.666585L0.333008 0.666585Z" fill="#0C0C0C" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
           {/*-------------------------- Slide End----------------------------*/}
 
           {/* ///Right Section // */}
@@ -521,9 +538,9 @@ const ProductDetails = () => {
           </div>
         </div>
         {/* //-------------------------Review Section Start----------------------// */}
-         <div>
-                  
-         </div>
+        <div>
+
+        </div>
         {/* //---------------------------Review Section End---------------------------// */}
         {/* //Banner section  big Screen// */}
         <div className="bg-primary my-6 hidden sm:block">
