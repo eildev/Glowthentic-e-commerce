@@ -16,7 +16,7 @@ const CartPage = () => {
   return (
     <div className="md:py-10">
       <DynamicHelmet title="Cart Page" />
-      <div className="flex justify-between px-4 py-2 bg-white">
+      <div className="flex justify-between px-4 py-2 bg-white block md:hidden">
         <button onClick={() => navigate(-1)}><PreviousPage title={"My Cart"}></PreviousPage></button>
         <button onClick={() => isVoucherActive(true)}><h1>Voucer Code</h1></button>
         
@@ -253,7 +253,7 @@ const CartPage = () => {
           voucherActive && (<div onClick={() => isVoucherActive(!voucherActive)}  className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[90]">
           <div className="h-56 w-full bg-white fixed bottom-0 rounded-t-xl px-3 py-5">
             <div className="">
-            <h1 className="text-[#1C1B1B]">Voucher Code</h1>
+            <h1 className="text-[#1C1B1B] ">Voucher Code</h1>
             <input type="text" placeholder="Enter Voucher Code"  className="p-4  border border-[#F4F5FD] rounded-lg mt-4 w-full placeholder:text-xs placeholder:font-normal"/>
             </div>
             <button className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-8">Apply</button>
