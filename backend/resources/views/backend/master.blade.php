@@ -139,7 +139,7 @@
 
     <script src="{{ asset('backend') }}/assets/plugins/select2/js/select2.min.js"></script>
     <script src="{{ asset('backend') }}/assets/plugins/select2/js/select2.custom.js"></script>
-     <script src="{{ asset('backend') }}/assets/js/validation2.min.js"></script>
+    <script src="{{ asset('backend') }}/assets/js/validation2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
