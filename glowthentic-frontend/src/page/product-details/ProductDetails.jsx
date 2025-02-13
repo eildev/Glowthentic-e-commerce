@@ -74,7 +74,10 @@ const ProductDetails = () => {
         ref={mainSwiperRef}
         spaceBetween={10}
         slidesPerView={1}
-        navigation
+        navigation={{
+          nextEl: '.button-next',
+          prevEl: '.button-prev',
+        }}
         thumbs={{ swiper: thumbsSwiper }}
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
         autoplay={{
@@ -95,8 +98,8 @@ const ProductDetails = () => {
     {/* Thumbnail Slider (Vertical) */}
     <div className="sm:min-w-[80px] w-full relative sm:w-[80px]  lg:block hidden">
       <div
-        className="w-[80px] h-[32px] flex justify-center items-center border-[#DFDFDF] border bg-white cursor-pointer"
-        onClick={() => thumbsSwiper?.slidePrev()}
+        className="w-[80px] h-[32px] button-prev flex justify-center items-center border-[#DFDFDF] border bg-white cursor-pointer"
+        // onClick={() => thumbsSwiper?.slidePrev()}
       >
         <svg className="rotate-[180deg]" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0.333008 0.666585L6.99967 7.33325L13.6663 0.666585L0.333008 0.666585Z" fill="#0C0C0C" />
@@ -107,24 +110,24 @@ const ProductDetails = () => {
         ref={thumbsSwiperRef} 
         onSwiper={setThumbsSwiper}
         spaceBetween={24}
-        slidesPerView={5}
-        direction="vertical" 
+        slidesPerView={6}
         freeMode
         watchSlidesProgress
+        direction="vertical"
         autoplay={{
           delay: 3000,
           disableOnInteraction: false, 
         }}
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} 
         modules={[Thumbs, Autoplay]}
-        className="max-w-[80px] w-full"
+        className=""
       >
         {images.map((image, index) => (
-          <SwiperSlide key={index} className="min-h-[80px] max-w-[80px]">
+          <SwiperSlide key={index} className="max-w-[80px] max-h-[80px] min-h-[80px] ">
             <img
               src={image}
               alt=""
-              className={`w-[80px] max-h-[80px] object-cover cursor-pointer ${activeIndex === index ? 'border-2 border-[#FA8232]' : ''}`}
+              className={`max-w-[80px] max-h-[80px] min-h-[80px] object-cover cursor-pointer ${activeIndex === index ? 'border-2 border-[#FA8232]' : ''}`}
               onClick={() => thumbsSwiper?.slideTo(index)} 
             />
           </SwiperSlide>
@@ -132,8 +135,8 @@ const ProductDetails = () => {
       </Swiper>
 
       <div
-        className="next w-[80px] h-[32px] flex justify-center items-center border-[#DFDFDF] border absolute bottom-[-8px] left-0 z-20 bg-white cursor-pointer"
-        onClick={() => thumbsSwiper?.slideNext()}
+        className="button-next w-[80px] h-[32px] flex justify-center items-center border-[#DFDFDF] border absolute bottom-[-8px] left-0 z-20 bg-white cursor-pointer"
+        // onClick={() => thumbsSwiper?.slideNext()}
       >
         <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0.333008 0.666585L6.99967 7.33325L13.6663 0.666585L0.333008 0.666585Z" fill="#0C0C0C" />

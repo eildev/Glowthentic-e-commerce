@@ -33,7 +33,7 @@
 /* Custom styles for Swiper navigation buttons */
 .swiper-button-next,
 .swiper-button-prev {
- display: none !important;;
+ /* display: none !important; */
 }
 
 /* Change the arrow icons using pseudo-elements */
