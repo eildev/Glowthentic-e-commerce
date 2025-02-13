@@ -3,7 +3,7 @@ import image from "../../assets/img/about/Image.png"
 import image1 from "../../assets/img/about/Image-1.png"
 const BuildingBeautySection = () => {
     return (
-        <div className=' flex-1 md:flex items-center relative'>
+        <div className=' grid grid-cols-1 md:grid-cols-2  items-center relative'>
             <div className='relative top-[-200px] translate-y-[50%]'>
                 <img src={image1} alt=""  className='h-[430px] w-[387px] relative z-30'/>
                 <img src={image} alt="" className='h-[450px] w-[332px] relative translate-x-[50%] translate-y-[-70%]' />

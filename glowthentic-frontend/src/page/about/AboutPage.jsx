@@ -61,7 +61,7 @@ const AboutPage = () => {
 
 
        </section>
-       {/* <BuildingBeautySection></BuildingBeautySection> */}
+       <BuildingBeautySection></BuildingBeautySection>
        <BeautyCultureSectoin></BeautyCultureSectoin>
       
       </Container>
