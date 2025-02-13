@@ -2,7 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayouts from "../layouts/MainLayouts";
 import HomePage from "../page/home/HomePage";
 import AboutPage from "../page/about/AboutPage";
-import Login from "../page/login/Login";
+// import Login from "../page/login/Login";
+import MainLogin from "../page/login/MainLogin";
 import SignUp from "../page/sign-up/SignUp";
 import ForgetPassword from "../page/forget-password/ForgetPassword";
 // import Page404 from "../page/error/Page404";
@@ -141,7 +142,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <MainLogin />,
   },
   {
     path: "/sign-up",

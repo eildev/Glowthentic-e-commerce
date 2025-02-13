@@ -13,11 +13,17 @@
     "@reduxjs/toolkit": "^2.5.0",
     "@smastrom/react-rating": "^1.5.0",
     "clsx": "^2.1.1",
+<<<<<<< HEAD
     "pure-react-carousel": "^1.32.0",
+=======
+    "cors": "^2.8.5",
+    "js-cookie": "^3.0.5",
+>>>>>>> ad3ef96ed338da4dfe3fe4e8fd35584ba22ab705
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-form-wizard-component": "^0.2.7",
     "react-helmet-async": "^2.0.5",
+    "react-hook-form": "^7.54.2",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.28.1",
     "swiper": "^11.2.2",
