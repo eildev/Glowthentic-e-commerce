@@ -14,17 +14,20 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id')->unsigned();
-            $table->unsignedBigInteger('subcategory_id')->unsigned();
+            $table->unsignedBigInteger('subcategory_id')->nullable();
             $table->integer('sub_subcategory_id')->nullable();
             $table->unsignedBigInteger('brand_id')->unsigned();
-            $table->string('product_feature');
+            $table->string('product_feature')->nullable();
             $table->string('product_name');
+            $table->string('unit_id')->nullable();
             $table->string('slug', 200);
-            $table->string('short_desc');
-            $table->string('long_desc');
-            $table->string('product_image');
+            $table->bigInteger('created_by')->nullable();
+            // $table->string('short_desc');
+            // $table->string('long_desc');
+
+            // $table->string('product_image');
             $table->string('sku');
-            $table->text('tags');
+            // $table->bigInteger('tag_id')->nullable();
             $table->tinyInteger('status')->default(1);
 
 
@@ -32,10 +35,21 @@ return new class extends Migration
                 ->references('id')
                 ->on('categories')
                 ->onDelete('cascade');
-            $table->foreign('subcategory_id')
-                ->references('id')
-                ->on('subcategories')
-                ->onDelete('cascade');
+
+                // $table->foreign('unit_id')
+                // ->references('id')
+                // ->on('units')
+                // ->onDelete('cascade');
+
+                // $table->foreign('tag_id')
+                // ->references('id')
+                // ->on('product_tags')
+                // ->onDelete('cascade');
+
+            // $table->foreign('subcategory_id')
+            //     ->references('id')
+            //     ->on('categories')
+            //     ->onDelete('cascade');
             $table->foreign('brand_id')
                 ->references('id')
                 ->on('brands')
