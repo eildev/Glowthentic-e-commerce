@@ -14,6 +14,7 @@ import AboutBannerSection from "./AboutBannerSection";
 import BuildingBeautySection from "./BuildingBeautySection";
 import BeautyCultureSectoin from "./BeautyCultureSectoin";
 import NewestUpdate from "./NewestUpdate";
+import AboutBlog from "./AboutBlog";
 
 
 
@@ -63,9 +64,10 @@ const AboutPage = () => {
        </section>
        <BuildingBeautySection></BuildingBeautySection>
        <BeautyCultureSectoin></BeautyCultureSectoin>
-      
+      <AboutBlog></AboutBlog>
       </Container>
       <NewestUpdate></NewestUpdate>
+      
     </div>
   );
 };

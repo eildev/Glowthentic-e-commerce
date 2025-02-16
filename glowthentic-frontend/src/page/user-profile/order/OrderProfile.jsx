@@ -9,6 +9,7 @@ const OrderProfile = () => {
       <nav className="flex space-x-4">
         <NavLink
           to="/user-profile/orders"
+          end
           className={({ isActive }) =>
             isActive
               ? "text-md md:text-lg font-bold font-encode border-b-2 border-dark text-dark py-2"
