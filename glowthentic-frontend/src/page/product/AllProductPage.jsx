@@ -51,8 +51,8 @@ const AllProductPage = () => {
         </div>
       </div>
 
-      <div className="lg:flex lg:gap-5">
-        <div className="hidden lg:block lg:sticky top-0">
+      <div className="lg:flex lg:gap-5 ">
+        <div className="hidden lg:block lg:sticky top-0 ">
           <SidebarFilter ></SidebarFilter>
         </div>
         <AllProduct className="ml-72" />

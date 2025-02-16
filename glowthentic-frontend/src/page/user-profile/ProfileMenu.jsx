@@ -52,14 +52,14 @@ const ProfileMenu = () => {
           <NavLink
             to="/user-profile/orders"
             className={({ isActive }) =>
-              `block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
+              `block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-2 transition-all duration-300 ${
                 isActive
                   ? "bg-secondary-gradient-1 text-secondary px-4 rounded-b-lg transition-all duration-300 ease-in"
                   : ""
               }`
             }
           >
-            <p className="flex items-center justify-between text-md lg:text-xl font-bold font-encode">
+            <p className="flex items-center px-4 justify-between text-md lg:text-xl font-bold font-encode">
               Orders
               <Icon
                 className="w-6 lg:w-8 h-6 lg:h-8 text-gray"
