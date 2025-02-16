@@ -35,9 +35,9 @@ const NewestUpdate = () => {
           type="email"
           placeholder="Your Email"
     
-          className="w-full pl-10 pr-4 py-2 placeholder:text-black border border-[#C3CAD9] rounded-lg text-black font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full pl-10 pr-4 py-[10px] placeholder:text-black border border-[#C3CAD9] rounded-lg text-black font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-         <button  className='bg-[#FA8232] mt-2  rounded-md absolute right-0 top-1 transform -translate-y-1/4'>
+         <button  className='bg-[#FA8232] mt-2  rounded-md absolute right-0 top-1 transform -translate-y-2'>
           <div>
           <h1 className='text-center px-8 py-2 text-white'>Subscribe</h1>
           </div>
