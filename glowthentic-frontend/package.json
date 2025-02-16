@@ -15,6 +15,7 @@
     "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "js-cookie": "^3.0.5",
+    "pure-react-carousel": "^1.32.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-form-wizard-component": "^0.2.7",
@@ -22,7 +23,7 @@
     "react-hook-form": "^7.54.2",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.28.1",
-    "swiper": "^11.2.1",
+    "swiper": "^11.2.3",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
@@ -39,6 +40,7 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "postcss": "^8.4.49",
+    "sass-embedded": "^1.83.4",
     "tailwindcss": "^3.4.17",
     "vite": "^6.0.5"
   }

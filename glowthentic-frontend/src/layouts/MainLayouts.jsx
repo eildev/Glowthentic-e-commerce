@@ -36,7 +36,8 @@ const MainLayouts = () => {
           {/*--------- Navbar -----------*/}
           <Navbar showMobileMenu={showMobileMenu} />
         </div>
-        <div className="mt-[81px] lg:mt-[185px] xl:mt-[160px]">
+        <div className="lg:h-[161px] h-[80px]"></div>
+        <div className="lg:min-h-[calc(100vh-553px)] min-h-[calc(100vh-80px)]">
           {/*--------- Outlet -----------*/}
           <Outlet />
         </div>
