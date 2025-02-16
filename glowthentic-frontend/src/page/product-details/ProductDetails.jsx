@@ -15,6 +15,8 @@ import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ProductReviews from "./ProductReviews";
+import ProductSlider from "./pRODUCTsLIDER.JSX";
+import RecommendedSlider from "./RecommendedSlider";
 
 const ProductDetails = () => {
   const images = [
@@ -67,111 +69,7 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
           <div className="sm:col-span-7 my-[35px]">
-  <div className="flex flex-col lg:flex-row-reverse lg:justify-end justify-center gap-6 items-center flex-nowrap">
-    {/* Main Slider */}
-    <div className="max-w-full xl:w-[704px] w-[500px] md:h-[605px] h-[350px]">
-      <Swiper
-        ref={mainSwiperRef}
-        spaceBetween={10}
-        slidesPerView={1}
-        navigation={{
-          nextEl: '.button-next',
-          prevEl: '.button-prev',
-        }}
-        thumbs={{ swiper: thumbsSwiper }}
-        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        modules={[Navigation, Thumbs, Autoplay]}
-        className="max-h-[605px] max-w-full lg:max-w-[704px]"
-      >
-        {images.map((image, index) => (
-          <SwiperSlide key={index} className="max-h-[605px] md:min-h-[605px] min-h-[350px]">
-            <img src={image} alt="" className="object-cover max-w-full  md:min-h-[605px] min-h-[350px]" />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
-
-    {/* Thumbnail Slider (Vertical) */}
-    <div className="sm:min-w-[80px] w-full relative sm:w-[80px]  lg:block hidden">
-      <div
-        className="w-[80px] h-[32px] button-prev flex justify-center items-center border-[#DFDFDF] border bg-white cursor-pointer"
-        // onClick={() => thumbsSwiper?.slidePrev()}
-      >
-        <svg className="rotate-[180deg]" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0.333008 0.666585L6.99967 7.33325L13.6663 0.666585L0.333008 0.666585Z" fill="#0C0C0C" />
-        </svg>
-      </div>
-
-      <Swiper
-        ref={thumbsSwiperRef} 
-        onSwiper={setThumbsSwiper}
-        spaceBetween={24}
-        slidesPerView={6}
-        freeMode
-        watchSlidesProgress
-        direction="vertical"
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false, 
-        }}
-        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} 
-        modules={[Thumbs, Autoplay]}
-        className=""
-      >
-        {images.map((image, index) => (
-          <SwiperSlide key={index} className="max-w-[80px] max-h-[80px] min-h-[80px] ">
-            <img
-              src={image}
-              alt=""
-              className={`max-w-[80px] max-h-[80px] min-h-[80px] object-cover cursor-pointer ${activeIndex === index ? 'border-2 border-[#FA8232]' : ''}`}
-              onClick={() => thumbsSwiper?.slideTo(index)} 
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      <div
-        className="button-next w-[80px] h-[32px] flex justify-center items-center border-[#DFDFDF] border absolute bottom-[-8px] left-0 z-20 bg-white cursor-pointer"
-        // onClick={() => thumbsSwiper?.slideNext()}
-      >
-        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0.333008 0.666585L6.99967 7.33325L13.6663 0.666585L0.333008 0.666585Z" fill="#0C0C0C" />
-        </svg>
-      </div>
-    </div>
-   <div className="lg:hidden block max-w-full overflow-auto">
-   <Swiper
-        ref={thumbsSwiperRef} 
-        onSwiper={setThumbsSwiper}
-        spaceBetween={24}
-        slidesPerView={6}
-        freeMode
-        watchSlidesProgress
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false, 
-        }}
-        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} 
-        modules={[Thumbs, Autoplay]}
-        className=""
-      >
-        {images.map((image, index) => (
-          <SwiperSlide key={index} className="min-h-[68px] min-w-[68px]">
-            <img
-              src={image}
-              alt=""
-              className={`max-w-[68px] max-h-[68px] min-h-[68px] object-cover cursor-pointer ${activeIndex === index ? 'border-2 border-[#FA8232]' : ''}`}
-              onClick={() => thumbsSwiper?.slideTo(index)} 
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-   </div>
-  </div>
+  <ProductSlider></ProductSlider>
 </div>
 
           {/*-------------------------- Slide End----------------------------*/}
@@ -749,6 +647,11 @@ const ProductDetails = () => {
           </div>
         </div>
         {/*  //Bottom Accordian  End*/}
+
+
+        {/* recommended products slider */}
+
+        <RecommendedSlider></RecommendedSlider>
       </Container>
     </div>
   );
