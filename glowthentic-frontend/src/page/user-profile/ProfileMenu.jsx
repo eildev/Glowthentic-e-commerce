@@ -32,6 +32,7 @@ const ProfileMenu = () => {
         <div className="bg-secondary bg-opacity-5 lg:bg-transparent rounded-lg">
           <NavLink
             to="/user-profile"
+            end
             className={({ isActive }) =>
               `block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] hover:rounded-t-lg lg:hover:rounded-t-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
                 isActive

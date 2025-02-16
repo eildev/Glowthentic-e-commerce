@@ -16,7 +16,7 @@ const BuildingBeautySection = () => {
         //     </div>
 
         // </div>
-        <div className="mt-24  relative grid grid-cols-1 lg:grid-cols-2 items-center md:items-start gap-32 md:justify-between p-6 md:p-2 max-w-5xl mx-auto overflow-hidden">
+        <div className="mt-24  relative grid grid-cols-1 lg:grid-cols-2 items-center md:items-start md:gap-32 md:justify-between p-6 md:p-2 max-w-5xl mx-auto overflow-hidden">
       {/* Image Section */}
       <div className="relative w-full md:w-1/2 flex justify-center min-h-[500px]">
         {/* Bottom Right Image */}

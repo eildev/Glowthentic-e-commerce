@@ -7,7 +7,7 @@ const BeautyCultureSectoin = () => {
         <div className='flex-1 md:flex justify-between gap-2 items-center mb-2 mt-28'>
  <div className='mb-6 md:mb-0'>
             <div className='mb-7 text-center md:text-start'>
-            <h1 className='font-bold text-3xl md:text-4xl text-[#0F1228] mb-6 w-[374px]'>Our Beauty
+            <h1 className='font-bold text-3xl md:text-4xl text-[#0F1228] mb-6 md:w-[374px]'>Our Beauty
              Culture Company’s</h1>
              <p className='text-lg font-normal max-w-[450px]'>
              Like Steve Jobs quotes, “Design is not just what
