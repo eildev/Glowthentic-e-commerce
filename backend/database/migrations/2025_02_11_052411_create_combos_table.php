@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offer_banners', function (Blueprint $table) {
+        Schema::create('combos', function (Blueprint $table) {
             $table->id();
-            $table->string('head', 50);
-            $table->string('title', 100);
-            $table->string('short_description', 100);
-            $table->string('link', 255);
-            $table->string('image', 200);
-            $table->tinyInteger('status')->default(1);
+            $table->string('name', 255);
+            $table->decimal('offerd_price', 12, 2);
+            $table->string('image', 100);
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offer_banners');
+        Schema::dropIfExists('combos');
     }
 };

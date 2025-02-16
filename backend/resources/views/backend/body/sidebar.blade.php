@@ -444,6 +444,18 @@
                 </li>
             </ul>
         </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon">
+                    <i class='bx bx-user'></i>
+                </div>
+                <div class="menu-title">Combo Manage</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('combo.index') }}"><i class="bx bx-right-arrow-alt"></i>Combo</a>
+                </li>
+            </ul>
+        </li>
 
     </ul>
     <!--end navigation-->

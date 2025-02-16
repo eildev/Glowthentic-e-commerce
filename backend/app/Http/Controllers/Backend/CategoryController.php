@@ -18,10 +18,13 @@ class CategoryController extends Controller
     // category store function
     public function store(Request $request)
     {
-        $request->validate([
-            'categoryName' => 'required|max:100',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
-        ]);
+        // $request->validate([
+        //     'categoryName' => 'required|max:100',
+        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+        // ]);
+
+
+
 
         if ($request->image) {
 
@@ -31,8 +34,12 @@ class CategoryController extends Controller
             $category->categoryName = $request->categoryName;
             $category->slug = Str::slug($request->categoryName);
             $category->image = $imageName;
+            if($request->parent_id){
+                $category->parent_id = $request->parent_id;
+            }
+            // $category->approved_by = auth()->user()->id;
             $category->save();
-            return back()->with('success', 'Category Successfully Saved');
+           return response()->json(['message'=>'Category Added Successfully']);
         }
 
 
@@ -40,22 +47,34 @@ class CategoryController extends Controller
 
     // category View function
     public function view()
+
     {
         $categories = Category::all();
-        return view('backend.category.view', compact('categories'));
+
+        return response()->json([
+            'status'=>200,
+            'categories'=> $categories
+        ]);
     }
 
     // category Edit function
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-        return view('backend.category.edit', compact('category'));
+        $categories = Category::all();
+         return response()->json([
+            'status'=>200,
+            'category'=> $category,
+            'categories'=> $categories
+        ]);
     }
 
 
     // category update function
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+
+
         if ($request->image) {
             $request->validate([
                 'categoryName' => 'required|max:100',
@@ -63,37 +82,47 @@ class CategoryController extends Controller
             ]);
             $imageName = rand() . '.' . $request->image->extension();
             $request->image->move(public_path('uploads/category/'), $imageName);
-            $category = Category::findOrFail($id);
+            $category = Category::findOrFail($request->cat_id);
             unlink(public_path('uploads/category/').$category->image);
             $category->categoryName = $request->categoryName;
             $category->slug = Str::slug($request->categoryName);
             $category->image = $imageName;
+            if($request->parent_id){
+                $category->parent_id = $request->parent_id;
+            }
+            // $category->approved_by = auth()->user()->id;
             $category->update();
-            return redirect()->route('category.view')->with('success', 'Category Successfully updated');
+            return response()->json(['message'=>'Category Updated Successfully']);
+            // return redirect()->route('category.view')->with('success', 'Category Successfully updated');
         }
         else {
             $request->validate([
                 'categoryName' => 'required|max:100',
             ]);
-            $category = Category::findOrFail($id);
+            $category = Category::findOrFail($request->cat_id);
             $category->categoryName = $request->categoryName;
             $category->slug = Str::slug($request->categoryName);
+            if($request->parent_id){
+                $category->parent_id = $request->parent_id;
+            }
+            // $category->approved_by = auth()->user()->id;
             $category->update();
-            return redirect()->route('category.view')->with('success', 'Category Successfully updated');
+            return response()->json(['message'=>'Category Updated Successfully']);
         }
     }
     // category Delete function
-    public function delete($id)
+    public function delete(Request $request)
     {
+        $id=$request->id;
         $category = Category::findOrFail($id);
         unlink(public_path('uploads/category/').$category->image);
         $category->delete();
-        return back()->with('success', 'Category Successfully deleted');
+        return response()->json(['message'=>'Category Deleted Successfully']);
     }
-    
-       public function CategoryStatus($id)
+       public function CategoryStatus(Request $request)
     {
         // dd($request);
+        $id=$request->id;
         $category = Category::findOrFail($id);
         if ($category->status == 0) {
             $newStatus = 1;
@@ -104,6 +133,15 @@ class CategoryController extends Controller
         $category->update([
             'status' => $newStatus
         ]);
-        return redirect()->back()->with('message', 'status changed successfully');
+         return response()->json(['message'=>'Category Status Updated Successfully']);
+    }
+
+
+    public function GetParentCategory(){
+        $categories = Category::get();
+        return response()->json([
+            'status'=>200,
+            'categories'=> $categories
+        ]);
     }
 }

@@ -25,6 +25,7 @@ use App\Http\Controllers\AllMail;
 use App\Http\Controllers\Backend\PurchaseDetailsController;
 use App\Http\Controllers\Backend\historyController;
 use App\Http\Controllers\Backend\MarketingController;
+use App\Http\Controllers\Backend\ComboController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,9 +58,10 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::post('/category/store', 'store')->name('category.store');
         Route::get('/category/view', 'view')->name('category.view');
         Route::get('/category/edit/{id}', 'edit')->name('category.edit');
-        Route::post('/category/update/{id}', 'update')->name('category.update');
-        Route::get('/category/delete/{id}', 'delete')->name('category.delete');
-        Route::post('/category/status/{id}', 'CategoryStatus')->name('category.status');
+        Route::post('/category/update', 'update')->name('category.update');
+        Route::post('/category/delete', 'delete')->name('category.delete');
+        Route::post('/category/status/change', 'CategoryStatus')->name('category.status');
+        Route::get('/get/parent/category', 'GetParentCategory');
     });
     Route::controller(historyController::class)->group(function () {
         Route::get('/current-history/{value}', 'CurrentHistory');
@@ -146,6 +148,22 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::post('/offerbanner/update/{id}', 'update')->name('offerbanner.update');
         Route::get('/offerbanner/delete/{id}', 'delete')->name('offerbanner.delete');
         Route::post('/offerbanner/status/{id}', 'statusUpdate')->name('offerbanner.status');
+    });
+    //All Routes for Offer Banner End
+
+    //All Routes for Offer Banner Start
+    Route::controller(ComboController::class)->group(function () {
+        Route::get('/combo', 'index')->name('combo.index');
+        Route::post('/combo/store', 'store');
+        Route::get('/combo/view', 'view');
+        Route::get('/combo/view/{id}', 'viewDeatils');
+        Route::post('/combo/update', 'update');
+         Route::post('/combo/delete', 'delete');
+         Route::post('/combo/status/change', 'StatusChange');
+
+        // Route::post('/offerbanner/update/{id}', 'update')->name('offerbanner.update');
+        // Route::get('/offerbanner/delete/{id}', 'delete')->name('offerbanner.delete');
+        // Route::post('/offerbanner/status/{id}', 'statusUpdate')->name('offerbanner.status');
     });
     //All Routes for Offer Banner End
 
