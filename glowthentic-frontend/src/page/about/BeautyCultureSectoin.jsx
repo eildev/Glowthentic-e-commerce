@@ -4,7 +4,7 @@ import beautyCulter from "../../assets/img/about/Image-beauty-culter.jpg"
 
 const BeautyCultureSectoin = () => {
     return (
-        <div className='flex-1 md:flex justify-between items-center mb-2'>
+        <div className='flex-1 md:flex justify-between items-center mb-2 mt-28'>
  <div className='mb-6 md:mb-0'>
             <div className='mb-7'>
             <h1 className='font-bold text-3xl md:text-4xl text-[#0F1228] mb-6 w-[374px]'>Our Beauty
