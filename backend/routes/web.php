@@ -221,7 +221,7 @@ Route::middleware('auth', 'role:admin')->group(function () {
     Route::get('/coupon/view', 'view')->name('coupon.view');
     Route::get('/coupon/edit/{id}', 'edit')->name('coupon.edit');
     Route::post('/coupon/update', 'update')->name('coupon.update');
-    Route::get('/coupon/delete/{id}', 'delete')->name('coupon.delete');
+    Route::post('/coupon/delete', 'delete')->name('coupon.delete');
     Route::post('/coupon/status/{id}', 'statusUpdate')->name('coupon.status');
    });
 

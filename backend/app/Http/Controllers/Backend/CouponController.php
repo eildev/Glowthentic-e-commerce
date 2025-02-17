@@ -117,4 +117,20 @@ class CouponController extends Controller
             return response()->json(['error' => 'Something went wrong: ' . $e->getMessage()], 500);
         }
     }
+
+    public function delete(Request $request){
+
+        try{
+        $coupon = Coupon::find($request->id);
+    
+        $coupon->delete();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Data Deleted Successfully'
+        ]);
+        }
+        catch (Exception $e) {
+            return response()->json(['error' => 'Something went wrong: ' . $e->getMessage()], 500);
+        }
+    }
 }

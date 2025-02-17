@@ -312,7 +312,7 @@ $(document).on('click','.edit',function(){
                 showComboProduct();
                 }
             }
-        })
+        });
 
   });
 
@@ -336,8 +336,8 @@ $(document).on('click','.edit',function(){
                 showComboProduct();
                 }
             }
-        })
-  })
+        });
+  });
 
 
 
