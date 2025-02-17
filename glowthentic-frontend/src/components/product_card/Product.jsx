@@ -32,7 +32,7 @@ const Product = ({ product, isDark }) => {
       <figure className="relative">
         <Link to={`/product/${product}`}>
           <img
-            className="lg:h-[380px] h-[180px] md:h-[280px] object-cover lg:py-5 py-2"
+            className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:py-5 py-2"
             src={image ?? defaultImage}
             alt={title ?? "product image"}
           />
