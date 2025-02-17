@@ -22,6 +22,9 @@
     <!-- loader-->
     <link href="{{ asset('backend') }}/assets/css/pace.min.css" rel="stylesheet" />
     <script src="{{ asset('backend') }}/assets/js/pace.min.js"></script>
+    {{-- select 2 tag --}}
+     <link href="{{ asset('backend') }}/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('backend') }}/assets/plugins/select2/css/select2-bootstrap4.css" rel="stylesheet" />
     <!-- Bootstrap CSS -->
     <link href="{{ asset('backend') }}/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('backend') }}/assets/css/app.css" rel="stylesheet">
@@ -321,7 +324,7 @@
 
         // subcategory select function
         $(document).ready(function() {
-            $('#product_descriptions').summernote();
+            $('.product_descriptions').summernote();
             $('.category_select').on('change', function() {
 
                 let category_id = $(this).val();
@@ -338,7 +341,7 @@
                                     '<option myid="' + item.id +
                                     '" value="' + item.id +
                                     '">' + item
-                                    .subcategoryName + '</option>');
+                                    .categoryName + '</option>');
                             })
                         }
                     });
@@ -365,7 +368,7 @@
                                         '<option myid="' + item.id +
                                         '" value="' + item.id +
                                         '">' + item
-                                        .subSubcategoryName + '</option>');
+                                        .categoryName + '</option>');
                                 })
                             } else {
                                 $('select[name="sub_subcategory_id"]').append(
@@ -613,6 +616,21 @@
     </script>
 
 
+<script src="{{ asset('backend') }}/assets/plugins/select2/js/select2.min.js"></script>
+<script>
+    $('.single-select').select2({
+        theme: 'bootstrap4',
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        allowClear: Boolean($(this).data('allow-clear')),
+    });
+    $('.multiple-select').select2({
+        theme: 'bootstrap4',
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        allowClear: Boolean($(this).data('allow-clear')),
+    });
+</script>
 
 </body>
 

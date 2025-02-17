@@ -12,7 +12,10 @@ class Variant extends Model
     protected $guarded = [];
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class,'product_id','id');
     }
 
+    public function productStock(){
+        return $this->hasOne(ProductStock::class,'variant_id','id');
+    }
 }

@@ -30,10 +30,12 @@ class Product extends Model
     {
         return $this->hasMany(OrderDetail::class);
     }
-    
+
     public function variants()
     {
         return $this->hasMany(Variant::class);
     }
-
+    public function productStock(){
+        return $this->hasMany(ProductStock::class,'product_id','id');
+    }
 }

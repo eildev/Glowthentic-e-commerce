@@ -144,4 +144,32 @@ class CategoryController extends Controller
             'categories'=> $categories
         ]);
     }
+
+
+   //find sub category
+   public function findSubcat($id)
+   {
+       $subcats = Category::where('parent_id', $id)->get();
+    // dd($subcats);
+       return response()->json([
+           'subcats' => $subcats
+       ]);
+   }
+
+   // find sub sub category
+   public function findSubSubcat($id)
+   {
+       $subsubcats = Category::where('parent_id', $id)->get();
+       if($subsubcats){
+           return response()->json([
+               'status' => 200,
+               'subsubcats' => $subsubcats
+           ]);
+       } else {
+           return response()->json([
+               'status' => 500,
+               'message' => "no data found"
+           ]);
+       }
+   }
 }

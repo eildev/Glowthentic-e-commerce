@@ -62,6 +62,10 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::post('/category/delete', 'delete')->name('category.delete');
         Route::post('/category/status/change', 'CategoryStatus')->name('category.status');
         Route::get('/get/parent/category', 'GetParentCategory');
+        //find Subcategory
+        Route::get('/find/subcategory/{id}', 'findSubcat')->name('subcategory.find');
+        //find SubSubcategory
+        Route::get('/find/sub-subcategory/{id}', 'findSubSubcat')->name('sub.subcategory.find');
     });
     Route::controller(historyController::class)->group(function () {
         Route::get('/current-history/{value}', 'CurrentHistory');
@@ -87,7 +91,7 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::get('/subcategory/edit/{id}', 'edit')->name('subcategory.edit');
         Route::post('/subcategory/update/{id}', 'update')->name('subcategory.update');
         Route::get('/subcategory/delete/{id}', 'delete')->name('subcategory.delete');
-        Route::get('/find/subcategory/{id}', 'findSubcat')->name('subcategory.find');
+        // Route::get('/find/subcategory/{id}', 'findSubcat')->name('subcategory.find');
     });
     //All Routes for Subcategory End
 
@@ -178,6 +182,9 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::get('/product/delete/{id}', 'delete')->name('product.delete');
         Route::post('/product/status/{id}', 'productStatus')->name('product.status');
         Route::get('/find/variant/{id}', 'findVariant')->name('find.variant');
+        Route::get('/product/get_variant_data','getVariant_product_id');
+        Route::post('/product/variant/store','variantProductStore');
+
         // Route::post('/product/variant/store', 'variantStore')->name('variant.store');
         // Route::get('/product/variant/show/{id}', 'variantShow')->name('variant.show');
         // Route::get('/product/variant/edit/{id}', 'editVariant')->name('variant.edit');
@@ -278,7 +285,7 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::get('/sub-subcategory/edit/{id}', 'edit')->name('sub.subcategory.edit');
         Route::post('/sub-subcategory/update/{id}', 'update')->name('sub.subcategory.update');
         Route::get('/sub-subcategory/delete/{id}', 'delete')->name('sub.subcategory.delete');
-        Route::get('/find/sub-subcategory/{id}', 'findSubSubcat')->name('sub.subcategory.find');
+        // Route::get('/find/sub-subcategory/{id}', 'findSubSubcat')->name('sub.subcategory.find');
     });
     //All Routes for Sub Subcategory End
 
