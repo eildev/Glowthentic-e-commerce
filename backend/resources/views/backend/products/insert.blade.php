@@ -801,7 +801,7 @@
             <td><input type="text" class="form-control" name="weight[]"></td>
             <td><input type="text" class="form-control" name="flavor[]"></td>
             <td><input type="file" class="form-control" name="image[]"></td>
-            <td><input type="number" class="form-control" name="stock[]"></td>
+            <td><input type="number" class="form-control" name="stock_quantity[]"></td>
             <td>
                 <button type="button" class="btn btn-danger removeRow">✖</button>
             </td>
@@ -900,7 +900,7 @@
                                             <td><input type="text" class="form-control" name="weight[]"></td>
                                             <td><input type="text" class="form-control" name="flavor[]"></td>
                                             <td><input type="file" class="form-control" name="image[]"></td>
-                                            <td><input type="number" class="form-control" name="stock[]"></td>
+                                            <td><input type="number" class="form-control" name="stock_quantity[]"></td>
                                             <td>
                                                 <button type="button" class="btn btn-success addRow">+</button>
                                             </td>
