@@ -50,12 +50,15 @@ const AllProductPage = () => {
           </select>
         </div>
       </div>
+<div>
 
-      <div className="lg:flex lg:gap-5">
-        <div className="hidden lg:block lg:sticky top-0">
+</div>
+      <div  className="lg:flex lg:gap-5 ">
+        <div className="hidden lg:block min-w-[290px]   no-scrollbar top-[161px] h-[calc(100vh-161px)] overflow-y-auto sticky">
+         
           <SidebarFilter ></SidebarFilter>
         </div>
-        <AllProduct className="ml-72" />
+        <AllProduct  className=" " />
       </div>
 
       <div

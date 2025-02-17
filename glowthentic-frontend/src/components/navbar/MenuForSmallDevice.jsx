@@ -35,7 +35,7 @@ const MenuForSmallDevice = ({ item, setItem }) => {
                   {"By Category"}
                   <Icon icon={openSection === "category" ? "solar:alt-arrow-up-bold" : "solar:alt-arrow-right-bold"} width="24" height="24" />
                 </li>
-                <div className={`transition-max-height duration-100 ease-in-out overflow-hidden ${openSection === "category" ? "max-h-96" : "max-h-0"}`}>
+                <div className={`transition-max-height duration-300 ease-in-out overflow-hidden ${openSection === "category" ? "max-h-96" : "max-h-0"}`}>
                   {item?.subcategories?.map((subcategory) => (
                     <li key={subcategory.id} className="text-sm text-[#404040] py-[10px] border-t border-[#DFDFDF] px-5">
                       {subcategory.name}
@@ -52,7 +52,7 @@ const MenuForSmallDevice = ({ item, setItem }) => {
                   {"By Skin Condition"}
                   <Icon icon={openSection === "skin" ? "solar:alt-arrow-up-bold" : "solar:alt-arrow-right-bold"} width="24" height="24" />
                 </li>
-                <div className={`transition-max-height duration-100 ease-in-out overflow-hidden ${openSection === "skin" ? "max-h-96" : "max-h-0"}`}>
+                <div className={`transition-max-height duration-300 ease-in-out overflow-hidden ${openSection === "skin" ? "max-h-96" : "max-h-0"}`}>
                   {item?.tags?.map((tag) => (
                     <li key={tag.id} className="text-sm text-[#404040] py-[10px] border-t border-[#DFDFDF] px-5">
                       {tag.name}
@@ -69,7 +69,7 @@ const MenuForSmallDevice = ({ item, setItem }) => {
                   {"Collection"}
                   <Icon icon={openSection === "collection" ? "solar:alt-arrow-up-bold" : "solar:alt-arrow-right-bold"} width="24" height="24" />
                 </li>
-                <div className={`transition-max-height duration-100 ease-in-out overflow-hidden ${openSection === "collection" ? "max-h-96" : "max-h-0"}`}>
+                <div className={`transition-max-height duration-300 ease-in-out overflow-hidden ${openSection === "collection" ? "max-h-96" : "max-h-0"}`}>
                   {item?.types?.map((type) => (
                     <li key={type.id} className="text-sm text-[#404040] py-[10px] border-t border-[#DFDFDF] px-5">
                       {type.name}

@@ -17,6 +17,7 @@ const HomeSlider = () => {
           clickable: true,
           el: ".custom-pagination",
         }}
+        spaceBetween={10}
         loop={true}
         autoplay={{
           delay: 5000,
@@ -25,17 +26,17 @@ const HomeSlider = () => {
         modules={[Autoplay, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <img src={image} className="w-full h-full object-cover" alt="Slider Image" />
+        <SwiperSlide className="lg:h-[537px] sm:h-[350px] h-[137px]">
+          <img src={image} className="w-full object-center object-cover lg:h-[537px] sm:h-[350px] h-[137px]" alt="Slider Image" />
         </SwiperSlide>
-        <SwiperSlide>
-          <img src={image2} className="w-full h-full object-cover" alt="Slider Image" />
+        <SwiperSlide className="h-[537px]">
+          <img src={image2} className="w-full object-center object-cover lg:h-[537px] sm:h-[350px] h-[137px]" alt="Slider Image" />
         </SwiperSlide>
-        <SwiperSlide>
-          <img src={image3} className="w-full h-full object-cover" alt="Slider Image" />
+        <SwiperSlide className="h-[537px]">
+          <img src={image3} className="w-full object-center object-cover lg:h-[537px] sm:h-[350px] h-[137px]" alt="Slider Image" />
         </SwiperSlide>
-        <SwiperSlide>
-          <img src={image4} className="w-full h-full object-cover" alt="Slider Image" />
+        <SwiperSlide className="h-[537px]">
+          <img src={image4} className="w-full object-center object-cover lg:h-[537px] sm:h-[350px] h-[137px]" alt="Slider Image" />
         </SwiperSlide>
       </Swiper>
       <div className="custom-pagination mt-4 flex justify-center "></div>
