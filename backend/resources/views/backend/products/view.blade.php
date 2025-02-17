@@ -88,6 +88,7 @@
                                             @php
                                                 $Total_stock = App\models\ProductStock::where('product_id', $product->id)->sum('StockQuantity')??0;
                                             @endphp
+                                            {{-- @dd($Total_stock) --}}
                                             <td>
                                                 {{ $Total_stock}}
                                             </td>

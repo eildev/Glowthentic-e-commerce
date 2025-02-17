@@ -101,6 +101,31 @@
                     </ul>
                 </li>
 
+
+
+
+                <li>
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="parent-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="menu-title">Manage Coupon</div>
+                    </a>
+                    <ul>
+
+                        <li> <a href="{{ route('Coupon.index') }}"><i class="bx bx-right-arrow-alt"></i>Coupon</a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+
+
+
+
+
+
                 {{-- Subcategory menu  --}}
                 <li>
                     <a class="has-arrow" href="javascript:;">
@@ -453,6 +478,19 @@
             </a>
             <ul>
                 <li> <a href="{{ route('combo.index') }}"><i class="bx bx-right-arrow-alt"></i>Combo</a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon">
+                    <i class='bx bx-user'></i>
+                </div>
+                <div class="menu-title">Combo Product Manage</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('combo.product.index') }}"><i class="bx bx-right-arrow-alt"></i>Combo Product</a>
                 </li>
             </ul>
         </li>
