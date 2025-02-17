@@ -34,9 +34,9 @@ const ProfileMenu = () => {
             to="/user-profile"
             end
             className={({ isActive }) =>
-              `block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] hover:rounded-t-lg lg:hover:rounded-t-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
+              `group block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] hover:rounded-t-lg lg:hover:rounded-t-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
                 isActive
-                  ? "bg-secondary-gradient-1 text-secondary px-4 rounded-b-lg"
+                  ? "bg-secondary-gradient-1 text-secondary lg:px-4 rounded-b-lg"
                   : ""
               }`
             }
@@ -52,14 +52,14 @@ const ProfileMenu = () => {
           <NavLink
             to="/user-profile/orders"
             className={({ isActive }) =>
-              `block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
+              `group block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-2 transition-all duration-300 ${
                 isActive
-                  ? "bg-secondary-gradient-1 text-secondary px-4 rounded-b-lg transition-all duration-300 ease-in"
-                  : ""
+                  ? "bg-secondary-gradient-1 text-secondary   lg:px-4 rounded-b-lg transition-all duration-300 ease-in"
+                  : "px-0"
               }`
             }
           >
-            <p className="flex items-center justify-between text-md lg:text-xl font-bold font-encode">
+            <p className="flex items-center  justify-between text-md lg:text-xl font-bold font-encode">
               Orders
               <Icon
                 className="w-6 lg:w-8 h-6 lg:h-8 text-gray"
@@ -70,9 +70,9 @@ const ProfileMenu = () => {
           <NavLink
             to="/user-profile/favorites"
             className={({ isActive }) =>
-              `block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
+              `group block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
                 isActive
-                  ? "bg-secondary-gradient-1 text-secondary px-4 rounded-b-lg transition-all duration-300 ease-in"
+                  ? "bg-secondary-gradient-1 text-secondary lg:px-4 rounded-b-lg transition-all duration-300 ease-in"
                   : ""
               }`
             }
@@ -88,9 +88,9 @@ const ProfileMenu = () => {
           <NavLink
             to="/user-profile/settings"
             className={({ isActive }) =>
-              `block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] hover:rounded-b-lg lg:hover:rounded-b-[4px] hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
+              `group block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] hover:rounded-b-lg lg:hover:rounded-b-[4px] hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
                 isActive
-                  ? "bg-secondary-gradient-1 text-secondary px-4 rounded-b-lg transition-all duration-300 ease-in"
+                  ? "bg-secondary-gradient-1 text-secondary lg:px-4 rounded-b-lg transition-all duration-300 ease-in"
                   : ""
               }`
             }
@@ -107,7 +107,7 @@ const ProfileMenu = () => {
 
         <Link
           to="/"
-          className="block mt-6 bg-light lg:bg-transparent lg:m-0 px-2 lg:px-0 py-2 rounded-lg lg:rounded-[5px] hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300"
+          className="group block mt-6 bg-light lg:bg-transparent lg:m-0 px-2 lg:px-0 py-2 rounded-lg lg:rounded-[5px] hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300"
         >
           <p className="flex items-center justify-between text-md lg:text-xl font-bold font-encode">
             Logout
