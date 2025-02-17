@@ -65,7 +65,7 @@ class SubSubcategoryController extends Controller
         $sub_subcategory->delete();
         return back()->with('success', 'Sub-Subcategory Deleted successfully');
     }
-    // find sub subcategory 
+    // find sub subcategory
     public function findSubSubcat($id)
     {
         $subsubcats = SubSubcategory::where('subcategoryId', $id)->get();
@@ -78,7 +78,7 @@ class SubSubcategoryController extends Controller
             return response()->json([
                 'status' => 500,
                 'message' => "no data found"
-            ]); 
+            ]);
         }
     }
 }

@@ -7,10 +7,10 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 const NavbarForSmallDevice = ({ showMobileMenu, categorys }) => {
   const [menu, setMenu] = useState(null);
   const [item, setItem] = useState(null);
-console.log(item);
+// console.log(item);
   return (
     <div
-      className={`px-5 absolute top-0 left-0 w-full z-10 min-h-screen bg-body shadow-lg transition-all duration-500 ease-in-out transform${
+      className={`px-5 absolute top-0 left-0 w-full z-10 min-h-screen lg:hidden bg-body shadow-lg transition-all duration-500 ease-in-out transform${
         showMobileMenu
           ? "opacity-100 visible translate-x-0"
           : "opacity-0 invisible -translate-x-[100%]"
@@ -19,11 +19,7 @@ console.log(item);
       <Container>
         {/* main menu  */}
         <ul
-          className={`mt-5 transition-all duration-500 ease-in-out transform  ${
-            menu
-              ? "absolute top-0 opacity-0 invisible -translate-x-[100%]"
-              : "delay-300 opacity-100 visible translate-x-0"
-          }`}
+          className={`mt-5 `}
         >
           {categorys.map((data, index) => (
             <div key={index}>
@@ -45,14 +41,15 @@ console.log(item);
                   )}
                 </Link>
               </li>
-              <MenuForSmallDevice
-                item={item}
-                setMenu={setMenu}
-                menu={menu}
-                setItem={setItem}
-              />
+              
             </div>
           ))}
+          <MenuForSmallDevice
+                item={item}
+                // setMenu={setMenu}
+                // menu={menu}
+                setItem={setItem}
+              />
         </ul>
       </Container>
     </div>

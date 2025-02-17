@@ -6,8 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductGallery;
+use App\Models\ProductDetails;
+use App\Models\product_tags;
+use App\Models\ProductStock;
 use App\Models\Variant;
 use Validator;
+use Auth;
+
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -25,75 +30,178 @@ class ProductController extends Controller
         ]);
     }
 
-    // product add function 
-    public function store(Request $request)
-    {
-        // dd($request->all());
-        $request->validate([
-            'category_id' => 'required',
-            'subcategory_id' => 'required',
-            'brand_id' => 'required',
-            'product_feature' => 'required',
-            'product_name' => 'required|max:100',
-            'short_desc' => 'required|max:255',
-            'product_image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'sku' => 'required',
-            'tag' => 'required',
-        ]);
-        $product = new Product;
-        if ($request->product_image) {
-            $productImage = rand() . '.' . $request->product_image->extension();
-            $request->product_image->move(public_path('uploads/products/'), $productImage);
+    // product add function
+    // public function store(Request $request)
+    // {
+    //     dd($request->all());
+    //     $request->validate([
+    //         'category_id' => 'required',
+    //         'subcategory_id' => 'required',
+    //         'brand_id' => 'required',
+    //         'product_feature' => 'required',
+    //         'product_name' => 'required|max:100',
+    //         'short_desc' => 'required|max:255',
+    //         'product_image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    //         'sku' => 'required',
+    //         'tag' => 'required',
+    //     ]);
+    //     $product = new Product;
+    //     if ($request->product_image) {
+    //         $productImage = rand() . '.' . $request->product_image->extension();
+    //         $request->product_image->move(public_path('uploads/products/'), $productImage);
 
+    //         $product->category_id = $request->category_id;
+    //         $product->subcategory_id = $request->subcategory_id;
+    //         $product->brand_id = $request->brand_id;
+    //         $product->sub_subcategory_id = $request->sub_subcategory_id;
+    //         $product->product_feature = implode(',', $request->product_feature);
+    //         $product->product_name = $request->product_name;
+    //         $product->slug = Str::slug($request->product_name);
+    //         $product->short_desc = $request->short_desc;
+    //         $product->long_desc = $request->long_desc;
+    //         $product->product_image = $productImage;
+    //         $product->sku = $request->sku;
+    //         $product->tags = $request->tag;
+    //         $product->shipping = $request->shipping;
+    //         $product->save();
+    //         if ($request->imageGallery) {
+    //             $imagesGallery = $request->imageGallery;
+    //             foreach ($imagesGallery as $image) {
+    //                 $galleryImage = rand() . '.' . $image->extension();
+    //                 $image->move(public_path('uploads/products/gallery/'), $galleryImage);
+    //                 $productGallery = new ProductGallery;
+    //                 $productGallery->product_id = $product->id;
+    //                 $productGallery->image = $galleryImage;
+    //                 $productGallery->save();
+    //             }
+    //         }
+    //     }
+    //     return back()->with('success', 'Product Successfully Saved');
+    // }
+
+    public function store(Request $request){
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'required',
+            // 'subcategory_id' => 'required',
+            'brand_id' => 'required',
+            // 'product_feature' => 'required|array',
+            'product_name' => 'required|max:100',
+            // 'description' => 'required',
+            'unit_id'=>'required',
+            // 'sku' => 'required',
+            // 'tag' => 'required|array',
+            'size' => 'required',
+            'color' => 'required',
+            'price' => 'required|numeric|min:1',
+            // 'weight' => 'nullable|string',
+            // 'flavor' => 'nullable|string',
+            'gender' => 'required',
+            // 'ingredients'=>'nullable|string',
+            // 'usage_instruction'=>'nullable|string',
+            'product_main_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'stock_quantity' => 'required|integer|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+        $product = new Product;
             $product->category_id = $request->category_id;
             $product->subcategory_id = $request->subcategory_id;
             $product->brand_id = $request->brand_id;
             $product->sub_subcategory_id = $request->sub_subcategory_id;
-            $product->product_feature = implode(',', $request->product_feature);
-            $product->product_name = $request->product_name;
-            $product->slug = Str::slug($request->product_name);
-            $product->short_desc = $request->short_desc;
-            $product->long_desc = $request->long_desc;
-            $product->product_image = $productImage;
-            $product->sku = $request->sku;
-            $product->tags = $request->tag;
-            // $product->shipping = $request->shipping;
-            $product->save();
-            if ($request->imageGallery) {
-                $imagesGallery = $request->imageGallery;
-                foreach ($imagesGallery as $image) {
-                    $galleryImage = rand() . '.' . $image->extension();
-                    $image->move(public_path('uploads/products/gallery/'), $galleryImage);
-                    $productGallery = new ProductGallery;
-                    $productGallery->product_id = $product->id;
-                    $productGallery->image = $galleryImage;
-                    $productGallery->save();
-                }
+            if($request->product_feature){
+                $product->product_feature = implode(',', $request->product_feature);
             }
-        }
-        return back()->with('success', 'Product Successfully Saved');
+
+            $product->product_name = $request->product_name;
+            $product->unit_id=$request->unit_id;
+            $product->slug = Str::slug($request->product_name);
+            $product->sku=$request->sku;
+            $product->created_by=Auth::user()->id;
+            $product->save();
+
+            if($product){
+                $productDetails=new ProductDetails();
+                $productDetails->product_id=$product->id;
+                $productDetails->gender=$request->gender;
+                $productDetails->description=$request->description;
+                $productDetails->ingredients=$request->ingredients;
+                $productDetails->usage_instruction=$request->usage_instruction;
+                $productDetails->created_by=Auth::user()->id;
+                $productDetails->save();
+            }
+
+            if($product && $request->tag){
+
+                foreach($request->tag as $tag){
+                    $productTag= new product_tags();
+                    $productTag->product_id=$product->id;
+                    $productTag->tag_id=$tag;
+                    $productTag->save();
+                }
+               }
+
+               if($product){
+                $variant=new Variant();
+                $variant->product_id=$product->id;
+                $variant->size=$request->size;
+                $variant->color=$request->color;
+                $variant->regular_price=$request->price;
+                $variant->weight=$request->weight;
+                $variant->flavor=$request->flavor;
+
+                if($request->hasFile('product_main_image')){
+                    $file = $request->file('product_main_image');
+                    $extension =$file->extension();
+                    $filename = time().'.'.$extension;
+                    $path='uploads/products/variant/';
+                    $file->move($path,$filename);
+                    $variant->image=$path.$filename;
+                }
+                $variant->save();
+               }
+
+               if($product && $variant && $request->stock_quantity){
+                $stock = new ProductStock();
+                $stock->product_id = $product->id;
+                $stock->variant_id = $variant->id;
+                $stock->StockQuantity = $request->stock_quantity;
+                $stock->status = 'Available';
+                $stock->save();
+               }
+
+              return response()->json([
+                'status'=>200,
+                'message'=>'Product Successfully Saved'
+               ]);
+
     }
 
 
 
-
-
-    // show all products function 
+    // show all products function
     public function view()
     {
-        $products = Product::orderByDesc('id')->get();
+        $products = Product::orderByDesc('id')->with('varient')->get();
+
+
         return view('backend.products.view', compact('products'));
     }
 
 
-    // view details product function 
+    // view details product function
     public function viewDetails($id)
     {
         $product = Product::findOrFail($id);
         return view('backend.products.view_details', compact('product'));
     }
 
-    // product edit function 
+    // product edit function
     public function edit($id)
     {
         $product = Product::findOrFail($id);
@@ -101,7 +209,7 @@ class ProductController extends Controller
     }
 
 
-    // product delete function 
+    // product delete function
     public function delete($id)
     {
         $product = Product::findOrFail($id);
@@ -127,7 +235,7 @@ class ProductController extends Controller
         return redirect()->back()->with('message', 'status changed successfully');
     }
 
-    // product update function 
+    // product update function
     public function update(Request $request, $id)
     {
         // dd($request->product_feature);
@@ -209,7 +317,7 @@ class ProductController extends Controller
 
 
 
-    // delete variants function 
+    // delete variants function
     // public function deleteVariant($id)
     // {
     //     // dd($id);
@@ -255,7 +363,7 @@ class ProductController extends Controller
     // }
 
 
-    // variants store function 
+    // variants store function
     // public function variantStore(Request $request)
     // {
     //     $validator = Validator::make($request->all(), [
@@ -294,7 +402,7 @@ class ProductController extends Controller
     //     ]);
     // }
 
-    // show variants function 
+    // show variants function
     // public function variantShow($id)
     // {
     //     $variant = Variant::where('product_id', $id)->get();
@@ -304,4 +412,67 @@ class ProductController extends Controller
     //         'variantData' => $variant,
     //     ]);
     // }
+
+
+    public function getVariant_product_id(){
+        $product_id = Product::where('created_by', Auth::user()->id)->latest()->first()->id;
+        return response()->json([
+            'status' => '200',
+            'product_id' => $product_id,
+            'product_name' => Product::where('id', $product_id)->first()->product_name,
+        ]);
+    }
+
+    public function variantProductStore(Request $request)
+{
+
+    
+    if ($request->price ??0) {
+        foreach ($request->price as $key => $price) {
+
+            $productVerify = Variant::where('product_id', $request->product_id)->first();
+
+            $variant = new Variant;
+            $variant->product_id = $request->product_id;
+            $variant->size = $request->size[$key];
+            $variant->color = $request->color[$key];
+            $variant->regular_price = $price;
+            $variant->weight = $request->weight[$key];
+            $variant->flavor = $request->flavor[$key];
+
+
+            if ($productVerify) {
+                $variant->status = "Variant";
+            }
+
+
+            if ($request->hasFile('image') && isset($request->image[$key])) {
+                $file = $request->file('image')[$key];
+                $extension = $file->extension();
+                $filename = time() . '_' . $key . '.' . $extension;
+                $path = 'uploads/products/variant/';
+                $file->move(public_path($path), $filename);
+                $variant->image = $path . $filename;
+            }
+
+            $variant->save();
+
+            // Save stock details if stock quantity is provided
+            if ($request->stock_quantity && isset($request->stock_quantity[$key])) {
+                $stock = new ProductStock();
+                $stock->product_id = $request->product_id;
+                $stock->variant_id = $variant->id; // Fix: Using the saved variant ID correctly
+                $stock->StockQuantity = $request->stock_quantity[$key];
+                $stock->status = 'Available';
+                $stock->save();
+            }
+        }
+    }
+
+    return response()->json([
+        'status' => '200',
+        'message' => 'Variant saved successfully',
+    ]);
+}
+
 }
