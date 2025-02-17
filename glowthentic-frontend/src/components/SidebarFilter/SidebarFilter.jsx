@@ -4,9 +4,20 @@ import Toggle from "../typography/Toggle";
 import DropdownFilter from "./DropdownFilter";
 import RegularButton from "../typography/RegularButton";
 import cn from "../../utils/cn";
+import { useState } from "react";
+import { IoMdClose } from "react-icons/io";
+import { useCallback } from "react";
 //Category Data
 
 const SidebarFilter = ({ className }) => {
+  const [selectData, setSelectData] = useState([])
+ 
+  const handleSelectedData = useCallback((data) => {
+    setSelectData(data);
+  }, []);
+ const removeFilter = (itemToRemove) => {
+  setSelectData((prevData) => prevData.filter((item) => item !== itemToRemove));
+};
   return (
     <div className={cn(`min-w-72 bg-white p-3 `, className)}>
       <div className="mt-5 ">
@@ -16,6 +27,20 @@ const SidebarFilter = ({ className }) => {
             Applied filters
           </HeadTitle>
         </div>
+        <div>
+  <div className=" flex flex-wrap gap-2 ">
+    {selectData && selectData.length > 0 ? (
+      selectData.map((item, index) => (
+        <div key={index} className="text-[#0C0C0C] flex gap-2 items-center text-sm border border-[#DFDFDF] p-2">
+          {item} <button><IoMdClose onClick={() => removeFilter(item)}/></button>
+        </div>
+      ))
+    ) : (
+      <p className="text-gray-500 text-sm">No filters selected</p>
+    )}
+  </div>
+</div>
+
         {/* //Here Filter tag// */}
         <div></div>
         {/* //Here Filter tag End// */}
@@ -32,7 +57,7 @@ const SidebarFilter = ({ className }) => {
         <hr className="text-hr-thin" />
         {/* //DropdownFilter // */}
 
-        <DropdownFilter></DropdownFilter>
+        <DropdownFilter handleSelectedData={handleSelectedData}></DropdownFilter>
       </div>
 
       <hr className="text-hr-thin" />
