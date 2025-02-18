@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use App\Models\ProductDetails;
-use App\Models\product_tags;
+use App\Models\Product_tags;
 use App\Models\ProductStock;
 use App\Models\Variant;
 use Validator;
@@ -139,7 +139,7 @@ class ProductController extends Controller
             if($product && $request->tag){
 
                 foreach($request->tag as $tag){
-                    $productTag= new product_tags();
+                    $productTag= new Product_tags();
                     $productTag->product_id=$product->id;
                     $productTag->tag_id=$tag;
                     $productTag->save();
@@ -426,7 +426,7 @@ class ProductController extends Controller
     public function variantProductStore(Request $request)
 {
 
-    
+
     if ($request->price ??0) {
         foreach ($request->price as $key => $price) {
 
