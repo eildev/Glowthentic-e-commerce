@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Checkbox from "../typography/Checkbox";
 
-const DropdownFilter = ({handleSelectedData}) => {
+const DropdownFilter = ({selectedData, setSelectedData}) => {
   const categories = [
     { name: "Cleansers" },
     { name: "Exfoliators" },
@@ -38,23 +38,18 @@ const DropdownFilter = ({handleSelectedData}) => {
     { price: "$450.00 - $550.00" },
   ];
 
-  const [selectedData, setselectedData] = useState([]);
+  // const [selectedData, setselectedData] = useState([]);
 
-  const handleCheckboxChange = (category) => {
-    
-    setselectedData((prevSelected) =>
-      prevSelected.includes(category)
-        ? prevSelected.filter((item) => item !== category)
-        : [...prevSelected, category]
-        
+  const handleCheckboxChange = (item) => {
+    setSelectedData((prevSelected) =>
+      prevSelected.includes(item)
+        ? prevSelected.filter((i) => i !== item)
+        : [...prevSelected, item]
     );
-    // handleSelectedData(category)
-   
-    
   };
-  useEffect(() => {
-    handleSelectedData(selectedData);
-  }, [selectedData, handleSelectedData]); 
+  // useEffect(() => {
+  //   handleSelectedData(selectedData);
+  // }, [selectedData, handleSelectedData]); 
   return (
     <div>
       <div className="collapse collapse-arrow  bg-white">
