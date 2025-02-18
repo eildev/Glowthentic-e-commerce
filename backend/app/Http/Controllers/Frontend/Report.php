@@ -31,6 +31,6 @@ class Report extends Controller
             ->whereYear('orders.created_at', $year)
             ->groupBy('products.product_name')
             ->get();
-            
+
     }
 }

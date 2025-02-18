@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
@@ -42,7 +42,7 @@ class BlogReactionController extends Controller
                 'like'=>$like,
                'dislike'=>$dislike,
             ]);
-            
+
         }
     }
 }

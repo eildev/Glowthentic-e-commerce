@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 
 use App\Http\Controllers\Controller;
@@ -35,14 +35,14 @@ class CartController extends Controller
             'message' => 'Product added successfully',
             'cartData' => Cart::content()
         ]);
-            
+
         } else {
             return response()->json([
             'status' => 400,
             'message' => 'Product Stock Out',
         ]);
         }
-        
+
 
     }
 

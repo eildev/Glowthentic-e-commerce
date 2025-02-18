@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -32,7 +32,7 @@ class ProductDetailsController extends Controller
         // $products = Product::where('product_name', 'like', '%'.$searchTag.'%')
         //                     ->orWhere('short_desc', 'like', '%'.$searchTag.'%')
         //                     ->orWhere('tags', 'like', '%'.$searchTag.'%')
-                            
+
         //                     ->paginate(12);
         // return view('frontend/e-com/product-search', compact('products','searchTag'));
          $searchTerm = $request->search;
@@ -128,7 +128,7 @@ class ProductDetailsController extends Controller
         $filterProducts = Product::where('product_feature', 'LIKE','%'.$featureAllValue.'%')->get();
         // $filterProducts = Product::where(function ($query) use ($featureAllValue) {
         //     $query->orwhereIn('product_feature', $featureAllValue)
-        //           ->orWhereNull('product_feature'); 
+        //           ->orWhereNull('product_feature');
         // })
         // ->where(function ($query) use ($categoryAllValue) {
         //     $query->orwhereIn('category_id', $categoryAllValue)
