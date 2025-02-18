@@ -135,7 +135,7 @@ Route::middleware('auth', 'role:user')->group(function () {
 
         Route::get('/user/refund-order/{invoiceNumber}', 'orderRefund')->name('user.refund.order');
         Route::get('/user/cancel-order/{invoiceNumber}', 'orderCancel')->name('user.cancel.order');
-        
+
 
         // Route::get('/order/completed', 'completedOrders')->name('order.completed');
 

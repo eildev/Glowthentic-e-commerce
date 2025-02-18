@@ -43,7 +43,7 @@ return new class extends Migration
 
                 // $table->foreign('tag_id')
                 // ->references('id')
-                // ->on('product_tags')
+                // ->on('Product_tags')
                 // ->onDelete('cascade');
 
             // $table->foreign('subcategory_id')
