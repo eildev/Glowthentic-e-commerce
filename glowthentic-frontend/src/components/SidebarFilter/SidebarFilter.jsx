@@ -25,7 +25,7 @@ const SidebarFilter = ({ className }) => {
   };
 
   return (
-    <div className={cn(`min-w-72 bg-white p-3 `, className)}>
+    <div className={cn(`min-w-72 max-w-[480px] bg-white p-3 `, className)}>
       <div className="mt-5 ">
         <hr className="text-hr-thin" />
         <div className="p-4">
