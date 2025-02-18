@@ -37,3 +37,5 @@ Route::controller(TagNameController::class)->group(function () {
     Route::get('/tagname', 'viewAll')->name('tagname.view');
     Route::get('/tagname/{id}', 'show')->name('tagname.show');
 });
+
+Route::get('/product', [App\Http\Controllers\Backend\ProductController::class, 'index']);

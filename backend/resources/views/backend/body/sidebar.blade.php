@@ -65,6 +65,21 @@
                         </li>
 
 
+                        <li>
+                            <a href="javascript:;" class="has-arrow">
+                                <div class="parent-icon">
+                                    <i class='bx bx-purchase-tag-alt'></i>
+                                </div>
+                                <div class="menu-title">Manage Product Promotion</div>
+                            </a>
+                            <ul>
+                                <li> <a href="{{ route('product.promotion.index') }}"><i class="bx bx-right-arrow-alt"></i>Product Promotion</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
                     </ul>
                 </li>
                 <li>
