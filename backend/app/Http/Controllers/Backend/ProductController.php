@@ -467,7 +467,7 @@ class ProductController extends Controller
                 $stock->status = 'Available';
 
                 $stock->save();
-            
+
             }
         }
     }
@@ -476,6 +476,25 @@ class ProductController extends Controller
         'status' => '200',
         'message' => 'Variant saved successfully',
     ]);
+}
+
+//rest Api Start
+public function viewAll(){
+    $products = Product::orderByDesc('id')->with('variants','product_tags','productStock')->where('status',1)->get();
+    return response()->json([
+        'status' => '200',
+        'message' => 'Product List',
+        'data' => $products,
+    ]);
+}
+
+public function show($id){
+   $products = Product::with('variants','product_tags','productStock')->where('id',$id)->first();
+   return response()->json([
+    'status' => '200',
+    'message' => 'Product Search',
+    'data' => $products,
+]);
 }
 
 }

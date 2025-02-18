@@ -108,4 +108,15 @@ class ProductPromotionController extends Controller
         }
 
     }
+
+    //rest Api
+
+    public function show($id){
+        $productPromotion = ProductPromotion::find($id);
+        return response()->json([
+            'status'=>200,
+            'messege'=>'Product Promotion search',
+            'productPromotion'=>$productPromotion
+        ]);
+    }
 }
