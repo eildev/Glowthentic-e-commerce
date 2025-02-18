@@ -38,4 +38,8 @@ class Product extends Model
     public function productStock(){
         return $this->hasMany(ProductStock::class,'product_id','id');
     }
+
+    public function comboproduct(){
+        return $this->hasMany(ComboProduct::class,'combo_id','id');
+    }
 }

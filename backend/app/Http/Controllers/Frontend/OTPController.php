@@ -152,7 +152,7 @@ class OTPController extends Controller
                     'invoiceNumber' => $invoiceNumber
                 ];
                 Mail::to('sobrokom.store@gmail.com')->send(new OrderNotice($data));
-                
+
                 Cart::destroy();
                 return response()->json([
                 'status' => 200,

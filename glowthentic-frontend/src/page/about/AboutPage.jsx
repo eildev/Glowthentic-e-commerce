@@ -60,7 +60,6 @@ const AboutPage = () => {
   ))
 }
 
-
        </section>
        <BuildingBeautySection></BuildingBeautySection>
        <BeautyCultureSectoin></BeautyCultureSectoin>

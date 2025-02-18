@@ -21,12 +21,13 @@ use App\Http\Controllers\Backend\BlogCommentController;
 use App\Http\Controllers\Backend\CompanyDetailsController;
 use App\Http\Controllers\Backend\UserTrackerController;
 use App\Http\Controllers\Backend\userController;
+use App\Http\Controllers\Backend\comboProductController;
 use App\Http\Controllers\AllMail;
 use App\Http\Controllers\Backend\PurchaseDetailsController;
 use App\Http\Controllers\Backend\historyController;
 use App\Http\Controllers\Backend\MarketingController;
 use App\Http\Controllers\Backend\ComboController;
-
+use App\Http\Controllers\Backend\CouponController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -193,6 +194,46 @@ Route::middleware('auth', 'role:admin')->group(function () {
 
     });
     //All Routes for Product End
+
+   //all routes for combo product
+
+   Route::controller(comboProductController::class)->group(function(){
+    Route::get('/combo/product', 'index')->name('combo.product.index');
+    Route::post('/combo/product/store', 'store')->name('combo.product.store');
+    Route::get('/combo/product/view', 'view')->name('combo.product.view');
+    Route::get('/combo/product/edit/{id}', 'edit')->name('combo.product.edit');
+    Route::post('/combo/product/update', 'update')->name('combo.product.update');
+    Route::post('/combo/product/delete/', 'delete')->name('combo.product.delete');
+    Route::post('/combo/product/change/status', 'statusUpdate')->name('combo.product.status');
+    Route::get('/get/product/and/combo', 'product_and_combo');
+
+
+
+
+
+   });
+
+   //coupon controll Route
+
+   Route::controller(CouponController::class)->group(function(){
+    Route::get('/coupon', 'index')->name('Coupon.index');
+    Route::post('/coupon/store', 'store')->name('coupon.store');
+    Route::get('/coupon/view', 'view')->name('coupon.view');
+    Route::get('/coupon/edit/{id}', 'edit')->name('coupon.edit');
+    Route::post('/coupon/update', 'update')->name('coupon.update');
+    Route::post('/coupon/delete', 'delete')->name('coupon.delete');
+    Route::post('/coupon/status/{id}', 'statusUpdate')->name('coupon.status');
+   });
+
+
+
+
+
+
+
+
+
+
 
 
     //All Routes for Global Coupons Start

@@ -10,4 +10,8 @@ class Combo extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function comboproduct(){
+        return $this->hasMany(ComboProduct::class,'combo_id','id');
+    }
 }

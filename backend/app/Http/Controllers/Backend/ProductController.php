@@ -457,14 +457,17 @@ class ProductController extends Controller
 
             $variant->save();
 
-            // Save stock details if stock quantity is provided
+
             if ($request->stock_quantity && isset($request->stock_quantity[$key])) {
+
                 $stock = new ProductStock();
                 $stock->product_id = $request->product_id;
-                $stock->variant_id = $variant->id; // Fix: Using the saved variant ID correctly
+                $stock->variant_id = $variant->id;
                 $stock->StockQuantity = $request->stock_quantity[$key];
                 $stock->status = 'Available';
+
                 $stock->save();
+            
             }
         }
     }
