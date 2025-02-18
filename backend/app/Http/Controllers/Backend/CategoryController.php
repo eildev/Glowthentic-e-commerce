@@ -60,8 +60,8 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::find($id);
-            dd($category);
-            if (!$category <= 0) {
+            // dd($category);
+            if (!$category) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Category not found.'
