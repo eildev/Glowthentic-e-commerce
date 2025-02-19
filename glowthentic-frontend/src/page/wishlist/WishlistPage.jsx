@@ -110,7 +110,7 @@ console.log(isInCart);
 
                       <div className="hidden md:block">
                         <div onClick={()=>handleAddCart(item)} className="flex items-center gap-4">
-                          <RegularButton className="flex gap-2 font-bold text-[12px] leading-10 uppercase justify-center items-center p-0 px-3">
+                          <RegularButton className="flex gap-2 font-bold text-[12px] leading-10 uppercase justify-center items-center p-0 px-5 py-">
                             Add to Cart
                             <RoundedIcon
                               className="bg-transparent rounded-none p-0"

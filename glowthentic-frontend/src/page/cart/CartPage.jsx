@@ -21,9 +21,9 @@ const CartPage = () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItem(cart);
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    setTotalPrice(total);
+    setTotalPrice(parseFloat(total.toFixed(2)));
   }, [reFetch]);
-
+  
   const handleDelete = (id) => {
     const updatedItems = cartItem.filter((item) => item.id!== id);
     setCartItem(updatedItems);
@@ -44,7 +44,7 @@ const CartPage = () => {
       <Container >
 
         <div className={`lg:grid-cols-3 gap-4 ${cartItem.length == 0 ? "hidden" : "grid"}`}>
-          <div className="grid  md:bg-white p-5 lg:col-span-2">
+          <div className=" md:bg-white p-5 lg:col-span-2">
             <div className="flex justify-between border-b max-h-[70px]">
               <HeadTitle className="md:bg-white p-5 font-medium text-base md:text-2xl leading-[24px] md:leading-[36px] ">
                 My Shoping Cart

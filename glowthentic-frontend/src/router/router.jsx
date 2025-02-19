@@ -28,6 +28,7 @@ import OrderProfile from "../page/user-profile/order/OrderProfile";
 import OrderOngoing from "../page/user-profile/order/order-section/OrderOngoing";
 import OrderHistory from "../page/user-profile/order/order-section/OrderHistory";
 import ProfileMenu from "../page/user-profile/ProfileMenu";
+import PrivateRoute from "./PrivateRoute";
 
 
 // const ErrorBoundary = ({ error }) => {
@@ -64,7 +65,7 @@ const router = createBrowserRouter([
     
       {
         path: "/wishlist",
-        element: <WishlistPage />,
+        element: <PrivateRoute><WishlistPage /></PrivateRoute>,
       },
       {
         path: "/cart",
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        element: <CheckoutPage />,
+        element: <PrivateRoute><CheckoutPage /></PrivateRoute>,
       },
       {
         path: "/order-confirmation",
@@ -108,7 +109,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/user-profile",
-        element: <UserProfileLayout />,
+        element: <PrivateRoute><UserProfileLayout /></PrivateRoute>,
         children: [
           {
             path: "",
