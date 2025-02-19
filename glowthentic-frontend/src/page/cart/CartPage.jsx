@@ -23,7 +23,7 @@ const CartPage = () => {
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     setSubTotalPrice(total);
   }, [reFetch]);
-
+  
   const handleDelete = (id) => {
     const updatedItems = cartItem.filter((item) => item.id!== id);
     setCartItem(updatedItems);
@@ -134,6 +134,7 @@ const totalPrice = subTotalPrice + shippingPrice + discountPrice
                       <td className="text-[#191818] flex justify-end  font-semibold text-2xl md:absolute mt-2">
                         <span>$</span>{item.price}
                       </td>
+                      <td></td>
 
                     </tr>
                     ))
@@ -150,7 +151,9 @@ const totalPrice = subTotalPrice + shippingPrice + discountPrice
 
                 <tbody className="">
                   {/* row 1 */}
-                  <tr className="border-none">
+                  {
+                    cartItem.map((item, index) => (
+                      <tr key={index} className="border-none">
                     <div className="">
                       <th>
                         <Checkbox />
@@ -160,13 +163,13 @@ const totalPrice = subTotalPrice + shippingPrice + discountPrice
                           <div className="avatar">
                             <div className="mask mask-squircle h-12 w-12">
                               <img
-                                src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                                src={item?.thumbnail}
                                 alt="Avatar Tailwind CSS Component"
                               />
                             </div>
                           </div>
                           <div>
-                            <div className="font-semibold text-xs">Hart Hagerty</div>
+                            <div className="font-semibold text-xs">{item?.title}</div>
                             <div className="text-[10px] leading-3 opacity-50">
                               United States
                             </div>
@@ -188,10 +191,10 @@ const totalPrice = subTotalPrice + shippingPrice + discountPrice
                       <td className=" ">
                         <div className=" border-red-600 flex flex-col justify-center left-6 items-center">
                           <div className="w-20 h-8">
-                            <IncrementDecrement />
+                          <IncrementDecrement item={item} setReFetch={setReFetch} reFetch={reFetch}/>
                           </div>
 
-                          <div className="flex items-center  gap-2 pt-2">
+                          <div onClick={()=>handleDelete(item?.id)}  className="flex items-center  gap-2 pt-2">
                             <svg width="11" height="11" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M9.65096 23.1615H15.7996C20.9235 23.1615 22.973 21.112 22.973 15.9881V9.83944C22.973 4.71557 20.9235 2.66602 15.7996 2.66602H9.65096C4.52709 2.66602 2.47754 4.71557 2.47754 9.83944V15.9881C2.47754 21.112 4.52709 23.1615 9.65096 23.1615Z" stroke="#FF342D" stroke-width="1.02477" stroke-linecap="round" stroke-linejoin="round" />
                               <path d="M18.7701 9.89091C16.5361 9.66546 14.2816 9.55273 12.0373 9.55273C10.7051 9.55273 9.37289 9.62447 8.05093 9.75769L6.67773 9.89091" stroke="#FF342D" stroke-width="1.02477" stroke-linecap="round" stroke-linejoin="round" />
@@ -207,12 +210,15 @@ const totalPrice = subTotalPrice + shippingPrice + discountPrice
 
                       </td>
                       <td className="text-[#191818] flex items-center  font-semibold text-xl ">
-                        <span>$</span>100
+                        <span>$</span>{item.price}
                       </td>
                     </div>
 
 
                   </tr>
+                    ))
+                     
+                  }
                 </tbody>
                 {/* foot */}
               </table>

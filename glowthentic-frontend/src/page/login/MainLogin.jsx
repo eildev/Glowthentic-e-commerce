@@ -29,10 +29,12 @@ const MainLogin = () => {
             }
     
             // Step 2: Get CSRF token from cookies
-            const csrfToken = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('XSRF-TOKEN='))
-                ?.split('=')[1];
+            // const csrfToken = document.cookie
+            //     .split('; ')
+            //     .find(row => row.startsWith('XSRF-TOKEN='))
+            //     ?.split('=')[1];
+
+            const csrfToken = Cookies.get('XSRF-TOKEN');
     
             if (!csrfToken) {
                 throw new Error("CSRF token not found in cookies");

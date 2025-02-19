@@ -12,8 +12,8 @@ onClick={()=>setGetItemId(item.id)}
       >
         <Icon
           icon={iconName}
-          width={window.innerWidth >= 1024 ? 24 : 16}
-          height={window.innerWidth >= 1024 ? 24 : 16}
+          width={window.innerWidth >= 1024 ? 15 : 16}
+          height={window.innerWidth >= 1024 ? 10 : 16}
         />
       </span>
     </>

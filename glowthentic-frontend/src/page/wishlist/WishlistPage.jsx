@@ -92,7 +92,7 @@ console.log(isInCart);
                           </div>
                         </div>
                         <div>
-                          <div className="text-[13px] text-[#475156]">Hart Hagerty</div>
+                          <div className="text-[13px] text-[#475156]">{item.brand}</div>
                         </div>
                       </div>
                     </td>
@@ -110,7 +110,7 @@ console.log(isInCart);
 
                       <div className="hidden md:block">
                         <div onClick={()=>handleAddCart(item)} className="flex items-center gap-4">
-                          <RegularButton className="flex gap-2 font-bold text-[12px] leading-10 uppercase justify-center items-center p-0 px-3">
+                          <RegularButton className="flex gap-2 font-bold text-[12px] leading-10 uppercase justify-center items-center p-0 px-5 py-">
                             Add to Cart
                             <RoundedIcon
                               className="bg-transparent rounded-none p-0"
@@ -140,13 +140,15 @@ console.log(isInCart);
 
                 <tbody>
                   {/* row 1 */}
-                  <tr className="border-none ">
+                  {
+                    wishListItems.map((item, i)=>(
+                      <tr key={i} className="border-none ">
                     <td>
                       <div className="flex items-center gap-3">
                         <div className="avatar ">
                           <div className="rounded-xl h-[120px] w-[120px]">
                             <img
-                              src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                              src={item?.thumbnail}
                               alt="Avatar Tailwind CSS Component"
                             />
                           </div>
@@ -155,9 +157,9 @@ console.log(isInCart);
 
                         </div>
                         <div>
-                          <div className="font-bold">Hart Hagerty</div>
+                          <div className="font-bold">{item.brand}</div>
                           <div className="mt-2">
-                            <h1 className="text-[#FA8232] text-xs font-semibold"><span>$</span>12.00</h1>
+                            <h1 className="text-[#FA8232] text-xs font-semibold"><span>$</span>{item?.price}</h1>
                             <h2 className="line-through text-[#6F7384] text-[10px] leading-3"><span>$</span>20.00</h2>
                           </div>
                           <button onClick={() => setIsDeleteActive(!isDeleteActive)}>
@@ -175,6 +177,9 @@ console.log(isInCart);
 
 
                   </tr>
+                    ))
+                      
+                  }
                 </tbody>
                 {/* foot */}
               </table>
