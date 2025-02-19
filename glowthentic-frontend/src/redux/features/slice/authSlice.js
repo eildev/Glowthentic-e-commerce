@@ -18,10 +18,12 @@ const authSlice = createSlice({
             state.error = null;
         },
         loginSuccess: (state, action) => {
+            console.log(state);
+            console.log(action);
             state.loading = false;
-            state.user = action.payload.user;
-            state.token = action.payload.token;
-            Cookies.set("token", action.payload.token, { expires: 7 }); // Store token in cookies
+            state.userEmail = action.payload.data.email;
+            state.token = action.payload.data.token;
+            Cookies.set("token", action.payload.data.token, { expires: 7 }); // Store token in cookies
         },
         loginFailure: (state, action) => {
             state.loading = false;
