@@ -107,4 +107,42 @@ class BlogPostController extends Controller
         ]);
         return redirect()->back()->with('success', 'Blog Active Successfully');;
     }//End Method
+
+    //rest api
+    public function viewAll(){
+        try{
+            $blogPost = BlogPost::all();
+            return response()->json([
+                'blogPost' => $blogPost,
+                'status'=>200,
+                'messege' => 'Blog Post Get Successfully'
+            ]);
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'status'=>500,
+                'messege' => 'Something Went Wrong'
+            ]);
+        }
+
+}
+
+public function show($id){
+    try{
+        $blogPost = BlogPost::findOrFail($id);
+        return response()->json([
+            'blogPost' => $blogPost,
+            'status'=>200,
+            'messege' => 'Blog Post Get Successfully'
+        ]);
+    }
+    catch(\Exception $e){
+        return response()->json([
+            'status'=>500,
+            'messege' => 'Something Went Wrong'
+        ]);
+    }
+
+}
+
 }

@@ -10,16 +10,22 @@ import { useCallback } from "react";
 //Category Data
 
 const SidebarFilter = ({ className }) => {
-  const [selectData, setSelectData] = useState([])
- 
+  const [selectData, setSelectData] = useState([]);
+
   const handleSelectedData = useCallback((data) => {
     setSelectData(data);
   }, []);
- const removeFilter = (itemToRemove) => {
-  setSelectData((prevData) => prevData.filter((item) => item !== itemToRemove));
-};
+
+  const removeFilter = (itemToRemove) => {
+    setSelectData((prevData) => prevData.filter((item) => item !== itemToRemove));
+  };
+
+  const clearAllFilters = () => {
+    setSelectData([]);
+  };
+
   return (
-    <div className={cn(`min-w-72 bg-white p-3 `, className)}>
+    <div className={cn(`min-w-72 max-w-[480px] bg-white p-3 `, className)}>
       <div className="mt-5 ">
         <hr className="text-hr-thin" />
         <div className="p-4">
@@ -27,7 +33,7 @@ const SidebarFilter = ({ className }) => {
             Applied filters
           </HeadTitle>
         </div>
-        <div>
+        <div className="p-4">
   <div className=" flex flex-wrap gap-2 ">
     {selectData && selectData.length > 0 ? (
       selectData.map((item, index) => (
@@ -45,7 +51,7 @@ const SidebarFilter = ({ className }) => {
         <div></div>
         {/* //Here Filter tag End// */}
         <div className="p-4">
-          <Link className="text-secondary ">Clear All Filters</Link>
+          <Link className="text-secondary " onClick={clearAllFilters}>Clear All Filters</Link>
         </div>
         <hr className="text-hr-thin" />
         <div className=" flex justify-between items-center  p-4">
@@ -57,7 +63,7 @@ const SidebarFilter = ({ className }) => {
         <hr className="text-hr-thin" />
         {/* //DropdownFilter // */}
 
-        <DropdownFilter handleSelectedData={handleSelectedData}></DropdownFilter>
+        <DropdownFilter selectedData={selectData} setSelectedData={setSelectData}></DropdownFilter>
       </div>
 
       <hr className="text-hr-thin" />
