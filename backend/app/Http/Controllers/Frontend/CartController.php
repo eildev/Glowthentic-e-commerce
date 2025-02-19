@@ -35,14 +35,14 @@ class CartController extends Controller
             'message' => 'Product added successfully',
             'cartData' => Cart::content()
         ]);
-            
+
         } else {
             return response()->json([
             'status' => 400,
             'message' => 'Product Stock Out',
         ]);
         }
-        
+
 
     }
 

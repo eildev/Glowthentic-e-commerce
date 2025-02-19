@@ -369,7 +369,41 @@ $(document).on('click', '.Edit_Coupon', function () {
     });
 });
 
+$(document).on('click', '.delete', function () {
+    let id = $(this).data('id');
 
+    $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+    });
+
+    $.ajax({
+        url: '/coupon/delete',
+        type: 'POST',
+        data:{
+            id:id,
+        },
+       
+        success: function (response) {
+            if (response.status === 200) {
+                $('#couponEditForm')[0].reset();
+                $('#CuponEditModal').modal('hide');
+                toastr.success("Coupon Deleted Successfully");
+                showCupon();
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+                $.each(errors, function(key, value) {
+                    let inputField = $('[name="' + key + '"]');
+                    inputField.after('<span class="text-danger error-message">' + value[0] + '</span>');
+                });
+            } else {
+                alert("Something went wrong!");
+            }
+        }
+    });
+});
 
 
 

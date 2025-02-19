@@ -10,4 +10,9 @@ class Coupon extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+
+    public function promotionproduct(){
+        return $this->hasMany(PromotionProduct::class,'promotion_id','id');
+    }
 }

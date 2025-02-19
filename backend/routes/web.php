@@ -28,6 +28,7 @@ use App\Http\Controllers\Backend\historyController;
 use App\Http\Controllers\Backend\MarketingController;
 use App\Http\Controllers\Backend\ComboController;
 use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\ProductPromotionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -221,12 +222,25 @@ Route::middleware('auth', 'role:admin')->group(function () {
     Route::get('/coupon/view', 'view')->name('coupon.view');
     Route::get('/coupon/edit/{id}', 'edit')->name('coupon.edit');
     Route::post('/coupon/update', 'update')->name('coupon.update');
-    Route::get('/coupon/delete/{id}', 'delete')->name('coupon.delete');
+    Route::post('/coupon/delete', 'delete')->name('coupon.delete');
     Route::post('/coupon/status/{id}', 'statusUpdate')->name('coupon.status');
    });
 
 
+//product promotion start
 
+Route::controller(ProductPromotionController::class)->group(function(){
+
+  Route::get('/product/promotion', 'index')->name('product.promotion.index');
+    Route::post('/promotion/product/store', 'store');
+    Route::get('/promotion/product/view', 'view')->name('product.promotion.view');
+    Route::get('/promotioin/product/edit/{id}', 'edit')->name('product.promotion.edit');
+    Route::post('/promotion/product/update', 'update')->name('product.promotion.update');
+    Route::post('/promotion/product/delete/', 'delete')->name('product.promotion.delete');
+    Route::post('/product/promotion/status/{id}', 'statusUpdate')->name('product.promotion.status');
+    Route::get('/get/product/and/promotion', 'getProductPromotion');
+
+});
 
 
 

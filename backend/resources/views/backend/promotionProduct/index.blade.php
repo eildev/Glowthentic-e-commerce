@@ -12,8 +12,8 @@
                             <i class='bx bx-plus'></i>
                         </a> --}}
 
-                        <a href="#" class="btn btn-info btn-sm text-light get_product_and_combo" data-bs-toggle="modal"
-                        data-bs-target="#comboProductAddModal">
+                        <a href="#" class="btn btn-info btn-sm text-light get_product_and_promotion" data-bs-toggle="modal"
+                        data-bs-target="#ProductPromotionAddModal">
                         <i class='bx bx-plus'></i>
                     </a>
                     </div>
@@ -24,13 +24,12 @@
                                 <tr>
                                     <th>SI</th>
                                     <th>Product Name</th>
-                                    <th>Combo Name</th>
-                                    <th>Quantity</th>
-                                    <th>Status</th>
+                                    <th>Promotion Name</th>
+                                    {{-- <th>Status</th> --}}
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="comboProductTable">
+                            <tbody id="promotionProductTable">
 
                             </tbody>
 
@@ -43,15 +42,15 @@
     </div>
 
 
-    <div class="modal fade" id="comboProductAddModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="ProductPromotionAddModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Combo Product</h5>
+                    <h5 class="modal-title">Add Promotion Product</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="ComboProductAddForm" enctype="multipart/form-data">
+                    <form id="promotionProductAddForm" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="border p-4 rounded">
@@ -67,19 +66,12 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-3 col-form-label">Combo Name</label>
+                                    <label class="col-sm-3 col-form-label">Promotion Name</label>
                                     <div class="col-sm-9">
-                                        <select name="combo_id" class="form-select combos" required>
+                                        <select name="promotion_id" class="form-select promotion" required>
                                             <option value="">Choose...</option>
                                             <option>...</option>
                                         </select>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-3 col-form-label">Quantity</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" name="quantity" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -88,7 +80,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary save_combo_product">Save changes</button>
+                    <button type="button" class="btn btn-primary save_product_promotion">Save changes</button>
                 </div>
             </div>
         </div>
@@ -102,21 +94,21 @@
 
 
 
-    <div class="modal fade" id="comboProductEditModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="ProductPromotionEditModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Combo Product</h5>
+                    <h5 class="modal-title">Edit Product Promotion</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="ComboProductEditForm" enctype="multipart/form-data">
+                    <form id="ProductPromotionEditForm" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="border p-4 rounded">
                                 <hr>
+                                <input type="hidden" name="id" class="form-control promotionProduct_id" >
                                 <div class="row mb-3">
-                                    <input type="hidden" class="comboProduct_id" name="comboProduct_id" required>
                                     <label class="col-sm-3 col-form-label">Product Name</label>
                                     <div class="col-sm-9">
                                         <select name="product_id" class="form-select products" required>
@@ -127,19 +119,12 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-3 col-form-label">Combo Name</label>
+                                    <label class="col-sm-3 col-form-label">Promotion Name</label>
                                     <div class="col-sm-9">
-                                        <select name="combo_id" class="form-select combos" required>
+                                        <select name="promotion_id" class="form-select promotion" required>
                                             <option value="">Choose...</option>
                                             <option>...</option>
                                         </select>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-3 col-form-label">Quantity</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" name="quantity" class="form-control quantity" required>
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +133,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary Edit_comboProduct">Update</button>
+                    <button type="button" class="btn btn-primary Edit_promotion_Product">Update</button>
                 </div>
             </div>
         </div>
@@ -161,27 +146,28 @@
 
     <script>
 
-   $(document).on("click",".get_product_and_combo",function(){
+   $(document).on("click",".get_product_and_promotion",function(){
 
       $.ajax({
-         url:'/get/product/and/combo',
+         url:'/get/product/and/promotion',
          type:'GET',
          success:function(response){
+            console.log(response);
             let products = response.product;
-            let combos = response.combo;
+            let promotion = response.promotion;
              let productOption =`<option selected disabled>Choose...</option>`;
-             let comboOption =`<option selected disabled>Choose...</option>`;
+             let promotionOption =`<option selected disabled>Choose...</option>`;
             products.forEach(products=>{
                 productOption += `<option value="${products.id}">${products.product_name}</option>`;
             });
 
-            combos.forEach(combos=>{
-                comboOption += `<option value="${combos.id}">${combos.name}</option>`;
+            promotion.forEach(promotion=>{
+                promotionOption += `<option value="${promotion.id}">${promotion.promotion_name}</option>`;
             });
 
 
             $('.products').html(productOption);
-            $('.combos').html(comboOption);
+            $('.promotion').html(promotionOption);
          }
       });
 
@@ -189,13 +175,13 @@
 
 
 
-   $(document).on('click', '.save_combo_product', function() {
+   $(document).on('click', '.save_product_promotion', function() {
     // e.preventDefault();
 
-    let formData = new FormData($('#ComboProductAddForm')[0]);
+    let formData = new FormData($('#promotionProductAddForm')[0]);
 
     $.ajax({
-        url: '/combo/product/store',
+        url: '/promotion/product/store',
         type: "POST",
         data: formData,
         processData: false,
@@ -207,9 +193,9 @@
         success: function(response) {
             if (response.status === 200) {
 
-                $('#ComboProductAddForm')[0].reset();
-                $('#comboProductAddModal').modal('hide');
-                showComboProduct();
+                $('#promotionProductAddForm')[0].reset();
+                $('#ProductPromotionAddModal').modal('hide');
+                showProductPromotion();
                 toastr.success(response.message);
             }
         },
@@ -228,33 +214,36 @@
 });
 
 
+
+
+
 $(document).on('click','.edit',function(){
 
     let id = $(this).data('id');
 
      $.ajax({
-        url:'/combo/product/edit/'+id,
+        url:'/promotioin/product/edit/'+id,
         type:'GET',
         success:function(response){
             if(response.status === 200){
 
-             $('.quantity').val(response.comboProduct.quantity);
-             $('.comboProduct_id').val(response.comboProduct.id);
+
+             $('.promotionProduct_id').val(response.productPromotion.id);
              let products = response.product;
-            let combos = response.combo;
+            let promotion = response.promotion;
              let productOption =`<option selected disabled>Choose...</option>`;
-             let comboOption =`<option selected disabled>Choose...</option>`;
+             let promotionOption =`<option selected disabled>Choose...</option>`;
              products.forEach(product => {
-                productOption += `<option value="${product.id}" ${product.id === response.comboProduct.product_id ? 'selected' : ''}>${product.product_name}</option>`;
+                productOption += `<option value="${product.id}" ${product.id === response.productPromotion.product_id ? 'selected' : ''}>${product.product_name}</option>`;
             });
 
 
-            combos.forEach(combo => {
-                comboOption += `<option value="${combo.id}" ${combo.id === response.comboProduct.combo_id ? 'selected' : ''}>${combo.name}</option>`;
+            promotion.forEach(promotion => {
+                promotionOption += `<option value="${promotion.id}" ${promotion.id === response.productPromotion.promotion_id ? 'selected' : ''}>${promotion.promotion_name}</option>`;
             });
 
             $('.products').html(productOption);
-            $('.combos').html(comboOption);
+            $('.promotion').html(promotionOption);
 
             }
         }
@@ -262,8 +251,11 @@ $(document).on('click','.edit',function(){
 
 });
 
-  $(document).on('click','.Edit_comboProduct',function(){
-      let formdata= new FormData($('#ComboProductEditForm')[0]);
+
+
+
+  $(document).on('click','.Edit_promotion_Product',function(){
+      let formdata= new FormData($('#ProductPromotionEditForm')[0]);
       $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -271,17 +263,17 @@ $(document).on('click','.edit',function(){
                 });
 
         $.ajax({
-             url:'/combo/product/update',
+             url:'/promotion/product/update',
              type:'POST',
              data:formdata,
              processData:false,
              contentType:false,
              success:function(response){
                 if(response.status === 200){
-                    $('#ComboProductEditForm')[0].reset();
-                    $('#comboProductEditModal').modal('hide');
-                    toastr.success("Combo Product Updated Successfully");
-                    showComboProduct();
+                    $('#ProductPromotionEditForm')[0].reset();
+                    $('#ProductPromotionEditModal').modal('hide');
+                    toastr.success("Promotion Product Updated Successfully");
+                    showProductPromotion();
 
                 }
              }
@@ -303,13 +295,13 @@ $(document).on('click','.edit',function(){
                 });
 
         $.ajax({
-            url:'/combo/product/delete/',
+            url:'/promotion/product/delete/',
             type:'POST',
             data:{id:id},
             success:function(response){
                 if(response.status === 200){
                 toastr.success("Combo Product Deleted Successfully");
-                showComboProduct();
+                showProductPromotion();
                 }
             }
         });
@@ -317,71 +309,62 @@ $(document).on('click','.edit',function(){
   });
 
 
-  $(document).on('click','.change_status',function(){
-    let id = $(this).data('id');
+//   $(document).on('click','.change_status',function(){
+//     let id = $(this).data('id');
 
-     $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+//      $.ajaxSetup({
+//                     headers: {
+//                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//                     }
+//                 });
+
+//         $.ajax({
+//             url:'/combo/product/change/status',
+//             type:'POST',
+//             data:{id:id},
+//             success:function(response){
+//                 if(response.status === 200){
+//                 toastr.success("Combo Product Status Change Successfully");
+//                 showComboProduct();
+//                 }
+//             }
+//         });
+//   });
+
+
+
+
+
+
+
+
+    function showProductPromotion(){
 
         $.ajax({
-            url:'/combo/product/change/status',
-            type:'POST',
-            data:{id:id},
-            success:function(response){
-                if(response.status === 200){
-                toastr.success("Combo Product Status Change Successfully");
-                showComboProduct();
-                }
-            }
-        });
-  });
-
-
-
-
-
-
-
-
-    function showComboProduct(){
-
-        $.ajax({
-            url:'/combo/product/view',
+            url:'/promotion/product/view',
             type:'GET',
             success:function(response){
                 //  console.log(response);
                  if(response.status ===200){
 
-                    let comboProduct=response.comboProduct;
-                    //   console.log(comboProduct);
-                    $('#comboProductTable').empty();
-                    comboProduct.forEach(function(comboProduct,i){
-                        $('#comboProductTable').append(`
+                    let productPromotion=response.productPromotion;
+                    console.log(productPromotion);
+                    $('#promotionProductTable').empty();
+                    productPromotion.forEach(function(productPromotion,i){
+                        $('#promotionProductTable').append(`
                                     <tr>
                                         <td>${i+1}</td>
-                                        <td>${comboProduct.product.product_name}</td>
-                                        <td>${comboProduct.combo.name }</td>
-                                         <td>${comboProduct.quantity}</td>
-                                            <td>
-                                                <button class="btn btn-sm ${comboProduct.status =='active'? 'btn-success' : 'btn-danger'} status_toggle change_status"
-                                                    data-id="${comboProduct.id}"
-
-                                                    data-status="${comboProduct.status}">
-
-                                                ${comboProduct.status == 'active' ? 'Active' : 'Inactive'}
-                                            </button>
-                                            </td>
+                                        <td>${productPromotion.product.product_name}</td>
+                                        <td>${productPromotion.coupon.promotion_name }</td>
+                                           
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-sm btn-info dropdown-toggle" type="button"
                                                         data-bs-toggle="dropdown" aria-expanded="false">Action</button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#" class="dropdown-item edit "  data-id="${comboProduct.id}" data-bs-toggle="modal"
-                                                    data-bs-target="#comboProductEditModal">Edit</a></li>
-                                                        <li><a href="#" class="dropdown-item delete" data-id="${comboProduct.id}">Delete</a></li>
+                                                        <li><a href="#" class="dropdown-item edit "  data-id="${productPromotion.id}" data-bs-toggle="modal"
+                                                    data-bs-target="#ProductPromotionEditModal">Edit</a></li>
+                                                        <li><a href="#" class="dropdown-item delete" data-id="${productPromotion.id}">Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -397,6 +380,6 @@ $(document).on('click','.edit',function(){
         })
     }
 
-    showComboProduct();
+    showProductPromotion();
     </script>
 @endsection

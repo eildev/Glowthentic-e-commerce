@@ -143,4 +143,22 @@ class HomeBannerController extends Controller
         //     'message' => 'banner inactive successful',
         // ]);
     }
+
+    public function viewAll(){
+        $banners = HomeBanner::all();
+        return response()->json([
+            'banners' => $banners,
+            'status' => '200',
+            'message' => 'banner fetched successfully',
+        ]);
+    }
+
+    public function show($id){
+        $banner = HomeBanner::findOrFail($id);
+        return response()->json([
+            'banner' => $banner,
+            'status' => '200',
+            'message' => 'banner Search successfully',
+        ]);
+    }
 }

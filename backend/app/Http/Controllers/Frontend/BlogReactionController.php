@@ -42,7 +42,7 @@ class BlogReactionController extends Controller
                 'like'=>$like,
                'dislike'=>$dislike,
             ]);
-            
+
         }
     }
 }

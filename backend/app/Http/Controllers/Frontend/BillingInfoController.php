@@ -55,5 +55,5 @@ class BillingInfoController extends Controller
     }
 
 
-   
+
 }

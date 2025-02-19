@@ -5,14 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product_tags extends Model
+class ProductPromotion extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
+
     public function product(){
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class,'product_id','id');
     }
-    public function tag(){
-        return $this->belongsTo(TagName::class);
+
+    public function coupon(){
+        return $this->belongsTo(Coupon::class,'promotion_id','id');
     }
 }

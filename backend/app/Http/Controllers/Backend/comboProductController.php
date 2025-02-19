@@ -18,13 +18,11 @@ class comboProductController extends Controller
 
    public function view(){
     $comboProduct=ComboProduct::with('product','combo')->get();
-
-    // dd($comboProduct);
-
     return response()->json([
         'status'=>200,
-        'comboProduct'=>$comboProduct,
-        'message'=>'Data Get Successfully'
+         'message'=>'Data Get Successfully',
+        'comboProduct'=>$comboProduct
+
     ]);
    }
 
@@ -118,6 +116,17 @@ class comboProductController extends Controller
         'message'=>'Status Update Successfully'
     ]);
  }
+
+ //start rest api
+  public function show($id){
+    $comboProduct=ComboProduct::where('status','active')->with('product','combo')->find($id);
+    return response()->json([
+        'status'=>200,
+        'comboProduct'=>$comboProduct,
+        'message'=>'Data Search Successfully'
+    ]);
+  }
+
 }
 
 
