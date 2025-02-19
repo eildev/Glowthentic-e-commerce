@@ -514,7 +514,7 @@ const ProductDetails = () => {
             Prestige lA micro-huile serum frequently asked questions
           </HeadTitle>
           <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
+            <input type="checkbox" className="border"/>
             <div className="collapse-title text-lg font-medium">
               What is the best way to use this product?
             </div>
