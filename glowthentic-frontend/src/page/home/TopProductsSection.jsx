@@ -52,12 +52,12 @@ const TopProductsSection = () => {
             </SwiperSlide>
           ))}
     </Swiper>
-        <div className='lg:flex hidden button-prev3 cursor-pointer w-[40px] h-[40px] bg-white border border-[#CBCBCB] justify-center items-center absolute top-[50%] left-0 z-20 translate-x-[-50%] translate-y-[-100%]'>
+        <div className='lg:flex hidden rounded button-prev3 cursor-pointer w-[40px] h-[40px] bg-white border border-[#CBCBCB] justify-center items-center absolute top-[50%] left-0 z-20 translate-x-[-50%] translate-y-[-100%]'>
           <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7.33301 0.33334L0.666341 7.00001L7.33301 13.6667L7.33301 0.33334Z" fill="#0C0C0C" />
           </svg>
         </div>
-        <div className='lg:flex hidden button-next3 cursor-pointer w-[40px] h-[40px] bg-white border border-[#CBCBCB] justify-center items-center absolute right-0 top-[50%] translate-x-[50%] translate-y-[-100%] z-20'>
+        <div className='lg:flex hidden rounded button-next3 cursor-pointer w-[40px] h-[40px] bg-white border border-[#CBCBCB] justify-center items-center absolute right-0 top-[50%] translate-x-[50%] translate-y-[-100%] z-20'>
           <svg className='rotate-[180deg]' width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7.33301 0.33334L0.666341 7.00001L7.33301 13.6667L7.33301 0.33334Z" fill="#0C0C0C" />
           </svg>
