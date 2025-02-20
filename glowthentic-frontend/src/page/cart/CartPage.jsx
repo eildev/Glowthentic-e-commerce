@@ -21,7 +21,7 @@ const CartPage = () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItem(cart);
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    setSubTotalPrice(total);
+    setSubTotalPrice(total.toFixed(2));
   }, [reFetch]);
   
   const handleDelete = (id) => {
@@ -34,7 +34,7 @@ const CartPage = () => {
 const shippingPrice = 100
 const discountPrice = 0
 const tax = parseFloat((subTotalPrice + shippingPrice - discountPrice ) * (2.5/100)).toFixed(2)
-const totalPrice = subTotalPrice + shippingPrice + discountPrice
+const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice).toFixed(2)
 
   return (
     <div className="md:py-10">
