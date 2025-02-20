@@ -129,8 +129,8 @@ const ProductDetails = () => {
               </h4>
             </div>
             {/* //show big device small device hidden End/ / */}
-            <div className=" lg:mt-4">
-              <span className="text-secondary font-bold text-xl pe-4">
+            <div className=" lg:mt-4 text-nowrap">
+              <span className="text-secondary  font-bold text-xl pe-4">
                 $520.00
               </span>
               <span className="text-gray text-sm font-thin  pe-2 ">
