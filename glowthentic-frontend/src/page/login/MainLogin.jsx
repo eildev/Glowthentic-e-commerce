@@ -51,15 +51,28 @@ const MainLogin = () => {
                 body: JSON.stringify(data),
                 credentials: "include", // Include cookies
             });
+            // console.log(response);
+            // const text = await response.text(); 
+            // let result;
+            // try {
+            // result = JSON.parse(text); 
+            // } catch (err) {
+            //     console.log(err);
+            // throw new Error("Invalid JSON response from server");
+            // }
     
             const result = await response.json();
     
-            if (response.ok) {
-                console.log("Login successful:", result);
+            if (result.status === 200) {
+                // console.log("Login successful:", result);
+                dispatch(loginSuccess(result));                
             } else {
                 console.error("Login failed:", result.message);
+                dispatch(loginFailure(result.message));
             }
+
         } catch (err) {
+            // console.log(err);
             dispatch(loginFailure(err.message));
         }
     };
