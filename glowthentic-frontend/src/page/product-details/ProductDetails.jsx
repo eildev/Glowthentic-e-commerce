@@ -693,10 +693,10 @@ const ProductDetails = () => {
           {faqs.map((faq, index) => (
             <div key={index} className="border-t  border-t-[#CBCBCB]">
               <button
-                className="flex items-center justify-between w-full p-6"
+                className="flex items-center justify-between w-full py-4 md:py-6 px-2 md:px-4"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               >
-                <h2 className="font-bold text-xl text-[#0C0C0C]">{faq.question}</h2>
+                <h2 className="font-semibold md:font-bold text-start text-sm md:text-xl text-[#0C0C0C]">{faq.question}</h2>
                 <span
                   className={`transition-transform transform rounded-full p-1 ${
                       openIndex === index ? "text-[#0C0C0C] " : "text-[#0C0C0C]"
@@ -704,9 +704,9 @@ const ProductDetails = () => {
                 >
               
                     {openIndex === index ? (
-                      <FiMinus></FiMinus>
+                      <FiMinus className="text-xl"></FiMinus>
                     ) : (
-                      <FiPlus></FiPlus>
+                      <FiPlus className="text-xl"></FiPlus>
                     )}
                 
                 </span>
@@ -718,7 +718,7 @@ const ProductDetails = () => {
                 {faq.answer && (
                   <div>
                     <hr className="border-[0.5] border-t-[#CBCBCB]" />
-                    <p className="p-6 text-lg text-start font-normal text-[#0C0C0C]">{faq.answer}</p>
+                    <p className="p-4 text-xs md:text-lg text-start font-normal text-[#0C0C0C]">{faq.answer}</p>
                   </div>
                 )}
               </div>
