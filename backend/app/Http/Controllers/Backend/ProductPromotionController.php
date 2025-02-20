@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Coupon;
 use App\Models\ProductPromotion;
+use App\Models\Variant;
 use Validator;
 class ProductPromotionController extends Controller
 {
@@ -20,10 +21,12 @@ class ProductPromotionController extends Controller
     public function getProductPromotion(){
         $product = Product::where('status', 1)->get();
         $promotion = Coupon::where('status','promotion')->get();
+        $variant=Variant::all();
 
         return response()->json([
             'product' => $product,
             'promotion' => $promotion,
+            'variant'=>$variant
         ]);
     }
 
@@ -41,6 +44,7 @@ class ProductPromotionController extends Controller
              $product = new ProductPromotion();
             $product->product_id = $request->product_id;
             $product->promotion_id = $request->promotion_id;
+            $product->variant_id = $request->variant_id;
             $product->save();
 
             return response()->json([

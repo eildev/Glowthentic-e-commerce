@@ -74,6 +74,18 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-3 col-form-label">Variant Name</label>
+                                    <div class="col-sm-9">
+                                        <select name="variant_id" class="form-select variant" required>
+                                            <option value="">Choose...</option>
+                                            <option>...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </form>
@@ -155,8 +167,10 @@
             console.log(response);
             let products = response.product;
             let promotion = response.promotion;
+            let variant = response.variant;
              let productOption =`<option selected disabled>Choose...</option>`;
              let promotionOption =`<option selected disabled>Choose...</option>`;
+             let variantOption =`<option selected disabled>Choose...</option>`;
             products.forEach(products=>{
                 productOption += `<option value="${products.id}">${products.product_name}</option>`;
             });
@@ -164,10 +178,13 @@
             promotion.forEach(promotion=>{
                 promotionOption += `<option value="${promotion.id}">${promotion.promotion_name}</option>`;
             });
-
+              variant.forEach(variant=>{
+                variantOption += `<option value="${variant.id}">${variant.id}</option>`;
+                });
 
             $('.products').html(productOption);
             $('.promotion').html(promotionOption);
+            $('.variant').html(variantOption);
          }
       });
 
@@ -356,7 +373,7 @@ $(document).on('click','.edit',function(){
                                         <td>${i+1}</td>
                                         <td>${productPromotion.product.product_name}</td>
                                         <td>${productPromotion.coupon.promotion_name }</td>
-                                           
+
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-sm btn-info dropdown-toggle" type="button"

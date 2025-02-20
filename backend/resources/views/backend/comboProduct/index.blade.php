@@ -188,44 +188,76 @@
    });
 
 
-
    $(document).on('click', '.save_combo_product', function() {
-    // e.preventDefault();
-
     let formData = new FormData($('#ComboProductAddForm')[0]);
 
-    $.ajax({
-        url: '/combo/product/store',
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        beforeSend: function() {
-            $('.error-message').remove();
-        },
-        success: function(response) {
-            if (response.status === 200) {
-
-                $('#ComboProductAddForm')[0].reset();
-                $('#comboProductAddModal').modal('hide');
-                showComboProduct();
-                toastr.success(response.message);
-            }
-        },
-        error: function(xhr) {
-            if (xhr.status === 422) {
-                let errors = xhr.responseJSON.errors;
-                $.each(errors, function(key, value) {
-                    let inputField = $('[name="' + key + '"]');
-                    inputField.after('<span class="text-danger error-message">' + value[0] + '</span>');
-                });
-            } else {
-                alert("Something went wrong!");
-            }
+    function saveComboProduct(forceSave = false) {
+        if (forceSave) {
+            formData.append('force_save', true); // Append force_save flag
         }
-    });
+
+        $.ajax({
+            url: '/combo/product/store',
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            beforeSend: function() {
+                $('.error-message').remove();
+            },
+            success: function(response) {
+                if (response.status === 200) {
+                    $('#ComboProductAddForm')[0].reset();
+                    $('#comboProductAddModal').modal('hide');
+                    showComboProduct();
+                    toastr.success(response.message);
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 409) {
+
+                    toastr.warning(
+                        xhr.responseJSON.message + '<br><br>' +
+                        '<button type="button" class="btn btn-success btn-sm toastr-yes">Yes</button> ' +
+                        '<button type="button" class="btn btn-danger btn-sm toastr-no">No</button>',
+                        'Warning',
+                        {
+                            timeOut: 0,
+                            extendedTimeOut: 0,
+                            closeButton: false,
+                            allowHtml: true,
+                            positionClass: "toast-top-center",
+                        }
+                    );
+
+
+                    $(document).off('click', '.toastr-yes').on('click', '.toastr-yes', function() {
+                        toastr.clear();
+                        saveComboProduct(true);
+                    });
+
+                    $(document).off('click', '.toastr-no').on('click', '.toastr-no', function() {
+                        toastr.clear();
+                    });
+
+                } else if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        let inputField = $('[name="' + key + '"]');
+                        inputField.after('<span class="text-danger error-message">' + value[0] + '</span>');
+                    });
+                } else {
+                    toastr.error("Something went wrong!");
+                }
+            }
+        });
+    }
+
+    saveComboProduct(); 
 });
+
+
 
 
 $(document).on('click','.edit',function(){

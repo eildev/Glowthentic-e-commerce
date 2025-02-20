@@ -18,4 +18,12 @@ class Variant extends Model
     public function productStock(){
         return $this->hasOne(ProductStock::class,'variant_id','id');
     }
+
+    public function orderdetails(){
+        return $this->hasMany(OrderDetail::class,'variant_id','id');
+    }
+    public function promotionproduct(){
+        return $this->hasMany(PromotionProduct::class,'product_id','id');
+    }
+
 }
