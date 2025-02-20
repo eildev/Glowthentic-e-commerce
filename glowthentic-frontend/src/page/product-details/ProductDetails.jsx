@@ -85,7 +85,7 @@ const ProductDetails = () => {
   return (
     <div>
       <Container>
-        <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 ">
           {/* <---Small Device Right Section Start ----> */}
           <div className="sm:hidden block mt-4 p-2">
             <HeadTitle>
@@ -111,7 +111,7 @@ const ProductDetails = () => {
           {/*-------------------------- Slide End----------------------------*/}
 
           {/* ///Right Section // */}
-          <div className="sm:col-span-3 p-4 ">
+          <div className="sm:col-span-3 md:pt-7 md:pl-4 ">
             {/* //show big device small device hidden Start// */}
             <div className="hidden sm:block w-full">
               <HeadTitle>
@@ -129,15 +129,15 @@ const ProductDetails = () => {
               </h4>
             </div>
             {/* //show big device small device hidden End/ / */}
-            <div className=" lg:mt-4 text-nowrap">
-              <span className="text-secondary  font-bold text-xl pe-4">
+            <div className=" lg:mt-4 flex flex-wrap items-center">
+              <span className="text-secondary  font-bold text-xl  pe-4">
                 $520.00
               </span>
-              <span className="text-gray text-sm font-thin  pe-2 ">
+              <span className="text-gray  text-xs md:text-sm font-thin  pe-2 ">
                 <del>$1040.00 |</del>
               </span>
-              <span className="text-black text-sm pe-2">Save ৳651.00</span>
-              <span className="bg-secondary rounded-tl-[20px]  rounded-br-[20px] text-white    text-xs p-1 px-2">
+              <span className="text-black text-nowrap text-xs md:text-sm pe-2 font-normal">Save ৳651.00</span>
+              <span className="bg-secondary rounded-tl-[20px]  rounded-br-[20px] text-white  text-nowrap  text-xs p-1 px-2">
                 {" "}
                 50% OFF
               </span>
