@@ -5,6 +5,7 @@ import cn from "../../utils/cn";
 
 const AllProduct = () => {
   const { data, isLoading, error, className } = useGetProductsQuery();
+  
 
   console.log(data);
 
