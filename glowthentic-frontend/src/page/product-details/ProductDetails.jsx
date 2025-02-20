@@ -2,7 +2,8 @@ import Container from "../../components/Container";
 import { useRef, useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import { FiPlus } from "react-icons/fi";
+import { FiMinus } from "react-icons/fi";
 import image from "../../assets/img/homeslider/Hero.png";
 
 import image1 from "../../assets/img/special-offer/13.png";
@@ -25,7 +26,42 @@ const ProductDetails = () => {
     "https://picsum.photos/300/200",
     "https://picsum.photos/400/300",
   ];
-
+  const faqs = [
+    {
+      question: "What is the best way to use this product?",
+      answer: "Beautya s 1st revitalizing serum that concentrates the double power of the Rose de Granville from the stem to the flower torevitalize the skin twice as fast (1) and visibly rejuvenate. Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed bythe power of the Rose sap. The next-generation,92%natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated,(4) combining the nourishing richness of an oil with the deep penetration of a serum. From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin elasticity.(5) With regular use, skin looks and feels transformed. As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists, after 30 min.",
+    },
+    {
+      question: " Can this product be used on all skin types?",
+      answer: "Our product is suitable for most skin types, including normal, oily, dry, and combination skin. However, if you have sensitive skin or a skin condition, we recommend performing a patch test before using the product all over your face. Apply a small amount of the product to the inside of your elbow and wait 24 hours to make sure you do not have an allergic reaction or irritation. If you experience any discomfort, discontinue use of the product immediately",
+    },
+    {
+      question: "How often should I use this product?",
+      answer: "Richness of an oil with the deep penetration of a serum. From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin lasticity.(5) With regular use, skin looks and feels transformed. As if replenished from within, the skin seems",
+    },
+    {
+      question: "Can this product be used during pregnancy?",
+      answer: "Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed by the power of the Rose sap. The next-generation, 92% natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated",
+    },
+    {
+      question: "How often should I use this product?",
+      answer: "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
+    },
+    {
+      question: "How should I store this product?",
+      answer: "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists"
+    },
+    {
+      question: "How long will it take to see results from using this product?",
+      answer: "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
+    },
+    {
+      question: "Can this product be used in conjunction with other skincare",
+      answer: " As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
+    },
+  
+  ];
+  const [openIndex, setOpenIndex] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   console.log(activeIndex);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -509,7 +545,7 @@ const ProductDetails = () => {
         </div>
         {/* //Banner section  big Screen End// */}
         {/*  //Bottom Accordian  Start*/}
-        <div className=" ">
+        {/* <div className=" ">
           <HeadTitle className="text-center pt-4 pb-1">
             Prestige lA micro-huile serum frequently asked questions
           </HeadTitle>
@@ -645,7 +681,52 @@ const ProductDetails = () => {
               </p>
             </div>
           </div>
+        </div> */}
+
+<section className=" py-10 px-">
+      <div className="text-center pt-4 pb-1">
+        <HeadTitle className="text-2xl font-semibold text-center text-[#0C0C0C] lg:text-3xl">
+        Prestige lA micro-huile serum frequently asked questions
+        </HeadTitle>
+
+        <div className="mt-12 bg-white">
+          {faqs.map((faq, index) => (
+            <div key={index} className="border-t  border-t-[#CBCBCB]">
+              <button
+                className="flex items-center justify-between w-full p-6"
+                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+              >
+                <h2 className="font-bold text-xl text-[#0C0C0C]">{faq.question}</h2>
+                <span
+                  className={`transition-transform transform rounded-full p-1 ${
+                      openIndex === index ? "text-[#0C0C0C] " : "text-[#0C0C0C]"
+                  }`}
+                >
+              
+                    {openIndex === index ? (
+                      <FiMinus></FiMinus>
+                    ) : (
+                      <FiPlus></FiPlus>
+                    )}
+                
+                </span>
+              </button>
+
+              <div
+                className={`transition-max-height duration-300 ease-in-out overflow-hidden ${openIndex === index ? "max-h-screen" : "max-h-0"}`}
+              >
+                {faq.answer && (
+                  <div>
+                    <hr className="border-[0.5] border-t-[#CBCBCB]" />
+                    <p className="p-6 text-lg text-start font-normal text-[#0C0C0C]">{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
+    </section>
         {/*  //Bottom Accordian  End*/}
 
 
