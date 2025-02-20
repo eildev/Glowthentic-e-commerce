@@ -7,6 +7,8 @@ import bannerImage3 from "../../assets/img/banner/b3.png";
 import bannerImage4 from "../../assets/img/banner/b4.png";
 // import bannerImage5 from "../../assets/img/banner/banner-image-5.png";
 import DynamicBanner from "../../components/banner/DynamicBanner";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 
 const data = [
   {
@@ -15,7 +17,7 @@ const data = [
     price: "",
     button: "book now",
     url: "#",
-    image: bannerImage1,
+    image: [bannerImage1, bannerImage2, bannerImage3, bannerImage4],
     colspan: 2,
   },
   {
@@ -24,7 +26,7 @@ const data = [
     price: "",
     button: "Discover Now",
     url: "#",
-    image: bannerImage2,
+    image: [bannerImage2],
     colspan: 2,
   },
   {
@@ -33,7 +35,7 @@ const data = [
     price: "",
     button: "Shop Now",
     url: "#",
-    image: bannerImage3,
+    image: [bannerImage3],
     colspan: 2,
   },
   {
@@ -42,29 +44,52 @@ const data = [
     price: "",
     button: "Shop Now",
     url: "#",
-    image: bannerImage4,
+    image: [bannerImage4],
     colspan: 2,
   },
-//   {
-//     title: "Get Your 50% Off",
-//     details: "Nourish your skin with toxin-free cosmetic products.",
-//     price: "",
-//     button: "Shop Now",
-//     url: "#",
-//     image: bannerImage4,
-//     colspan: 2,
-//   },
+  {
+    title: "Get Your 50% Off",
+    details: "Nourish your skin with toxin-free cosmetic products.",
+    price: "",
+    button: "Shop Now",
+    url: "#",
+    image: [bannerImage4],
+    colspan: 2,
+  },
 ];
 
 const BannerSection = () => {
   return (
-    <div className=" px-5 py-5  flex flex-wrap justify-center gap-2 ">
+
+    <div className="flex justify-between items-center flex-wrap gap-[30px] my-[30px]">
       {data.map((element, index) => (
-        <div key={index} className="flex basis-[45%] lg:basis-[24.5%]">
-          <DynamicBanner
-            image={element?.image}
-            className="lg:rounded-lg rounded-none text-center object-cover text-white h-[180px] lg:h-[300px]"
-          ></DynamicBanner>
+        <div key={index} className={`rounded-2xl ${
+          index === 0 ? "w-[62.5%] h-[543px]" : 
+          index === 1 ? "w-[34.4%] h-[543px]" : 
+          index === 2 ? "w-[55.2%] h-[277px]" : 
+          index === 3 ? "w-[19.4%] h-[277px]" : 
+          index === 4 ? "w-[19.4%] h-[277px]" : "w-full h-full"
+        }`}> 
+ <Swiper
+    pagination={{
+      dynamicBullets: true,
+    }}
+    modules={[Pagination]}
+    className={`mySwiper rounded-2xl`}
+  >
+            
+{
+  element.image.map((image, index) => (
+    <SwiperSlide key={index} className={`cursor-pointer`}>
+      <div className="w-full h-full absolute top-0 left-0 bg-[#0F1228] bg-opacity-50">
+        <h1>{element?.title}</h1>
+      </div>
+      <img src={image} alt="" className={`object-cover w-full h-full rounded-2xl`}/>
+    </SwiperSlide>
+  ))
+ 
+}
+  </Swiper>
         </div>
       ))}
     </div>
