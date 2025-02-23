@@ -40,7 +40,36 @@ class comboProductController extends Controller
    }
 
 
-   public function store(Request $request){
+//    public function store(Request $request){
+//     $validator = Validator::make($request->all(), [
+//         'product_id' => 'required',
+//         'combo_id' => 'required',
+//         'quantity' => 'required',
+//     ]);
+
+//     if ($validator->fails()) {
+//         return response()->json([
+//             'status' => 422,
+//             'errors' => $validator->messages(),
+//         ], 422);
+//     }
+
+
+
+//     $comboProduct = new ComboProduct();
+//     $comboProduct->product_id = $request->product_id;
+//     $comboProduct->combo_id = $request->combo_id;
+//     $comboProduct->quantity = $request->quantity;
+//     $comboProduct->save();
+
+//     return response()->json([
+//         'status' => 200,
+//         'message' => 'Data Saved Successfully'
+//     ]);
+// }
+
+public function store(Request $request)
+{
     $validator = Validator::make($request->all(), [
         'product_id' => 'required',
         'combo_id' => 'required',
@@ -55,6 +84,16 @@ class comboProductController extends Controller
     }
 
 
+    $existingCombo = ComboProduct::where('product_id', $request->product_id)
+                                //  ->where('combo_id', $request->combo_id)
+                                 ->first();
+
+    if ($existingCombo && !$request->has('force_save')) {
+        return response()->json([
+            'status' => 409,
+            'message' => 'This product is already in the combo. Do you want to continue?',
+        ], 409);
+    }
     $comboProduct = new ComboProduct();
     $comboProduct->product_id = $request->product_id;
     $comboProduct->combo_id = $request->combo_id;
@@ -66,6 +105,12 @@ class comboProductController extends Controller
         'message' => 'Data Saved Successfully'
     ]);
 }
+
+
+
+
+
+
 
  public function edit($id){
     $comboProduct=ComboProduct::find($id);

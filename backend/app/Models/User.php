@@ -45,4 +45,8 @@ class User extends Authenticatable
     public function billing(){
         return $this->belongsTo(BillingInfo::class,'id','user_id');
     }
+
+    public function order(){
+        return $this->hasMany(Order::class,'user_id','id');
+    }
 }

@@ -11,7 +11,7 @@ use App\Http\Controllers\Backend\BlogCommentController;
 
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\TagNameController;
@@ -93,4 +93,10 @@ Route::controller(BlogCommentController::class)->group(function () {
     Route::get('/blogPost', 'viewAll')->name('blogPost.view');
     Route::get('/blogPost/{id}', 'show')->name('blogPost.show');
 });
+
+Route::controller(OrderController::class)->group(function () {
+    Route::post('/order/create', 'store')->name('order.store');
+    Route::get('/order/{id}', 'show')->name('order.show');
+});
+
 // Route::get('/product', [App\Http\Controllers\Backend\ProductController::class, 'index']);
