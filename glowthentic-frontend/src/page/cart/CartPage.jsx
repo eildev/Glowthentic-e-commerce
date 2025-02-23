@@ -14,16 +14,16 @@ const CartPage = () => {
   const navigate = useNavigate();
   const [voucherActive, isVoucherActive] = useState(false)
   const [cartItem, setCartItem] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [subTotalPrice, setSubTotalPrice] = useState(0);
   const [reFetch, setReFetch] = useState(false);
   
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItem(cart);
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    setTotalPrice(total);
+    setSubTotalPrice(total.toFixed(2));
   }, [reFetch]);
-
+  
   const handleDelete = (id) => {
     const updatedItems = cartItem.filter((item) => item.id!== id);
     setCartItem(updatedItems);
@@ -31,7 +31,10 @@ const CartPage = () => {
     localStorage.setItem("cart", JSON.stringify(updatedItems));
     setReFetch(!reFetch)
   }
-
+const shippingPrice = 100
+const discountPrice = 0
+const tax = parseFloat((subTotalPrice + shippingPrice - discountPrice ) * (2.5/100)).toFixed(2)
+const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice).toFixed(2)
 
   return (
     <div className="md:py-10">
@@ -44,8 +47,8 @@ const CartPage = () => {
       <Container >
 
         <div className={`lg:grid-cols-3 gap-4 ${cartItem.length == 0 ? "hidden" : "grid"}`}>
-          <div className="grid  md:bg-white p-5 lg:col-span-2">
-            <div className="flex justify-between border-b">
+          <div className=" md:bg-white p-5 lg:col-span-2">
+            <div className="flex justify-between border-b border-[#D7D7D7]">
               <HeadTitle className="md:bg-white p-5 font-medium text-base md:text-2xl leading-[24px] md:leading-[36px] ">
                 My Shoping Cart
               </HeadTitle>
@@ -131,6 +134,7 @@ const CartPage = () => {
                       <td className="text-[#191818] flex justify-end  font-semibold text-2xl md:absolute mt-2">
                         <span>$</span>{item.price}
                       </td>
+                      <td></td>
 
                     </tr>
                     ))
@@ -147,7 +151,9 @@ const CartPage = () => {
 
                 <tbody className="">
                   {/* row 1 */}
-                  <tr className="border-none">
+                  {
+                    cartItem.map((item, index) => (
+                      <tr key={index} className="border-none">
                     <div className="">
                       <th>
                         <Checkbox />
@@ -157,13 +163,13 @@ const CartPage = () => {
                           <div className="avatar">
                             <div className="mask mask-squircle h-12 w-12">
                               <img
-                                src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                                src={item?.thumbnail}
                                 alt="Avatar Tailwind CSS Component"
                               />
                             </div>
                           </div>
                           <div>
-                            <div className="font-semibold text-xs">Hart Hagerty</div>
+                            <div className="font-semibold text-xs">{item?.title}</div>
                             <div className="text-[10px] leading-3 opacity-50">
                               United States
                             </div>
@@ -185,10 +191,10 @@ const CartPage = () => {
                       <td className=" ">
                         <div className=" border-red-600 flex flex-col justify-center left-6 items-center">
                           <div className="w-20 h-8">
-                            <IncrementDecrement />
+                          <IncrementDecrement item={item} setReFetch={setReFetch} reFetch={reFetch}/>
                           </div>
 
-                          <div className="flex items-center  gap-2 pt-2">
+                          <div onClick={()=>handleDelete(item?.id)}  className="flex items-center  gap-2 pt-2">
                             <svg width="11" height="11" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M9.65096 23.1615H15.7996C20.9235 23.1615 22.973 21.112 22.973 15.9881V9.83944C22.973 4.71557 20.9235 2.66602 15.7996 2.66602H9.65096C4.52709 2.66602 2.47754 4.71557 2.47754 9.83944V15.9881C2.47754 21.112 4.52709 23.1615 9.65096 23.1615Z" stroke="#FF342D" stroke-width="1.02477" stroke-linecap="round" stroke-linejoin="round" />
                               <path d="M18.7701 9.89091C16.5361 9.66546 14.2816 9.55273 12.0373 9.55273C10.7051 9.55273 9.37289 9.62447 8.05093 9.75769L6.67773 9.89091" stroke="#FF342D" stroke-width="1.02477" stroke-linecap="round" stroke-linejoin="round" />
@@ -204,12 +210,15 @@ const CartPage = () => {
 
                       </td>
                       <td className="text-[#191818] flex items-center  font-semibold text-xl ">
-                        <span>$</span>100
+                        <span>$</span>{item.price}
                       </td>
                     </div>
 
 
                   </tr>
+                    ))
+                     
+                  }
                 </tbody>
                 {/* foot */}
               </table>
@@ -219,32 +228,38 @@ const CartPage = () => {
           <div className="grid gap-5">
             <div className="card bg-base-100 shadow-sm rounded-[5px]">
               <div className="card-body">
-                <h2 className="card-title font-medium">Cart Total</h2>
-                <div className="border-b border-gray py-2 text-gray text-sm">
-                  <ul className="flex justify-between">
-                    <li>Product Total</li>
-                    <li>
-                      100 <span>$</span>
+                <h2 className="card-title font-medium text-sm text-[#191C1F]">Cart Total</h2>
+                <div className="border-b border-gray py-2 text-gray text-sm  space-y-[10px]">
+                  <ul className="flex justify-between ">
+                    <li className="text-[11px] text-[#5F6C72]">Sub-total</li>
+                    <li className="text-[11px] text-[#191C1F] font-bold">
+                    {subTotalPrice} <span>$</span>
                     </li>
                   </ul>
-                  <ul className="flex justify-between">
-                    <li>Product Total</li>
-                    <li>
-                      100 <span>$</span>
+                  <ul className="flex justify-between text-[11px] text-[#5F6C72]">
+                  <li className="text-[11px] text-[#5F6C72]">Shipping</li>
+                    <li className="text-[11px] text-[#191C1F] font-bold">
+                      {shippingPrice} <span>$</span>
                     </li>
                   </ul>
-                  <ul className="flex justify-between">
-                    <li>Product Total</li>
-                    <li>
-                      {totalPrice} <span>$</span>
+                  <ul className="flex justify-between text-[11px] text-[#5F6C72]">
+                  <li className="text-[11px] text-[#5F6C72]">Discount</li>
+                    <li className="text-[11px] text-[#191C1F] font-bold">
+                      {discountPrice} <span>$</span>
+                    </li>
+                  </ul>
+                  <ul className="flex justify-between text-[11px] text-[#5F6C72]">
+                  <li className="text-[11px] text-[#5F6C72]">Tax</li>
+                    <li className="text-[11px] text-[#191C1F] font-bold">
+                      {tax} <span>$</span>
                     </li>
                   </ul>
                 </div>
                 <div className="pb-3">
                   <ul className="flex justify-between">
-                    <li>Product Total</li>
-                    <li>
-                    {totalPrice} <span>$</span>
+                    <li className="text-[13px] text-[#191C1F]">Product Total</li>
+                    <li className="font-bold text-[13px] text-[#191C1F]">
+                     <span>{totalPrice}$</span>
                     </li>
                   </ul>
                 </div>
@@ -256,19 +271,19 @@ const CartPage = () => {
 
             <div className="card bg-base-100  shadow-sm rounded-[5px]">
               <div className="card-body">
-                <h2 className="card-title font-medium border-b border-gray py-2">
-                  Cart Total
+                <h2 className="card-title font-medium text-sm text-[#191C1F] border-b border-[#E4E7E9] py-2">
+                Coupon Code
                 </h2>
                 <div className="py-3">
                   <input
                     id="phone"
                     type="text"
-                    placeholder="Voucher Code"
-                    className="focus:outline-none focus:ring-2 focus:ring-orange-500 border focus:border-none border-gray-thin rounded p-2 w-full"
+                    placeholder="Enter Voucher Code"
+                    className="focus:outline-none focus:ring-2 focus:ring-orange-500 border-[0.77px] focus:border-none border-[#E4E7E9] rounded p-2 w-full text-[11px]"
                   />
                 </div>
-                <div className="card-actions justify-center">
-                  <RegularButton className="btn-wide">Checkout</RegularButton>
+                <div className="card-actions justify-start">
+                  <RegularButton className="text-[10px] px-[18px] font-bold uppercase">Apply</RegularButton>
                 </div>
               </div>
             </div>

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id')->unsigned();
             $table->unsignedBigInteger('combo_id')->unsigned();
+            $table->unsignedBigInteger('variant_id')->unsigned();
+
             $table->decimal('quantity', 10, 2);
             $table->enum('status',['active','inactive'])->default('active');
 
@@ -25,6 +27,12 @@ return new class extends Migration
             ->references('id')
             ->on('products')
             ->onDelete('cascade');
+
+            $table->foreign('variant_id')
+            ->references('id')
+            ->on('variants')
+            ->onDelete('cascade');
+
             $table->foreign('combo_id')
             ->references('id')
             ->on('combos')

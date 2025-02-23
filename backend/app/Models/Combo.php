@@ -14,4 +14,12 @@ class Combo extends Model
     public function comboproduct(){
         return $this->hasMany(ComboProduct::class,'combo_id','id');
     }
+
+    public function order(){
+        return $this->hasMany(Order::class,'combo_id','id');
+    }
+
+    public function orderdetails(){
+        return $this->hasMany(OrderDetails::class,'combo_id','id');
+    }
 }

@@ -18,4 +18,8 @@ class ProductPromotion extends Model
     public function coupon(){
         return $this->belongsTo(Coupon::class,'promotion_id','id');
     }
+
+    public function variant(){
+        return $this->belongsTo(Variant::class,'variant_id','id');
+    }
 }

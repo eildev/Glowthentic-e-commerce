@@ -6,7 +6,7 @@
 
                 <div class="card-body">
                     <div class="card-title d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0 text-info">Manage Category</h5>
+                        <h5 class="mb-0 text-info">Manage Product Promotion</h5>
 
                         {{-- <a href="{{ route('category') }}" class="btn btn-info btn-sm text-light ">
                             <i class='bx bx-plus'></i>
@@ -25,6 +25,7 @@
                                     <th>SI</th>
                                     <th>Product Name</th>
                                     <th>Promotion Name</th>
+                                    <th>Variant Name</th>
                                     {{-- <th>Status</th> --}}
                                     <th>Action</th>
                                 </tr>
@@ -58,7 +59,7 @@
                                 <div class="row mb-3">
                                     <label class="col-sm-3 col-form-label">Product Name</label>
                                     <div class="col-sm-9">
-                                        <select name="product_id" class="form-select products" required>
+                                        <select name="product_id" class="form-select products" required id="product_id_variant">
                                             <option value="">Choose...</option>
                                             <option>...</option>
                                         </select>
@@ -74,6 +75,18 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-3 col-form-label">Variant Name</label>
+                                    <div class="col-sm-9">
+                                        <select name="variant_id" class="form-select variant" required>
+                                            <option value="">Choose...</option>
+                                            <option>...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </form>
@@ -111,7 +124,7 @@
                                 <div class="row mb-3">
                                     <label class="col-sm-3 col-form-label">Product Name</label>
                                     <div class="col-sm-9">
-                                        <select name="product_id" class="form-select products" required>
+                                        <select name="product_id" class="form-select products" required id="product_id_variant">
                                             <option value="">Choose...</option>
                                             <option>...</option>
                                         </select>
@@ -127,6 +140,17 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-3 col-form-label">Variant Name</label>
+                                    <div class="col-sm-9">
+                                        <select name="variant_id" class="form-select variant" required>
+                                            <option value="">Choose...</option>
+                                            <option>...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </form>
@@ -146,6 +170,30 @@
 
     <script>
 
+
+  $(document).on("change","#product_id_variant",function(){
+    let product_id = $(this).val();
+
+    $.ajax({
+        url:'/get/product/variant',
+        type:'POST',
+        data:{product_id:product_id,
+            _token: "{{ csrf_token() }}"
+        },
+        success:function(response){
+             let variant = response.variant;
+             let variantOption =``;
+              variant.forEach(variant=>{
+                variantOption += `<option value="${variant.id}">${variant.variant_name}</option>`;
+                });
+                $('.variant').html(variantOption);
+        }
+    });
+  });
+
+
+
+
    $(document).on("click",".get_product_and_promotion",function(){
 
       $.ajax({
@@ -155,8 +203,10 @@
             console.log(response);
             let products = response.product;
             let promotion = response.promotion;
+
              let productOption =`<option selected disabled>Choose...</option>`;
              let promotionOption =`<option selected disabled>Choose...</option>`;
+
             products.forEach(products=>{
                 productOption += `<option value="${products.id}">${products.product_name}</option>`;
             });
@@ -168,6 +218,7 @@
 
             $('.products').html(productOption);
             $('.promotion').html(promotionOption);
+
          }
       });
 
@@ -231,8 +282,10 @@ $(document).on('click','.edit',function(){
              $('.promotionProduct_id').val(response.productPromotion.id);
              let products = response.product;
             let promotion = response.promotion;
+            let variant = response.variant;
              let productOption =`<option selected disabled>Choose...</option>`;
              let promotionOption =`<option selected disabled>Choose...</option>`;
+             let variantOption =``;
              products.forEach(product => {
                 productOption += `<option value="${product.id}" ${product.id === response.productPromotion.product_id ? 'selected' : ''}>${product.product_name}</option>`;
             });
@@ -242,6 +295,10 @@ $(document).on('click','.edit',function(){
                 promotionOption += `<option value="${promotion.id}" ${promotion.id === response.productPromotion.promotion_id ? 'selected' : ''}>${promotion.promotion_name}</option>`;
             });
 
+            variant.forEach(variant => {
+                variantOption += `<option value="${variant.id}" ${variant.id === response.productPromotion.variant_id ? 'selected' : ''}>${variant.variant_name}</option>`;
+                });
+                $('.variant').html(variantOption);
             $('.products').html(productOption);
             $('.promotion').html(promotionOption);
 
@@ -309,27 +366,7 @@ $(document).on('click','.edit',function(){
   });
 
 
-//   $(document).on('click','.change_status',function(){
-//     let id = $(this).data('id');
 
-//      $.ajaxSetup({
-//                     headers: {
-//                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//                     }
-//                 });
-
-//         $.ajax({
-//             url:'/combo/product/change/status',
-//             type:'POST',
-//             data:{id:id},
-//             success:function(response){
-//                 if(response.status === 200){
-//                 toastr.success("Combo Product Status Change Successfully");
-//                 showComboProduct();
-//                 }
-//             }
-//         });
-//   });
 
 
 
@@ -356,7 +393,7 @@ $(document).on('click','.edit',function(){
                                         <td>${i+1}</td>
                                         <td>${productPromotion.product.product_name}</td>
                                         <td>${productPromotion.coupon.promotion_name }</td>
-                                           
+                                        <td>${productPromotion.variant.variant_name}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-sm btn-info dropdown-toggle" type="button"

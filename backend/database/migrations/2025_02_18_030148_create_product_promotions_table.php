@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id')->unsigned();
             $table->unsignedBigInteger('promotion_id')->unsigned();
+            $table->unsignedBigInteger('variant_id')->unsigned();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('promotion_id')->references('id')->on('coupons')->onDelete('cascade');
+            $table->foreign('variant_id')->references('id')->on('variants')->onDelete('cascade');
             $table->timestamps();
         });
     }

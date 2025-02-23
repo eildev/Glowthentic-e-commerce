@@ -239,6 +239,8 @@ Route::controller(ProductPromotionController::class)->group(function(){
     Route::post('/promotion/product/delete/', 'delete')->name('product.promotion.delete');
     Route::post('/product/promotion/status/{id}', 'statusUpdate')->name('product.promotion.status');
     Route::get('/get/product/and/promotion', 'getProductPromotion');
+    Route::post('/get/product/variant', 'getProductPromotionVariant');
+
 
 });
 

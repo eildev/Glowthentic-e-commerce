@@ -18,4 +18,7 @@ class ComboProduct extends Model
     public function combo(){
         return $this->belongsTo(Combo::class,'combo_id','id');
     }
+    public function variant(){
+        return $this->belongsTo(Variant::class,'variant_id','id');
+    }
 }

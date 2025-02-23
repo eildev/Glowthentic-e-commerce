@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Coupon;
 use App\Models\ProductPromotion;
+use App\Models\Variant;
 use Validator;
 class ProductPromotionController extends Controller
 {
@@ -20,10 +21,12 @@ class ProductPromotionController extends Controller
     public function getProductPromotion(){
         $product = Product::where('status', 1)->get();
         $promotion = Coupon::where('status','promotion')->get();
+        $variant=Variant::all();
 
         return response()->json([
             'product' => $product,
             'promotion' => $promotion,
+            'variant'=>$variant
         ]);
     }
 
@@ -41,6 +44,7 @@ class ProductPromotionController extends Controller
              $product = new ProductPromotion();
             $product->product_id = $request->product_id;
             $product->promotion_id = $request->promotion_id;
+            $product->variant_id = $request->variant_id;
             $product->save();
 
             return response()->json([
@@ -56,7 +60,7 @@ class ProductPromotionController extends Controller
     }
 
     public function view(){
-        $productPromotion = ProductPromotion::with('product','coupon')->get();
+        $productPromotion = ProductPromotion::with('product','coupon','variant')->get();
 
         return response()->json([
             'status'=>200,
@@ -68,10 +72,12 @@ class ProductPromotionController extends Controller
         $productPromotion = ProductPromotion::find($id);
         $product = Product::where('status', 1)->get();
         $promotion = Coupon::where('status','promotion')->get();
+        $variant=Variant::where('product_id',$productPromotion->product_id)->get();
         return response()->json([
             'status'=>200,
             'productPromotion'=>$productPromotion,
             'product'=>$product,
+            'variant'=>$variant,
             'promotion'=>$promotion
         ]);
     }
@@ -83,6 +89,7 @@ class ProductPromotionController extends Controller
             $product = ProductPromotion::find($request->id);
             $product->product_id = $request->product_id;
             $product->promotion_id = $request->promotion_id;
+            $product->variant_id = $request->variant_id;
             $product->save();
             return response()->json([
                 'status'=>200,
@@ -107,5 +114,25 @@ class ProductPromotionController extends Controller
             return response()->json(['error' => 'Something went wrong: ' . $e->getMessage()], 500);
         }
 
+    }
+
+    //rest Api
+
+    public function show($id){
+        $productPromotion = ProductPromotion::find($id);
+        return response()->json([
+            'status'=>200,
+            'messege'=>'Product Promotion search',
+            'productPromotion'=>$productPromotion
+        ]);
+    }
+
+    public function getProductPromotionVariant(Request $request){
+        $product_id = $request->product_id;
+        $variant = Variant::where('product_id', $product_id)->get();
+        return response()->json([
+            'status'=>200,
+            'variant'=>$variant
+        ]);
     }
 }

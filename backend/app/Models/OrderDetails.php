@@ -23,4 +23,8 @@ class OrderDetails extends Model
     {
         return $this->belongsTo(Variant::class);
     }
+
+    public function combo(){
+        return $this->belongsTo(Combo::class,'combo_id','id');
+    }
 }

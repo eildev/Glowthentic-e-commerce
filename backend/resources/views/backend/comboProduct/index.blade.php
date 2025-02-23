@@ -25,6 +25,7 @@
                                     <th>SI</th>
                                     <th>Product Name</th>
                                     <th>Combo Name</th>
+                                    <th>Variant Name</th>
                                     <th>Quantity</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -59,7 +60,7 @@
                                 <div class="row mb-3">
                                     <label class="col-sm-3 col-form-label">Product Name</label>
                                     <div class="col-sm-9">
-                                        <select name="product_id" class="form-select products" required>
+                                        <select name="product_id" class="form-select products" required id="product_id_variant">
                                             <option value="">Choose...</option>
                                             <option>...</option>
                                         </select>
@@ -75,6 +76,19 @@
                                         </select>
                                     </div>
                                 </div>
+
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-3 col-form-label">Variant Name</label>
+                                    <div class="col-sm-9">
+                                        <select name="variant_id" class="form-select variant" required>
+                                            <option value="">Choose...</option>
+                                            <option>...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
 
                                 <div class="row mb-3">
                                     <label class="col-sm-3 col-form-label">Quantity</label>
@@ -119,7 +133,7 @@
                                     <input type="hidden" class="comboProduct_id" name="comboProduct_id" required>
                                     <label class="col-sm-3 col-form-label">Product Name</label>
                                     <div class="col-sm-9">
-                                        <select name="product_id" class="form-select products" required>
+                                        <select name="product_id" class="form-select products" required id="product_id_variant">
                                             <option value="">Choose...</option>
                                             <option>...</option>
                                         </select>
@@ -135,6 +149,18 @@
                                         </select>
                                     </div>
                                 </div>
+
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-3 col-form-label">Variant Name</label>
+                                    <div class="col-sm-9">
+                                        <select name="variant_id" class="form-select variant" required>
+                                            <option value="">Choose...</option>
+                                            <option>...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
 
                                 <div class="row mb-3">
                                     <label class="col-sm-3 col-form-label">Quantity</label>
@@ -160,6 +186,34 @@
 
 
     <script>
+
+
+$(document).on("change","#product_id_variant",function(){
+    let product_id = $(this).val();
+
+    $.ajax({
+        url:'/get/product/variant',
+        type:'POST',
+        data:{product_id:product_id,
+            _token: "{{ csrf_token() }}"
+        },
+        success:function(response){
+            let variant = response.variant;
+             let variantOption =``;
+              variant.forEach(variant=>{
+                variantOption += `<option value="${variant.id}">${variant.variant_name}</option>`;
+                });
+                $('.variant').html(variantOption);
+        }
+    });
+  });
+
+
+
+
+
+
+
 
    $(document).on("click",".get_product_and_combo",function(){
 
@@ -188,44 +242,76 @@
    });
 
 
-
    $(document).on('click', '.save_combo_product', function() {
-    // e.preventDefault();
-
     let formData = new FormData($('#ComboProductAddForm')[0]);
 
-    $.ajax({
-        url: '/combo/product/store',
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        beforeSend: function() {
-            $('.error-message').remove();
-        },
-        success: function(response) {
-            if (response.status === 200) {
-
-                $('#ComboProductAddForm')[0].reset();
-                $('#comboProductAddModal').modal('hide');
-                showComboProduct();
-                toastr.success(response.message);
-            }
-        },
-        error: function(xhr) {
-            if (xhr.status === 422) {
-                let errors = xhr.responseJSON.errors;
-                $.each(errors, function(key, value) {
-                    let inputField = $('[name="' + key + '"]');
-                    inputField.after('<span class="text-danger error-message">' + value[0] + '</span>');
-                });
-            } else {
-                alert("Something went wrong!");
-            }
+    function saveComboProduct(forceSave = false) {
+        if (forceSave) {
+            formData.append('force_save', true); // Append force_save flag
         }
-    });
+
+        $.ajax({
+            url: '/combo/product/store',
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            beforeSend: function() {
+                $('.error-message').remove();
+            },
+            success: function(response) {
+                if (response.status === 200) {
+                    $('#ComboProductAddForm')[0].reset();
+                    $('#comboProductAddModal').modal('hide');
+                    showComboProduct();
+                    toastr.success(response.message);
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 409) {
+
+                    toastr.warning(
+                        xhr.responseJSON.message + '<br><br>' +
+                        '<button type="button" class="btn btn-success btn-sm toastr-yes">Yes</button> ' +
+                        '<button type="button" class="btn btn-danger btn-sm toastr-no">No</button>',
+                        'Warning',
+                        {
+                            timeOut: 0,
+                            extendedTimeOut: 0,
+                            closeButton: false,
+                            allowHtml: true,
+                            positionClass: "toast-top-center",
+                        }
+                    );
+
+
+                    $(document).off('click', '.toastr-yes').on('click', '.toastr-yes', function() {
+                        toastr.clear();
+                        saveComboProduct(true);
+                    });
+
+                    $(document).off('click', '.toastr-no').on('click', '.toastr-no', function() {
+                        toastr.clear();
+                    });
+
+                } else if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        let inputField = $('[name="' + key + '"]');
+                        inputField.after('<span class="text-danger error-message">' + value[0] + '</span>');
+                    });
+                } else {
+                    toastr.error("Something went wrong!");
+                }
+            }
+        });
+    }
+
+    saveComboProduct();
 });
+
+
 
 
 $(document).on('click','.edit',function(){
@@ -242,8 +328,10 @@ $(document).on('click','.edit',function(){
              $('.comboProduct_id').val(response.comboProduct.id);
              let products = response.product;
             let combos = response.combo;
+            let variant = response.variant;
              let productOption =`<option selected disabled>Choose...</option>`;
              let comboOption =`<option selected disabled>Choose...</option>`;
+             let variantOption =``;
              products.forEach(product => {
                 productOption += `<option value="${product.id}" ${product.id === response.comboProduct.product_id ? 'selected' : ''}>${product.product_name}</option>`;
             });
@@ -252,7 +340,11 @@ $(document).on('click','.edit',function(){
             combos.forEach(combo => {
                 comboOption += `<option value="${combo.id}" ${combo.id === response.comboProduct.combo_id ? 'selected' : ''}>${combo.name}</option>`;
             });
+            variant.forEach(variant => {
+                variantOption += `<option value="${variant.id}" ${variant.id === response.comboProduct.variant_id ? 'selected' : ''}>${variant.variant_name}</option>`;
+                });
 
+                $('.variant').html(variantOption);
             $('.products').html(productOption);
             $('.combos').html(comboOption);
 
@@ -364,6 +456,7 @@ $(document).on('click','.edit',function(){
                                         <td>${i+1}</td>
                                         <td>${comboProduct.product.product_name}</td>
                                         <td>${comboProduct.combo.name }</td>
+                                       <td>${comboProduct.variant?.variant_name ?? ''}</td>
                                          <td>${comboProduct.quantity}</td>
                                             <td>
                                                 <button class="btn btn-sm ${comboProduct.status =='active'? 'btn-success' : 'btn-danger'} status_toggle change_status"

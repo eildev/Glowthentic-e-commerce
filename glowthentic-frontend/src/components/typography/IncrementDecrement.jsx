@@ -42,19 +42,19 @@ const IncrementDecrement = ({ item, setReFetch, reFetch }) => {
   };
 
   return (
-    <div className="inline-flex items-center font-thin space-x-4 border border-gray-thin p-1 rounded-lg">
+    <div className="inline-flex items-center space-x-2 border border-gray-thin p-2 rounded-lg">
       <span
         className="cursor-pointer border-2 border-gray-bold rounded-md bg-gray-200 text-lg font-thin hover:bg-gray-300"
         onClick={handleDecrement}
       >
-        <Icon icon="majesticons:minus" width="1.3em" height="1.3em" />
+        <Icon icon="majesticons:minus" width="15px" height="15px" />
       </span>
-      <input className="text-lg text-center font-thin w-7" value={count} readOnly />
+      <input className="text-sm text-center font-medium w-7" value={count} readOnly />
       <span
         className="cursor-pointer border-2 border-gray-bold rounded-md bg-gray-200 text-lg font-thin hover:bg-gray-300"
         onClick={handleIncrement}
       >
-        <Icon icon="lucide:plus" width="1.3em" height="1.3em" />
+        <Icon icon="lucide:plus" width="15px" height="15px" />
       </span>
     </div>
   );
