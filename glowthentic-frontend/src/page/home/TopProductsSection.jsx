@@ -7,7 +7,7 @@ import HeadTitle from "../../components/typography/HeadTitle";
 import { Autoplay, FreeMode, Navigation } from "swiper/modules";
 const TopProductsSection = () => {
   const { data, isLoading, error } = useGetProductsQuery();
-  // console.log(data);
+  console.log(data);
   if (isLoading) return <Loading />;
   if (error) return <p>Error: {error}</p>;
   return (

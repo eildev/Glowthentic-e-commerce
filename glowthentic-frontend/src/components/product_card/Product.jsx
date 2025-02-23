@@ -9,7 +9,8 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 
 const Product = ({ product, isDark }) => {
-  const { id, title, discountPercentage, description, thumbnail: image, price, stock } = product;
+  console.log(product);
+  const { id, title, discountPercentage, description, img, thumbnail: image, price, stock } = product;
 
   const [isInCart, setIsInCart] = useState(false);
   const [isFav, setIsFav] = useState(false);
@@ -56,7 +57,7 @@ const Product = ({ product, isDark }) => {
 
   return (
     <div
-      className={`card w-auto hover:drop-shadow-md bg-light transition-all duration-300 ease-in-out transform rounded-[10px] lg:rounded-[30px] overflow-hidden ${
+      className={`card w-auto hover:drop-shadow-md bg-light transition-all duration-300 ease-in-out transform -hidden ${
         isDark ? "h-[320px] lg:h-[500px]" : ""
       }`}
     >
