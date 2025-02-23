@@ -1,6 +1,7 @@
 import HeadTitle from '../../components/typography/HeadTitle';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Product from '../../components/product_card/Product';
 
 
 const items = [
@@ -88,14 +89,15 @@ const RecommendedSlider = () => {
                     {
                         items.map((item, index) => (
                             <SwiperSlide key={index} className='cursor-pointer'>
-                        <div className='text-left border border-[#DFDFDF]'>
+                        {/* <div className='text-left border border-[#DFDFDF]'>
                             <img src={item.img} alt="" className='md:min-h-[384px] min-h-[202px] object-cover md:max-h-[384px]' />
                             <div className='p-4 pb-6 bg-white'>
                                 <h3 className='text-[#0C0C0C] sm:text-base text-sm sm:font-bold font-semibold'>{item.title}</h3>
                                 <p className='text-[#0C0C0C] text-[12px] my-2'>{item.description}</p>
                                 <p className='text-[#FA8232] sm:text-lg text-sm'>{item.price}</p>
                             </div>
-                        </div>
+                        </div> */}
+                        <Product product={item} isDark={false}></Product>
                     </SwiperSlide>
                         ))
                     }

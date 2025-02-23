@@ -19,12 +19,12 @@ const ProductQueryNavigation = () => {
   return (
     <div className="w-full flex flex-col items-center">
       {/* Navigation Bar */}
-      <ul className="flex justify-between font-semibold list-none pb-2 w-full border-b-[1px] border-gray-400 sticky top-0 bg-white z-10">
+      <ul className="flex justify-between font-semibold list-none  w-full border-b-[1px] border-gray-400 sticky top-0 bg-white z-10">
         {sectionsData.map((section) => (
           <li key={section.id}>
             <button
               className={`px-4 py-2 transition-all duration-300 ${
-                activeSection === section.id ? "border-b-2 border-black" : ""
+                activeSection === section.id ? "py-2 border-b-2 border-black" : ""
               }`}
               onClick={() => handleClick(section.id)}
             >

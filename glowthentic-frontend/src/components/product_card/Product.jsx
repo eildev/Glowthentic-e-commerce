@@ -52,7 +52,7 @@ const Product = ({ product, isDark }) => {
 
   // Calculate discount and final price
   const discountAmount = discountPercentage ? Math.ceil((discountPercentage * price) / 100) : 0;
-  const finalPrice = discountPercentage ? (price - discountAmount).toFixed(2) : price.toFixed(2);
+  const finalPrice = discountPercentage ? (price - discountAmount).toFixed(2) : price;
 
   return (
     <div
