@@ -340,6 +340,22 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <label for="" class="form-label">Variant Name</label>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <input type="text" name="variant_name"
+                                                            class="form-control  @error('variant_name') is-invalid  @enderror" id="inputEnterYourName"
+                                                            placeholder="Enter Variant Name">
+                                                         @error('variant_name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="row mb-3">
@@ -513,21 +529,19 @@
                                             <div class="row mb-3 d-flex align-items-center">
                                                 <div class="col-md-6">
                                                     <label for="image" class="form-label">Product Thumbnail</label>
-                                                    <input type="file" id="image" class="form-control  @error('product_main_image') is-invalid  @enderror"
-                                                        name="product_main_image">
-                                                    <div class="my-1"><i><b>Note:</b> Please provide 600 X 600 size
-                                                            image</i></div>
-                                                     @error('product_main_image')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                    <input type="file" id="image" class="form-control @error('product_main_image') is-invalid @enderror"
+                                                        name="product_main_image[]" multiple>
+                                                    <div class="my-1">
+                                                        <i><b>Note:</b> Please provide 600 X 600 size image</i>
+                                                    </div>
+                                                    <div id="imageCount" class="text-primary mt-1"></div> <!-- Display image count here -->
+                                                    @error('product_main_image')
+                                                    <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <img id="showImage" class=""
-                                                        style="height:'150'; width: 200px; object-fit: contain;"
-                                                        src="{{ asset('uploads/productempty.jpg') }}" alt="Product Image">
-                                                </div>
-
                                             </div>
+
+
                                             <div class="col-12">
                                                 <div class="d-grid">
                                                     <a type="" class="btn btn-primary add_product">Add
@@ -717,6 +731,13 @@
 
     <script>
 
+   document.getElementById('image').addEventListener('change', function () {
+    let count = this.files.length;
+    let message = count > 0 ? count + " image(s) selected" : "No images selected";
+    document.getElementById('imageCount').innerText = message;
+   });
+
+
         // sku Generator
         function generateProductSKU(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -751,6 +772,7 @@
     $(document).on("click", ".addRow", function () {
         let row = `<tr>
                 <td></td>
+                     <td><input type="text" class="form-control" name="variant_name[]"></td>
             <td><input type="number" class="form-control" name="price[]"></td>
             <td>  <select class="form-select @error('size') is-invalid  @enderror" name="size[]">
                                                 <option value="">Select Size</option>
@@ -800,7 +822,7 @@
                 </td>
             <td><input type="text" class="form-control" name="weight[]"></td>
             <td><input type="text" class="form-control" name="flavor[]"></td>
-            <td><input type="file" class="form-control" name="image[]"></td>
+            <td><input type="file" class="form-control" name="image[]" multiple></td>
             <td><input type="number" class="form-control" name="stock_quantity[]"></td>
             <td>
                 <button type="button" class="btn btn-danger removeRow">✖</button>
@@ -826,7 +848,7 @@
             success:function(res){
               $('#variant_form').append(
                 `
-                    <form id="variant_form_submit">
+                    <form id="variant_form_submit"  enctype="multipart/form-data">
                            <div class="col-md-12 col-sm-12">
                              <h5 class="mb-3 fw-bold  text-primary border-bottom pb-2">Variation Product Name:  ${res.product_name}</h5>
 
@@ -835,7 +857,9 @@
                                     <thead>
                                         <tr>
                                             <th></th>
+                                               <th>Variant Name</th>
                                             <th>Price</th>
+
                                             <th>Size</th>
                                             <th>Color</th>
                                             <th>Weight</th>
@@ -848,9 +872,10 @@
                                     <tbody id="productTableBody">
                                         <tr>
                                             <td><input type="hidden" name="product_id" value="${res.product_id}"></td>
+                                             <td><input type="text" class="form-control" name="variant_name[]"></td>
                                             <td><input type="number" class="form-control" name="price[]"></td>
                                             <td>
-                                                <select class="form-select @error('size') is-invalid @enderror" name="size[]">
+                                                <select class="form-select @error('size') is-invalid @enderror size" name="size[]">
                                                     <option value="">Select Size</option>
                                                     <option value="s">Small (S)</option>
                                                     <option value="m">Medium (M)</option>
@@ -869,7 +894,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <select class="form-select @error('color') is-invalid @enderror" name="color[]">
+                                                <select class="form-select @error('color') is-invalid @enderror color" name="color[]">
                                                     <option value="">Select Color</option>
                                                     <option value="black">Black</option>
                                                     <option value="white">White</option>
@@ -899,7 +924,7 @@
                                             </td>
                                             <td><input type="text" class="form-control" name="weight[]"></td>
                                             <td><input type="text" class="form-control" name="flavor[]"></td>
-                                            <td><input type="file" class="form-control" name="image[]"></td>
+                                            <td><input type="file" class="form-control" name="image[]" multiple></td>
                                             <td><input type="number" class="form-control" name="stock_quantity[]"></td>
                                             <td>
                                                 <button type="button" class="btn btn-success addRow">+</button>
@@ -908,7 +933,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="9" class="text-end">
+                                            <td colspan="10" class="text-end">
                                                 <button type="submit" class="btn btn-primary variant_save">Save</button>
                                             </td>
                                         </tr>
@@ -921,8 +946,10 @@
                 `
               )
             }
+
+
         });
-    })
+    });
 
 
 
@@ -967,6 +994,24 @@
   $(document).on("click",".variant_save",function(e){
     e.preventDefault();
 
+    let isValid = true;
+    $(".error-message").remove();
+    $("#productTableBody tr").each(function () {
+        let size = $(this).find('[name="size[]"]').val();
+        let color = $(this).find('[name="color[]"]').val();
+
+        if (!size && !color) {
+        $(this).find('[name="size[]"]').after('<div class="text-danger error-message">Size or Color is required</div>');
+        isValid = false;
+    }
+    });
+
+    if (!isValid) {
+        toastr.error("Please select at least one size and one color before saving.");
+        return;
+    }
+
+
     let formdata = new FormData($('#variant_form_submit')[0]);
 
     $.ajaxSetup({
@@ -987,11 +1032,10 @@
                     console.log(res);
                     toastr.success(res.message);
                     $('#variant_form_submit')[0].reset();
-                    location.reload();
+                    // location.reload();
                 }
-
             });
-  })
+  });
 
 
 
