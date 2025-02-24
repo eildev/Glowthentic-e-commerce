@@ -131,7 +131,7 @@
                     @php
                         $billingInfo = App\Models\BillingInfo::where('user_id', Auth::user()->id)->first();
 
-                        $orders = App\Models\Order::where('user_identity', Auth::user()->id )
+                        $orders = App\Models\Order::where('user_id', Auth::user()->id )
                         ->WhereIn('status', ['pending', 'approve', 'processing', 'delivering', 'completed'])
                         ->get();
                         //  dd($billingInfo);
@@ -143,7 +143,7 @@
 
                     {{-- Refunds body --}}
                     @php
-                        $orders = App\Models\Order::where('user_identity', Auth::user()->id )
+                        $orders = App\Models\Order::where('user_id', Auth::user()->id )
                         ->WhereIn('status', ['refunding', 'refunded'])
                         ->get();
                         //  dd($billingInfo);

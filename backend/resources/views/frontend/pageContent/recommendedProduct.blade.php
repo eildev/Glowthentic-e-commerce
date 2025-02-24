@@ -9,7 +9,7 @@
         @php
             $brand = App\Models\Brand::where('BrandName', 'like', '%' . 'Local' . '%')->first();
             $products = App\Models\Product::whereHas('varient')
-                ->where('brand_id', $brand->id)
+                ->where('brand_id', $brand->id ?? 0)
                 ->take(10)
                 ->orderBy('id', 'ASC')
                 ->get();

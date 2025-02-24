@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('order_id')->unsigned();
-            $table->bigInteger('product_id')->nullable();
-            $table->bigInteger('variant_id')->nullable();
-            $table->bigInteger('combo_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('variant_id')->nullable();
+            $table->unsignedBigInteger('combo_id')->nullable();
             $table->bigInteger('product_quantity');
-            $table->decimal('total_price','10','2');
+            $table->decimal('total_price', '10', '2');
             // $table->string('weight');
             $table->float('unit_price');
 
@@ -26,15 +26,15 @@ return new class extends Migration
                 ->references('id')
                 ->on('orders')
                 ->onDelete('cascade');
-                $table->foreign('combo_id')
+            $table->foreign('combo_id')
                 ->references('id')
                 ->on('combos')
                 ->onDelete('cascade');
 
-                $table->foreign('product_id')
+            $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-                $table->foreign('variant_id')
+            $table->foreign('variant_id')
                 ->references('id')
                 ->on('variants');
 
