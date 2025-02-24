@@ -103,3 +103,8 @@
       scrollbar-width: none;  /* Firefox */
 }
 }
+
+
+.custome-font{
+  font-family: "Playfair Display", serif;
+}
