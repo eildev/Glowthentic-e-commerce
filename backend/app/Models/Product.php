@@ -50,4 +50,9 @@ class Product extends Model
     public function product_tags(){
         return $this->hasMany(Product_tags::class,'product_id','id');
     }
+
+
+    public function variantImage(){
+        return $this->hasMany(VariantImageGallery::class,'variant_id','id');
+    }
 }

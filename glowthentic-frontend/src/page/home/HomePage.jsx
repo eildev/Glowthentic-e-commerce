@@ -7,6 +7,7 @@ import HomeSlider from "./HomeSlider";
 import LatestBannerSection from "./LatestBannerSection";
 import TopProductsSection from "./TopProductsSection";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+import BannerCollection from "./BannerCollection";
 const HomePage = () => {
   return (
     <div>
@@ -16,6 +17,7 @@ const HomePage = () => {
       <Container>
         {/*--------- Banner Section -----------*/}
         <BannerSection />
+        <BannerCollection></BannerCollection>
         {/*--------- Banner Section -----------*/}
         <LatestBannerSection />
         <CategorySection />

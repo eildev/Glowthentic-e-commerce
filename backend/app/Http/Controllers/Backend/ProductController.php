@@ -10,6 +10,7 @@ use App\Models\ProductDetails;
 use App\Models\Product_tags;
 use App\Models\ProductStock;
 use App\Models\Variant;
+use App\Models\VariantImageGallery;
 use Validator;
 use Auth;
 
@@ -80,7 +81,7 @@ class ProductController extends Controller
     // }
 
     public function store(Request $request){
-        // dd($request->all());
+        //  dd($request->all());
         $validator = Validator::make($request->all(), [
             'category_id' => 'required',
             // 'subcategory_id' => 'required',
@@ -99,7 +100,9 @@ class ProductController extends Controller
             'gender' => 'required',
             // 'ingredients'=>'nullable|string',
             // 'usage_instruction'=>'nullable|string',
-            'product_main_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+           'product_main_image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_main_image' => 'required|array',
+
             'stock_quantity' => 'required|integer|min:0',
         ]);
 
@@ -152,18 +155,41 @@ class ProductController extends Controller
                 $variant->size=$request->size;
                 $variant->color=$request->color;
                 $variant->regular_price=$request->price;
+                $variant->variant_name=$request->variant_name;
                 $variant->weight=$request->weight;
                 $variant->flavor=$request->flavor;
 
-                if($request->hasFile('product_main_image')){
-                    $file = $request->file('product_main_image');
-                    $extension =$file->extension();
-                    $filename = time().'.'.$extension;
-                    $path='uploads/products/variant/';
-                    $file->move($path,$filename);
-                    $variant->image=$path.$filename;
-                }
+                // if($request->hasFile('product_main_image')){
+                //     $file = $request->file('product_main_image');
+                //     $extension =$file->extension();
+                //     $filename = time().'.'.$extension;
+                //     $path='uploads/products/variant/';
+                //     $file->move($path,$filename);
+                //     $variant->image=$path.$filename;
+                // }
                 $variant->save();
+                if($variant->id){
+                 if($request->hasFile('product_main_image')){
+                    foreach ($request->file('product_main_image') as $image) {
+                     $file = $image;
+                     $extension = $file->extension();
+                     $filename = time().'.'.$extension;
+                     $path = 'uploads/products/variant/';
+                     $file->move($path, $filename);
+                     $galleryImage = $path.$filename;
+                    $productGallery = new VariantImageGallery;
+                    $productGallery->variant_id = $variant->id;
+                    $productGallery->product_id = $product->id;
+                    $productGallery->image = $galleryImage;
+                    $productGallery->save();
+                }
+                 }
+                }
+
+
+
+
+
                }
 
                if($product && $variant && $request->stock_quantity){
@@ -423,39 +449,59 @@ class ProductController extends Controller
         ]);
     }
 
+
+
     public function variantProductStore(Request $request)
 {
 
+    try{
 
-    if ($request->price ??0) {
-        foreach ($request->price as $key => $price) {
+        if ($request->price ??0) {
+            foreach ($request->price as $key => $price) {
 
-            $productVerify = Variant::where('product_id', $request->product_id)->first();
+                $productVerify = Variant::where('product_id', $request->product_id)->first();
 
-            $variant = new Variant;
-            $variant->product_id = $request->product_id;
-            $variant->size = $request->size[$key];
-            $variant->color = $request->color[$key];
-            $variant->regular_price = $price;
-            $variant->weight = $request->weight[$key];
+                $variant = new Variant;
+                $variant->product_id = $request->product_id;
+                $variant->size = $request->size[$key];
+                $variant->color = $request->color[$key];
+                $variant->regular_price = $price;
+                $variant->weight = $request->weight[$key];
             $variant->flavor = $request->flavor[$key];
-
+            $variant->variant_name = $request->variant_name[$key];
 
             if ($productVerify) {
                 $variant->status = "Variant";
             }
+            $variant->save();
 
 
-            if ($request->hasFile('image') && isset($request->image[$key])) {
-                $file = $request->file('image')[$key];
-                $extension = $file->extension();
-                $filename = time() . '_' . $key . '.' . $extension;
-                $path = 'uploads/products/variant/';
-                $file->move(public_path($path), $filename);
-                $variant->image = $path . $filename;
+            if($variant->id){
+
+                if($request->hasFile('image')&& isset($request->image[$key])){
+                    foreach($request->image as $key => $image) {
+                    dd($request->image[$key]);
+                    $file = $request->file('image')[$key];
+                    $extension = $file->extension();
+                    $filename = time() . '_' . $key . '.' . $extension;
+                    $path = 'uploads/products/variant/';
+                    $file->move($path,$filename);
+                    $galleryImage = $path.$filename;
+
+                    $variantImage = new VariantImageGallery();
+                    $variantImage->variant_id = $variant->id;
+                    $variantImage->product_id= $request->product_id;
+                    $variantImage->image = $galleryImage;
+                    $variantImage->save();
+                }
+               }
             }
 
-            $variant->save();
+
+
+
+
+
 
 
             if ($request->stock_quantity && isset($request->stock_quantity[$key])) {
@@ -473,9 +519,16 @@ class ProductController extends Controller
     }
 
     return response()->json([
-        'status' => '200',
+        'status' => 200,
         'message' => 'Variant saved successfully',
     ]);
+}
+catch (\Exception $e) {
+    return response()->json([
+        'status' => '500',
+        'message' => 'Something went wrong',
+    ]);
+}
 }
 
 //rest Api Start
