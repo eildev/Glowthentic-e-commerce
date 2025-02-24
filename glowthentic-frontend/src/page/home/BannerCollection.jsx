@@ -33,7 +33,7 @@ const BannerCollection = () => {
             </div>
           ))}
         </Slider>
-        {/* Overlay Text */}
+
         <div className="absolute inset-0 flex flex-col justify-center items-start text-white px-3 sm:translate-y-[-10%] py-1 w-[82px] md:w-[217px] pointer-events-none ">
           <h2 className="custome-font leading-[17px] md:leading-10 text-lg l md:text-5xl font-bold mb-2 md:mb-10">
             Free Shipping Beauty
@@ -56,7 +56,7 @@ const BannerCollection = () => {
               ))}
             </Slider>
 
-            {/* Overlay Text */}
+          
             <div className="absolute inset-0 flex flex-col justify-center items-start text-white p-8 w-[217px] pointer-events-none">
               <h2 className="custome-font leading-[46px] text-5xl font-bold mb-32">Free Shipping Beauty</h2>
               <button className="mt-4 px-4 py-2 bg-white text-black rounded-full pointer-events-auto">Book Now</button>
@@ -73,7 +73,7 @@ const BannerCollection = () => {
 
         {/* Bottom Row */}
         <div className="flex gap-8">
-          {/* Discount Box - Larger Section */}
+       
           <div className="relative bg-[#0F1228] text-white p-4 rounded-lg w-[676px] h-[277px] flex flex-col justify-center items-start">
             <img src={bannerImg3} alt="Discount" className="absolute inset-0 transform scale-x-[-1] w-full h-full object-cover opacity-50 rounded-lg" />
             <h3 className="text-3xl font-medium relative z-10">Get Your 50% Off</h3>
@@ -83,7 +83,7 @@ const BannerCollection = () => {
             <button className="mt-4 px-3 py-1 bg-white text-black rounded-full text-sm relative z-10">Shop Now</button>
           </div>
 
-          {/* Check This Out */}
+       
           <div className="relative bg-[#0F1228] text-white p-4 rounded-lg w-[238px] h-[277px] flex flex-col justify-center items-start">
             <img src={bannerImg4} alt="Check This Out" className="absolute inset-0 w-full h-full object-cover opacity-30 rounded-lg" />
             <h3 className="text-3xl font-medium w-[123px] leading-[34px] relative z-10">Check This Out</h3>
@@ -92,7 +92,7 @@ const BannerCollection = () => {
             </p>
           </div>
 
-          {/* Body Lotion */}
+        
           <div className="relative bg-[#0F1228] text-white p-4 rounded-lg w-[238px] h-[277px] flex flex-col justify-center items-start">
             <img src={bannerImg5} alt="Body Lotion" className="absolute inset-0 w-full h-full object-cover opacity-50 rounded-lg" />
             <h3 className="text-3xl font-medium w-[123px] leading-[34px] relative z-10">Body Lotion</h3>
