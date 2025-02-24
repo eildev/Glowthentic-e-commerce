@@ -16,7 +16,7 @@ const HomePage = () => {
       <HomeSlider></HomeSlider>
       <Container>
         {/*--------- Banner Section -----------*/}
-        <BannerSection />
+        {/* <BannerSection /> */}
         <BannerCollection></BannerCollection>
         {/*--------- Banner Section -----------*/}
         <LatestBannerSection />
