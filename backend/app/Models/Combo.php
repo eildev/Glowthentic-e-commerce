@@ -22,4 +22,8 @@ class Combo extends Model
     public function orderdetails(){
         return $this->hasMany(OrderDetails::class,'combo_id','id');
     }
+
+    public function comboimage(){
+        return $this->hasMany(ComboImageGallery::class,'combo_id','id');
+    }
 }

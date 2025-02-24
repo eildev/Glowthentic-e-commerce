@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->decimal('shipping_charge','10','2')->nullable();
             $table->decimal('grand_total','10','2');
-            $table->enum('status', ['pending', 'completed', 'cancelled', 'returned'])->default('pending');
+            $table->enum('status', ['pending', 'completed', 'cancelled', 'returned','approve','processing','Delivering'])->default('pending');
             $table->enum('payment_status', ['paid', 'processing','due']);
             $table->string('order_note')->nullable();
 

@@ -251,33 +251,47 @@ $(document).on('click', '.get_parent_category', function () {
 
 
   //Add Category
-     $(document).on('click','.save_category',function(){
+  $(document).on('click', '.save_category', function (e) {
+    e.preventDefault();
 
-        let formData = new FormData($('#AddCategoryForm')[0]);
-        $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+    let formData = new FormData($('#AddCategoryForm')[0]);
 
-            $.ajax({
-               url:'/category/store',
-               type:"POST",
-               data:formData,
-                contentType: false,
-                processData: false,
-               success:function(response){
-                $('#AddCategoryForm')[0].reset();
-                $('#categoryAddModal').modal('hide');
-                toastr.success('Category Added Succesfully');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $('.error-message').remove();
+    $.ajax({
+        url: '/category/store',
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.status == 200) {
+            $('#AddCategoryForm')[0].reset();
+            // $('#showImage')[0].reset();
+            $('#categoryAddModal').modal('hide');
+            toastr.success('Category Added Successfully');
 
-                dataShow();
-               }
+            dataShow();
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
 
-            });
-
-     });
-
+                $.each(errors, function(key, value) {
+                    let inputField = $('[name="' + key + '"]');
+                    inputField.after('<span class="text-danger error-message">' + value[0] + '</span>');
+                });
+            } else {
+                alert("Something went wrong!");
+            }
+        }
+    });
+});
 
 //edit category
 
@@ -288,7 +302,7 @@ $(document).on('click','.Edit_category',function(){
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+            $('.error-message').remove();
             $.ajax({
                url:'/category/update',
                type:"POST",
@@ -302,7 +316,20 @@ $(document).on('click','.Edit_category',function(){
                 toastr.success('Category Updated Succesfully');
 
                 dataShow();
-               }
+               },
+
+               error: function(xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+
+                $.each(errors, function(key, value) {
+                    let inputField = $('[name="' + key + '"]');
+                    inputField.after('<span class="text-danger error-message">' + value[0] + '</span>');
+                });
+            } else {
+                alert("Something went wrong!");
+            }
+        }
 
             });
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Combo;
-
+use App\Models\ComboImageGallery;
 class ComboController extends Controller
 {
     public function index()
@@ -23,19 +23,31 @@ class ComboController extends Controller
 
         // dd($request->all());
 
-        if($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/combo'), $imageName);
-        }
-        Combo::create([
-            'name' => $request->combo_name,
-            'offerd_price' => $request->combo_price,
-            'image' => $imageName,
-        ]);
+        $combo = new Combo();
+        $combo->name = $request->combo_name;
+        $combo->offerd_price = $request->combo_price;
+        $combo->save();
+        if($combo->id){
+        if($request->hasFile('image')){
+            foreach($request->file('image') as $image){
+                $file=$image;
+                $extension = $file->extension();
+                $filename = time().'.'.$extension;
+                $path ='uploads/combo/image/';
+                $file->move($path,$filename);
 
+                $combo_image = new ComboImageGallery();
+                $combo_image->combo_id = $combo->id;
+                $combo_image->image = $path.$filename;
+                $combo_image->save();
+
+            }
+        }
+    }
         return response()->json(['message' => 'Combo created successfully']);
     }
+
+
 
     public function view(){
         $combos = Combo::latest()->get();
@@ -47,41 +59,38 @@ class ComboController extends Controller
 
     public function viewDeatils($id){
         $combo = Combo::findOrFail($id);
+        $combo_image = ComboImageGallery::where('combo_id',$id)->get();
        return response()->json([
         'status' => 200,
         'combo' => $combo,
+        'combo_image' => $combo_image,
        ]);
     }
 
     public function update(Request $request)
     {
 
-        $combo = Combo::find($request->combo_id);
-
-        if (!$combo) {
-            return response()->json(['status' => 404, 'message' => 'Combo not found']);
-        }
-
-
-        if ($request->hasFile('image')) {
-
-            if ($combo->image && file_exists(public_path('uploads/combo/' . $combo->image))) {
-                unlink(public_path('uploads/combo/' . $combo->image));
-            }
-
-
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/combo'), $imageName);
-
-
-            $combo->image = $imageName;
-        }
-
-
+        $combo = Combo::findOrFail($request->combo_id);
         $combo->name = $request->combo_name;
         $combo->offerd_price = $request->combo_price;
         $combo->save();
+        if($combo->id){
+        if($request->hasFile('image')){
+            foreach($request->file('image') as $image){
+                $file=$image;
+                $extension = $file->extension();
+                $filename = time().'.'.$extension;
+                $path ='uploads/combo/image/';
+                $file->move($path,$filename);
+
+                $combo_image = new ComboImageGallery();
+                $combo_image->combo_id = $combo->id;
+                $combo_image->image = $path.$filename;
+                $combo_image->save();
+
+            }
+        }
+    }
 
         return response()->json(['message' => 'Combo updated successfully']);
     }
@@ -98,7 +107,7 @@ class ComboController extends Controller
 
     public function StatusChange(Request $request){
         $id=$request->status_id;
-  
+
         $combo = Combo::find($id);
         if($combo->status == 'active'){
             $combo->status ='inactive';
@@ -109,6 +118,20 @@ class ComboController extends Controller
             $combo->save();
         }
             return response()->json(['message'=>'Status Updated Successfully']);
+        }
+
+        public function comboDeleteImage(Request $request){
+            $id=$request->image_id;
+            $combo_image = ComboImageGallery::find($id);
+
+            if($combo_image && file_exists($combo_image->image)){
+                unlink($combo_image->image);
+                $combo_image->delete();
+                return response()->json([
+                    'status'=>200,
+                    'message'=>'Image Deleted Successfully'
+                ]);
+            }
         }
     }
 

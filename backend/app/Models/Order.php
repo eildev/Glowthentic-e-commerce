@@ -28,4 +28,8 @@ class Order extends Model
     public function combos(){
         return $this->belongsTo(User::class,'combo_id','id');
     }
+
+    public function deliveryOrder(){
+        return $this->hasOne(DeliveryOrder::class,'order_id','id');
+    }
 }

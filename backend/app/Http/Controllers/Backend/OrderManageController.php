@@ -153,16 +153,18 @@ class OrderManageController extends Controller
         $denied_order->update();
         return back()->with('success','Order Status Denied Sucessfully');
     }
-    public function adminApprove($invoice){
-        $newOrders = Order::where("invoice_number",$invoice)->latest()->first();
-        $newOrders->status = "approve";
+    public function adminApprove($id){
+
+        $newOrders = Order::where("id",$id)->latest()->first();
+
+        $newOrders->status="approve";
         $newOrders->update();
 
         $trackingUrl = 'https://sobrokom.store/order-tracking';
         $number = $newOrders->user_identity;
         $api_key = "0yRu5BkB8tK927YQBA8u";
         $senderid = "8809617615171";
-        $message = "Your order has been confirmed. your invoice number is : ".$invoice." you find your product using this invoice Number in here: ".$trackingUrl;
+        $message = "Your order has been confirmed. your invoice number is : ".$newOrders->invoice_number." you find your product using this invoice Number in here: ".$trackingUrl;
         $url = "http://bulksmsbd.net/api/smsapi";
         $data = [
             "api_key" => $api_key,
@@ -182,14 +184,14 @@ class OrderManageController extends Controller
         $url = 'https://sobrokom.store/order-tracking/invoice';
         $data = [
             'name' => $newOrders->first_name,
-            'invoiceNumber' => $invoice,
+            'invoiceNumber' => $newOrders->invoice_number,
             'trackingURL'=> $url
         ];
         if(!empty($email->email)){
             Mail::to($email->email)->send(new OrderMail($data));
         }
-        
-        
+
+
         $response = json_decode($response, true);
         if($response['response_code'] == 202){
             return back()->with('success','Order Successfully Approved');

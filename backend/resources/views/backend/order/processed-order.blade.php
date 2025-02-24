@@ -23,8 +23,9 @@
                                     <th>Product Qty</th>
                                     <th>Amount</th>
                                     <th>Pay to</th>
+                                    <th>Payment Status</th>
+                                    <th>Order Status</th>
                                     <th>Address</th>
-                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -41,18 +42,23 @@
                                     @endphp
                                         <tr>
                                             <td>{{ $serialNumber++ }}</td>
-                                            <td>{{ $formattedDate }}</td>
-                                            <td>{{ $order->invoice_number }}</td>
-                                            <td>{{ $order->user_identity }}</td>
-                                            <td>{{ $order->product_quantity }}</td>
-                                            <td>{{ $order->grand_total }}</td>
-                                            <td>{{ $order->payment_method }}</td>
-                                            <td>{{ $order->orderBillingDetails->address_1 ?? '' }}</td>
+                                                <td>{{ $formattedDate }}</td>
+                                                <td>{{ $order->invoice_number }}</td>
+                                                <td>0170........</td>
+                                                <td>{{ $order->total_quantity }}</td>
+                                                <td>{{ $order->grand_total }}</td>
+                                                <td>{{ $order->payment_method }}</td>
+                                                <td>{{ $order->payment_status }}</td>
+
+                                                <td>
+                                                    <span class="text-warning text-capitalize">{{ $order->status }}</span>
+                                                </td>
+                                                <td>Banasree</td>
                                             <td>
-                                                <span class="text-warning text-capitalize">{{ $order->status }}</span>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('admin.delivery.order',$order->invoice_number) }}" class="btn btn-sm btn-info">Delivery</a>
+                                                <a href="#" class="btn btn-info btn-sm text-light send_data_id" data-id="{{$order->id}}" data-bs-toggle="modal"
+                                                data-bs-target="#orderAssign">
+                                               Assign Order
+                                            </a>
                                                 <a href="{{ route('order.details', $order->id) }}" class="btn btn-sm btn-success">View</a>
                                                 <a href="#" class="btn btn-sm btn-danger" id="delete">Cancel</a>
                                             </td>
@@ -72,4 +78,137 @@
         </div>
         <!--end row-->
     </div>
+
+
+    <div class="modal fade" id="orderAssign" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Assign Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="couponErrorMessages" class="alert alert-danger d-none"></div>
+                    <form id="deliverAssignForm" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body">
+                            <div class="border p-4 rounded">
+                                <hr>
+
+                              <input type="hidden" class="order_id" name="order_id">
+                                <!-- Discount Type -->
+                                <div class="row mb-3">
+                                    <label class="col-sm-3 col-form-label">Assign To</label>
+                                    <div class="col-sm-9">
+                                        <select name="delivery_method" class="form-select assign_type" required>
+                                            <option value="">Choose...</option>
+                                            <option value="In-house">Delivery Man</option>
+                                            <option value="third-party">Courier</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3" id="delivery_man" style="display: none;">
+                                    <label class="col-sm-3 col-form-label">Delivery Man</label>
+                                    <div class="col-sm-9">
+                                        <select name="assign_to" class="form-select" required>
+                                            <option value="">Choose...</option>
+                                            <option value="X">X</option>
+                                            <option value="Y">Y</option>
+                                            <option value="Z">Z</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3" id="courier" style="display: none;">
+                                    <label class="col-sm-3 col-form-label">Courier</label>
+                                    <div class="col-sm-9">
+                                        <select name="courier_service" class="form-select" required>
+                                            <option value="">Choose...</option>
+                                            <option value="Stead Fast">Stead Fast</option>
+                                            <option value="Pathao">Pathao</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary assign_deliver">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+    $(document).on('click','.assign_deliver',function(){
+        let formData = new FormData($('#deliverAssignForm')[0]);
+        $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('.error-message').remove();
+            $.ajax({
+
+                url:"{{url('admin/order/assign-deliver')}}",
+                type:"POST",
+                data:formData,
+                processData: false,
+                contentType: false,
+                success:function(response){
+                    if(response.status == 200){
+                        $('#deliverAssignForm')[0].reset();
+                        $('#orderAssign').modal('hide');
+                        toastr.success("Order Assign Successfully");
+                    }
+                },
+
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+
+                        $.each(errors, function(key, value) {
+                            let inputField = $('[name="' + key + '"]');
+                            inputField.after('<span class="text-danger error-message">' + value[0] + '</span>');
+                        });
+                    } else {
+                        alert("Something went wrong!");
+                    }
+                }
+
+            });
+
+
+      });
+
+
+
+
+
+        $(document).on('change','.assign_type',function(){
+             let assign_type = $(this).val();
+             if(assign_type ==='third-party'){
+                $('#delivery_man').fadeOut();
+                $('#courier').fadeIn();
+             }
+
+             else{
+
+                $('#courier').fadeOut();
+                $('#delivery_man').fadeIn();
+             }
+        });
+
+        $(document).on('click','.send_data_id',function(){
+            let order_id = $(this).data('id');
+            $('.order_id').val(order_id);
+        });
+    </script>
 @endsection

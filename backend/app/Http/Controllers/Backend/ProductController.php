@@ -451,85 +451,219 @@ class ProductController extends Controller
 
 
 
-    public function variantProductStore(Request $request)
+//     public function variantProductStore(Request $request)
+// {
+
+//     try{
+
+//         if ($request->price ??0) {
+//             foreach ($request->price as $key => $price) {
+
+//                 $productVerify = Variant::where('product_id', $request->product_id)->first();
+
+//                 $variant = new Variant;
+//                 $variant->product_id = $request->product_id;
+//                 $variant->size = $request->size[$key];
+//                 $variant->color = $request->color[$key];
+//                 $variant->regular_price = $price;
+//                 $variant->weight = $request->weight[$key];
+//             $variant->flavor = $request->flavor[$key];
+//             $variant->variant_name = $request->variant_name[$key];
+
+//             if ($productVerify) {
+//                 $variant->status = "Variant";
+//             }
+//             $variant->save();
+
+
+//             if($variant->id){
+
+//                 if($request->hasFile('image')&& isset($request->image[$key])){
+//                     foreach($request->image as $key => $image) {
+//                     dd($request->image[$key]);
+//                     $file = $request->file('image')[$key];
+//                     $extension = $file->extension();
+//                     $filename = time() . '_' . $key . '.' . $extension;
+//                     $path = 'uploads/products/variant/';
+//                     $file->move($path,$filename);
+//                     $galleryImage = $path.$filename;
+
+//                     $variantImage = new VariantImageGallery();
+//                     $variantImage->variant_id = $variant->id;
+//                     $variantImage->product_id= $request->product_id;
+//                     $variantImage->image = $galleryImage;
+//                     $variantImage->save();
+//                 }
+//                }
+//             }
+
+
+
+
+
+
+
+
+//             if ($request->stock_quantity && isset($request->stock_quantity[$key])) {
+
+//                 $stock = new ProductStock();
+//                 $stock->product_id = $request->product_id;
+//                 $stock->variant_id = $variant->id;
+//                 $stock->StockQuantity = $request->stock_quantity[$key];
+//                 $stock->status = 'Available';
+
+//                 $stock->save();
+
+//             }
+//         }
+//     }
+
+//     return response()->json([
+//         'status' => 200,
+//         'message' => 'Variant saved successfully',
+//     ]);
+// }
+// catch (\Exception $e) {
+//     return response()->json([
+//         'status' => '500',
+//         'message' => 'Something went wrong',
+//     ]);
+// }
+// }
+
+// public function variantProductStore(Request $request)
+// {
+
+//     try {
+//         if ($request->price ?? 0) {
+//             foreach ($request->price as $key => $price) {
+
+//                 $productVerify = Variant::where('product_id', $request->product_id)->first();
+
+//                 $variant = new Variant;
+//                 $variant->product_id = $request->product_id;
+//                 $variant->size = $request->size[$key];
+//                 $variant->color = $request->color[$key];
+//                 $variant->regular_price = $price;
+//                 $variant->weight = $request->weight[$key];
+//                 $variant->flavor = $request->flavor[$key];
+//                 $variant->variant_name = $request->variant_name[$key];
+
+//                 if ($productVerify) {
+//                     $variant->status = "Variant";
+//                 }
+//                 $variant->save();
+
+
+//                 if ($variant->id && $request->hasFile('image')) {
+
+//                     foreach ($request->file('image')[$key] as $image) {
+
+//                         $extension = $image->extension();
+//                         $filename = time() . '_' . uniqid() . '.' . $extension;
+//                         $path = 'uploads/products/variant/';
+//                         $image->move($path,$filename);
+//                         $galleryImage = $path . $filename;
+
+
+//                         $variantImage = new VariantImageGallery();
+//                         $variantImage->variant_id = $variant->id;
+//                         $variantImage->product_id = $request->product_id;
+//                         $variantImage->image = $galleryImage;
+//                         $variantImage->save();
+//                     }
+//                 }
+
+//                 // **Handling stock for each variant**
+//                 if ($request->stock_quantity && isset($request->stock_quantity[$key])) {
+//                     $stock = new ProductStock();
+//                     $stock->product_id = $request->product_id;
+//                     $stock->variant_id = $variant->id;
+//                     $stock->StockQuantity = $request->stock_quantity[$key];
+//                     $stock->status = 'Available';
+//                     $stock->save();
+//                 }
+//             }
+//         }
+
+//         return response()->json([
+//             'status' => 200,
+//             'message' => 'Variant saved successfully',
+//         ]);
+//     } catch (\Exception $e) {
+//         return response()->json([
+//             'status' => 500,
+//             'message' => 'Something went wrong',
+//             'error' => $e->getMessage(),
+//         ]);
+//     }
+// }
+
+
+public function variantProductStore(Request $request)
 {
-
-    try{
-
-        if ($request->price ??0) {
+    try {
+        if (!empty($request->price ?? 0)) {
             foreach ($request->price as $key => $price) {
 
                 $productVerify = Variant::where('product_id', $request->product_id)->first();
 
-                $variant = new Variant;
+                $variant = new Variant();
                 $variant->product_id = $request->product_id;
-                $variant->size = $request->size[$key];
+                $variant->size = $request->size[$key] ;
                 $variant->color = $request->color[$key];
                 $variant->regular_price = $price;
-                $variant->weight = $request->weight[$key];
-            $variant->flavor = $request->flavor[$key];
-            $variant->variant_name = $request->variant_name[$key];
+                $variant->weight = $request->weight[$key] ?? null;
+                $variant->flavor = $request->flavor[$key] ?? null;
+                $variant->variant_name = $request->variant_name[$key] ?? null;
 
-            if ($productVerify) {
-                $variant->status = "Variant";
-            }
-            $variant->save();
-
-
-            if($variant->id){
-
-                if($request->hasFile('image')&& isset($request->image[$key])){
-                    foreach($request->image as $key => $image) {
-                    dd($request->image[$key]);
-                    $file = $request->file('image')[$key];
-                    $extension = $file->extension();
-                    $filename = time() . '_' . $key . '.' . $extension;
-                    $path = 'uploads/products/variant/';
-                    $file->move($path,$filename);
-                    $galleryImage = $path.$filename;
-
-                    $variantImage = new VariantImageGallery();
-                    $variantImage->variant_id = $variant->id;
-                    $variantImage->product_id= $request->product_id;
-                    $variantImage->image = $galleryImage;
-                    $variantImage->save();
+                if ($productVerify) {
+                    $variant->status = "Variant";
                 }
-               }
-            }
+                $variant->save();
 
 
+                if ($variant->id && $request->hasFile("image.$key")) {
+                    foreach ($request->file("image.$key") as $image) {
+                        $filename = time() . '_' . uniqid() . '.' . $image->extension();
+                        $path = 'uploads/products/variant/';
+                        $image->move($path,$filename);
+
+                        $variantImage = new VariantImageGallery();
+                        $variantImage->variant_id = $variant->id;
+                        $variantImage->product_id = $request->product_id;
+                        $variantImage->image = $path.$filename;
+                        $variantImage->save();
+                    }
+                }
 
 
-
-
-
-
-            if ($request->stock_quantity && isset($request->stock_quantity[$key])) {
-
-                $stock = new ProductStock();
-                $stock->product_id = $request->product_id;
-                $stock->variant_id = $variant->id;
-                $stock->StockQuantity = $request->stock_quantity[$key];
-                $stock->status = 'Available';
-
-                $stock->save();
-
+                if (!empty($request->stock_quantity[$key])) {
+                    $stock = new ProductStock();
+                    $stock->product_id = $request->product_id;
+                    $stock->variant_id = $variant->id;
+                    $stock->StockQuantity = $request->stock_quantity[$key];
+                    $stock->status = 'Available';
+                    $stock->save();
+                }
             }
         }
-    }
 
-    return response()->json([
-        'status' => 200,
-        'message' => 'Variant saved successfully',
-    ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Variant saved successfully',
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 500,
+            'message' => 'Something went wrong',
+            'error' => $e->getMessage(),
+        ]);
+    }
 }
-catch (\Exception $e) {
-    return response()->json([
-        'status' => '500',
-        'message' => 'Something went wrong',
-    ]);
-}
-}
+
+
+
 
 //rest Api Start
 public function viewAll(){

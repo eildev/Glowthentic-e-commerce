@@ -29,6 +29,8 @@ use App\Http\Controllers\Backend\MarketingController;
 use App\Http\Controllers\Backend\ComboController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\ProductPromotionController;
+use App\Http\Controllers\Backend\ProductStockManageController;
+use App\Http\Controllers\Backend\DeliverOrderAssignController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -166,6 +168,7 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::post('/combo/update', 'update');
          Route::post('/combo/delete', 'delete');
          Route::post('/combo/status/change', 'StatusChange');
+         Route::post(' /combo/delete-image/', 'comboDeleteImage');
 
         // Route::post('/offerbanner/update/{id}', 'update')->name('offerbanner.update');
         // Route::get('/offerbanner/delete/{id}', 'delete')->name('offerbanner.delete');
@@ -195,6 +198,18 @@ Route::middleware('auth', 'role:admin')->group(function () {
 
     });
     //All Routes for Product End
+
+
+//product stock manage start
+
+Route::controller(ProductStockManageController::class)->group(function(){
+    Route::get('/product/stock/manage', 'index')->name('product.stock.manage');
+    //get variant
+    Route::get('get/stock/product/variant/{id}', 'getVariant');
+    Route::get(' variant/stock/product/row/{id}', 'getVariantRow');
+    Route::post('update/multiple/stock', 'updateMultipleStock');
+    Route::get('/stock/view', 'view')->name('stock.view');
+});
 
    //all routes for combo product
 
@@ -263,7 +278,7 @@ Route::controller(ProductPromotionController::class)->group(function(){
     Route::controller(OrderManageController::class)->group(function () {
         Route::get('/new-order', 'index')->name('new.order');
 
-        Route::get('/admin-approve-order/{invoiceNumber}', 'adminApprove')->name('admin.approve.order');
+        Route::get('/admin-approve-order/{id}', 'adminApprove')->name('admin.approve.order');
         Route::get('/admin-denied-order/{invoiceNumber}', 'adminDenied')->name('admin.denied.order');
         Route::get('/order/denied', 'deniedOrders')->name('order.denied');
 
@@ -298,11 +313,22 @@ Route::controller(ProductPromotionController::class)->group(function(){
 
     //All Routes for Order End
 
+    //deliver order assign start
 
-    //All Routes for Stock Management System
-    Route::controller(StockManageController::class)->group(function () {
-        Route::get('/stock/view', 'index')->name('stock.view');
+    Route::controller(DeliverOrderAssignController::class)->group(function(){
+        Route::post('admin/order/assign-deliver', 'assignDeliver')->name('admin.order.assign.deliver');
     });
+
+
+
+
+
+
+
+
+
+
+
     //All Routes for Stock Management End
 
     //All Routes for Contact us

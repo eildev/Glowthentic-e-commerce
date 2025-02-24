@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('combos', function (Blueprint $table) {
+        Schema::create('combo_image_galleries', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
-            $table->decimal('offerd_price', 12, 2);
-            $table->string('image', 100)->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->unsignedBigInteger('combo_id');
+            $table->string('image');
+            $table->foreign('combo_id')->references('id')->on('combos')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('combos');
+        Schema::dropIfExists('combo_image_galleries');
     }
 };

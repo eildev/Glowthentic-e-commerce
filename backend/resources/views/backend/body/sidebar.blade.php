@@ -346,6 +346,8 @@
                     <div class="menu-title">Stock Management</div>
                 </a>
                 <ul>
+                    <li> <a href="{{ route('product.stock.manage') }}"><i class="bx bx-right-arrow-alt"></i>Product Stock</a>
+                    </li>
                     <li>
                         <a href="{{ route('stock.view') }}"><i class="bx bx-right-arrow-alt"></i>View Stock</a>
                     </li>
@@ -509,6 +511,11 @@
                 </li>
             </ul>
         </li>
+
+
+
+
+
 
     </ul>
     <!--end navigation-->

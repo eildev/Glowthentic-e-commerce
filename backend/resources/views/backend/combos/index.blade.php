@@ -20,7 +20,7 @@
                                     <th>SI</th>
                                     <th>Combo Name</th>
                                     <th>Combo Price</th>
-                                    <th>Image</th>
+
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -47,15 +47,16 @@
                     <form class="row g-3" id="comboAddForm" enctype="multipart/form-data">
                         <div class="col-md-6">
                             <label for="inputFirstName" class="form-label">Combo Name</label>
-                            <input type="email" class="form-control" id="inputFirstName" name="combo_name">
+                            <input type="text" class="form-control" id="inputFirstName" name="combo_name">
                         </div>
                         <div class="col-md-6">
                             <label for="inputLastName" class="form-label">Combo Price</label>
                             <input type="number" class="form-control" id="inputLastName" name="combo_price">
                         </div>
                         <div class="col-md-6">
-                            <label for="inputEmail" class="form-label">Image</label>
-                            <input type="file" class="form-control" id="inputEmail" name="image">
+                            <label for="imageInput" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="imageInput" name="image[]" multiple>
+                            <small id="imageCount" class="text-danger ">No images selected</small>
                         </div>
                     </form>
                 </div>
@@ -81,19 +82,20 @@
                         <input type="hidden" id="combo_id" name="combo_id">
                         <div class="col-md-6">
                             <label for="inputFirstName" class="form-label">Combo Name</label>
-                            <input type="email" class="form-control" id="combo_name" name="combo_name">
+                            <input type="text" class="form-control" id="combo_name" name="combo_name">
                         </div>
                         <div class="col-md-6">
                             <label for="inputLastName" class="form-label">Combo Price</label>
                             <input type="number" class="form-control" id="combo_price" name="combo_price">
                         </div>
                         <div class="col-md-6">
-                            <label for="inputEmail" class="form-label">Image</label>
-                            <input type="file" class="form-control" id="inputEmail" name="image">
+                            <label for="imageInput" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="imageInputedit" name="image[]" multiple>
+                            <small id="imageCountedit" class="text-danger ">No images selected</small>
                         </div>
-                        <div>
-                            <img src="" class="img-show" height="100" width="100" alt="">
-                        </div>
+
+                        <div class="img-show d-flex flex-wrap gap-2"></div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -134,7 +136,17 @@
         });
 
 
+        document.getElementById("imageInput").addEventListener("change", function() {
+            let count = this.files.length; // Get number of selected files
+            let imageCountText = count > 0 ? `${count} images selected` : "No images selected";
+            document.getElementById("imageCount").textContent = imageCountText;
+        });
 
+        document.getElementById("imageInputedit").addEventListener("change", function() {
+            let count = this.files.length; // Get number of selected files
+            let imageCountText = count > 0 ? `${count} images selected` : "No images selected";
+            document.getElementById("imageCountedit").textContent = imageCountText;
+        });
 
 
         // update combo
@@ -243,9 +255,7 @@
                                 <td>${combo.id}</td>
                                 <td>${combo.name ?? ""}</td>
                                 <td>${combo.offerd_price}</td>
-                                <td>
-                                <img src="/uploads/combo/${combo.image}" alt="Combo Image" class="img-thumbnail" style="max-width: 100px; max-height: 100px;">
-                                </td>
+
                                 <td>
                                     <button class="btn btn-sm btn-danger status_inactive" value="${combo.status}" data-id="${combo.id}">${combo.status}</button>
                                 </td>
@@ -279,16 +289,52 @@
                 success: function(data) {
                     if (data.status == 200) {
                         let combo = data.combo;
+                        let comboImages = data.combo_image;
+                        //  console.log(comboImages);
                         $("#combo_id").val(combo.id??'');
                         $("#combo_name").val(combo.name ?? '');
                         $("#combo_price").val(combo.offerd_price ?? '');
-                        $(".img-show").attr("src", `/uploads/combo/${combo.image}`);
+                        $(".img-show").empty();
+
+
+                            comboImages.forEach(image => {
+                                $(".img-show").append(`
+                                    <div class="image-item position-relative" data-image-id="${image.id}">
+                                        <img src="${image.image}" class="img-thumbnail" width="100" height="100">
+                                        <a class="btn btn-danger btn-sm delete-image" style="position:absolute; top:0; right:0;">X</a>
+                                    </div>
+                                `);
+                            });
 
                     }
                 }
-            })
-        })
+            });
+        });
 
+
+
+            $(document).on('click', '.delete-image', function () {
+                let imageDiv = $(this).closest('.image-item');
+
+                let imageId = imageDiv.data('image-id');
+
+                $.ajax({
+                    url: '/combo/delete-image/',
+                    type: 'POST',
+                    data: {
+                        image_id: imageId,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status == 200) {
+                            imageDiv.remove();
+                        } else {
+                            alert('Error deleting image.');
+                        }
+                    }
+                });
+            });
 
         showData();
     </script>

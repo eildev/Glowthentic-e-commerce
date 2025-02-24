@@ -20,7 +20,7 @@ class ProductPromotionController extends Controller
 
     public function getProductPromotion(){
         $product = Product::where('status', 1)->get();
-        $promotion = Coupon::where('status','promotion')->get();
+        $promotion = Coupon::where('type','promotion')->get();
         $variant=Variant::all();
 
         return response()->json([
@@ -61,7 +61,7 @@ class ProductPromotionController extends Controller
 
     public function view(){
         $productPromotion = ProductPromotion::with('product','coupon','variant')->get();
-
+        //   dd($productPromotion);
         return response()->json([
             'status'=>200,
             'productPromotion'=>$productPromotion
@@ -71,7 +71,7 @@ class ProductPromotionController extends Controller
     public function edit($id){
         $productPromotion = ProductPromotion::find($id);
         $product = Product::where('status', 1)->get();
-        $promotion = Coupon::where('status','promotion')->get();
+        $promotion = Coupon::where('type','promotion')->get();
         $variant=Variant::where('product_id',$productPromotion->product_id)->get();
         return response()->json([
             'status'=>200,

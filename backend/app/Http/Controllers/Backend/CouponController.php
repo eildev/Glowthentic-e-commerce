@@ -20,6 +20,7 @@ class CouponController extends Controller
 
                 'is_global' => 'required|boolean',
                 'start_date' => 'required',
+                'promotion_name'=>'required',
                 'end_date' => 'required',
                 'discount_type' => 'required',
                 'discount_value' => 'required',
@@ -36,7 +37,7 @@ class CouponController extends Controller
             // dd($coupon->cupon_code);
             $coupon->discount_type = $request->discount_type;
             $coupon->discount_value = $request->discount_value;
-            $coupon->status = $request->status;
+            $coupon->type = $request->type;
             $coupon->is_global = $request->is_global;
             $coupon->start_date = $request->start_date;
             $coupon->end_date = $request->end_date;
@@ -86,6 +87,7 @@ class CouponController extends Controller
             $validator = Validator::make($request->all(), [
 
                 'is_global' => 'required|boolean',
+                'promotion_name'=>'required',
                 'start_date' => 'required',
                 'end_date' => 'required',
                 'discount_type' => 'required',
@@ -103,7 +105,7 @@ class CouponController extends Controller
             // dd($coupon->cupon_code);
             $coupon->discount_type = $request->discount_type;
             $coupon->discount_value = $request->discount_value;
-            $coupon->status = $request->status;
+            $coupon->type = $request->type;
             $coupon->is_global = $request->is_global;
             $coupon->start_date = $request->start_date;
             $coupon->end_date = $request->end_date;
@@ -122,7 +124,7 @@ class CouponController extends Controller
 
         try{
         $coupon = Coupon::find($request->id);
-    
+
         $coupon->delete();
         return response()->json([
             'status'=>200,

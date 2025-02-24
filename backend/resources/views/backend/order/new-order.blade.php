@@ -12,15 +12,19 @@
                         <table id="order_table" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>SI</th>
-                                    <th>Date</th>
-                                    <th>Invoice no</th>
-                                    <th>User Phone Number</th>
-                                    <th>Product Qty</th>
-                                    <th>Amount</th>
-                                    <th>Pay to</th>
-                                    <th>Address</th>
-                                    <th>Action</th>
+
+                                        <th>SI</th>
+                                        <th>Date</th>
+                                        <th>Invoice no</th>
+                                        <th>User Phone Number</th>
+                                        <th>Product Qty</th>
+                                        <th>Amount</th>
+                                        <th>Pay to</th>
+                                        <th>Payment Status</th>
+                                        <th>Order Status</th>
+                                        <th>Address</th>
+                                        <th>Action</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,27 +43,23 @@
                                                 <td>{{ $serialNumber++ }}</td>
                                                 <td>{{ $formattedDate }}</td>
                                                 <td>{{ $order->invoice_number }}</td>
-                                                <td>{{ $order->user_identity ?? '' }} @if (!empty($order->user_identity))
-                                                        <button data-bs-target="#sms{{ $order->id }}"
-                                                            data-bs-toggle="modal" class="btn btn-sm btn-success">SMS
-
-
-                                                        </button>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $order->product_quantity }}</td>
+                                                <td>0170........</td>
+                                                <td>{{ $order->total_quantity }}</td>
                                                 <td>{{ $order->grand_total }}</td>
                                                 <td>{{ $order->payment_method }}</td>
+                                                <td>{{ $order->payment_status }}</td>
+
                                                 <td>
                                                     <span class="text-warning text-capitalize">{{ $order->status }}</span>
                                                 </td>
+                                                <td>Banasree</td>
                                                 <td>
-                                                    <a href="{{ route('admin.approve.order', $order->invoice_number) }}"
+                                                    <a href="{{ route('admin.approve.order',$order->id) }}"
                                                         class="btn btn-sm btn-info">Approve</a>
                                                     <a href="{{ route('order.details', $order->id) }}"
                                                         class="btn btn-sm btn-success">View</a>
-                                                    <a href="{{ route('admin.denied.order', $order->invoice_number) }}" class="btn btn-sm btn-danger"
-                                                        id="delete">Denied</a>
+                                                    <a href="{{ route('admin.denied.order', $order->id) }}"
+                                                        class="btn btn-sm btn-danger" id="delete">Denied</a>
                                                 </td>
                                             </tr>
 
@@ -122,6 +122,8 @@
                                     <th>Product Qty</th>
                                     <th>Amount</th>
                                     <th>Pay to</th>
+                                    <th>Payment Status</th>
+                                    <th>Order Status</th>
                                     <th>Address</th>
                                     <th>Action</th>
                                 </tr>
@@ -145,19 +147,22 @@
                                                 <td>{{ $serialNumber++ }}</td>
                                                 <td>{{ $formattedDate }}</td>
                                                 <td>{{ $order->invoice_number }}</td>
-                                                <td>{{ $order->user_identity }}</td>
-                                                <td>{{ $order->product_quantity }}</td>
+                                                <td>0170........</td>
+                                                <td>{{ $order->total_quantity }}</td>
                                                 <td>{{ $order->grand_total }}</td>
                                                 <td>{{ $order->payment_method }}</td>
+                                                <td>{{ $order->payment_status }}</td>
+
                                                 <td>
                                                     <span class="text-warning text-capitalize">{{ $order->status }}</span>
                                                 </td>
+                                                <td>Banasree</td>
                                                 <td>
-                                                    <a href="{{ route('admin.approve.order', $order->invoice_number) }}"
+                                                    <a href="{{ route('admin.approve.order',$order->id) }}"
                                                         class="btn btn-sm btn-info">Approve</a>
                                                     <a href="{{ route('order.details', $order->id) }}"
                                                         class="btn btn-sm btn-success">View</a>
-                                                    <a href="{{ route('admin.denied.order', $order->invoice_number) }}"
+                                                    <a href="{{ route('admin.denied.order', $order->id) }}"
                                                         class="btn btn-sm btn-danger" id="delete">Denied</a>
                                                 </td>
                                             </tr>

@@ -769,72 +769,74 @@
 
 
 
-    $(document).on("click", ".addRow", function () {
+        $(document).on("click", ".addRow", function () {
+          let rowCount = $("#productTableBody tr").length; // Get current row count
         let row = `<tr>
-                <td></td>
-                     <td><input type="text" class="form-control" name="variant_name[]"></td>
+            <td></td>
+            <td><input type="text" class="form-control" name="variant_name[]"></td>
             <td><input type="number" class="form-control" name="price[]"></td>
-            <td>  <select class="form-select @error('size') is-invalid  @enderror" name="size[]">
-                                                <option value="">Select Size</option>
-                                                <option value="s">Small (S)</option>
-                                                <option value="m">Medium (M)</option>
-                                                <option value="l">Large (L)</option>
-                                                <option value="xl">X-Large (XL)</option>
-                                                <option value="xxl">XX-Large (XXL)</option>
-                                                <option value="6">Size 6</option>
-                                                <option value="7">Size 7</option>
-                                                <option value="8">Size 8</option>
-                                                <option value="9">Size 9</option>
-                                                <option value="10">Size 10</option>
-                                                <option value="500g">500g</option>
-                                                <option value="1kg">1kg</option>
-                                                <option value="500ml">500ml</option>
-                                                <option value="1l">1L</option>
-                                            </select></td>
-                     <td><select class="form-select @error('color') is-invalid  @enderror" name="color[]">
-                                                <option value="">Select Color</option>
-                                                <option value="black">Black</option>
-                                                <option value="white">White</option>
-                                                <option value="red">Red</option>
-                                                <option value="blue">Blue</option>
-                                                <option value="green">Green</option>
-                                                <option value="yellow">Yellow</option>
-                                                <option value="orange">Orange</option>
-                                                <option value="purple">Purple</option>
-                                                <option value="pink">Pink</option>
-                                                <option value="brown">Brown</option>
-                                                <option value="gray">Gray</option>
-                                                <option value="silver">Silver</option>
-                                                <option value="gold">Gold</option>
-                                                <option value="navy">Navy</option>
-                                                <option value="maroon">Maroon</option>
-                                                <option value="beige">Beige</option>
-                                                <option value="teal">Teal</option>
-                                                <option value="cyan">Cyan</option>
-                                                <option value="magenta">Magenta</option>
-                                                <option value="olive">Olive</option>
-                                                <option value="violet">Violet</option>
-                                                <option value="indigo">Indigo</option>
-                                                <option value="turquoise">Turquoise</option>
-                                                <option value="charcoal">Charcoal</option>
-
-                                            </select>
-                </td>
+            <td>
+                <select class="form-select" name="size[]">
+                    <option value="">Select Size</option>
+                    <option value="s">Small (S)</option>
+                    <option value="m">Medium (M)</option>
+                    <option value="l">Large (L)</option>
+                    <option value="xl">X-Large (XL)</option>
+                    <option value="xxl">XX-Large (XXL)</option>
+                    <option value="6">Size 6</option>
+                    <option value="7">Size 7</option>
+                    <option value="8">Size 8</option>
+                    <option value="9">Size 9</option>
+                    <option value="10">Size 10</option>
+                    <option value="500g">500g</option>
+                    <option value="1kg">1kg</option>
+                    <option value="500ml">500ml</option>
+                    <option value="1l">1L</option>
+                </select>
+            </td>
+            <td>
+                <select class="form-select" name="color[]">
+                    <option value="">Select Color</option>
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="orange">Orange</option>
+                    <option value="purple">Purple</option>
+                    <option value="pink">Pink</option>
+                    <option value="brown">Brown</option>
+                    <option value="gray">Gray</option>
+                    <option value="silver">Silver</option>
+                    <option value="gold">Gold</option>
+                    <option value="navy">Navy</option>
+                    <option value="maroon">Maroon</option>
+                    <option value="beige">Beige</option>
+                    <option value="teal">Teal</option>
+                    <option value="cyan">Cyan</option>
+                    <option value="magenta">Magenta</option>
+                    <option value="olive">Olive</option>
+                    <option value="violet">Violet</option>
+                    <option value="indigo">Indigo</option>
+                    <option value="turquoise">Turquoise</option>
+                    <option value="charcoal">Charcoal</option>
+                </select>
+            </td>
             <td><input type="text" class="form-control" name="weight[]"></td>
             <td><input type="text" class="form-control" name="flavor[]"></td>
-            <td><input type="file" class="form-control" name="image[]" multiple></td>
+            <td><input type="file" class="form-control" name="image[${rowCount}][]" multiple></td>
             <td><input type="number" class="form-control" name="stock_quantity[]"></td>
             <td>
                 <button type="button" class="btn btn-danger removeRow">✖</button>
             </td>
         </tr>`;
-        $("#productTableBody").append(row);
-    });
+    $("#productTableBody").append(row);
+});
 
-    $(document).on("click", ".removeRow", function () {
-        $(this).closest("tr").remove();
-    });
-
+$(document).on("click", ".removeRow", function () {
+    $(this).closest("tr").remove();
+});
 
 
     $(document).on("click", ".add_variant", function(){
@@ -924,7 +926,7 @@
                                             </td>
                                             <td><input type="text" class="form-control" name="weight[]"></td>
                                             <td><input type="text" class="form-control" name="flavor[]"></td>
-                                            <td><input type="file" class="form-control" name="image[]" multiple></td>
+                                            <td><input type="file" class="form-control" name="image[0][]" multiple></td>
                                             <td><input type="number" class="form-control" name="stock_quantity[]"></td>
                                             <td>
                                                 <button type="button" class="btn btn-success addRow">+</button>
