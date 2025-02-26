@@ -9,8 +9,9 @@ import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 
 
-const ProductSlider = () => {
-
+const ProductSlider = ({data}) => {
+console.log(data?.data.variant_image);
+const images = data?.data.variant_image
 
     const swiperRef = useRef(null);
 
@@ -36,18 +37,18 @@ const ProductSlider = () => {
 
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [thumbsSwiper2, setThumbsSwiper2] = useState(null);
-    const images = [
-        "https://swiperjs.com/demos/images/nature-1.jpg",
-        "https://swiperjs.com/demos/images/nature-2.jpg",
-        "https://swiperjs.com/demos/images/nature-3.jpg",
-        "https://swiperjs.com/demos/images/nature-4.jpg",
-        "https://swiperjs.com/demos/images/nature-5.jpg",
-        "https://swiperjs.com/demos/images/nature-6.jpg",
-        "https://swiperjs.com/demos/images/nature-7.jpg",
-        "https://swiperjs.com/demos/images/nature-8.jpg",
-        "https://swiperjs.com/demos/images/nature-9.jpg",
-        "https://swiperjs.com/demos/images/nature-10.jpg",
-    ];
+    // const images = [
+    //     "https://swiperjs.com/demos/images/nature-1.jpg",
+    //     "https://swiperjs.com/demos/images/nature-2.jpg",
+    //     "https://swiperjs.com/demos/images/nature-3.jpg",
+    //     "https://swiperjs.com/demos/images/nature-4.jpg",
+    //     "https://swiperjs.com/demos/images/nature-5.jpg",
+    //     "https://swiperjs.com/demos/images/nature-6.jpg",
+    //     "https://swiperjs.com/demos/images/nature-7.jpg",
+    //     "https://swiperjs.com/demos/images/nature-8.jpg",
+    //     "https://swiperjs.com/demos/images/nature-9.jpg",
+    //     "https://swiperjs.com/demos/images/nature-10.jpg",
+    // ];
 
 
 
@@ -72,11 +73,12 @@ const ProductSlider = () => {
                     modules={[FreeMode, Navigation, Thumbs, Autoplay]}
                     className="mySwiper2 max-h-[605px]"
                 >
-                    {images.map((image, index) => (
+                    {images?.map((image, index) => (
                         <SwiperSlide key={index} className='cursor-crosshair'>
                             <div className="zoom-container" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
                                 <img
-                                    src={image}
+                                    src={`http://127.0.0.1:8000/${image?.image}`}
+                                    // src={`${image}`}
                                     className="zoom-image"
                                 />
                             </div>
@@ -100,10 +102,11 @@ const ProductSlider = () => {
                         modules={[FreeMode, Navigation, Thumbs]}
                         className="mySwiper max-h-[541px]"
                     >
-                        {images.map((image, index) => (
+                        {images?.map((image, index) => (
                             <SwiperSlide key={index} className='min-w-[80px] cursor-pointer'>
                                 <img
-                                    src={image}
+                                    src={`http://127.0.0.1:8000/${image?.image}`}
+                                    // src={`${image}`}
                                 />
                             </SwiperSlide>
                         ))}
@@ -132,11 +135,12 @@ const ProductSlider = () => {
                     modules={[FreeMode, Navigation, Thumbs, Autoplay]}
                     className="mySwiper2"
                 >
-                     {images.map((image, index) => (
+                     {images?.map((image, index) => (
                         <SwiperSlide key={index} className='cursor-crosshair'>
                             <div className="zoom-container" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
                                 <img
-                                    src={image}
+                                    src={`http://127.0.0.1:8000/${image?.image}`}
+                                    // src={`${image}`}
                                     className="zoom-image"
                                 />
                             </div>
@@ -154,10 +158,11 @@ const ProductSlider = () => {
                         modules={[FreeMode, Navigation, Thumbs]}
                         className="mySwiper sm:max-w-[65%] max-w-[95%] opacity-80"
                     >
-                        {images.map((image, index) => (
+                        {images?.map((image, index) => (
                             <SwiperSlide key={index} className='min-w-[80px] cursor-pointer'>
                                 <img
-                                    src={image}
+                                    src={`http://127.0.0.1:8000/${image?.image}`}
+                                    // src={`${image}`}
                                 />
                             </SwiperSlide>
                         ))}
