@@ -114,7 +114,7 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
           <div className="sm:col-span-7 my-[35px]">
-  <ProductSlider></ProductSlider>
+  <ProductSlider data={data}></ProductSlider>
 </div>
 
           {/*-------------------------- Slide End----------------------------*/}

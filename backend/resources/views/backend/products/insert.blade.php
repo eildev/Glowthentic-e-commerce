@@ -982,7 +982,7 @@ $(document).on("click", ".removeRow", function () {
                                 if (xhr.status === 422) {
                                     let errors = xhr.responseJSON.errors;
                                     $('.error-message').remove(); // Remove previous errors
-
+                                    console.log(errors);
                                     $.each(errors, function (key, value) {
                                         let inputField = $('[name="' + key + '"]');
                                         inputField.after('<div class="text-danger error-message">' + value[0] + '</div>');

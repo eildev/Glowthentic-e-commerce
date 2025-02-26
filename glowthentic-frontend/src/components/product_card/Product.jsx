@@ -10,12 +10,12 @@ import { useEffect, useState } from "react";
 
 const Product = ({ product, isDark }) => {
   console.log(product);
-  const { id, product_name, discountPercentage, description, img, thumbnail: image, price, stock } = product;
+  const { id, product_name, discountPercentage, productdetails, variant_image, thumbnail: image, price, stock } = product;
 
   const [isInCart, setIsInCart] = useState(false);
   const [isFav, setIsFav] = useState(false);
-
-
+const baseURL = "http://127.0.0.1:8000/" ;
+console.log(productdetails[0].description);
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
@@ -65,7 +65,7 @@ const Product = ({ product, isDark }) => {
         <Link to={`/product/${product.id}`}>
           <img
             className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:py-5 py-2"
-            src={image ?? defaultImage}
+            src={  baseURL + variant_image[0]?.image || defaultImage }
             alt={product_name ?? "product image"}
           />
         </Link>
@@ -104,11 +104,11 @@ const Product = ({ product, isDark }) => {
           </HeadTitle>
         </Link>
         <Paragraph className="text-xs lg:text-sm">
-          {description
-            ? window.innerWidth >= 1024
-              ? description.slice(0, 80)
-              : description.slice(0, 40) + "..."
-            : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
+        {productdetails[0].description
+    ? window.innerWidth >= 1024
+      ? productdetails[0].description.slice(0, 80)
+      : productdetails[0].description.slice(0, 40) + "..."
+    : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
         </Paragraph>
         <div className={`flex gap-3 items-center ${isDark ? "justify-center" : ""}`}>
           <Paragraph className="lg:text-xl text-lg text-secondary">
