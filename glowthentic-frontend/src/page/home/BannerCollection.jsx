@@ -8,6 +8,7 @@ import bannerImg3 from '../../assets/img/banner/banner-3.jpg';
 import bannerImg4 from '../../assets/img/banner/banner-4.jpg';
 import bannerImg5 from '../../assets/img/banner/banner-5.jpg';
 
+
 const bannerImages = [bannerImg1, bannerImg2, bannerImg3, bannerImg4, bannerImg5];
 
 const sliderSettings = {
@@ -18,6 +19,7 @@ const sliderSettings = {
   slidesToScroll: 1,
   autoplay: true,
   autoplaySpeed: 3000,
+ 
 };
 
 const BannerCollection = () => {
