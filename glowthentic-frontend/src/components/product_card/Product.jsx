@@ -57,7 +57,7 @@ const Product = ({ product, isDark }) => {
 
   return (
     <div
-      className={`card w-auto hover:drop-shadow-md bg-light transition-all duration-300 ease-in-out transform -hidden ${
+      className={`card w-auto hover:drop-shadow-md bg-light transition-all duration-300 ease-in-out transform -hidden rounded-2xl ${
         isDark ? "h-[320px] lg:h-[500px]" : ""
       }`}
     >
@@ -94,7 +94,7 @@ const Product = ({ product, isDark }) => {
       </figure>
 
       <div
-        className={`card-body px-3 lg:px-5 ${
+        className={`card-body px-3 lg:px-5 rounded-b-2xl ${
           isDark ? "bg-primary text-white text-center" : "bg-white text-primary text-left "
         }`}
       >
