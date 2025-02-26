@@ -47,7 +47,7 @@
                                 {{-- <a href="{{ route('google.redirect') }}" class="tp-btn"> Login With <i
                                       class="fab fa-facebook-f"></i></a> --}}
                             </div>
-                            <form class="signUp" action="{{ route('register') }}" method="POST">
+                            <form class="signUp" action="{{ route('signup') }}" method="POST">
                                 @csrf
                                 <div class="tptrack__id mb-10">
                                     <span><i class="fa fa-user"></i></span>

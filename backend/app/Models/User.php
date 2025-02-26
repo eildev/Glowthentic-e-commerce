@@ -42,6 +42,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
     public function billing(){
         return $this->belongsTo(BillingInfo::class,'id','user_id');
     }

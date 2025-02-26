@@ -5,7 +5,11 @@
             <div class="card border-top border-0 border-3 border-info col-md-12">
                 <div class="card-body">
                     <div class="card-title d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0 text-info">Denied Orders</h5>
+                        <h5 class="mb-0 text-info">Transit order list</h5>
+
+                        <a href="{{ route('popupMessage') }}" class="btn btn-info btn-sm text-light ">
+                            <i class='bx bx-plus'></i>
+                        </a>
                     </div>
                     <hr>
                     <div class="table-responsive">
@@ -29,27 +33,33 @@
                                 @php
                                     $serialNumber = 1;
                                 @endphp
-                                @if ($denied_orders->count() > 0)
-                                    @foreach ($denied_orders as $order)
+                                @if ($transit_orders->count() > 0)
+                                    @foreach ($transit_orders as $transit_orders)
                                     @php
-                                    $originalDateString = $order->created_at;
+                                    $originalDateString = $transit_orders->order->created_at;
                                     $dateTime = new DateTime($originalDateString);
                                     $formattedDate = $dateTime->format('Y-m-d');
                                     @endphp
                                         <tr>
                                             <td>{{ $serialNumber++ }}</td>
-                                            <td>{{ $formattedDate }}</td>
-                                            <td>{{ $order->invoice_number }}</td>
-                                            <td>{{ $order->user_identity }}</td>
-                                            <td>{{ $order->product_quantity }}</td>
-                                            <td>{{ $order->grand_total }}</td>
-                                            <td>{{ $order->payment_method }}</td>
-                                            <td>{{ $order->orderBillingDetails->address_1 ?? '' }}</td>
+                                                <td>{{ $formattedDate }}</td>
+                                                <td>{{ $transit_orders->order->invoice_number }}</td>
+                                                <td>0170........</td>
+                                                <td>{{ $transit_orders->order->total_quantity }}</td>
+                                                <td>{{ $transit_orders->order->grand_total }}</td>
+                                                <td>{{ $transit_orders->order->payment_method }}</td>
+                                                <td>{{ $transit_orders->order->payment_status }}</td>
+
+                                                <td>
+                                                    <span class="text-warning text-capitalize">{{$transit_orders->delivery_status}}</span>
+                                                </td>
+                                                <td>Banasree</td>
                                             <td>
-                                                <span class="text-warning text-capitalize">{{ $order->status }}</span>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('order.details', $order->id) }}" class="btn btn-sm btn-success">View</a>
+                                                {{-- <a href="{{ route('admin.completed.order',$delivering_orders->order->invoice_number) }}" class="btn btn-sm btn-info">Complete</a> --}}
+
+                                                <a href="{{ route('admin.transit.order.change.completed',$transit_orders->id) }}" class="btn btn-sm btn-info">Delivered</a>
+                                                <a href="{{ route('order.details', $transit_orders->id) }}" class="btn btn-sm btn-success" >View</a>
+                                                <a href="#" class="btn btn-sm btn-danger" id="delete">Cancel</a>
                                             </td>
                                         </tr>
                                     @endforeach

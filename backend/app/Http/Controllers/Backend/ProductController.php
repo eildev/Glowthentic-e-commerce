@@ -667,7 +667,7 @@ public function variantProductStore(Request $request)
 
 //rest Api Start
 public function viewAll(){
-    $products = Product::orderByDesc('id')->with('variants','product_tags','productStock')->where('status',1)->get();
+    $products = Product::orderByDesc('id')->with('variants','product_tags','productStock','productdetails','variantImage')->where('status',1)->get();
     return response()->json([
         'status' => '200',
         'message' => 'Product List',
@@ -676,7 +676,7 @@ public function viewAll(){
 }
 
 public function show($id){
-   $products = Product::with('variants','product_tags','productStock')->where('id',$id)->first();
+   $products = Product::with('variants','product_tags','productStock','productdetails','variantImage')->where('id',$id)->first();
    return response()->json([
     'status' => '200',
     'message' => 'Product Search',

@@ -317,6 +317,11 @@ Route::controller(ProductPromotionController::class)->group(function(){
 
     Route::controller(DeliverOrderAssignController::class)->group(function(){
         Route::post('admin/order/assign-deliver', 'assignDeliver')->name('admin.order.assign.deliver');
+        Route::get('admin/shipping/order/change/transit/{id}', 'shippingChangeTransit')->name('admin.shipping.order.change.transit');
+        Route::get('order/delivered/transit', 'TransitOrder')->name('order.transit');
+        Route::get('admin/transit/order/change/completed/{id}', 'TransitChangeCompleted')->name('admin.transit.order.change.completed');
+        Route::get('order/delivered', 'Delivered')->name('order.delivered');
+
     });
 
 

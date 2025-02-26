@@ -13,17 +13,17 @@
                             <thead>
                                 <tr>
 
-                                        <th>SI</th>
-                                        <th>Date</th>
-                                        <th>Invoice no</th>
-                                        <th>User Phone Number</th>
-                                        <th>Product Qty</th>
-                                        <th>Amount</th>
-                                        <th>Pay to</th>
-                                        <th>Payment Status</th>
-                                        <th>Order Status</th>
-                                        <th>Address</th>
-                                        <th>Action</th>
+                                    <th>SI</th>
+                                    <th>Date</th>
+                                    <th>Invoice no</th>
+                                    <th>User Phone Number</th>
+                                    <th>Product Qty</th>
+                                    <th>Amount</th>
+                                    <th>Pay to</th>
+                                    <th>Payment Status</th>
+                                    <th>Order Status</th>
+                                    <th>Address</th>
+                                    <th>Action</th>
 
                                 </tr>
                             </thead>
