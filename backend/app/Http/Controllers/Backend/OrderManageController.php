@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\OrderBillingDetails;
 use App\Models\User;
 use App\Models\Variant;
+use App\Models\DeliveryOrder;
 class OrderManageController extends Controller
 {
     public function allUser(){
@@ -61,7 +62,8 @@ class OrderManageController extends Controller
         return view('backend.order.processed-order', compact('processed_orders'));
     }
     public function deliveringOrders(){
-        $delivering_orders = Order::where("status", 'delivering')->latest()->get();
+        $delivering_orders = DeliveryOrder::where("delivery_status", 'shipping')->with('order')->latest()->get();
+        // dd($delivering_orders);
         return view('backend.order.logistics', compact('delivering_orders'));
     }
     public function completedOrders(){

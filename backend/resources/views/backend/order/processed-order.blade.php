@@ -17,16 +17,16 @@
                             <thead>
                                 <tr>
                                     <th>SI</th>
-                                    <th>Date</th>
-                                    <th>Invoice no</th>
-                                    <th>User Phone Number</th>
-                                    <th>Product Qty</th>
-                                    <th>Amount</th>
-                                    <th>Pay to</th>
-                                    <th>Payment Status</th>
-                                    <th>Order Status</th>
-                                    <th>Address</th>
-                                    <th>Action</th>
+                                        <th>Date</th>
+                                        <th>Invoice no</th>
+                                        <th>User Phone Number</th>
+                                        <th>Product Qty</th>
+                                        <th>Amount</th>
+                                        <th>Pay to</th>
+                                        <th>Payment Status</th>
+                                        <th>Order Status</th>
+                                        <th>Address</th>
+                                        <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -123,14 +123,66 @@
                                 <div class="row mb-3" id="courier" style="display: none;">
                                     <label class="col-sm-3 col-form-label">Courier</label>
                                     <div class="col-sm-9">
-                                        <select name="courier_service" class="form-select" required>
+                                        <select name="courier_service" class="form-select courier_service" required >
                                             <option value="">Choose...</option>
-                                            <option value="Stead Fast">Stead Fast</option>
+                                            <option value="SteadFast">Stead Fast</option>
                                             <option value="Pathao">Pathao</option>
                                         </select>
                                     </div>
                                 </div>
 
+                                <div class="row" style="display: none;" id="steadfast_courier_info">
+                                    <div class="col-12">
+                                        <hr>
+                                        <h4>SteadFast Information Fill</h4>
+                                        <hr>
+                                        <div class="row mb-3" id="" style="">
+                                            <label class="col-sm-3 col-form-label">Invoice Number</label>
+                                            <div class="col-sm-9">
+                                               <input type="text" class="form-control" name="invoice" placeholder="Invoice Number" >
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3" id="" style="">
+                                            <label class="col-sm-3 col-form-label">Recipent Name</label>
+                                            <div class="col-sm-9">
+                                               <input type="text" class="form-control" name="recipient_name" placeholder="Enter Recipent Name">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3" id="" style="">
+                                            <label class="col-sm-3 col-form-label">Recipient Phone No:</label>
+                                            <div class="col-sm-9">
+                                               <input type="text" class="form-control" name="recipient_phone" placeholder="Enter Recipent Phone No">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3" id="" style="">
+                                            <label class="col-sm-3 col-form-label">COD Amount</label>
+                                            <div class="col-sm-9">
+                                               <input type="text" class="form-control" name="cod_amount" placeholder="Enter COD Amount">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3" id="" style="">
+                                            <label class="col-sm-3 col-form-label">Receipent Address</label>
+                                            <div class="col-sm-9">
+                                               <textarea cols="5" rows="5" type="text" class="form-control" name="recipient_address" placeholder="Enter Recipent Address"></textarea>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row mb-3" id="" style="">
+                                            <label class="col-sm-3 col-form-label">Note(Optional)</label>
+                                            <div class="col-sm-9">
+                                               <textarea cols="5" rows="5" type="text" class="form-control" name="note" placeholder="Note"></textarea>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
 
 
                             </div>
@@ -145,6 +197,7 @@
             </div>
         </div>
     </div>
+
     <script>
 
     $(document).on('click','.assign_deliver',function(){
@@ -190,6 +243,13 @@
 
 
 
+       $(document).on('change','.courier_service',function(){
+        let courier_service = $(this).val();
+        if(courier_service ==='SteadFast'){
+           $('#steadfast_courier_info').fadeIn();
+        }
+       });
+
 
 
         $(document).on('change','.assign_type',function(){
@@ -210,5 +270,49 @@
             let order_id = $(this).data('id');
             $('.order_id').val(order_id);
         });
+
+
+
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("steadfastCourierForm");
+
+    form.addEventListener("submit", function (event) {
+        let isValid = true;
+
+        // Get input values
+        let invoice = document.querySelector("input[name='invoice']");
+        let recipientName = document.querySelector("input[name='recipient_name']");
+        let recipientPhone = document.querySelector("input[name='recipient_phone']");
+        let codAmount = document.querySelector("input[name='cod_amount']");
+        let recipientAddress = document.querySelector("textarea[name='recipient_address']");
+
+        // Function to check if a field is empty and show error
+        function validateField(field) {
+            if (!field.value.trim()) {
+                field.classList.add("is-invalid");
+                isValid = false;
+            } else {
+                field.classList.remove("is-invalid");
+            }
+        }
+
+        // Apply validation to required fields
+        validateField(invoice);
+        validateField(recipientName);
+        validateField(recipientPhone);
+        validateField(codAmount);
+        validateField(recipientAddress);
+
+        // Prevent form submission if invalid
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+});
+
+
     </script>
 @endsection
