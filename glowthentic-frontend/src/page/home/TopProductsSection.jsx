@@ -46,7 +46,7 @@ const TopProductsSection = () => {
       modules={[Autoplay, FreeMode, Navigation]}
       className="mySwiper"
     >
-       {data?.products.slice(0, 10).map((product) => (
+       {data?.data?.slice(0, 10).map((product) => (
             <SwiperSlide key={product?.id}>
               <Product product={product} isDark={true} />
             </SwiperSlide>
