@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const Product = ({ product, isDark }) => {
   console.log(product);
-  const { id, title, discountPercentage, description, img, thumbnail: image, price, stock } = product;
+  const { id, product_name, discountPercentage, description, img, thumbnail: image, price, stock } = product;
 
   const [isInCart, setIsInCart] = useState(false);
   const [isFav, setIsFav] = useState(false);
@@ -62,11 +62,11 @@ const Product = ({ product, isDark }) => {
       }`}
     >
       <figure className="relative">
-        <Link to={`/product/${id}`}>
+        <Link to={`/product/${product.id}`}>
           <img
             className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:py-5 py-2"
             src={image ?? defaultImage}
-            alt={title ?? "product image"}
+            alt={product_name ?? "product image"}
           />
         </Link>
         <span className="bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold">
@@ -100,7 +100,7 @@ const Product = ({ product, isDark }) => {
       >
         <Link to={`/product/${id}`}>
           <HeadTitle className={`text-sm lg:text-lg ${isDark ? "text-white" : "text-primary"}`}>
-            {title ?? "Beautya Capture Total Dreamskin Care & Perfect"}
+            {product_name ?? "Beautya Capture Total Dreamskin Care & Perfect"}
           </HeadTitle>
         </Link>
         <Paragraph className="text-xs lg:text-sm">
