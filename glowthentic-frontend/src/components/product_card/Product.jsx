@@ -104,12 +104,17 @@ console.log(productdetails[0].description);
           </HeadTitle>
         </Link>
         <Paragraph className="text-xs lg:text-sm">
-        {productdetails[0].description
-    ? window.innerWidth >= 1024
-      ? productdetails[0].description.slice(0, 80)
-      : productdetails[0].description.slice(0, 40) + "..."
-    : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
-        </Paragraph>
+  <span
+    dangerouslySetInnerHTML={{
+      __html:
+        productdetails[0].description
+          ? window.innerWidth >= 1024
+            ? productdetails[0].description.slice(0, 80)
+            : productdetails[0].description.slice(0, 40) + "..."
+          : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
+    }}
+  />
+</Paragraph>
         <div className={`flex gap-3 items-center ${isDark ? "justify-center" : ""}`}>
           <Paragraph className="lg:text-xl text-lg text-secondary">
             <span>{finalPrice}</span>
