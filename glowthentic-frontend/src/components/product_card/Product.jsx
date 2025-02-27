@@ -10,12 +10,12 @@ import { useEffect, useState } from "react";
 
 const Product = ({ product, isDark }) => {
   console.log(product);
-  const { id, title, discountPercentage, description, img, thumbnail: image, price, stock } = product;
+  const { id, product_name, discountPercentage, productdetails, variant_image, variants, thumbnail: image, price, stock } = product;
 
   const [isInCart, setIsInCart] = useState(false);
   const [isFav, setIsFav] = useState(false);
-
-
+const baseURL = "http://127.0.0.1:8000/" ;
+console.log(productdetails[0].description);
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
@@ -62,11 +62,11 @@ const Product = ({ product, isDark }) => {
       }`}
     >
       <figure className="relative">
-        <Link to={`/product/${id}`}>
+        <Link to={`/product/${product.id}`}>
           <img
             className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:py-5 py-2"
-            src={image ?? defaultImage}
-            alt={title ?? "product image"}
+            src={  baseURL + variant_image[0]?.image || defaultImage }
+            alt={product_name ?? "product image"}
           />
         </Link>
         <span className="bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold">
@@ -100,22 +100,27 @@ const Product = ({ product, isDark }) => {
       >
         <Link to={`/product/${id}`}>
           <HeadTitle className={`text-sm lg:text-lg ${isDark ? "text-white" : "text-primary"}`}>
-            {title ?? "Beautya Capture Total Dreamskin Care & Perfect"}
+            {product_name ?? "Beautya Capture Total Dreamskin Care & Perfect"}
           </HeadTitle>
         </Link>
         <Paragraph className="text-xs lg:text-sm">
-          {description
-            ? window.innerWidth >= 1024
-              ? description.slice(0, 80)
-              : description.slice(0, 40) + "..."
-            : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
-        </Paragraph>
+  <span
+    dangerouslySetInnerHTML={{
+      __html:
+        productdetails[0].description
+          ? window.innerWidth >= 1024
+            ? productdetails[0].description.slice(0, 80)
+            : productdetails[0].description.slice(0, 40) + "..."
+          : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
+    }}
+  />
+</Paragraph>
         <div className={`flex gap-3 items-center ${isDark ? "justify-center" : ""}`}>
           <Paragraph className="lg:text-xl text-lg text-secondary">
-            <span>{finalPrice}</span>
+            <span>{variants[0].regular_price}</span>
           </Paragraph>
           <Paragraph className="lg:text-sm text-xs text-gray-thin">
-            <del>{price}</del>
+            <del>{variants[0].regular_price}</del>
           </Paragraph>
         </div>
       </div>

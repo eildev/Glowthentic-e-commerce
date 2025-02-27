@@ -100,12 +100,13 @@ class ProductController extends Controller
             'gender' => 'required',
             // 'ingredients'=>'nullable|string',
             // 'usage_instruction'=>'nullable|string',
-           'product_main_image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+           'product_main_image.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'product_main_image' => 'required|array',
 
             'stock_quantity' => 'required|integer|min:0',
         ]);
 
+        // dd($validator);
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
