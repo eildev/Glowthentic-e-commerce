@@ -168,22 +168,23 @@ class ProductController extends Controller
                 //     $variant->image=$path.$filename;
                 // }
                 $variant->save();
-                if($variant->id){
-                 if($request->hasFile('product_main_image')){
-                    foreach ($request->file('product_main_image') as $image) {
-                     $file = $image;
-                     $extension = $file->extension();
-                     $filename = time().'.'.$extension;
-                     $path = 'uploads/products/variant/';
-                     $file->move($path, $filename);
-                     $galleryImage = $path.$filename;
-                    $productGallery = new VariantImageGallery;
-                    $productGallery->variant_id = $variant->id;
-                    $productGallery->product_id = $product->id;
-                    $productGallery->image = $galleryImage;
-                    $productGallery->save();
-                }
-                 }
+                if ($variant->id) {
+                    if ($request->hasFile('product_main_image')) {
+                        foreach ($request->file('product_main_image') as $image) {
+                            $file = $image;
+                            $extension = $file->extension();
+                            $filename = time() . '_' . uniqid() . '.' . $extension; 
+                            $path = 'uploads/products/variant/';
+                            $file->move($path, $filename);
+                            $galleryImage = $path . $filename;
+
+                            $productGallery = new VariantImageGallery;
+                            $productGallery->variant_id = $variant->id;
+                            $productGallery->product_id = $product->id;
+                            $productGallery->image = $galleryImage;
+                            $productGallery->save();
+                        }
+                    }
                 }
 
 

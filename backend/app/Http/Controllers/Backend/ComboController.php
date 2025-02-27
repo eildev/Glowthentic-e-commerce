@@ -79,7 +79,7 @@ class ComboController extends Controller
             foreach($request->file('image') as $image){
                 $file=$image;
                 $extension = $file->extension();
-                $filename = time().'.'.$extension;
+                $filename = time() . '_' . uniqid() . '.' . $extension; 
                 $path ='uploads/combo/image/';
                 $file->move($path,$filename);
 
