@@ -103,10 +103,11 @@ const images = data?.data.variant_image
                         className="mySwiper max-h-[541px]"
                     >
                         {images?.map((image, index) => (
-                            <SwiperSlide key={index} className='min-w-[80px] cursor-pointer'>
+                            <SwiperSlide key={index} className='min-w-[75px] min-h-[78px] cursor-pointer'>
                                 <img
                                     src={`http://127.0.0.1:8000/${image?.image}`}
                                     // src={`${image}`}
+                                    className='min-h-[74px] max-h-[75px] w-full object-cover'
                                 />
                             </SwiperSlide>
                         ))}
@@ -159,10 +160,11 @@ const images = data?.data.variant_image
                         className="mySwiper sm:max-w-[65%] max-w-[95%] opacity-80"
                     >
                         {images?.map((image, index) => (
-                            <SwiperSlide key={index} className='min-w-[80px] cursor-pointer'>
+                            <SwiperSlide key={index} className='min-w-[80px] max-h-[80px] border-2 border-transparent cursor-pointer'>
                                 <img
                                     src={`http://127.0.0.1:8000/${image?.image}`}
                                     // src={`${image}`}
+                                    className='max-h-[74px] w-full object-cover '
                                 />
                             </SwiperSlide>
                         ))}
