@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const Product = ({ product, isDark }) => {
   console.log(product);
-  const { id, product_name, discountPercentage, productdetails, variant_image, thumbnail: image, price, stock } = product;
+  const { id, product_name, discountPercentage, productdetails, variant_image, variants, thumbnail: image, price, stock } = product;
 
   const [isInCart, setIsInCart] = useState(false);
   const [isFav, setIsFav] = useState(false);
@@ -104,18 +104,23 @@ console.log(productdetails[0].description);
           </HeadTitle>
         </Link>
         <Paragraph className="text-xs lg:text-sm">
-        {productdetails[0].description
-    ? window.innerWidth >= 1024
-      ? productdetails[0].description.slice(0, 80)
-      : productdetails[0].description.slice(0, 40) + "..."
-    : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
-        </Paragraph>
+  <span
+    dangerouslySetInnerHTML={{
+      __html:
+        productdetails[0].description
+          ? window.innerWidth >= 1024
+            ? productdetails[0].description.slice(0, 80)
+            : productdetails[0].description.slice(0, 40) + "..."
+          : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
+    }}
+  />
+</Paragraph>
         <div className={`flex gap-3 items-center ${isDark ? "justify-center" : ""}`}>
           <Paragraph className="lg:text-xl text-lg text-secondary">
-            <span>{finalPrice}</span>
+            <span>{variants[0].regular_price}</span>
           </Paragraph>
           <Paragraph className="lg:text-sm text-xs text-gray-thin">
-            <del>{price}</del>
+            <del>{variants[0].regular_price}</del>
           </Paragraph>
         </div>
       </div>

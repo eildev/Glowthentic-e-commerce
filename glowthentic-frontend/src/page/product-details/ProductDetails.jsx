@@ -73,7 +73,7 @@ const ProductDetails = () => {
 
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  console.log(thumbsSwiper);
+  
   const mainSwiperRef = useRef(null);
   const thumbsSwiperRef = useRef(null);
 
@@ -203,7 +203,7 @@ const ProductDetails = () => {
         <div className="hidden sm:block">
        
 
-    <ProductQueryNevigation></ProductQueryNevigation>
+    <ProductQueryNevigation data={data}></ProductQueryNevigation>
        
   
         </div>
