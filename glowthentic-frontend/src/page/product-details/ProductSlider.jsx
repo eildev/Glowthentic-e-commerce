@@ -11,6 +11,7 @@ import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 const ProductSlider = ({data}) => {
 console.log(data?.data.variant_image);
+console.log(data?.data);
 const images = data?.data.variant_image
 
     const swiperRef = useRef(null);

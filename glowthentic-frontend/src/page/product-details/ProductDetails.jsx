@@ -1,5 +1,5 @@
 import Container from "../../components/Container";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FiPlus } from "react-icons/fi";
@@ -21,12 +21,14 @@ import RecommendedSlider from "./RecommendedSlider";
 import ProductQueryNevigation from "./ProductQueryNevigation";
 import { useParams } from "react-router-dom";
 import { useGetProductByDetailsQuery } from "../../redux/features/api/product-api/productApi.js";
+import { option } from "framer-motion/client";
 
 
 const ProductDetails = () => {
   const { id } = useParams(); // Extracts the product ID from the URL
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   console.log(data);
+  console.log(data?.data.variants.regular_price  );
   const images = [
     "https://picsum.photos/200/300",
     "https://picsum.photos/300/300",
@@ -68,7 +70,13 @@ const ProductDetails = () => {
     },
   
   ];
+  const [selectedVariant, setSelectedVariant] = useState("");
 
+  useEffect(() => {
+    if (data?.data.variants.length > 0) {
+      setSelectedVariant(data.data.variants[0].weight);
+    }
+  }, [data]);
   const [openIndex, setOpenIndex] = useState(0);
 
 
@@ -142,7 +150,9 @@ const ProductDetails = () => {
             {/* //show big device small device hidden End/ / */}
             <div className=" lg:mt-4 flex flex-wrap items-center">
               <span className="text-secondary  font-bold text-xl  pe-4">
-                $520.00
+              {
+                data?.data.variants.regular_price 
+              }
               </span>
               <span className="text-gray  text-xs md:text-sm font-thin  pe-2 ">
                 <del>$1040.00 |</del>
@@ -155,14 +165,23 @@ const ProductDetails = () => {
             </div>
             {/* //Select price// */}
             <div className="flex items-center justify-between mt-4">
-              <div>
-                <select className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray">
-                  <option className="py-3" selected>
-                    20 ML
-                  </option>
-                  <option className="py-3">40 ML</option>
-                </select>
-              </div>
+              
+                
+            <div>
+      <select
+        className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
+        value={selectedVariant}
+        onChange={(e) => setSelectedVariant(e.target.value)}
+      >
+        {data?.data.variants.map((variant) => (
+          <option key={variant.id} className="py-3" value={variant.weight}>
+            {variant.weight}
+          </option>
+        ))}
+      </select>
+    </div>
+              
+             
               <span className="text-lg font-semibold text-gray">$520.00</span>
             </div>
             <hr className="text-gray-bold" />
