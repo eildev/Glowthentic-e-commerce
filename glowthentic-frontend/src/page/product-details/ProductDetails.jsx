@@ -70,13 +70,21 @@ const ProductDetails = () => {
     },
   
   ];
-  const [selectedVariant, setSelectedVariant] = useState("");
+  const [variant, setVariant] = useState([0])
+  const [selectedVariant, setSelectedVariant] = useState(null);
 
   useEffect(() => {
     if (data?.data.variants.length > 0) {
-      setSelectedVariant(data.data.variants[0].weight);
+      setSelectedVariant(data.data.variants[0]);
     }
   }, [data]);
+
+  const handleVariantChange = (e) => {
+    const variantId = e.target.value;
+    const selected = data?.data.variants.find((v) => v.id === parseInt(variantId));
+    setSelectedVariant(selected);
+  };
+  console.log("sdfsdf sadf" + selectedVariant);
   const [openIndex, setOpenIndex] = useState(0);
 
 
@@ -122,7 +130,8 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
           <div className="sm:col-span-7 my-[35px]">
-  <ProductSlider data={data}></ProductSlider>
+  <ProductSlider data={data}  
+              variantId={selectedVariant?.id}></ProductSlider>
 </div>
 
           {/*-------------------------- Slide End----------------------------*/}
@@ -166,23 +175,22 @@ const ProductDetails = () => {
             {/* //Select price// */}
             <div className="flex items-center justify-between mt-4">
               
-                
             <div>
-      <select
-        className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
-        value={selectedVariant}
-        onChange={(e) => setSelectedVariant(e.target.value)}
-      >
-        {data?.data.variants.map((variant) => (
-          <option key={variant.id} className="py-3" value={variant.weight}>
-            {variant.weight}
-          </option>
-        ))}
-      </select>
-    </div>
+                <select
+                  className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
+                  value={selectedVariant?.id || ""}
+                  onChange={handleVariantChange}
+                >
+                  {data?.data.variants.map((variant) => (
+                    <option key={variant.id} className="py-3" value={variant.id}>
+                      {variant.weight}
+                    </option>
+                  ))}
+                </select>
+              </div>
               
              
-              <span className="text-lg font-semibold text-gray">$520.00</span>
+              <span className="text-lg font-semibold text-gray">    {selectedVariant ? `৳${selectedVariant.regular_price}` : "Loading..."}</span>
             </div>
             <hr className="text-gray-bold" />
             {/* //Select price end// */}
