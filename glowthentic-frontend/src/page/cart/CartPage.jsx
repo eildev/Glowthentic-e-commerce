@@ -20,7 +20,7 @@ const CartPage = () => {
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItem(cart);
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const total = cart.reduce((sum, item) => sum + (item.variants[0].regular_price * item.quantity), 0);
     setSubTotalPrice(total.toFixed(2));
   }, [reFetch]);
   

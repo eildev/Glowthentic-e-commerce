@@ -106,12 +106,11 @@ console.log(productdetails[0].description);
         <Paragraph className="text-xs lg:text-sm">
   <span
     dangerouslySetInnerHTML={{
-      __html:
-        productdetails[0].description
-          ? window.innerWidth >= 1000
-            ? productdetails[0].description.slice(0, 80)
-            : productdetails[0].description.slice(0, 40) + "..."
-          : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
+      __html: productdetails?.[0]?.description
+        ? window.innerWidth >= 1000
+          ? productdetails[0].description.slice(0, 80)
+          : productdetails[0].description.slice(0, 40) + "..."
+        : "Loading...",
     }}
   />
 </Paragraph>
