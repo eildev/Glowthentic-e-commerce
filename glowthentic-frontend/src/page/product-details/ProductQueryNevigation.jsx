@@ -11,48 +11,9 @@ const tabs = [
   { id: "specs", label: "Product Specification" }
 ];
 
-const productDetails = (
-  <p>Beautya's 1st revitalizing serum that concentrates the double power of the Rose de Granville from the stem to the flower to revitalize the skin twice as fast (1) and visibly rejuvenate. <br />
-  Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed by the power of the Rose sap. The next-generation, 92% natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated,(4) combining the nourishing richness of an oil with the deep penetration of a serum.
-  <br />
-  <br />
-  From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin elasticity.(5) With regular use, skin looks and feels transformed.
-  <br />
-  <br />
-  As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced.
-  <br />
-  <br />
-  Reveal your extraordinary beauty with Beautya Prestige.
-  <br />
-  <br />
-  (1) Instrumental test, 32 panelists, after 30 min. <br />
-  (2) In a 30 ml bottle. <br />
-  (3) Amount calculated based on the ISO 16128-1 and ISO 16128-2 standard. Water percentage included. The remaining 8% of ingredients contribute to the formula’s performance, sensory appeal and stability. <br />
-  (4) In Rose de Granville micro-nutrients compared to the previous formula. <br />
-  (5) Clinical assessment by a dermatologist on the evolution of the product’s performance on the skin elasticity, comparison between the effect after 7 days and 28 days on 34 women.</p>
-);
+const cleanHTML = (html) => html.replace(/<p>/g, "<div>").replace(/<\/p>/g, "</div>");
 
-const apply = (
-  <p>
-    <b>Step 1:</b> Dispense two to three pumps into the palm of your hand. Then, using the pads of the fingers, apply the serum to the entire face from the center outwards. <br />
-    <b>Step 2:</b> Use gentle pressure to make the serum penetrate deeply. <br />
-    <b>Step 3:</b> Finally, to enhance contours, hold the chin between the index and middle fingers and move up the jawline.
-  </p>
-);
 
-const ingredients = (
- 
-    <p className="pl-5 list-disc">
-    <li>Lactobacillus/bean fermented extract: improved moisturizing power, excellent skin penetration</li>
-    <li>Portulaca extract: skin soothing effect, providing excellent moisturizing power</li>
-    <li>Gulden Extract: Provides melanin pigment suppression effect and trouble suppression effect</li>
-    <li>Lactobacillus/bean fermented extract: improved moisturizing power, excellent skin penetration</li>
-    <li>Portulaca extract: skin soothing effect, providing excellent moisturizing power</li>
-    <li>Gulden Extract: Provides melanin pigment suppression effect and trouble suppression effect</li>
-  </p>
-  
-  
-);
 
 const advance = (
   <p>
@@ -69,46 +30,38 @@ const specification = (
     Beauty Effect-Brightening
   </p>)
 const truncateText = (element, length) => {
+  if (!element) return "";
 
-  const textArray = React.Children.toArray(element.props.children);
+  if (typeof element === "string") {
+    // Convert HTML string to plain text
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(element, "text/html");
+    const text = doc.body.textContent || "";
 
- 
-  const text = textArray
-    .map(child => (typeof child === "string" ? child : " ")) 
-    .join("")
-    .trim(); 
-  
+    return text.length > length ? text.substring(0, length) + "..." : text;
+  }
+
+  // If it's a React element, extract text
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(element.props.children, "text/html");
+  const text = doc.body.textContent || "";
+
   return text.length > length ? text.substring(0, length) + "..." : text;
 };
-const contentData = {
-  details: {
-    short: truncateText(productDetails, 100),
-    full: productDetails
-  },
-  apply: {
-    short: truncateText(apply, 80),
-    full: apply
-  },
-  ingredients: {
-    short: truncateText(ingredients, 80),
-    full: ingredients
-  },
-  advance: {
-    short: truncateText(advance, 80),
-    full: advance
-  },
-  specs: {
-    short: truncateText(specification, 80),
-    full: specification
-  }
-};
+
+
+
+
 
 
 export default function ProductQueryNavigation({data}) {
-  console.log(data);
+  console.log(data?.data.productdetails[0].description);
   const [selectedTab, setSelectedTab] = useState("details");
   const [expandedTabs, setExpandedTabs] = useState({});
   const sectionRefs = useRef({});
+  const productDetails = data?.data.productdetails[0].description
+  const apply = data?.data.productdetails[0].usage_instruction
+  const ingredients = data?.data.productdetails[0].ingredients
   const tabs = [
     { id: "details", label: "Product Details" },
     { id: "apply", label: "How to Apply" },
@@ -116,7 +69,28 @@ export default function ProductQueryNavigation({data}) {
     { id: "advance", label: "What Makes It Advance" },
     { id: "specs", label: "Product Specification" }
   ];
-  
+  const contentData = {
+    details: {
+      short: truncateText(productDetails, 100),
+      full: productDetails
+    },
+    apply: {
+      short: truncateText(apply, 80),
+      full: apply
+    },
+    ingredients: {
+      short: truncateText(ingredients, 80),
+      full: ingredients
+    },
+    advance: {
+      short: truncateText(advance, 80),
+      full: advance
+    },
+    specs: {
+      short: truncateText(specification, 80),
+      full: specification
+    }
+  };
   const handleTabClick = (tabId) => {
     setSelectedTab(tabId);
     setExpandedTabs(prev => ({
@@ -183,7 +157,10 @@ export default function ProductQueryNavigation({data}) {
             >
               <h2 className="text-xl text-[#0C0C0C] font-bold">{tab.label}</h2>
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
-              {expandedTabs[tab.id] ? contentData[tab.id].full : contentData[tab.id].short}
+              <div
+  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+  dangerouslySetInnerHTML={{ __html: expandedTabs[tab.id] ? contentData[tab.id].full : contentData[tab.id].short }}
+/>
               </p>
               <button
   className="text-[#0C0C0C] text-base font-normal mt-4 flex items-center gap-2"
