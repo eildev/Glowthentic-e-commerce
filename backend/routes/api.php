@@ -49,6 +49,7 @@ Route::controller(TagNameController::class)->group(function () {
 Route::controller(ProductController::class)->group(function () {
     Route::get('/product', 'viewAll')->name('product.view');
     Route::get('/product/{id}', 'show')->name('product.show');
+    Route::get('/product/search', 'search');
 });
 
 Route::controller(comboProductController::class)->group(function () {

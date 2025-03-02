@@ -5,7 +5,7 @@ const productApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api' }),
     endpoints: builder => ({
         getProducts: builder.query({
-            query: () => '/product?skip=0',
+            query: () => '/product',
         }),
         searchProducts: builder.query({
             query: (product) => `/product/search?q=${product}`,
