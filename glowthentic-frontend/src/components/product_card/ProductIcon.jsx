@@ -15,7 +15,7 @@ const ProductIcon = ({ image, className, imgClassName, product, handleAddToCart,
           className
         )}
         onClick={() => handleAddToCart(product)}
-      >pu
+      >
         <img
           className={cn("h-5 w-5 lg:h-6 lg:w-6 object-contain", imgClassName)}
           src={image}
