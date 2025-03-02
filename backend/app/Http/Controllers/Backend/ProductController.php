@@ -169,6 +169,8 @@ class ProductController extends Controller
                 //     $variant->image=$path.$filename;
                 // }
                 $variant->save();
+
+                 
                 if($variant->id){
                  if($request->hasFile('product_main_image')){
                     foreach ($request->file('product_main_image') as $image) {
@@ -185,11 +187,6 @@ class ProductController extends Controller
                     $productGallery->save();
                 }
                  }
-                }
-
-
-
-
 
                }
 
@@ -668,6 +665,7 @@ public function variantProductStore(Request $request)
 
 //rest Api Start
 public function viewAll(){
+
     $products = Product::orderByDesc('id')->with('variants.variantImage','product_tags','productStock','productdetails','variantImage')->where('status',1)->get();
     // dd($products);
     return response()->json([
@@ -678,11 +676,14 @@ public function viewAll(){
 }
 
 public function show($id){
+
    $products = Product::with('variants.variantImage','product_tags','productStock','productdetails','variantImage')->where('id',$id)->first();
+
    return response()->json([
     'status' => '200',
     'message' => 'Product Search',
     'data' => $products,
+    'ID'=>$id,
 ]);
 }
 
