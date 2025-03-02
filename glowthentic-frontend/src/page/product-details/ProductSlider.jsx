@@ -9,9 +9,15 @@ import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 
 
-const ProductSlider = ({data}) => {
-console.log(data?.data.variant_image);
-const images = data?.data.variant_image
+const ProductSlider = ({data, variantId}) => {
+console.log(data?.data.variants);
+
+const selectedVariantData = data?.data.variants.find(
+    (variant) => variant.id === variantId
+  );
+
+  console.log(selectedVariantData);
+  const images = selectedVariantData?.variant_image || [];
 
     const swiperRef = useRef(null);
 

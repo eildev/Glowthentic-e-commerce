@@ -169,28 +169,24 @@ class ProductController extends Controller
                 //     $variant->image=$path.$filename;
                 // }
                 $variant->save();
-                if ($variant->id) {
-                    if ($request->hasFile('product_main_image')) {
-                        foreach ($request->file('product_main_image') as $image) {
-                            $file = $image;
-                            $extension = $file->extension();
-                            $filename = time() . '_' . uniqid() . '.' . $extension; 
-                            $path = 'uploads/products/variant/';
-                            $file->move($path, $filename);
-                            $galleryImage = $path . $filename;
 
-                            $productGallery = new VariantImageGallery;
-                            $productGallery->variant_id = $variant->id;
-                            $productGallery->product_id = $product->id;
-                            $productGallery->image = $galleryImage;
-                            $productGallery->save();
-                        }
-                    }
+                 
+                if($variant->id){
+                 if($request->hasFile('product_main_image')){
+                    foreach ($request->file('product_main_image') as $image) {
+                     $file = $image;
+                     $extension = $file->extension();
+                     $filename = time() . '_' . uniqid() . '.' . $image->extension();
+                     $path = 'uploads/products/variant/';
+                     $file->move($path, $filename);
+                     $galleryImage = $path.$filename;
+                    $productGallery = new VariantImageGallery;
+                    $productGallery->variant_id = $variant->id;
+                    $productGallery->product_id = $product->id;
+                    $productGallery->image = $galleryImage;
+                    $productGallery->save();
                 }
-
-
-
-
+                 }
 
                }
 
@@ -669,7 +665,9 @@ public function variantProductStore(Request $request)
 
 //rest Api Start
 public function viewAll(){
-    $products = Product::orderByDesc('id')->with('variants','product_tags','productStock','productdetails','variantImage')->where('status',1)->get();
+
+    $products = Product::orderByDesc('id')->with('variants.variantImage','product_tags','productStock','productdetails','variantImage')->where('status',1)->get();
+    // dd($products);
     return response()->json([
         'status' => '200',
         'message' => 'Product List',
@@ -678,11 +676,14 @@ public function viewAll(){
 }
 
 public function show($id){
-   $products = Product::with('variants','product_tags','productStock','productdetails','variantImage')->where('id',$id)->first();
+
+   $products = Product::with('variants.variantImage','product_tags','productStock','productdetails','variantImage')->where('id',$id)->first();
+
    return response()->json([
     'status' => '200',
     'message' => 'Product Search',
     'data' => $products,
+    'ID'=>$id,
 ]);
 }
 

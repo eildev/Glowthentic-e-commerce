@@ -1,5 +1,5 @@
 import Container from "../../components/Container";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FiPlus } from "react-icons/fi";
@@ -21,12 +21,14 @@ import RecommendedSlider from "./RecommendedSlider";
 import ProductQueryNevigation from "./ProductQueryNevigation";
 import { useParams } from "react-router-dom";
 import { useGetProductByDetailsQuery } from "../../redux/features/api/product-api/productApi.js";
+import { option } from "framer-motion/client";
 
 
 const ProductDetails = () => {
   const { id } = useParams(); // Extracts the product ID from the URL
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   console.log(data);
+  console.log(data?.data.variants.regular_price  );
   const images = [
     "https://picsum.photos/200/300",
     "https://picsum.photos/300/300",
@@ -68,7 +70,21 @@ const ProductDetails = () => {
     },
   
   ];
+  const [variant, setVariant] = useState([0])
+  const [selectedVariant, setSelectedVariant] = useState(null);
 
+  useEffect(() => {
+    if (data?.data.variants.length > 0) {
+      setSelectedVariant(data.data.variants[0]);
+    }
+  }, [data]);
+
+  const handleVariantChange = (e) => {
+    const variantId = e.target.value;
+    const selected = data?.data.variants.find((v) => v.id === parseInt(variantId));
+    setSelectedVariant(selected);
+  };
+  console.log("sdfsdf sadf" + selectedVariant);
   const [openIndex, setOpenIndex] = useState(0);
 
 
@@ -114,7 +130,8 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
           <div className="sm:col-span-7 my-[35px]">
-  <ProductSlider data={data}></ProductSlider>
+  <ProductSlider data={data}  
+              variantId={selectedVariant?.id}></ProductSlider>
 </div>
 
           {/*-------------------------- Slide End----------------------------*/}
@@ -142,7 +159,9 @@ const ProductDetails = () => {
             {/* //show big device small device hidden End/ / */}
             <div className=" lg:mt-4 flex flex-wrap items-center">
               <span className="text-secondary  font-bold text-xl  pe-4">
-                $520.00
+              {
+                data?.data.variants.regular_price 
+              }
               </span>
               <span className="text-gray  text-xs md:text-sm font-thin  pe-2 ">
                 <del>$1040.00 |</del>
@@ -155,15 +174,23 @@ const ProductDetails = () => {
             </div>
             {/* //Select price// */}
             <div className="flex items-center justify-between mt-4">
-              <div>
-                <select className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray">
-                  <option className="py-3" selected>
-                    20 ML
-                  </option>
-                  <option className="py-3">40 ML</option>
+              
+            <div>
+                <select
+                  className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
+                  value={selectedVariant?.id || ""}
+                  onChange={handleVariantChange}
+                >
+                  {data?.data.variants.map((variant) => (
+                    <option key={variant.id} className="py-3" value={variant.id}>
+                      {variant.weight}
+                    </option>
+                  ))}
                 </select>
               </div>
-              <span className="text-lg font-semibold text-gray">$520.00</span>
+              
+             
+              <span className="text-lg font-semibold text-gray">    {selectedVariant ? `৳${selectedVariant.regular_price}` : "Loading..."}</span>
             </div>
             <hr className="text-gray-bold" />
             {/* //Select price end// */}
