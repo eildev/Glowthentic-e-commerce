@@ -1,5 +1,5 @@
 import Container from "../../components/Container";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FiPlus } from "react-icons/fi";
@@ -19,8 +19,16 @@ import ProductReviews from "./ProductReviews";
 import ProductSlider from "./pRODUCTsLIDER.JSX";
 import RecommendedSlider from "./RecommendedSlider";
 import ProductQueryNevigation from "./ProductQueryNevigation";
+import { useParams } from "react-router-dom";
+import { useGetProductByDetailsQuery } from "../../redux/features/api/product-api/productApi.js";
+import { option } from "framer-motion/client";
+
 
 const ProductDetails = () => {
+  const { id } = useParams(); // Extracts the product ID from the URL
+  const { data, isLoading, error } = useGetProductByDetailsQuery(id);
+  console.log(data);
+  console.log(data?.data.variants.regular_price  );
   const images = [
     "https://picsum.photos/200/300",
     "https://picsum.photos/300/300",
@@ -62,12 +70,26 @@ const ProductDetails = () => {
     },
   
   ];
+  const [variant, setVariant] = useState([0])
+  const [selectedVariant, setSelectedVariant] = useState(null);
 
+  useEffect(() => {
+    if (data?.data.variants.length > 0) {
+      setSelectedVariant(data.data.variants[0]);
+    }
+  }, [data]);
+
+  const handleVariantChange = (e) => {
+    const variantId = e.target.value;
+    const selected = data?.data.variants.find((v) => v.id === parseInt(variantId));
+    setSelectedVariant(selected);
+  };
+  console.log("sdfsdf sadf" + selectedVariant);
   const [openIndex, setOpenIndex] = useState(0);
 
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  console.log(thumbsSwiper);
+  
   const mainSwiperRef = useRef(null);
   const thumbsSwiperRef = useRef(null);
 
@@ -91,6 +113,7 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section Start ----> */}
           <div className="sm:hidden block mt-4 p-2">
             <HeadTitle>
+              
               Pierre Cardin Matte Rouge Lipstick Fushion Pink 745
             </HeadTitle>
             <br />
@@ -107,7 +130,8 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
           <div className="sm:col-span-7 my-[35px]">
-  <ProductSlider></ProductSlider>
+  <ProductSlider data={data}  
+              variantId={selectedVariant?.id}></ProductSlider>
 </div>
 
           {/*-------------------------- Slide End----------------------------*/}
@@ -117,7 +141,9 @@ const ProductDetails = () => {
             {/* //show big device small device hidden Start// */}
             <div className="hidden sm:block w-full">
               <HeadTitle>
-                Pierre Cardin Matte Rouge Lipstick Fushion Pink 745
+              {
+                data?.data.product_name 
+              }
               </HeadTitle>
               <br />
               <h4 className="font-bold">Anti-aging face serum</h4>
@@ -133,7 +159,9 @@ const ProductDetails = () => {
             {/* //show big device small device hidden End/ / */}
             <div className=" lg:mt-4 flex flex-wrap items-center">
               <span className="text-secondary  font-bold text-xl  pe-4">
-                $520.00
+              {
+                data?.data.variants.regular_price 
+              }
               </span>
               <span className="text-gray  text-xs md:text-sm font-thin  pe-2 ">
                 <del>$1040.00 |</del>
@@ -146,15 +174,23 @@ const ProductDetails = () => {
             </div>
             {/* //Select price// */}
             <div className="flex items-center justify-between mt-4">
-              <div>
-                <select className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray">
-                  <option className="py-3" selected>
-                    20 ML
-                  </option>
-                  <option className="py-3">40 ML</option>
+              
+            <div>
+                <select
+                  className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
+                  value={selectedVariant?.id || ""}
+                  onChange={handleVariantChange}
+                >
+                  {data?.data.variants.map((variant) => (
+                    <option key={variant.id} className="py-3" value={variant.id}>
+                      {variant.weight}
+                    </option>
+                  ))}
                 </select>
               </div>
-              <span className="text-lg font-semibold text-gray">$520.00</span>
+              
+             
+              <span className="text-lg font-semibold text-gray">    {selectedVariant ? `৳${selectedVariant.regular_price}` : "Loading..."}</span>
             </div>
             <hr className="text-gray-bold" />
             {/* //Select price end// */}
@@ -192,245 +228,10 @@ const ProductDetails = () => {
 
         {/* //-----Product Description Big Device--------// */}
         <div className="hidden sm:block">
-          {/* <ul className="flex justify-between font-semibold list-none pb-2 w-full border-b-[1px] border-[#606060]">
-            <li  onClick={() => setActiveIndex("product-details")}>
-              <a href="#product-details" className={`hover:text-secondary ${
-                activeIndex === "product-details" ?"pb-2 border-b-2" : ""
-              }`}>
-                Product Details
-              </a>
-            </li>
-            <li onClick={() => setActiveIndex("how-to-apply")}>
-            <a href="#how-to-apply" className={`hover:text-secondary ${
-                activeIndex === "how-to-apply" ?"pb-2 border-b-2" : ""
-              }`}>
-                How To Apply
-              </a>
-            </li>
-            <li onClick={() => setActiveIndex("ingredient")}>
-            <a href="#ingredient" className={`hover:text-secondary ${
-                activeIndex === "ingredient" ?"pb-2 border-b-2" : ""
-              }`}>
-                Ingredient
-              </a>
-            </li>
-            <li onClick={() => setActiveIndex("what-makes-it Advance")}>
-            <a href="#what-makes-it Advance" className={`hover:text-secondary ${
-                activeIndex === "what-makes-it Advance" ?"pb-2 border-b-2" : ""
-              }`}>
-                What Makes It Advance
-              </a>
-            </li>
-            <li onClick={() => setActiveIndex("product-specification")}>
-            <a href="#product-specification" className={`hover:text-secondary ${
-                activeIndex === "product-specification" ?"pb-2 border-b-2" : ""
-              }`}>
-                Product Specification
-              </a>
-            </li>
-          </ul> */}
+       
 
-    <ProductQueryNevigation></ProductQueryNevigation>
-          {/* <div id="product-details" className="mt-8">
-            <h4 className="font-semibold text-lg mb-4">Product Details</h4>
-            <p
-  className="leading-relaxed text-gray-700"
-  dangerouslySetInnerHTML={{
-    __html: truncateText(
-      `Beautya's 1st revitalizing serum that concentrates the double power of the Rose de Granville from the stem to the flower to revitalize the skin twice as fast (1) and visibly rejuvenate. <Br><Br>
-Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed by the power of the Rose sap. The next-generation, 92% natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated,(4) combining the nourishing richness of an oil with the deep penetration of a serum.
-
-From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin elasticity.(5) With regular use, skin looks and feels transformed.
-
-As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced.
-
-Reveal your extraordinary beauty with Beautya Prestige.
-
-(1) Instrumental test, 32 panelists, after 30 min.
-(2) In a 30 ml bottle.
-(3) Amount calculated based on the ISO 16128-1 and ISO 16128-2 standard. Water percentage included. The remaining 8% of ingredients contribute to the formula’s performance, sensory appeal and stability.
-(4) In Rose de Granville micro-nutrients compared to the previous formula.
-(5) Clinical assessment by a dermatologist on the evolution of the product’s performance on the skin elasticity, comparison between the effect after 7 days and 28 days on 34 women.`,
-      200,
-      expanded.productDetails
-    ),
-  }}
-></p>
-            <button
-              className="bg-transparent text-black flex items-center"
-              onClick={() => toggleReadMore("productDetails")}
-            >
-              {expanded.productDetails ? (
-                <>
-                  Read Less{" "}
-                  <Icon
-                    icon="iconamoon:arrow-left-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              ) : (
-                <>
-                  Read More{" "}
-                  <Icon
-                    icon="iconamoon:arrow-right-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              )}
-            </button>
-          </div>
-
-          <div id="how-to-apply" className="mt-8">
-            <h4 className="font-semibold text-lg mb-4">How To Apply</h4>
-            <p className="leading-relaxed text-gray-700">
-              {truncateText(
-                `step 1: Dispense two to three pumps into the palm of your hand. Then, using the pads of the fingers, apply the serum to the entire face from the centre outwards.
-                 step 2: Use gentle pressure to make the serum penetrate deeply.`,
-                200,
-                expanded.howToApply
-              )}
-            </p>
-            <button
-              className="bg-transparent text-black flex items-center"
-              onClick={() => toggleReadMore("howToApply")}
-            >
-              {expanded.howToApply ? (
-                <>
-                  Read Less{" "}
-                  <Icon
-                    icon="iconamoon:arrow-left-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              ) : (
-                <>
-                  Read More{" "}
-                  <Icon
-                    icon="iconamoon:arrow-right-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              )}
-            </button>
-          </div>
-
-          <div id="ingredient" className="mt-8">
-            <h4 className="font-semibold text-lg mb-4">Ingredient</h4>
-            <p className="leading-relaxed text-gray-700">
-              {truncateText(
-                `Lactobacillus/bean fermented extract: improved moisturizing power, excellent skin penetration
-                  Portulaca extract: skin soothing effect, providing excellent moisturizing power
-                  Golden Extract: Provides melanin pigment suppression effect and trouble suppression effect`,
-                200,
-                expanded.ingredient
-              )}
-            </p>
-            <button
-              className="bg-transparent text-black flex items-center"
-              onClick={() => toggleReadMore("ingredient")}
-            >
-              {expanded.ingredient ? (
-                <>
-                  Read Less{" "}
-                  <Icon
-                    icon="iconamoon:arrow-left-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              ) : (
-                <>
-                  Read More{" "}
-                  <Icon
-                    icon="iconamoon:arrow-right-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              )}
-            </button>
-          </div>
-          <div id="what-makes-it-advance" className="mt-8">
-            <h4 className="font-semibold text-lg mb-4">
-              What Makes It Advance
-            </h4>
-            <p className="leading-relaxed text-gray-700">
-              {truncateText(
-                `improved Lactobacillus/bean fermented extract: improved moisturizing power, excellent skin penetration
-                  Portulaca extract: skin soothing effect, providing excellent moisturizing power
-                  Golden Extract: Provides melanin pigment suppression effect and trouble suppression effect`,
-                200,
-                expanded.whatMakesItAdvance
-              )}
-            </p>
-            <button
-              className="bg-transparent text-black flex items-center"
-              onClick={() => toggleReadMore("whatMakesItAdvance")}
-            >
-              {expanded.whatMakesItAdvance ? (
-                <>
-                  Read Less{" "}
-                  <Icon
-                    icon="iconamoon:arrow-left-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              ) : (
-                <>
-                  Read More{" "}
-                  <Icon
-                    icon="iconamoon:arrow-right-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              )}
-            </button>
-          </div>
-
-          <div id="product-specification" className="mt-8">
-            <h4 className="font-semibold text-lg mb-4">
-              Product Specification
-            </h4>
-            <p className="leading-relaxed text-gray-700">
-              {truncateText(
-                `OVER 11 AWARDS WON!
-                  BIONYMPH PEPTIDE: peptide blend that helps to condition for smoother, plumper looking skin
-                  VITAMINS C & E: work in harmony to BRIGHTEN the look of your complexion and EVEN the appearance of the skin tone`,
-                200,
-                expanded.productSpecification
-              )}
-            </p>
-            <button
-              className="bg-transparent text-black flex items-center"
-              onClick={() => toggleReadMore("productSpecification")}
-            >
-              {expanded.productSpecification ? (
-                <>
-                  Read Less{" "}
-                  <Icon
-                    icon="iconamoon:arrow-left-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              ) : (
-                <>
-                  Read More{" "}
-                  <Icon
-                    icon="iconamoon:arrow-right-2-light"
-                    width="2em"
-                    height="2em"
-                  />
-                </>
-              )}
-            </button>
-          </div> */}
+    <ProductQueryNevigation data={data}></ProductQueryNevigation>
+       
   
         </div>
         {/* //-----Product Description Small device--------// */}
@@ -560,145 +361,7 @@ Reveal your extraordinary beauty with Beautya Prestige.
             </p>
           </div>
         </div>
-        {/* //Banner section  big Screen End// */}
-        {/*  //Bottom Accordian  Start*/}
-        {/* <div className=" ">
-          <HeadTitle className="text-center pt-4 pb-1">
-            Prestige lA micro-huile serum frequently asked questions
-          </HeadTitle>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" className="border"/>
-            <div className="collapse-title text-lg font-medium">
-              What is the best way to use this product?
-            </div>
-            <div className="collapse-content font-normal text-sm  text-justify">
-              <p>
-                Beautya s 1st revitalizing serum that concentrates the double
-                power of the Rose de Granville from the stem to the flower to
-                revitalize the skin twice as fast (1) and visibly rejuvenate.
-                Created after 20 years of research, the 10,000 (2) micro-pearls
-                rich in revitalizing rose micro-nutrients are now completed by
-                the power of the Rose sap. The next-generation, 92%
-                natural-origin (3) formula of La Micro-Huile de Rose Advanced
-                Serum is twice as concentrated,(4) combining the nourishing
-                richness of an oil with the deep penetration of a serum. From
-                the first application of the serum, the skin appears plumped. In
-                3 weeks, 2x improvement in the look or feel of skin
-                elasticity.(5) With regular use, skin looks and feels
-                transformed. As if replenished from within, the skin seems
-                denser and firmer, and wrinkles appear noticeably reduced. As if
-                lifted, facial contours appear enhanced. Reveal your
-                extraordinary beauty with Beautya Prestige. (1) Instrumental
-                test, 32 panelists, after 30 min.
-              </p>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              Can this product be used on all skin types?
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                Our product is suitable for most skin types, including normal,
-                oily, dry, and combination skin. However, if you have sensitive
-                skin or a skin condition, we recommend performing a patch test
-                before using the product all over your face. Apply a small
-                amount of the product to the inside of your elbow and wait 24
-                hours to make sure you do not have an allergic reaction or
-                irritation. If you experience any discomfort, discontinue use of
-                the product immediately.
-              </p>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              How often should I use this product?
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                Richness of an oil with the deep penetration of a serum. From
-                the first application of the serum, the skin appears plumped. In
-                3 weeks, 2x improvement in the look or feel of skin
-                elasticity.(5) With regular use, skin looks and feels
-                transformed. As if replenished from within, the skin seems
-              </p>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              Can this product be used during pregnancy?
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                Created after 20 years of research, the 10,000 (2) micro-pearls
-                rich in revitalizing rose micro-nutrients are now completed by
-                the power of the Rose sap. The next-generation, 92%
-                natural-origin (3) formula of La Micro-Huile de Rose Advanced
-                Serum is twice as concentrated
-              </p>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              How often should I use this product?
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                As if replenished from within, the skin seems denser and firmer,
-                and wrinkles appear noticeably reduced. As if lifted, facial
-                contours appear enhanced. Reveal your extraordinary beauty with
-                Beautya Prestige. (1) Instrumental test, 32 panelists
-              </p>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              How should I store this product?
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                As if replenished from within, the skin seems denser and firmer,
-                and wrinkles appear noticeably reduced. As if lifted, facial
-                contours appear enhanced. Reveal your extraordinary beauty with
-                Beautya Prestige. (1) Instrumental test, 32 panelists
-              </p>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              How long will it take to see results from using this product?
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                As if replenished from within, the skin seems denser and firmer,
-                and wrinkles appear noticeably reduced. As if lifted, facial
-                contours appear enhanced. Reveal your extraordinary beauty with
-                Beautya Prestige. (1) Instrumental test, 32 panelists
-              </p>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              Can this product be used in conjunction with other skincare
-              products?
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                As if replenished from within, the skin seems denser and firmer,
-                and wrinkles appear noticeably reduced. As if lifted, facial
-                contours appear enhanced. Reveal your extraordinary beauty with
-                Beautya Prestige. (1) Instrumental test, 32 panelists
-              </p>
-            </div>
-          </div>
-        </div> */}
+     
 
 <section className=" py-10 px-">
       <div className="text-center pt-4 pb-1">

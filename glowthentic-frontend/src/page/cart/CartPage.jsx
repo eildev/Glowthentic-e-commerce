@@ -8,7 +8,7 @@ import IncrementDecrement from "../../components/typography/IncrementDecrement";
 import RegularButton from "../../components/typography/RegularButton";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
+import defaultImage from "../../assets/img/Product/20.png";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const CartPage = () => {
   const [cartItem, setCartItem] = useState([]);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const [reFetch, setReFetch] = useState(false);
-  
+  const baseURL = "http://127.0.0.1:8000/" ;
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItem(cart);
@@ -87,14 +87,14 @@ const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice).toF
                             <div className="mask mask-squircle h-[64px] 
                           w-[62px]">
                               <img
-                                src={item?.thumbnail
+                                src={ baseURL + item.variant_image[0]?.image || defaultImage 
                                 }
                                 alt="Avatar Tailwind CSS Component"
                               />
                             </div>
                           </div>
                           <div>
-                            <div className="font-bold mb-1">{item?.title}</div>
+                            <div className="font-bold mb-1">{item?.product_name}</div>
                             <div className="text-sm opacity-50 mb-1">
                               United States
                             </div>
@@ -132,7 +132,7 @@ const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice).toF
 
                       </td>
                       <td className="text-[#191818] flex justify-end  font-semibold text-2xl md:absolute mt-2">
-                        <span>$</span>{item.price}
+                        <span>$</span>{item.variants[0].regular_price}
                       </td>
                       <td></td>
 

@@ -91,7 +91,7 @@ const RecommendedSlider = () => {
                         1280: { slidesPerView: 4, spaceBetween: 24 }  
                     }}
                 >
-                     {data?.products.slice(0, 10).map((product) => (
+                     {data?.data.slice(0, 10).map((product) => (
             <SwiperSlide key={product?.id}>
               <Product product={product} isDark={false} />
             </SwiperSlide>

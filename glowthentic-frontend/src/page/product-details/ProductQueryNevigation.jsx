@@ -104,11 +104,19 @@ const contentData = {
 };
 
 
-export default function ProductQueryNavigation() {
+export default function ProductQueryNavigation({data}) {
+  console.log(data);
   const [selectedTab, setSelectedTab] = useState("details");
   const [expandedTabs, setExpandedTabs] = useState({});
   const sectionRefs = useRef({});
-
+  const tabs = [
+    { id: "details", label: "Product Details" },
+    { id: "apply", label: "How to Apply" },
+    { id: "ingredients", label: "Ingredient" },
+    { id: "advance", label: "What Makes It Advance" },
+    { id: "specs", label: "Product Specification" }
+  ];
+  
   const handleTabClick = (tabId) => {
     setSelectedTab(tabId);
     setExpandedTabs(prev => ({
