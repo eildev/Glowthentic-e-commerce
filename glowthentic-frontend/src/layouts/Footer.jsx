@@ -6,8 +6,21 @@ import image from "../assets/img/footer/footer-bg-img.png"
 import CardTitle from "../components/typography/CardTitle";
 import Paragraph from "../components/typography/Paragraph";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { subscribeUser } from "../redux/features/slice/subscriptionSlice";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const { loading, success, error } = useSelector((state) => state.subscription);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email) {
+      dispatch(subscribeUser(email));
+    }
+  };
   return (
     <>
       <div className='bg-primary pt-10' style={{ backgroundImage: `url(${image})`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "right bottom" }}>
@@ -38,16 +51,26 @@ const Footer = () => {
                   <Paragraph>Join the Glowthentic newsletter and be first to hear about
                   news, offers and skincare advice</Paragraph>
                 </label>
+                <form action="" onSubmit={handleSubscribe}>
                 <div className="flex  gap-2 w-full">
                   <input
-                    type="text"
+                  type="email"
+                  
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                    
                     placeholder="Enter your Email Address"
                     className="bg-transparent w-full border-b placeholder-white-gray border-white-gray focus:outline-none p-2"
                   />
-                  <button className="bg-transparent p-2 border hover:text-secondary">
-                    Subscribe
+                  <button className="bg-transparent p-2 border hover:text-secondary" type="submit" disabled={loading}>
+                  {loading ? "Subscribing..." : "Subscribe"}
                   </button>
                 </div>
+                {success && <p style={{ color: "green" }}>{success}</p>}
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                </form>
+               
                 <div className="flex gap-2 py-2">
                   <input
                     type="checkbox"
