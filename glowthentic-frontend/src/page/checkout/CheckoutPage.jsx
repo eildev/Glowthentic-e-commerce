@@ -5,6 +5,7 @@ import PaymentOption from "../../components/checkout/PaymentOption";
 import OrderSummary from "../../components/checkout/OrderSummary";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+import { Link } from "react-router-dom";
 const CheckoutPage = () => {
   return (
     <div>
@@ -33,6 +34,7 @@ const CheckoutPage = () => {
                   <div className=" bg-white shadow rounded-lg">
                     <OrderSummary></OrderSummary>
                     <div className="px-6 py-3">
+                      <Link to='/order-confirmation'>
                       <button className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center">
                         PLACE ORDER
                         {/* <Icon icon="mdi-light:arrow-right" width="1.5em" height="2em" /> */}
@@ -42,6 +44,8 @@ const CheckoutPage = () => {
                           height="1.5em"
                         />
                       </button>
+                      </Link>
+                     
                     </div>
                   </div>
                 </div>

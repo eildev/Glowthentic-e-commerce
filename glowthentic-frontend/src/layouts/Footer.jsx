@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import image from "../assets/img/footer/footer-bg-img.png"
 import CardTitle from "../components/typography/CardTitle";
 import Paragraph from "../components/typography/Paragraph";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -17,8 +18,10 @@ const Footer = () => {
             <nav>
             <CardTitle>How can we Help?</CardTitle>
               <a className="link link-hover">Glowthentic branches</a>
-              <a className="link link-hover">Contact Us</a>
-              <a className="link link-hover">Contact Us</a>
+              
+            <Link to='/contact-us'><a className="link link-hover">Contact Us</a></Link>
+            <Link to='/about'><a className="link link-hover">About Us</a></Link>
+             
               <a className="link link-hover">Our Brand</a>
               <a className="link link-hover">Blog</a>
             </nav>

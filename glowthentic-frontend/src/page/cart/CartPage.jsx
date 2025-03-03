@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import PreviousPage from "../../components/previous-page/PreviousPage";
@@ -264,7 +264,10 @@ const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice).toF
                   </ul>
                 </div>
                 <div className="card-actions justify-center">
+                  <Link to='/checkout'>
                   <RegularButton className="btn-wide">Checkout</RegularButton>
+                  </Link>
+                  
                 </div>
               </div>
             </div>
