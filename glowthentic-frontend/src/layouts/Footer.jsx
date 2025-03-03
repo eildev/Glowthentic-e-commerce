@@ -5,8 +5,23 @@ import { twMerge } from "tailwind-merge";
 import image from "../assets/img/footer/footer-bg-img.png"
 import CardTitle from "../components/typography/CardTitle";
 import Paragraph from "../components/typography/Paragraph";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
+
+import { useSubscribeUserMutation } from "../redux/features/api/subscription/subscriptionApi";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [subscribeUser, { isLoading, isError, isSuccess }] = useSubscribeUserMutation();
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (email) {
+      await subscribeUser(email);
+      setEmail(""); 
+    }
+  };
   return (
     <>
       <div className='bg-primary pt-10' style={{ backgroundImage: `url(${image})`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "right bottom" }}>
@@ -17,8 +32,10 @@ const Footer = () => {
             <nav>
             <CardTitle>How can we Help?</CardTitle>
               <a className="link link-hover">Glowthentic branches</a>
-              <a className="link link-hover">Contact Us</a>
-              <a className="link link-hover">Contact Us</a>
+              
+            <Link to='/contact-us'><a className="link link-hover">Contact Us</a></Link>
+            <Link to='/about'><a className="link link-hover">About Us</a></Link>
+             
               <a className="link link-hover">Our Brand</a>
               <a className="link link-hover">Blog</a>
             </nav>
@@ -28,23 +45,33 @@ const Footer = () => {
               <a className="link link-hover">Women Skincare</a>
               <a className="link link-hover">Gifts & Sets</a>
             </nav>
-            <form className="lg:col-span-2">
+            <form className="lg:col-span-2" onSubmit={handleSubscribe}>
             <CardTitle>keep in touch with Glowthentic</CardTitle>
               <fieldset className="form-control">
                 <label className="label">
                   <Paragraph>Join the Glowthentic newsletter and be first to hear about
                   news, offers and skincare advice</Paragraph>
                 </label>
+                
                 <div className="flex  gap-2 w-full">
                   <input
-                    type="text"
+                  type="email"
+                  
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                    
                     placeholder="Enter your Email Address"
                     className="bg-transparent w-full border-b placeholder-white-gray border-white-gray focus:outline-none p-2"
                   />
-                  <button className="bg-transparent p-2 border hover:text-secondary">
-                    Subscribe
+                  <button className="bg-transparent p-2 border hover:text-secondary" type="submit" disabled={isLoading}>
+                  {isLoading ? "Subscribing..." : "Subscribe"}
                   </button>
                 </div>
+                {isSuccess && <p style={{ color: "green" }}>Subscription successful!</p>}
+                {isError && <p style={{ color: "red" }}>Failed to subscribe. Try again.</p>}
+        
+               
                 <div className="flex gap-2 py-2">
                   <input
                     type="checkbox"

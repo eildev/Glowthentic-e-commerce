@@ -85,7 +85,7 @@ const selectedVariantData = data?.data.variants.find(
                                 <img
                                     src={`http://127.0.0.1:8000/${image?.image}`}
                                     // src={`${image}`}
-                                    className="zoom-image"
+                                    className="zoom-image  object-cover max-h-[605px]"
                                 />
                             </div>
                         </SwiperSlide>
