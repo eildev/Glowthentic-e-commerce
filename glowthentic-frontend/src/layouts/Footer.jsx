@@ -7,18 +7,19 @@ import CardTitle from "../components/typography/CardTitle";
 import Paragraph from "../components/typography/Paragraph";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { subscribeUser } from "../redux/features/slice/subscriptionSlice";
+
+
+import { useSubscribeUserMutation } from "../redux/features/api/subscription/subscriptionApi";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
-  const dispatch = useDispatch();
-  const { loading, success, error } = useSelector((state) => state.subscription);
+  const [subscribeUser, { isLoading, isError, isSuccess }] = useSubscribeUserMutation();
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     if (email) {
-      dispatch(subscribeUser(email));
+      await subscribeUser(email);
+      setEmail(""); 
     }
   };
   return (
@@ -44,14 +45,14 @@ const Footer = () => {
               <a className="link link-hover">Women Skincare</a>
               <a className="link link-hover">Gifts & Sets</a>
             </nav>
-            <form className="lg:col-span-2">
+            <form className="lg:col-span-2" onSubmit={handleSubscribe}>
             <CardTitle>keep in touch with Glowthentic</CardTitle>
               <fieldset className="form-control">
                 <label className="label">
                   <Paragraph>Join the Glowthentic newsletter and be first to hear about
                   news, offers and skincare advice</Paragraph>
                 </label>
-                <form action="" onSubmit={handleSubscribe}>
+                
                 <div className="flex  gap-2 w-full">
                   <input
                   type="email"
@@ -63,13 +64,13 @@ const Footer = () => {
                     placeholder="Enter your Email Address"
                     className="bg-transparent w-full border-b placeholder-white-gray border-white-gray focus:outline-none p-2"
                   />
-                  <button className="bg-transparent p-2 border hover:text-secondary" type="submit" disabled={loading}>
-                  {loading ? "Subscribing..." : "Subscribe"}
+                  <button className="bg-transparent p-2 border hover:text-secondary" type="submit" disabled={isLoading}>
+                  {isLoading ? "Subscribing..." : "Subscribe"}
                   </button>
                 </div>
-                {success && <p style={{ color: "green" }}>{success}</p>}
-                {error && <p style={{ color: "red" }}>{error}</p>}
-                </form>
+                {isSuccess && <p style={{ color: "green" }}>Subscription successful!</p>}
+                {isError && <p style={{ color: "red" }}>Failed to subscribe. Try again.</p>}
+        
                
                 <div className="flex gap-2 py-2">
                   <input
