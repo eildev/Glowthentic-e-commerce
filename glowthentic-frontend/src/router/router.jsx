@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayouts from "../layouts/MainLayouts";
 import HomePage from "../page/home/HomePage";
 import AboutPage from "../page/about/AboutPage";
+import Blog from "../page/blog/Blog";
+
 // import Login from "../page/login/Login";
 import MainLogin from "../page/login/MainLogin";
 import SignUp from "../page/sign-up/SignUp";
@@ -106,6 +108,10 @@ const router = createBrowserRouter([
       {
         path: "/profile-mobile",
         element: <ProfileMenu />,
+      },
+      {
+        path: "/blog",
+        element: <Blog></Blog>,
       },
       {
         path: "/user-profile",

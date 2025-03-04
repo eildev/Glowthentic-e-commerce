@@ -22,7 +22,7 @@ const ContactUsForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+        if (!formData.firstName || !formData.email || !formData.subject || !formData.message) {
             alert("Please fill in all required fields.");
             return;
         }
@@ -30,9 +30,12 @@ const ContactUsForm = () => {
             alert("You must agree to the privacy policy.");
             return;
         }
-
+        const fullName = `${formData.firstName} ${formData.lastName}`.trim();
         try {
-            await sendContactMessage(formData);
+            await sendContactMessage({
+                ...formData,
+                name: fullName, 
+            });
             setFormData({
                 name: "",
             
@@ -70,8 +73,8 @@ const ContactUsForm = () => {
                         <input
                             className="outline-none border-b border-b-gray w-full lg:w-[48%] h-[48px] lg:h-[56px] text-md lg:text-xl text-gray font-encode px-4"
                             type="text"
-                            name="name"
-                            value={formData.name}
+                            name="firstName"
+                            value={formData.firstName}
                             onChange={handleChange}
                             placeholder="First Name"
                         />
