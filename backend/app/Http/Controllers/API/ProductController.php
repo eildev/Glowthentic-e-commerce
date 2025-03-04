@@ -15,7 +15,7 @@ class ProductController extends Controller
         $searchTerm = $request->input('q');
         $category = Category::get();
         $brand = Brand::get();
-
+        $tag =TagName::get();
         $products = Product::where('name', 'like', "%{$searchTerm}%")->get();
 
         return response()->json($products);
