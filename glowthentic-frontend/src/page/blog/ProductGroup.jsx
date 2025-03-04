@@ -7,16 +7,16 @@ const ProductGroup = () => {
     const [selectedProduct, setSelectedProduct] = useState(productList[0])
    
     return (
-        <div className='border-y-[1px] border-[#FA8232] mt-20 '>
-            <div className='flex gap-4  justify-between'>
+        <div className='border-y-[1px] border-[#FA8232] mt-20 mb-2'>
+            <div className='flex  justify-between'>
                 {
                     productList.map((product) => (
                         <button 
                         key={product}
                         onClick={() => setSelectedProduct(product)}
-                        className='py-3 '
-                        ><h1  className={`gap-3  font-semibold text-2xl
-                            ${selectedProduct == product ? "text-[#FA8232]" : "text-[#B9B9B9]"}
+                        className='my-8 h-11 '
+                        ><h1  className={`  font-semibold  transition-all duration-300 ease-in-out transform
+                            ${selectedProduct == product ? "text-[#FA8232] text-3xl " : "text-[#B9B9B9] text-2xl"}
                             `}>{product}</h1></button>
                         
                     ))
