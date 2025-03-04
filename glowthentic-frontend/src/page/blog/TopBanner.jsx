@@ -9,9 +9,9 @@ import { Autoplay, Pagination } from "swiper/modules";
 
 const TopBanner = () => {
     const banners = [
-        { image: img1, title: "Big Banner", date: "March 2025" },
-        { image: img2, title: "Small Banner 1", date: "Feb 2025" },
-        { image: img3, title: "Small Banner 2", date: "Jan 2025" }
+        { image: img1, title: "সৌন্দর্যের রাজ্যে স্বাগতম!", date: "March 2025" },
+        { image: img2, title: "স্কিনকেয়ার নিয়ে কিছু কথা:", date: "Feb 2025" },
+        { image: img3, title: "ত্বকের সাথে প্রেমের সম্পর্ক", date: "Jan 2025" }
     ];
     return (
         <div>
@@ -23,8 +23,9 @@ const TopBanner = () => {
                     alt={banners[0].title} 
                     className="w-full h-[595px] object-cover rounded-lg"
                 />
-                <div className="absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded">
-                    <h3 className="text-lg font-bold">{banners[0].title}</h3>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
+                <div className="absolute bottom-4 left-4  text-white p-2 ">
+                    <h3 className="text-[40px] leading-[50px] font-bold">{banners[0].title}</h3>
                     <p className="text-sm">{banners[0].date}</p>
                 </div>
             </div>
@@ -38,6 +39,7 @@ const TopBanner = () => {
                             alt={banner.title} 
                             className="w-full h-[290px] object-cover rounded-lg"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
                         <div className="absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded">
                             <h3 className="text-sm font-bold">{banner.title}</h3>
                             <p className="text-xs">{banner.date}</p>
@@ -67,6 +69,7 @@ const TopBanner = () => {
                                 alt={banner.title} 
                                 className="w-full h-[400px] object-cover rounded-lg"
                             />
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
                             <div className="absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded">
                                 <h3 className="text-sm font-bold">{banner.title}</h3>
                                 <p className="text-xs">{banner.date}</p>
