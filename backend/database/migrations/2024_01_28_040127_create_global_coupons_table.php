@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('startDate');
             $table->string('expiration');
             $table->tinyInteger('status')->default(1);
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

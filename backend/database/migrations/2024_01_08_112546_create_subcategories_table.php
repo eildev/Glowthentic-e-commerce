@@ -14,16 +14,17 @@ return new class extends Migration
         Schema::create('subcategories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('categoryId')->unsigned();
-            $table->string('subcategoryName',100);
+            $table->string('subcategoryName', 100);
             $table->string('image')->nullable();
-            $table->string('slug',100);
+            $table->string('slug', 100);
             $table->tinyInteger('status')->default(1);
 
             $table->foreign('categoryId')
                 ->references('id')
                 ->on('categories')
                 ->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreign('blog_id')->references('id')->on('blog_posts')->onDelete('cascade');
             $table->text('comment')->nullable();
             $table->integer('status')->default('0');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

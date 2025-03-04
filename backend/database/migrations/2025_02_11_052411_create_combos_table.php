@@ -17,7 +17,8 @@ return new class extends Migration
             $table->decimal('offerd_price', 12, 2);
             $table->string('image', 100)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

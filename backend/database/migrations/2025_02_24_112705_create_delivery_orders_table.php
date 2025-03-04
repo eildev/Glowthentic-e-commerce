@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('assign_to')->nullable();
 
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

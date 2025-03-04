@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('variant_id')->nullable();
             $table->unsignedBigInteger('combo_id')->nullable();
             $table->bigInteger('product_quantity');
-            $table->decimal('total_price','10','2');
+            $table->decimal('total_price', '10', '2');
             // $table->string('weight');
             $table->float('unit_price');
 
@@ -26,20 +26,21 @@ return new class extends Migration
                 ->references('id')
                 ->on('orders')
                 ->onDelete('cascade');
-                $table->foreign('combo_id')
+            $table->foreign('combo_id')
                 ->references('id')
                 ->on('combos')
                 ->onDelete('cascade');
 
-                $table->foreign('product_id')
+            $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-                $table->foreign('variant_id')
+            $table->foreign('variant_id')
                 ->references('id')
                 ->on('variants');
 
 
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

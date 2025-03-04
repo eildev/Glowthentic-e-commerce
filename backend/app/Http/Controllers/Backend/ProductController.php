@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use App\Models\ProductDetails;
-use App\Models\Product_tags;
+use App\Models\Product_Tags;
 use App\Models\ProductStock;
 use App\Models\Variant;
 use App\Models\VariantImageGallery;
@@ -143,7 +143,7 @@ class ProductController extends Controller
         if ($product && $request->tag) {
 
             foreach ($request->tag as $tag) {
-                $productTag = new Product_tags();
+                $productTag = new Product_Tags();
                 $productTag->product_id = $product->id;
                 $productTag->tag_id = $tag;
                 $productTag->save();

@@ -17,13 +17,13 @@ return new class extends Migration
             $table->string('subSubcategoryName');
             $table->string('slug');
             $table->tinyInteger('status')->default(1);
-            $table->timestamps();
-            
-            $table->foreign('subcategoryId')
-            ->references('id')
-            ->on('subcategories')
-            ->onDelete('cascade');
+            $table->timestamps(0);
+            $table->softDeletes();
 
+            $table->foreign('subcategoryId')
+                ->references('id')
+                ->on('subcategories')
+                ->onDelete('cascade');
         });
     }
 

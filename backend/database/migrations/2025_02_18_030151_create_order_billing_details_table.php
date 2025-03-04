@@ -31,7 +31,8 @@ return new class extends Migration
                 ->on('orders')
                 ->onDelete('cascade');
 
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

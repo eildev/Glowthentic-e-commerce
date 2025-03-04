@@ -15,16 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('promotion_name')->nullable();
             $table->string('cupon_code', 50)->nullable();
-           $table->enum('discount_type', ['fixed', 'percentage']);
-           $table->decimal('discount_value', 10, 2);
-           $table->enum('type',['coupon','promotion']);
-           $table->enum('status',['Active', 'Inactive', 'Expire'])->default('Inactive');
-           $table->boolean('is_global')->default(0);
-           $table->date('start_date');
-           $table->date('end_date');
+            $table->enum('discount_type', ['fixed', 'percentage']);
+            $table->decimal('discount_value', 10, 2);
+            $table->enum('type', ['coupon', 'promotion']);
+            $table->enum('status', ['Active', 'Inactive', 'Expire'])->default('Inactive');
+            $table->boolean('is_global')->default(0);
+            $table->date('start_date');
+            $table->date('end_date');
 
 
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

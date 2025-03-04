@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('combo_id');
             $table->string('image');
             $table->foreign('combo_id')->references('id')->on('combos')->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

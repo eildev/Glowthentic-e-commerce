@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('image_galleries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('banner_id')->unsigned();
-            $table->string('image',100);
+            $table->string('image', 100);
             $table->foreign('banner_id')
                 ->references('id')
                 ->on('home_banners')
                 ->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

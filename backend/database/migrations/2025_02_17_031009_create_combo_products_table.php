@@ -18,28 +18,29 @@ return new class extends Migration
             $table->unsignedBigInteger('variant_id')->unsigned();
 
             $table->decimal('quantity', 10, 2);
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('status', ['active', 'inactive'])->default('active');
 
 
 
 
             $table->foreign('product_id')
-            ->references('id')
-            ->on('products')
-            ->onDelete('cascade');
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade');
 
             $table->foreign('variant_id')
-            ->references('id')
-            ->on('variants')
-            ->onDelete('cascade');
+                ->references('id')
+                ->on('variants')
+                ->onDelete('cascade');
 
             $table->foreign('combo_id')
-            ->references('id')
-            ->on('combos')
-            ->onDelete('cascade');
+                ->references('id')
+                ->on('combos')
+                ->onDelete('cascade');
 
 
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

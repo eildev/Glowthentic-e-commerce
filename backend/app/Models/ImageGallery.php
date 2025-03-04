@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ImageGallery extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $guarded = [];
-    function imageGalleries(){
+    function imageGalleries()
+    {
         return $this->belongsTo(HomeBanner::class, 'banner_id', 'id');
     }
 }
