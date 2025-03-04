@@ -21,6 +21,8 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\Backend\comboProductController;
 use App\Http\Controllers\Frontend\ContactUsController;
 use App\Http\Controllers\Frontend\SubscribeController;
+use App\Http\Controllers\API\ApiProductController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,8 +53,20 @@ Route::controller(TagNameController::class)->group(function () {
 Route::controller(ProductController::class)->group(function () {
     Route::get('/product', 'viewAll')->name('product.view');
     Route::get('/product/{id}', 'show')->name('product.show');
-    Route::get('/product/search', 'search');
+    Route::post('/product/search', 'search');
 });
+
+
+Route::controller(ApiProductController::class)->group(function () {
+
+    Route::post('/product/search', 'search');
+    Route::post('/product/filter', 'filter');
+});
+
+
+
+
+
 
 Route::controller(comboProductController::class)->group(function () {
     Route::get('/comboProduct', 'view')->name('comboProduct.view');

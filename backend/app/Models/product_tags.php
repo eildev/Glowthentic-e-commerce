@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product_Tags extends Model
 {
     use HasFactory, SoftDeletes;
+     protected $table = 'product_tags';// Ensure this is correct
+    protected $fillable = ['product_id', 'tag_id'];
     protected $guarded = [];
     public function product()
     {
