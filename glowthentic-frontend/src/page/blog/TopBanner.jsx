@@ -15,9 +15,9 @@ const TopBanner = () => {
     ];
     return (
         <div>
-             <div className="hidden lg:grid grid-cols-12 gap-4 w-full min-h-[595px] my-8">
+             <div className="hidden lg:grid grid-cols-4 gap-4 w-full min-h-[595px] my-8">
             {/* First image  */}
-            <div className="col-span-8 relative h-[595px] rounded-lg">
+            <div className="col-span-3 relative h-[595px] rounded-lg">
                 <img 
                     src={banners[0].image} 
                     alt={banners[0].title} 
@@ -31,7 +31,7 @@ const TopBanner = () => {
             </div>
 
             {/* Second & Third images  */}
-            <div className="col-span-4 flex flex-col gap-3">
+            <div className="col-span-1 flex flex-col gap-3">
                 {banners.slice(1, 3).map((banner, index) => (
                     <div key={index} className="relative flex-1 ">
                         <img 
@@ -41,7 +41,7 @@ const TopBanner = () => {
                         />
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black rounded-lg"></div>
                         <div className="absolute bottom-4 left-4 text-white  ">
-                            <h3 className="text-xl font-bold mb-3">{banner.title}</h3>
+                            <h3 className="text-xl font-bold mb-3 w-7/12">{banner.title}</h3>
                             <p className="text-xs leading-4 font-thin">{banner.date}</p>
                         </div>
                     </div>
