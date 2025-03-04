@@ -34,7 +34,7 @@ const ContactUsForm = () => {
         try {
             await sendContactMessage({
                 ...formData,
-                name: fullName, // Send fullName in name field
+                name: fullName, 
             });
             setFormData({
                 name: "",
