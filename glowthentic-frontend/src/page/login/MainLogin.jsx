@@ -65,7 +65,8 @@ const MainLogin = () => {
     
             if (result.status === 200) {
                 // console.log("Login successful:", result);
-                dispatch(loginSuccess(result));                
+                dispatch(loginSuccess(result));   
+                navigate('/signout')         
             } else {
                 console.error("Login failed:", result.message);
                 dispatch(loginFailure(result.message));

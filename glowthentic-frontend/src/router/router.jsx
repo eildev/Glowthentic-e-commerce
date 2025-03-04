@@ -31,6 +31,7 @@ import OrderOngoing from "../page/user-profile/order/order-section/OrderOngoing"
 import OrderHistory from "../page/user-profile/order/order-section/OrderHistory";
 import ProfileMenu from "../page/user-profile/ProfileMenu";
 import PrivateRoute from "./PrivateRoute";
+import Signout from "../page/Signout";
 
 
 // const ErrorBoundary = ({ error }) => {
@@ -150,6 +151,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <MainLogin />,
+  },
+  {
+    path: "/signout",
+    element: <Signout />,
   },
   {
     path: "/sign-up",
