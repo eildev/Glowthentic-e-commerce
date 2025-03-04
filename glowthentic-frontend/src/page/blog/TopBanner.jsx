@@ -9,29 +9,29 @@ import { Autoplay, Pagination } from "swiper/modules";
 
 const TopBanner = () => {
     const banners = [
-        { image: img1, title: "সৌন্দর্যের রাজ্যে স্বাগতম!", date: "March 2025" },
-        { image: img2, title: "স্কিনকেয়ার নিয়ে কিছু কথা:", date: "Feb 2025" },
-        { image: img3, title: "ত্বকের সাথে প্রেমের সম্পর্ক", date: "Jan 2025" }
+        { image: img1, title: "সৌন্দর্যের রাজ্যে স্বাগতম!", date: "September 23th, 2025" },
+        { image: img2, title: "স্কিনকেয়ার নিয়ে কিছু কথা:", date: "September 23th, 2025" },
+        { image: img3, title: "ত্বকের সাথে প্রেমের সম্পর্ক", date: "September 23th, 2025" }
     ];
     return (
         <div>
-             <div className="hidden lg:grid grid-cols-4 gap-4 w-full min-h-[595px] my-10">
+             <div className="hidden lg:grid grid-cols-12 gap-4 w-full min-h-[595px] my-8">
             {/* First image  */}
-            <div className="col-span-3 relative h-[595px]">
+            <div className="col-span-8 relative h-[595px] rounded-lg">
                 <img 
                     src={banners[0].image} 
                     alt={banners[0].title} 
                     className="w-full h-[595px] object-cover rounded-lg"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
-                <div className="absolute bottom-4 left-4  text-white p-2 ">
-                    <h3 className="text-[40px] leading-[50px] font-bold">{banners[0].title}</h3>
-                    <p className="text-sm">{banners[0].date}</p>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black rounded-lg" ></div>
+                <div className="absolute bottom-4 left-4  text-white   ">
+                    <h3 className="text-[40px] text-start -ml-1 leading-[50px] font-bold mb-3">{banners[0].title}</h3>
+                    <p className="text-xs leading-4 font-extralight text-start">{banners[0].date}</p>
                 </div>
             </div>
 
             {/* Second & Third images  */}
-            <div className="col-span-1 flex flex-col gap-3">
+            <div className="col-span-4 flex flex-col gap-3">
                 {banners.slice(1, 3).map((banner, index) => (
                     <div key={index} className="relative flex-1 ">
                         <img 
@@ -39,17 +39,17 @@ const TopBanner = () => {
                             alt={banner.title} 
                             className="w-full h-[290px] object-cover rounded-lg"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
-                        <div className="absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded">
-                            <h3 className="text-sm font-bold">{banner.title}</h3>
-                            <p className="text-xs">{banner.date}</p>
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black rounded-lg"></div>
+                        <div className="absolute bottom-4 left-4 text-white  ">
+                            <h3 className="text-xl font-bold mb-3">{banner.title}</h3>
+                            <p className="text-xs leading-4 font-thin">{banner.date}</p>
                         </div>
                     </div>
                 ))}
             </div>
         </div>
                  {/* Mobile & Tablet View (Auto-Swiping Slider) */}
-                 <div className="lg:hidden">
+                 <div className="lg:hidden my-10">
                 <Swiper
                     spaceBetween={10}
                     slidesPerView={1}
@@ -69,10 +69,10 @@ const TopBanner = () => {
                                 alt={banner.title} 
                                 className="w-full h-[400px] object-cover rounded-lg"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
-                            <div className="absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded">
-                                <h3 className="text-sm font-bold">{banner.title}</h3>
-                                <p className="text-xs">{banner.date}</p>
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black rounded-lg"></div>
+                            <div className="absolute bottom-4 left-4  text-white p-2 rounded">
+                                <h3 className="text-sm md:text-2xl font-bold mb-3">{banner.title}</h3>
+                                <p className="text-[10px] leading-4 font-[250px] text-start">{banner.date}</p>
                             </div>
                         </SwiperSlide>
                     ))}
