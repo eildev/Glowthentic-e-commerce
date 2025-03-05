@@ -7,15 +7,25 @@ const productApi = createApi({
         getProducts: builder.query({
             query: () => '/product',
         }),
-        searchProducts: builder.query({
-            query: (product) => `/product/search?q=${product}`,
-        }),
         getProductByDetails: builder.query({
             query: (id) => `/product/${id}`,
         }),
+        searchProducts: builder.mutation({
+            query: (product) => ({
+                url: '/product/search',
+                method: 'POST',
+                body: { q: product },
+            }),
+        }),
+      
     })
 })
 
-export const { useGetProductsQuery, useGetProductByDetailsQuery, useSearchProductsQuery, useLazyGetProductsQuery } = productApi;
+export const { 
+    useGetProductsQuery, 
+    useGetProductByDetailsQuery, 
+    useSearchProductsMutation,
+
+} = productApi;
 
 export default productApi;

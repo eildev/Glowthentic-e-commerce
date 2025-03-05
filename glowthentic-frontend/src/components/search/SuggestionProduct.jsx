@@ -1,9 +1,10 @@
 
 const SuggestionProduct = ({ item, setQuery, setSuggestions }) => {
-  const { title, thumbnail, price } = item;
-
+  console.log(item);
+  const { product_name, thumbnail, price, variants, data } = item;
+  
   const handleQuery = () => {
-    setQuery(title);
+    setQuery(product_name);
     setSuggestions([]);
   };
   return (
@@ -13,14 +14,14 @@ const SuggestionProduct = ({ item, setQuery, setSuggestions }) => {
     >
       <img
         src={thumbnail}
-        alt={title}
+        alt={product_name}
         className="w-10 h-10 object-cover rounded"
       />
 
       {/* Name and price on the right */}
-      <div>
-        <p className="font-medium text-m ">{title}</p>
-        <p className=" text-m text-[#A27754]">{price}</p>
+      <div className="">
+        <p className="font-medium text-sm ">{product_name}</p>
+        <p className=" text-xs font-medium text-[#A27754]">৳ {variants[0].regular_price}</p>
       </div>
     </li>
   );
