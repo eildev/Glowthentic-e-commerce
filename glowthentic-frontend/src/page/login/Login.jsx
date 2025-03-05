@@ -1,27 +1,93 @@
-import { Link } from "react-router-dom";
-import DynamicForm from "../../components/dynamic-form/DynamicForm";
+// src/pages/Login.js
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import RegularButton from "../../components/typography/RegularButton";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+import DynamicForm from "../../components/dynamic-form/DynamicForm";
+import { useDispatch } from "react-redux";
+import {
+  useGetCsrfTokenQuery,
+  useLoginUserMutation,
+} from "../../redux/features/api/auth/authApi";
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+} from "../../redux/features/slice/authSlice";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from || "/";
+
+  // RTK Query hooks
+  const { isLoading: csrfLoading } = useGetCsrfTokenQuery();
+  const [loginUser, { isLoading: loginLoading, error: loginError }] =
+    useLoginUserMutation();
+
+  // react-hook-form setup
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
-  const signInHandleData = (data) => {
-    console.log("Sign In Data", data);
+
+  const signInHandleData = async (data) => {
+    dispatch(loginStart());
+    try {
+      const result = await loginUser(data).unwrap();
+      if (result.status === 200) {
+        dispatch(loginSuccess(result));
+        navigate(from);
+        toast.success(result.message);
+      } else {
+        dispatch(loginFailure(result.message));
+        // API থেকে আসা এরর ফিল্ড-স্পেসিফিকভাবে সেট করা
+        if (result.errors) {
+          Object.keys(result.errors).forEach((field) => {
+            setError(field, {
+              type: "manual",
+              message: result.errors[field][0],
+            });
+          });
+        } else {
+          toast.error(result.message);
+        }
+      }
+    } catch (err) {
+      dispatch(loginFailure(err?.data?.message || "Login failed"));
+      const errorData = err?.data;
+      if (errorData?.errors) {
+        Object.keys(errorData.errors).forEach((field) => {
+          setError(field, {
+            type: "manual",
+            message: errorData.errors[field][0],
+          });
+        });
+      } else {
+        toast.error(errorData?.message || "Login failed");
+      }
+    }
   };
+
   return (
     <div>
       <DynamicHelmet title="Sign In" />
-      <DynamicForm title="Sign in" handleForm={signInHandleData}>
-        {/*-------------Children Start ------------ */}
+      <DynamicForm title="Sign In" handleForm={handleSubmit(signInHandleData)}>
         <p className="mb-6 text-gray-500 text-center">
           Don’t have an account?{" "}
-          <Link href="#" className="text-secondary">
+          <Link to="/sign-up" className="text-secondary">
             Sign Up
           </Link>
         </p>
@@ -30,15 +96,36 @@ const Login = () => {
             type="email"
             name="email"
             placeholder="Email"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
+            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+              errors.email ? "border-red-500" : ""
+            }`}
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                message: "Invalid email format",
+              },
+            })}
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+          )}
         </div>
         <div className="mb-4 relative">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
+            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+              errors.password ? "border-red-500" : ""
+            }`}
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            })}
           />
           <button
             type="button"
@@ -52,23 +139,27 @@ const Login = () => {
               style={{ color: "#898989" }}
             />
           </button>
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
         </div>
-
         <div className="mb-4 text-right">
-          <Link href="#" className="text-secondary">
+          <Link to="/forgot-password" className="text-secondary">
             Forgot password?
           </Link>
         </div>
         <RegularButton
           type="submit"
           className="w-full bg-secondary text-white py-3 rounded hover:bg-orange-600"
+          disabled={csrfLoading || loginLoading}
         >
-          Sign In
+          {loginLoading ? "Logging in..." : "Sign In"}
         </RegularButton>
         <div className="my-6 text-gray-500 text-center">or</div>
-
         <div className="flex gap-4 md:flex-row">
-          <button className="flex items-center  bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded">
+          <button className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded">
             <Icon
               icon="flat-color-icons:google"
               width="2em"
@@ -77,7 +168,7 @@ const Login = () => {
             />
             Google
           </button>
-          <button className="flex items-center bg-white justify-center gap-2  w-full border border-gray-300 py-2 px-4 rounded">
+          <button className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded">
             <Icon
               icon="ic:baseline-facebook"
               width="2em"
@@ -88,7 +179,6 @@ const Login = () => {
             Facebook
           </button>
         </div>
-
         <p className="text-xs text-gray-400 mt-6 text-center">
           Protected by reCAPTCHA and subject to the Rhombus{" "}
           <a href="#" className="text-secondary">
@@ -100,7 +190,6 @@ const Login = () => {
           </a>
           .
         </p>
-        {/*-------------Children End ------------ */}
       </DynamicForm>
     </div>
   );

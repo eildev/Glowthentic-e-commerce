@@ -4,24 +4,24 @@ import productApi from "./features/api/product-api/productApi";
 import authReducer from "./features/slice/authSlice";
 import subscriptionApi from "./features/api/subscription/subscriptionApi";
 import contactUsApi from "./features/api/contactUsApi/contactUsApi";
-import categoryApi from "./features/api/category/categoryApi";
+import authApi from "./features/api/auth/authApi";
 
 const store = configureStore({
     reducer: {
         // app: loadingReducer,
         auth: authReducer,
         [productApi.reducerPath]: productApi.reducer,
-        [categoryApi.reducerPath]: categoryApi.reducer,
         [subscriptionApi.reducerPath]: subscriptionApi.reducer,
         [contactUsApi.reducerPath]: contactUsApi.reducer,
+        [authApi.reducerPath]: authApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
             .concat(productApi.middleware)
-            .concat(categoryApi.middleware)
             .concat(subscriptionApi.middleware)
-            .concat(contactUsApi.middleware),
-    
+            .concat(contactUsApi.middleware)
+            .concat(authApi.middleware),
+
 });
 
 export default store;
