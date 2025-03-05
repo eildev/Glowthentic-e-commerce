@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import { Link, NavLink } from "react-router-dom";
 import avatar from "../../assets/img/user-profile/avatar.jpeg";
+import Logout from "../../components/logout/Logout";
 
 const ProfileMenu = () => {
   return (
@@ -105,7 +106,9 @@ const ProfileMenu = () => {
           </NavLink>
         </div>
 
-        <Link
+        <Logout />
+
+        {/* <Link
           to="/"
           className="group block mt-6 bg-light lg:bg-transparent lg:m-0 px-2 lg:px-0 py-2 rounded-lg lg:rounded-[5px] hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300"
         >
@@ -116,7 +119,7 @@ const ProfileMenu = () => {
               icon="mdi-light:chevron-right"
             />
           </p>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
