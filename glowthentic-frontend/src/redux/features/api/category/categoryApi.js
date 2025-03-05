@@ -12,7 +12,7 @@ const categoryApi = createApi({
         }),
         searchCategory: builder.mutation({
             query: (product) => ({
-                url: '/category/search',
+                url: '/product/search',
                 method: 'POST',
                 body: { q: product },
             }),
