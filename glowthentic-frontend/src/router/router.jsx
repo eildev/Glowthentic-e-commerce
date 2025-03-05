@@ -2,7 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayouts from "../layouts/MainLayouts";
 import HomePage from "../page/home/HomePage";
 import AboutPage from "../page/about/AboutPage";
-import Login from "../page/login/Login";
+import Blog from "../page/blog/Blog";
+
+// import Login from "../page/login/Login";
+import MainLogin from "../page/login/MainLogin";
 import SignUp from "../page/sign-up/SignUp";
 import ForgetPassword from "../page/forget-password/ForgetPassword";
 // import Page404 from "../page/error/Page404";
@@ -27,6 +30,9 @@ import OrderProfile from "../page/user-profile/order/OrderProfile";
 import OrderOngoing from "../page/user-profile/order/order-section/OrderOngoing";
 import OrderHistory from "../page/user-profile/order/order-section/OrderHistory";
 import ProfileMenu from "../page/user-profile/ProfileMenu";
+import PrivateRoute from "./PrivateRoute";
+import Signout from "../page/Signout";
+import Login from "../page/login/Login";
 
 // const ErrorBoundary = ({ error }) => {
 //   console.error("Error caught:", error);
@@ -52,16 +58,21 @@ const router = createBrowserRouter([
         element: <AllProductPage />,
       },
       {
-        path: "/product/:title", // Dynamic route with :title
+        path: "/product/:id", // Dynamic route with :title
         element: <ProductDetails />,
       },
       {
         path: "/products-details", // Dynamic route with :title
         element: <ProductDetails />,
       },
+
       {
         path: "/wishlist",
-        element: <WishlistPage />,
+        element: (
+          <PrivateRoute>
+            <WishlistPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/cart",
@@ -69,7 +80,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        element: <CheckoutPage />,
+        element: (
+          <PrivateRoute>
+            <CheckoutPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/order-confirmation",
@@ -104,8 +119,16 @@ const router = createBrowserRouter([
         element: <ProfileMenu />,
       },
       {
+        path: "/blog",
+        element: <Blog></Blog>,
+      },
+      {
         path: "/user-profile",
-        element: <UserProfileLayout />,
+        element: (
+          <PrivateRoute>
+            <UserProfileLayout />
+          </PrivateRoute>
+        ),
         children: [
           {
             path: "",
@@ -140,6 +163,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/signout",
+    element: <Signout />,
   },
   {
     path: "/sign-up",

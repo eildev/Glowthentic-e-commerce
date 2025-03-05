@@ -36,7 +36,10 @@ const Slider = ({ children }) => {
           spaceBetween: 50,
         },
       }}
-      navigation={true}
+      navigation={{
+        nextEl: '.button-next3',
+        prevEl: '.button-prev3',
+    }}
       modules={[Autoplay, FreeMode, Navigation]}
       className="mySwiper"
     >

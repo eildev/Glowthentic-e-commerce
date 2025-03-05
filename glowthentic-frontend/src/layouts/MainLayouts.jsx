@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { stopLoading } from "../redux/features/slice/loadingSlice";
 import Loading from "../components/spinners/Loading";
 import RedirectTop from "../components/RedirectTop";
-import { HelmetProvider } from "react-helmet-async";
 
 const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -23,34 +22,33 @@ const MainLayouts = () => {
   //   return () => clearTimeout(timer);
   // }, [dispatch]);
   return (
-    <HelmetProvider>
-      <div>
-        {/* {isLoading && <Loading />} */}
-        <RedirectTop />
-        <div className="fixed top-0 left-0 w-full z-50">
-          {/*--------- Header -----------*/}
-          <Header
-            setShowMobileMenu={setShowMobileMenu}
-            showMobileMenu={showMobileMenu}
-          />
-          {/*--------- Navbar -----------*/}
-          <Navbar showMobileMenu={showMobileMenu} />
-        </div>
-        <div className="mt-[81px] lg:mt-[185px] xl:mt-[160px]">
-          {/*--------- Outlet -----------*/}
-          <Outlet />
-        </div>
-        {/*--------- Footer -----------*/}
-        <Footer />
-        {/*--------- AppBar -----------*/}
-        <AppBar />
-
-        {/*--------- OnlineChatButton  -----------*/}
-        <OnlineChatButton></OnlineChatButton>
-        {/*---------  ScrollTop -----------*/}
-        <ScrollTop />
+    <div>
+      {/* {isLoading && <Loading />} */}
+      <RedirectTop />
+      <div className="fixed top-0 left-0 w-full z-50">
+        {/*--------- Header -----------*/}
+        <Header
+          setShowMobileMenu={setShowMobileMenu}
+          showMobileMenu={showMobileMenu}
+        />
+        {/*--------- Navbar -----------*/}
+        <Navbar showMobileMenu={showMobileMenu} />
       </div>
-    </HelmetProvider>
+      <div className="lg:h-[161px] h-[80px]"></div>
+      <div className="lg:min-h-[calc(100vh-553px)] min-h-[calc(100vh-80px)]">
+        {/*--------- Outlet -----------*/}
+        <Outlet />
+      </div>
+      {/*--------- Footer -----------*/}
+      <Footer />
+      {/*--------- AppBar -----------*/}
+      <AppBar />
+
+      {/*--------- OnlineChatButton  -----------*/}
+      <OnlineChatButton></OnlineChatButton>
+      {/*---------  ScrollTop -----------*/}
+      <ScrollTop />
+    </div>
   );
 };
 

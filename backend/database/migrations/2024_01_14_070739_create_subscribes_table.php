@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->tinyInteger('status')->default(0);
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

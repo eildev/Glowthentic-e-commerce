@@ -30,7 +30,8 @@ return new class extends Migration
             $table->string('payable_amount', 15)->nullable();
             $table->string('due', 15)->nullable();
             $table->string('remarks')->nullable();
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

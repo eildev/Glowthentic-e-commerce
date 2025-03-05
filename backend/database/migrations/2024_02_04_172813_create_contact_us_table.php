@@ -19,7 +19,8 @@ return new class extends Migration
             $table->integer('phone')->nullable();
             $table->string('message');
             $table->tinyInteger('read')->default(1);
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

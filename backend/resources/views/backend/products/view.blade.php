@@ -46,11 +46,12 @@
                             <thead>
                                 <tr>
                                     <th>SI</th>
-                                    <th>Image</th>
+                                    {{-- <th>Image</th> --}}
                                     <th>Product name</th>
                                     <th>Category</th>
                                     <th>Sub Category</th>
                                     <th>Brand</th>
+                                    <th>Unit</th>
                                     <th>Price</th>
                                     <th>Stock</th>
                                     <th>Status</th>
@@ -64,23 +65,32 @@
                                 @endphp
                                 @if ($products->count() > 0)
                                     @foreach ($products as $product)
+
                                         <tr>
                                             <td>{{ $serialNumber++ }}</td>
-                                        
-                                            <td>
-                                                <img src="{{ asset('/uploads/products/' . $product->product_image) }}"
+
+                                            {{-- <td>
+                                                <img src="{{ asset($product->varient[0]->image)??'' }}"
                                                     style="height: 50px; object-fit: cover;" class="img-fluid"
                                                     alt="Products Image">
-                                            </td>
+                                            </td> --}}
                                             <td>{{ Illuminate\Support\Str::limit($product->product_name, 29) }}</td>
                                             <td>{{ $product->category->categoryName }}</td>
-                                            <td>{{ $product->subcategory->subcategoryName }}</td>
+                                            @php
+                                                $subcategory=App\models\Category::find($product->subcategory_id);
+                                            @endphp
+                                            <td>{{ $subcategory->categoryName ?? '' }}</td>
                                             <td>{{ $product->brand->BrandName }}</td>
+                                            <td>{{ $product->unit_id }}</td>
                                             <td>
                                                 ৳{{ $product->varient[0]->regular_price ?? 0 }}
                                             </td>
+                                            @php
+                                                $Total_stock = App\models\ProductStock::where('product_id', $product->id)->sum('StockQuantity')??0;
+                                            @endphp
+                                            {{-- @dd($Total_stock) --}}
                                             <td>
-                                                {{ $product->varient[0]->stock_quantity ?? 0 }} {{ $product->varient[0]->unit ?? 0 }}
+                                                {{ $Total_stock}}
                                             </td>
 
                                             <td>

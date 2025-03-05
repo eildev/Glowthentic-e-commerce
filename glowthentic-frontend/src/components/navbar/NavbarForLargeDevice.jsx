@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import MegaMenu from "./MegaMenu";
 
-const NavbarForLargeDevice = ({ category }) => {
+const NavbarForLargeDevice = ({ categorys }) => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
 
   // console.log(category);
@@ -15,7 +15,7 @@ const NavbarForLargeDevice = ({ category }) => {
         <Container>
           <div className="flex justify-between items-center gap-2">
             {/* category data fetch  */}
-            {category.map((data, index) => (
+            {categorys.map((data, index) => (
               <div
                 key={index}
                 onMouseEnter={() => setHoveredCategory(index)}

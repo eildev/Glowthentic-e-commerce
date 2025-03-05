@@ -20,7 +20,8 @@ return new class extends Migration
                 ->references('id')
                 ->on('review_ratings')
                 ->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

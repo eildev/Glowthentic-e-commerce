@@ -3,7 +3,7 @@ import NavbarForLargeDevice from '../components/navbar/NavbarForLargeDevice';
 import NavbarForSmallDevice from '../components/navbar/NavbarForSmallDevice';
 
 const Navbar = ({ showMobileMenu }) => {
-  const [category, setCategory] = useState([]);
+  const [categorys, setCategorys] = useState([]);
 
   useEffect(() => {
     fetch('category.json')
@@ -11,13 +11,14 @@ const Navbar = ({ showMobileMenu }) => {
       .then(data => {
         // Sort categories to show `isButton: false` first
         const sortedData = data.sort((a, b) => a.isButton - b.isButton);
-        setCategory(sortedData);
+        console.log(sortedData);
+        setCategorys(sortedData);
       });
   }, []);
   return (
     <div className="relative">
-      <NavbarForLargeDevice category={category} />
-      <NavbarForSmallDevice showMobileMenu={showMobileMenu} category={category} />
+      <NavbarForLargeDevice categorys={categorys} />
+      <NavbarForSmallDevice showMobileMenu={showMobileMenu} categorys={categorys} />
     </div>
   );
 };

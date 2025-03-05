@@ -14,25 +14,31 @@ return new class extends Migration
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id')->unsigned();
+            $table->string('variant_name', 191);
+
             $table->string('color')->nullable();
             $table->string('size')->nullable();
-            $table->float('regular_price');
-            $table->string('discount');
-            $table->integer('discount_amount');
-            $table->integer('stock_quantity');
+            $table->float('regular_price')->nullable();
+            // $table->string('discount');
+            // $table->integer('discount_amount');
+            // $table->integer('stock_quantity');
             $table->string('barcode')->nullable();
-            $table->string('unit');
+            // $table->string('unit');
             $table->string('weight')->nullable();
-            $table->tinyInteger('status')->default(1);
-            $table->date('expire_date')->nullable();
-            $table->date('manufacture_date')->nullable();
+            $table->string('flavor')->nullable();
+            $table->string('image')->nullable();
+            $table->enum('status', ['Default', 'Variant'])->default('Default');
+            // $table->tinyInteger('status')->default(1);
+            // $table->date('expire_date')->nullable();
+            // $table->date('manufacture_date')->nullable();
 
 
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products')
                 ->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

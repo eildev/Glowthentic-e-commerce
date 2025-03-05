@@ -5,8 +5,12 @@ import SearchBar from "../components/search/SearchBar";
 import { useState } from "react";
 import Logo from "../components/navbar/Logo";
 import CartIcon from "../components/navbar/CartIcon";
+import { useSelector } from "react-redux";
 const Header = ({ setShowMobileMenu, showMobileMenu }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const { token } = useSelector((state) => state.auth);
+
+  const userRoute = token ? "/user-profile" : "/login";
 
   return (
     <div className="bg-primary border-b border-[rgba(255,255,255,0.25)]">
@@ -96,13 +100,15 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
               />
             </div>
 
-            {/* Wishlist  */}
-            <Link to="/wishlist" className="px-2">
-              <Icon icon="mdi-light:heart" width="30" height="30" />
-            </Link>
+            {/* Wishlist */}
+            {token && (
+              <Link to="/wishlist" className="px-2">
+                <Icon icon="mdi-light:heart" width="30" height="30" />
+              </Link>
+            )}
 
             {/* user  */}
-            <Link to="/login" className="px-2">
+            <Link to={userRoute} className="px-2">
               <Icon icon="line-md:account-small" width="30" height="30" />
             </Link>
           </div>

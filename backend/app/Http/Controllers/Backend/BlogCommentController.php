@@ -29,7 +29,46 @@ class BlogCommentController extends Controller
     }//End Method
 
     public function BlogCommentDelete($id){
-        BlogComment::findOrFail($id)->delete(); 
+        BlogComment::findOrFail($id)->delete();
         return redirect()->back()->with('success', 'Blog Comment Successfully Deleted');
     }//End Method
+
+    //Rest Api
+    public function viewAll(){
+        try{
+            $blogComment = BlogComment::latest()->get();
+            return response()->json([
+                'blogComment' => $blogComment,
+                'status' =>200,
+                'messege' => 'Successfully Get Data',
+            ]);
+        }
+      catch(\Exception $e){
+        return response()->json([
+            'status' => 500,
+            'messege' => 'Something Went Wrong',
+        ]);
+      }
+   }
+
+
+
+   public function show($id){
+        try{
+            $blogComment = BlogComment::findOrFail($id);
+            return response()->json([
+                'blogComment' => $blogComment,
+                'status' =>200,
+                'messege' => 'Successfully Get Single Data',
+            ]);
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'status' => 500,
+                'messege' => 'Something Went Wrong',
+            ]);
+          }
+       }
 }
+
+

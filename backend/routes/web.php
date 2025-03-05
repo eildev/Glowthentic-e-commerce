@@ -21,11 +21,16 @@ use App\Http\Controllers\Backend\BlogCommentController;
 use App\Http\Controllers\Backend\CompanyDetailsController;
 use App\Http\Controllers\Backend\UserTrackerController;
 use App\Http\Controllers\Backend\userController;
+use App\Http\Controllers\Backend\comboProductController;
 use App\Http\Controllers\AllMail;
 use App\Http\Controllers\Backend\PurchaseDetailsController;
 use App\Http\Controllers\Backend\historyController;
 use App\Http\Controllers\Backend\MarketingController;
-
+use App\Http\Controllers\Backend\ComboController;
+use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\ProductPromotionController;
+use App\Http\Controllers\Backend\ProductStockManageController;
+use App\Http\Controllers\Backend\DeliverOrderAssignController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -57,9 +62,14 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::post('/category/store', 'store')->name('category.store');
         Route::get('/category/view', 'view')->name('category.view');
         Route::get('/category/edit/{id}', 'edit')->name('category.edit');
-        Route::post('/category/update/{id}', 'update')->name('category.update');
-        Route::get('/category/delete/{id}', 'delete')->name('category.delete');
-        Route::post('/category/status/{id}', 'CategoryStatus')->name('category.status');
+        Route::post('/category/update', 'update')->name('category.update');
+        Route::post('/category/delete', 'delete')->name('category.delete');
+        Route::post('/category/status/change', 'CategoryStatus')->name('category.status');
+        Route::get('/get/parent/category', 'GetParentCategory');
+        //find Subcategory
+        Route::get('/find/subcategory/{id}', 'findSubcat')->name('subcategory.find');
+        //find SubSubcategory
+        Route::get('/find/sub-subcategory/{id}', 'findSubSubcat')->name('sub.subcategory.find');
     });
     Route::controller(historyController::class)->group(function () {
         Route::get('/current-history/{value}', 'CurrentHistory');
@@ -85,7 +95,7 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::get('/subcategory/edit/{id}', 'edit')->name('subcategory.edit');
         Route::post('/subcategory/update/{id}', 'update')->name('subcategory.update');
         Route::get('/subcategory/delete/{id}', 'delete')->name('subcategory.delete');
-        Route::get('/find/subcategory/{id}', 'findSubcat')->name('subcategory.find');
+        // Route::get('/find/subcategory/{id}', 'findSubcat')->name('subcategory.find');
     });
     //All Routes for Subcategory End
 
@@ -149,6 +159,23 @@ Route::middleware('auth', 'role:admin')->group(function () {
     });
     //All Routes for Offer Banner End
 
+    //All Routes for Offer Banner Start
+    Route::controller(ComboController::class)->group(function () {
+        Route::get('/combo', 'index')->name('combo.index');
+        Route::post('/combo/store', 'store');
+        Route::get('/combo/view', 'view');
+        Route::get('/combo/view/{id}', 'viewDeatils');
+        Route::post('/combo/update', 'update');
+         Route::post('/combo/delete', 'delete');
+         Route::post('/combo/status/change', 'StatusChange');
+         Route::post(' /combo/delete-image/', 'comboDeleteImage');
+
+        // Route::post('/offerbanner/update/{id}', 'update')->name('offerbanner.update');
+        // Route::get('/offerbanner/delete/{id}', 'delete')->name('offerbanner.delete');
+        // Route::post('/offerbanner/status/{id}', 'statusUpdate')->name('offerbanner.status');
+    });
+    //All Routes for Offer Banner End
+
     //All Routes for Product Start
     Route::controller(ProductController::class)->group(function () {
         Route::get('/product', 'index')->name('product');
@@ -160,6 +187,9 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::get('/product/delete/{id}', 'delete')->name('product.delete');
         Route::post('/product/status/{id}', 'productStatus')->name('product.status');
         Route::get('/find/variant/{id}', 'findVariant')->name('find.variant');
+        Route::get('/product/get_variant_data','getVariant_product_id');
+        Route::post('/product/variant/store','variantProductStore');
+
         // Route::post('/product/variant/store', 'variantStore')->name('variant.store');
         // Route::get('/product/variant/show/{id}', 'variantShow')->name('variant.show');
         // Route::get('/product/variant/edit/{id}', 'editVariant')->name('variant.edit');
@@ -168,6 +198,73 @@ Route::middleware('auth', 'role:admin')->group(function () {
 
     });
     //All Routes for Product End
+
+
+//product stock manage start
+
+Route::controller(ProductStockManageController::class)->group(function(){
+    Route::get('/product/stock/manage', 'index')->name('product.stock.manage');
+    //get variant
+    Route::get('get/stock/product/variant/{id}', 'getVariant');
+    Route::get(' variant/stock/product/row/{id}', 'getVariantRow');
+    Route::post('update/multiple/stock', 'updateMultipleStock');
+    Route::get('/stock/view', 'view')->name('stock.view');
+});
+
+   //all routes for combo product
+
+   Route::controller(comboProductController::class)->group(function(){
+    Route::get('/combo/product', 'index')->name('combo.product.index');
+    Route::post('/combo/product/store', 'store')->name('combo.product.store');
+    Route::get('/combo/product/view', 'view')->name('combo.product.view');
+    Route::get('/combo/product/edit/{id}', 'edit')->name('combo.product.edit');
+    Route::post('/combo/product/update', 'update')->name('combo.product.update');
+    Route::post('/combo/product/delete/', 'delete')->name('combo.product.delete');
+    Route::post('/combo/product/change/status', 'statusUpdate')->name('combo.product.status');
+    Route::get('/get/product/and/combo', 'product_and_combo');
+
+
+
+
+
+   });
+
+   //coupon controll Route
+
+   Route::controller(CouponController::class)->group(function(){
+    Route::get('/coupon', 'index')->name('Coupon.index');
+    Route::post('/coupon/store', 'store')->name('coupon.store');
+    Route::get('/coupon/view', 'view')->name('coupon.view');
+    Route::get('/coupon/edit/{id}', 'edit')->name('coupon.edit');
+    Route::post('/coupon/update', 'update')->name('coupon.update');
+    Route::post('/coupon/delete', 'delete')->name('coupon.delete');
+    Route::post('/coupon/status/{id}', 'statusUpdate')->name('coupon.status');
+   });
+
+
+//product promotion start
+
+Route::controller(ProductPromotionController::class)->group(function(){
+
+  Route::get('/product/promotion', 'index')->name('product.promotion.index');
+    Route::post('/promotion/product/store', 'store');
+    Route::get('/promotion/product/view', 'view')->name('product.promotion.view');
+    Route::get('/promotioin/product/edit/{id}', 'edit')->name('product.promotion.edit');
+    Route::post('/promotion/product/update', 'update')->name('product.promotion.update');
+    Route::post('/promotion/product/delete/', 'delete')->name('product.promotion.delete');
+    Route::post('/product/promotion/status/{id}', 'statusUpdate')->name('product.promotion.status');
+    Route::get('/get/product/and/promotion', 'getProductPromotion');
+    Route::post('/get/product/variant', 'getProductPromotionVariant');
+
+
+});
+
+
+
+
+
+
+
 
 
     //All Routes for Global Coupons Start
@@ -181,7 +278,7 @@ Route::middleware('auth', 'role:admin')->group(function () {
     Route::controller(OrderManageController::class)->group(function () {
         Route::get('/new-order', 'index')->name('new.order');
 
-        Route::get('/admin-approve-order/{invoiceNumber}', 'adminApprove')->name('admin.approve.order');
+        Route::get('/admin-approve-order/{id}', 'adminApprove')->name('admin.approve.order');
         Route::get('/admin-denied-order/{invoiceNumber}', 'adminDenied')->name('admin.denied.order');
         Route::get('/order/denied', 'deniedOrders')->name('order.denied');
 
@@ -216,11 +313,27 @@ Route::middleware('auth', 'role:admin')->group(function () {
 
     //All Routes for Order End
 
+    //deliver order assign start
 
-    //All Routes for Stock Management System
-    Route::controller(StockManageController::class)->group(function () {
-        Route::get('/stock/view', 'index')->name('stock.view');
+    Route::controller(DeliverOrderAssignController::class)->group(function(){
+        Route::post('admin/order/assign-deliver', 'assignDeliver')->name('admin.order.assign.deliver');
+        Route::get('admin/shipping/order/change/transit/{id}', 'shippingChangeTransit')->name('admin.shipping.order.change.transit');
+        Route::get('order/delivered/transit', 'TransitOrder')->name('order.transit');
+        Route::get('admin/transit/order/change/completed/{id}', 'TransitChangeCompleted')->name('admin.transit.order.change.completed');
+        Route::get('order/delivered', 'Delivered')->name('order.delivered');
+
     });
+
+
+
+
+
+
+
+
+
+
+
     //All Routes for Stock Management End
 
     //All Routes for Contact us
@@ -260,7 +373,7 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::get('/sub-subcategory/edit/{id}', 'edit')->name('sub.subcategory.edit');
         Route::post('/sub-subcategory/update/{id}', 'update')->name('sub.subcategory.update');
         Route::get('/sub-subcategory/delete/{id}', 'delete')->name('sub.subcategory.delete');
-        Route::get('/find/sub-subcategory/{id}', 'findSubSubcat')->name('sub.subcategory.find');
+        // Route::get('/find/sub-subcategory/{id}', 'findSubSubcat')->name('sub.subcategory.find');
     });
     //All Routes for Sub Subcategory End
 

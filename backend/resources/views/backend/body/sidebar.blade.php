@@ -65,6 +65,21 @@
                         </li>
 
 
+                        <li>
+                            <a href="javascript:;" class="has-arrow">
+                                <div class="parent-icon">
+                                    <i class='bx bx-purchase-tag-alt'></i>
+                                </div>
+                                <div class="menu-title">Manage Product Promotion</div>
+                            </a>
+                            <ul>
+                                <li> <a href="{{ route('product.promotion.index') }}"><i class="bx bx-right-arrow-alt"></i>Product Promotion</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
                     </ul>
                 </li>
                 <li>
@@ -100,6 +115,31 @@
                         </li>
                     </ul>
                 </li>
+
+
+
+
+                <li>
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="parent-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="menu-title">Manage Coupon</div>
+                    </a>
+                    <ul>
+
+                        <li> <a href="{{ route('Coupon.index') }}"><i class="bx bx-right-arrow-alt"></i>Coupon</a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+
+
+
+
+
 
                 {{-- Subcategory menu  --}}
                 <li>
@@ -196,10 +236,36 @@
                 <li>
                     <a href="{{ route('order.processed') }}"><i class="bx bx-right-arrow-alt"></i>Processed Order</a>
                 </li>
+
+
                 <li>
-                    <a href="{{ route('order.delivering') }}"><i class="bx bx-right-arrow-alt"></i>Delivering
-                        Order</a>
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="menu-title">Delivering Order </div>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="{{ route('order.delivering') }}"><i class="bx bx-right-arrow-alt"></i>Shipping
+                                Order</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('order.transit') }}"><i class="bx bx-right-arrow-alt"></i>In Transit
+                                Order</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('order.delivered') }}"><i class="bx bx-right-arrow-alt"></i>Delivered
+                                Order</a>
+                        </li>
+                    </ul>
+
+
                 </li>
+
+
+
                 <li>
                     <a href="{{ route('order.completed') }}"><i class="bx bx-right-arrow-alt"></i>Completed Order</a>
                 </li>
@@ -306,6 +372,8 @@
                     <div class="menu-title">Stock Management</div>
                 </a>
                 <ul>
+                    <li> <a href="{{ route('product.stock.manage') }}"><i class="bx bx-right-arrow-alt"></i>Product Stock</a>
+                    </li>
                     <li>
                         <a href="{{ route('stock.view') }}"><i class="bx bx-right-arrow-alt"></i>View Stock</a>
                     </li>
@@ -444,6 +512,36 @@
                 </li>
             </ul>
         </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon">
+                    <i class='bx bx-user'></i>
+                </div>
+                <div class="menu-title">Combo Manage</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('combo.index') }}"><i class="bx bx-right-arrow-alt"></i>Combo</a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon">
+                    <i class='bx bx-user'></i>
+                </div>
+                <div class="menu-title">Combo Product Manage</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('combo.product.index') }}"><i class="bx bx-right-arrow-alt"></i>Combo Product</a>
+                </li>
+            </ul>
+        </li>
+
+
+
+
+
 
     </ul>
     <!--end navigation-->

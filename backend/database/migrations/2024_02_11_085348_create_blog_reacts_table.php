@@ -24,7 +24,8 @@ return new class extends Migration
             $table->integer('angry')->default(0);
             $table->integer('haha')->default(0);
 
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

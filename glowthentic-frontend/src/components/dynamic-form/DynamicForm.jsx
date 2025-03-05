@@ -1,7 +1,7 @@
-
+// src/components/dynamic-form/DynamicForm.js
 import loginImage from "../../assets/img/login/Left Content.gif";
-// import smallimage from "../../assets/img/login/Login-Images-2.jpg";
 import smallimage from "../../assets/img/login/small-logo.gif";
+
 const DynamicForm = ({ title, handleForm, children = " " }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
         {/* Left Section */}
         <div className="w-full md:w-1/2 text-white flex flex-col justify-center items-center">
           {/* Image for Small Devices */}
-          <div className="md:hidden w-full h-44	">
+          <div className="md:hidden w-full h-44">
             <img src={smallimage} alt="Small Device Image" className="w-full" />
           </div>
           {/* Image for Medium and Larger Devices */}
@@ -30,13 +30,11 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
           </div>
         </div>
         {/* Right Section */}
-        <div className="w-full md:w-1/2  bg-white flex flex-col justify-center items-center px-6 md:px-12 rounded-t-[30px]">
+        <div className="w-full md:w-1/2 bg-white flex flex-col justify-center items-center px-6 md:px-12 rounded-t-[30px]">
           <h2 className="text-2xl font-bold mb-4 pt-5 md:pt-0">{title}</h2>
           <form onSubmit={handleSubmit} className="w-full max-w-sm">
             {children}
           </form>
-
-         
         </div>
       </div>
     </div>

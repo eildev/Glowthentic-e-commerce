@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Checkbox from "../typography/Checkbox";
+import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 
-const DropdownFilter = () => {
-  const categories = [
-    { name: "Cleansers" },
-    { name: "Exfoliators" },
-    { name: "Toners" },
-    { name: "Retinols" },
-    { name: "Peels and Masques" },
-    { name: "Moisturiser" },
-    { name: "Night Cream" },
-    { name: "Facial Oil" },
-    { name: "Sunscreen" },
-    { name: "Eye Care" },
-  ];
+const DropdownFilter = ({selectedData, setSelectedData}) => {
+  const { data, isLoading, error, className } = useGetCategoryQuery();
+    console.log(data);
+  // const categories = [
+  //   { name: "Cleansers" },
+  //   { name: "Exfoliators" },
+  //   { name: "Toners" },
+  //   { name: "Retinols" },
+  //   { name: "Peels and Masques" },
+  //   { name: "Moisturiser" },
+  //   { name: "Night Cream" },
+  //   { name: "Facial Oil" },
+  //   { name: "Sunscreen" },
+  //   { name: "Eye Care" },
+  // ];
   const skinCondition = [
     { name: "Brightening" },
     { name: "Hydration" },
@@ -38,15 +41,18 @@ const DropdownFilter = () => {
     { price: "$450.00 - $550.00" },
   ];
 
-  const [selectedData, setselectedData] = useState([]);
+  // const [selectedData, setselectedData] = useState([]);
 
-  const handleCheckboxChange = (category) => {
-    setselectedData((prevSelected) =>
-      prevSelected.includes(category)
-        ? prevSelected.filter((item) => item !== category)
-        : [...prevSelected, category]
+  const handleCheckboxChange = (item) => {
+    setSelectedData((prevSelected) =>
+      prevSelected.includes(item)
+        ? prevSelected.filter((i) => i !== item)
+        : [...prevSelected, item]
     );
   };
+  // useEffect(() => {
+  //   handleSelectedData(selectedData);
+  // }, [selectedData, handleSelectedData]); 
   return (
     <div>
       <div className="collapse collapse-arrow  bg-white">
@@ -58,18 +64,18 @@ const DropdownFilter = () => {
           Category
         </div>
         <div className="collapse-content">
-          {categories.map((category) => (
-            <div key={category.name} className="flex items-center py-2">
+          {data.categories.map((category) => (
+            <div key={category.categoryName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
-                checked={selectedData.includes(category.name)}
-                onChange={() => handleCheckboxChange(category.name)}
+                checked={selectedData.includes(category.categoryName)}
+                onChange={() => handleCheckboxChange(category.categoryName)}
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
-                onClick={() => handleCheckboxChange(category.name)}
+                onClick={() => handleCheckboxChange(category.categoryName)}
               >
-                {category.name}
+                {category.categoryName}
               </span>
             </div>
           ))}

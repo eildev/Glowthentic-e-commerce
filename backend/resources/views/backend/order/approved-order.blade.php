@@ -19,8 +19,9 @@
                                     <th>Product Qty</th>
                                     <th>Amount</th>
                                     <th>Pay to</th>
+                                    <th>Payment Status</th>
+                                    <th>Order Status</th>
                                     <th>Address</th>
-                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

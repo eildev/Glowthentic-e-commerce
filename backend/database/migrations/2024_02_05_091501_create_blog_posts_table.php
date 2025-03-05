@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->integer('status')->default('0');
             $table->foreign('cat_id')->references('id')->on('blog_categories')->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

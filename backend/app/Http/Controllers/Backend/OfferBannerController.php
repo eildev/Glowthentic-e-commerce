@@ -113,7 +113,7 @@ class OfferBannerController extends Controller
         } else {
             $newStatus = 0;
         }
-         
+
         $banner->update([
             'status'=>$newStatus
         ]);
@@ -137,5 +137,23 @@ class OfferBannerController extends Controller
         //         'message' => 'Banner Inactive successful',
         //     ]);
         // }
+    }
+
+    public function viewAll(){
+        $banners = OfferBanner::all();
+        return response()->json([
+            'offerbanners' => $banners,
+            'status' => '200',
+            'message' => 'Offerbanner fetched successfully',
+        ]);
+    }
+
+    public function show($id){
+        $banner = OfferBanner::find($id);
+        return response()->json([
+            'offerbanner' => $banner,
+            'status' => '200',
+            'message' => 'offerbanner Search successfully',
+        ]);
     }
 }
