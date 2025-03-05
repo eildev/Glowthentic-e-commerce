@@ -36,7 +36,7 @@ const SearchBar = ({ className }) => {
       // searchBrands(query);
       setIsSuggestionsVisible(true);
     }
-  }, [query, searchProducts]);
+  }, [query, searchProducts, ]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -86,7 +86,7 @@ const SearchBar = ({ className }) => {
               </div>
             )}
             {productError && <p>Error loading product suggestions</p>}
-           
+        
 
             {(!isProductLoading && productData?.products?.length === 0) && (
               <ul className="absolute left-0 right-0 flex items-center justify-center text-center pt-5 text-black bg-white rounded-b-xl max-h-screen overflow-y-scroll">
@@ -98,7 +98,7 @@ const SearchBar = ({ className }) => {
 
             {!isProductLoading && productData?.products?.length > 0 && (
               <div className="absolute left-0 right-0 pt-5 text-black bg-white rounded-b-xl max-h-[600px] overflow-y-scroll">
-                <h3 className="font-bold text-lg mb-2">Products</h3>
+                <h3 className="font-bold text-lg mb-2 px-4 ">Products</h3>
                 <ul>
                   {productData.products.map((item, index) => (
                     <li
@@ -111,9 +111,9 @@ const SearchBar = ({ className }) => {
                   ))}
                 </ul>
                 
-                <h3 className="font-bold text-lg mt-4 mb-2">Categories</h3>
-                {/* <ul>
-                  {categoryData.categories.map((item, index) => (
+                <h3 className="font-bold text-lg mt-4 mb-2 px-4 ">Categories</h3>
+                <ul>
+                  {productData.products.map((item, index) => (
                     <li
                       key={index}
                       onClick={() => handleProductSelect(item)}
@@ -122,11 +122,11 @@ const SearchBar = ({ className }) => {
                       <SuggestionProduct item={item} setQuery={setQuery} />
                     </li>
                   ))}
-                </ul> */}
+                </ul>
                 
-                <h3 className="font-bold text-lg mt-4 mb-2">Brands</h3>
-                {/* <ul>
-                  {brandData.brands.map((item, index) => (
+                <h3 className="font-bold text-lg mt-4 mb-2 px-4 ">Brands</h3>
+                <ul>
+                  {productData.products.map((item, index) => (
                     <li
                       key={index}
                       onClick={() => handleProductSelect(item)}
@@ -135,7 +135,7 @@ const SearchBar = ({ className }) => {
                       <SuggestionProduct item={item} setQuery={setQuery} />
                     </li>
                   ))}
-                </ul> */}
+                </ul>
               </div>
             )}
           </div>

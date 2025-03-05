@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import Checkbox from "../typography/Checkbox";
+import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 
 const DropdownFilter = ({selectedData, setSelectedData}) => {
-  const categories = [
-    { name: "Cleansers" },
-    { name: "Exfoliators" },
-    { name: "Toners" },
-    { name: "Retinols" },
-    { name: "Peels and Masques" },
-    { name: "Moisturiser" },
-    { name: "Night Cream" },
-    { name: "Facial Oil" },
-    { name: "Sunscreen" },
-    { name: "Eye Care" },
-  ];
+  const { data, isLoading, error, className } = useGetCategoryQuery();
+    console.log(data);
+  // const categories = [
+  //   { name: "Cleansers" },
+  //   { name: "Exfoliators" },
+  //   { name: "Toners" },
+  //   { name: "Retinols" },
+  //   { name: "Peels and Masques" },
+  //   { name: "Moisturiser" },
+  //   { name: "Night Cream" },
+  //   { name: "Facial Oil" },
+  //   { name: "Sunscreen" },
+  //   { name: "Eye Care" },
+  // ];
   const skinCondition = [
     { name: "Brightening" },
     { name: "Hydration" },
@@ -61,18 +64,18 @@ const DropdownFilter = ({selectedData, setSelectedData}) => {
           Category
         </div>
         <div className="collapse-content">
-          {categories.map((category) => (
-            <div key={category.name} className="flex items-center py-2">
+          {data.categories.map((category) => (
+            <div key={category.categoryName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
-                checked={selectedData.includes(category.name)}
-                onChange={() => handleCheckboxChange(category.name)}
+                checked={selectedData.includes(category.categoryName)}
+                onChange={() => handleCheckboxChange(category.categoryName)}
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
-                onClick={() => handleCheckboxChange(category.name)}
+                onClick={() => handleCheckboxChange(category.categoryName)}
               >
-                {category.name}
+                {category.categoryName}
               </span>
             </div>
           ))}

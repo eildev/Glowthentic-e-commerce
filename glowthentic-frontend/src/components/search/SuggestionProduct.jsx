@@ -19,9 +19,9 @@ const SuggestionProduct = ({ item, setQuery, setSuggestions }) => {
       />
 
       {/* Name and price on the right */}
-      <div>
-        <p className="font-medium text-m ">{product_name}</p>
-        <p className=" text-m text-[#A27754]">{data?.variants.regular_price}</p>
+      <div className="">
+        <p className="font-medium text-sm ">{product_name}</p>
+        <p className=" text-xs font-medium text-[#A27754]">৳ {variants[0].regular_price}</p>
       </div>
     </li>
   );

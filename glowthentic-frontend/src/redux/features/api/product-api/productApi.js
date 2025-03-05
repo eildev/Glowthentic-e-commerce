@@ -17,20 +17,7 @@ const productApi = createApi({
                 body: { q: product },
             }),
         }),
-        // searchCategories: builder.mutation({
-        //     query: (category) => ({
-        //         url: '/category/search',
-        //         method: 'POST',
-        //         body: { q: category },
-        //     }),
-        // }),
-        // searchBrands: builder.mutation({
-        //     query: (brand) => ({
-        //         url: '/brand/search',
-        //         method: 'POST',
-        //         body: { q: brand },
-        //     }),
-        // }),
+      
     })
 })
 
@@ -38,8 +25,7 @@ export const {
     useGetProductsQuery, 
     useGetProductByDetailsQuery, 
     useSearchProductsMutation,
-    // useSearchCategoriesMutation,
-    // useSearchBrandsMutation 
+
 } = productApi;
 
 export default productApi;
