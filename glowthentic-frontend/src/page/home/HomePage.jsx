@@ -1,5 +1,4 @@
 import Container from "../../components/Container";
-import BannerSection from "./BannerSection";
 import CategorySection from "../category-section/CategorySection";
 import TagSection from "../tag-section/TagSection";
 import SpecialOffers from "../special-offers/SpecialOffers";

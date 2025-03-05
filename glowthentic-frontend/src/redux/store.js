@@ -20,7 +20,7 @@ const store = configureStore({
             .concat(productApi.middleware)
             .concat(subscriptionApi.middleware)
             .concat(contactUsApi.middleware)
-            .concat(authApi.middleware),
+            .concat(contactUsApi.middleware),
 
 });
 
