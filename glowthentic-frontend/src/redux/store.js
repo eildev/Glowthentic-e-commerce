@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import productApi from "./features/api/product-api/productApi";
-// import loadingReducer from './features/slice/loadingSlice';
+import searchReducer from "./features/slice/searchSlice";
 import authReducer from "./features/slice/authSlice";
 import subscriptionApi from "./features/api/subscription/subscriptionApi";
 import contactUsApi from "./features/api/contactUsApi/contactUsApi";
@@ -8,7 +8,7 @@ import authApi from "./features/api/auth/authApi";
 
 const store = configureStore({
     reducer: {
-        // app: loadingReducer,
+        search: searchReducer,
         auth: authReducer,
         [productApi.reducerPath]: productApi.reducer,
         [subscriptionApi.reducerPath]: subscriptionApi.reducer,
@@ -20,7 +20,7 @@ const store = configureStore({
             .concat(productApi.middleware)
             .concat(subscriptionApi.middleware)
             .concat(contactUsApi.middleware)
-            .concat(contactUsApi.middleware),
+            .concat(authApi.middleware),
 
 });
 

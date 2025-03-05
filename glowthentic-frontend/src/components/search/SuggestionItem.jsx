@@ -1,19 +1,13 @@
-
+import { memo } from "react";
 import defaultImage from '../../assets/img/Product/20.png';
+import { Link } from "react-router-dom";
 
-
-const SuggestionProduct = ({ item, setQuery, setSuggestions }) => {
-  // console.log(item);
+const SuggestionItem = memo(function SuggestionItem({ item }) {
   const { product_name, thumbnail, variants } = item;
 
-  const handleQuery = () => {
-    setQuery(product_name);
-    setSuggestions([]);
-  };
   return (
-    <li
+    <Link to={`/product/${item.id}`}
       className="px-4 py-2 hover:bg-gray-100 hover:rounded-b-3xl cursor-pointer  flex items-center gap-4"
-      onClick={handleQuery}
     >
       <img
         src={thumbnail || defaultImage}
@@ -26,11 +20,8 @@ const SuggestionProduct = ({ item, setQuery, setSuggestions }) => {
         <p className="font-medium text-sm text-black">{product_name || "Unknown"}</p>
         <p className="text-xs font-medium text-[#A27754]">৳ {variants?.[0]?.regular_price || "N/A"}</p>
       </div>
-    </li>
+    </Link>
   );
-};
+});
 
-export default SuggestionProduct;
-
-
-
+export default SuggestionItem;
