@@ -32,7 +32,7 @@ import OrderHistory from "../page/user-profile/order/order-section/OrderHistory"
 import ProfileMenu from "../page/user-profile/ProfileMenu";
 import PrivateRoute from "./PrivateRoute";
 import Signout from "../page/Signout";
-
+import Login from "../page/login/Login";
 
 // const ErrorBoundary = ({ error }) => {
 //   console.error("Error caught:", error);
@@ -65,10 +65,14 @@ const router = createBrowserRouter([
         path: "/products-details", // Dynamic route with :title
         element: <ProductDetails />,
       },
-    
+
       {
         path: "/wishlist",
-        element: <PrivateRoute><WishlistPage /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <WishlistPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/cart",
@@ -76,7 +80,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        element: <PrivateRoute><CheckoutPage /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <CheckoutPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/order-confirmation",
@@ -116,7 +124,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/user-profile",
-        element: <PrivateRoute><UserProfileLayout /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <UserProfileLayout />
+          </PrivateRoute>
+        ),
         children: [
           {
             path: "",
@@ -150,7 +162,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <MainLogin />,
+    element: <Login />,
   },
   {
     path: "/signout",

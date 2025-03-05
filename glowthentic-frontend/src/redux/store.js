@@ -4,6 +4,7 @@ import productApi from "./features/api/product-api/productApi";
 import authReducer from "./features/slice/authSlice";
 import subscriptionApi from "./features/api/subscription/subscriptionApi";
 import contactUsApi from "./features/api/contactUsApi/contactUsApi";
+import authApi from "./features/api/auth/authApi";
 
 const store = configureStore({
     reducer: {
@@ -12,13 +13,15 @@ const store = configureStore({
         [productApi.reducerPath]: productApi.reducer,
         [subscriptionApi.reducerPath]: subscriptionApi.reducer,
         [contactUsApi.reducerPath]: contactUsApi.reducer,
+        [authApi.reducerPath]: authApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
             .concat(productApi.middleware)
             .concat(subscriptionApi.middleware)
-            .concat(contactUsApi.middleware),
-    
+            .concat(contactUsApi.middleware)
+            .concat(authApi.middleware),
+
 });
 
 export default store;

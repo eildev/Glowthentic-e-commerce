@@ -53,12 +53,11 @@ Route::controller(TagNameController::class)->group(function () {
 Route::controller(ProductController::class)->group(function () {
     Route::get('/product', 'viewAll')->name('product.view');
     Route::get('/product/{id}', 'show')->name('product.show');
-    Route::post('/product/search', 'search');
+    // Route::post('/product/search', 'search');
 });
 
 
 Route::controller(ApiProductController::class)->group(function () {
-
     Route::post('/product/search', 'search');
     Route::post('/product/filter', 'filter');
 });
