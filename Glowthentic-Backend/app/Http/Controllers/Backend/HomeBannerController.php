@@ -27,23 +27,29 @@ class HomeBannerController extends Controller
         ]);
 
         if ($request->image) {
+            // $imageName = rand() . '.' . $request->image->extension();
+            // $request->image->move(public_path('uploads/banner/'), $imageName);
             $imageName = rand() . '.' . $request->image->extension();
-            $request->image->move(public_path('uploads/banner/'), $imageName);
+            $path= 'uploads/banner/';
+            $request->image->move($path,$imageName);
+             $image=$path.$imageName;
+
             $banner = new HomeBanner;
             $banner->title = $request->title;
             $banner->short_description = $request->short_description;
             $banner->long_description = $request->long_description;
             $banner->link = $request->link;
-            $banner->image = $imageName;
+            $banner->image =$image;
             $banner->save();
             if ($request->galleryimages) {
                 $allImages = $request->galleryimages;
                 foreach ($allImages as $galleryImage) {
                     $imageName = rand() . '.' . $galleryImage->extension();
+                    $path= 'uploads/banner/gallery/';
                     $galleryImage->move(public_path('uploads/banner/gallery/'), $imageName);
                     $ImageGallery = new ImageGallery;
                     $ImageGallery->banner_id = $banner->id;
-                    $ImageGallery->image = $imageName;
+                    $ImageGallery->image =$path.$imageName;
                     $ImageGallery->save();
                 }
             }

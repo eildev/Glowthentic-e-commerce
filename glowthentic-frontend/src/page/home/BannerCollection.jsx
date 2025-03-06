@@ -1,4 +1,3 @@
-import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -7,6 +6,9 @@ import bannerImg2 from '../../assets/img/banner/banner-2.jpg';
 import bannerImg3 from '../../assets/img/banner/banner-3.jpg';
 import bannerImg4 from '../../assets/img/banner/banner-4.jpg';
 import bannerImg5 from '../../assets/img/banner/banner-5.jpg';
+import { useGetOfferBannerQuery } from "../../redux/features/api/offerBanner/offerBanner";
+
+
 
 
 const bannerImages = [bannerImg1, bannerImg2, bannerImg3, bannerImg4, bannerImg5];
@@ -23,12 +25,23 @@ const sliderSettings = {
 };
 
 const BannerCollection = () => {
+
+   const { data, isLoading, isError  } =  useGetOfferBannerQuery();
+
+
+   const card1 = data?.offerbanners?.find((item => item.status == "cart1")) || []
+
+   console.log(card1);
+
+// console.log(data);
+
+
   return (
     <div className=" mx-auto ">
       {/* Mobile & Tablet View (Slider Only) */}
       <div className="block lg:hidden mt-6 relative w-full h-[200px] md:h-[500px] rounded-md overflow-hidden">
         <Slider {...sliderSettings} className="pointer-events-auto">
-          {bannerImages.map((image, index) => (
+          {card1?.images?.map((image, index) => (
             <div key={index} className="relative w-full">
               <img src={image} alt={`Banner ${index + 1}`} className="w-full h-[200px] md:h-[400px] object-cover" />
               <div className="absolute inset-0 bg-[#0F1228] opacity-50 pointer-events-none"></div>
@@ -50,9 +63,9 @@ const BannerCollection = () => {
           {/* Left: Slider */}
           <div className="relative w-[765px] h-[543px] rounded-lg overflow-hidden">
             <Slider {...sliderSettings} className="pointer-events-auto">
-              {bannerImages.map((image, index) => (
+              {card1?.images?.map((image, index) => (
                 <div key={index} className="relative w-full">
-                  <img src={image} alt={`Banner ${index + 1}`} className="w-full h-[543px] object-cover" />
+                  <img src={`http://127.0.0.1:8000/${image}`} alt={`Banner ${index + 1}`} className="w-full h-[543px] object-cover" />
                   <div className="absolute inset-0 bg-[#0F1228] opacity-50 pointer-events-none"></div>
                 </div>
               ))}
