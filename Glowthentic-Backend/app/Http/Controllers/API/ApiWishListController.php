@@ -10,7 +10,7 @@ class ApiWishListController extends Controller
 
     public function addWishList(Request $request){
         $user = auth('sanctum')->user();
-      $wis
+      
 
     }
 }
