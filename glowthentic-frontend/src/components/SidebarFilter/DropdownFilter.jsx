@@ -98,7 +98,7 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
           Skin Condition
         </div>
         <div className="collapse-content">
-          {tagsdata?.categories?.map((tag) => (
+          {tagsdata?.categories.map((tag) => (
             <div key={tag.tagName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
