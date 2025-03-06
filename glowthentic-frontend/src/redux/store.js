@@ -6,6 +6,7 @@ import subscriptionApi from "./features/api/subscription/subscriptionApi";
 import contactUsApi from "./features/api/contactUsApi/contactUsApi";
 import authApi from "./features/api/auth/authApi";
 import categoryApi from "./features/api/category/categoryApi";
+import tagViewApi from "./features/api/tagViewApi/tagViewApi";
 
 const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
         auth: authReducer,
         [productApi.reducerPath]: productApi.reducer,
         [categoryApi.reducerPath]: categoryApi.reducer,
+        [tagViewApi.reducerPath]: tagViewApi.reducer,
         [subscriptionApi.reducerPath]: subscriptionApi.reducer,
         [contactUsApi.reducerPath]: contactUsApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
@@ -21,6 +23,7 @@ const store = configureStore({
         getDefaultMiddleware()
             .concat(productApi.middleware)
             .concat(categoryApi.middleware)
+            .concat(tagViewApi.middleware)
             .concat(subscriptionApi.middleware)
             .concat(contactUsApi.middleware)
             .concat(authApi.middleware),

@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import Checkbox from "../typography/Checkbox";
 import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
+import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
 
 const DropdownFilter = ({ selectedData, setSelectedData }) => {
-  const { data, isLoading, error, className } = useGetCategoryQuery();
-  console.log("categories", data);
+  const { data: categoryData, isLoading, error, refetch } = useGetCategoryQuery();
+  const { data: tagsdata, tagsIsLoading, tagsError,  } = useGetTagsQuery();
+  useEffect(() => {
+    refetch();
+  }, []);
+  
+  console.log("categories", categoryData);
+  console.log("tags", tagsdata);
   // const categories = [
   //   { name: "Cleansers" },
   //   { name: "Exfoliators" },
@@ -64,7 +71,7 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
           Category
         </div>
         <div className="collapse-content">
-          {data.categories.slice(0, 10).map((category) => (
+          {categoryData?.categories?.slice(0, 10).map((category) => (
             <div key={category.categoryName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
@@ -91,18 +98,18 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
           Skin Condition
         </div>
         <div className="collapse-content">
-          {skinCondition.map((skin) => (
-            <div key={skin.name} className="flex items-center py-2">
+          {tagsdata?.categories?.map((tag) => (
+            <div key={tag.tagName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
-                checked={selectedData.includes(skin.name)}
-                onChange={() => handleCheckboxChange(skin.name)}
+                checked={selectedData.includes(tag.tagName)}
+                onChange={() => handleCheckboxChange(tag.tagName)}
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
-                onClick={() => handleCheckboxChange(skin.name)}
+                onClick={() => handleCheckboxChange(tag.tagName)}
               >
-                {skin.name}
+                {tag.tagName}
               </span>
             </div>
           ))}
