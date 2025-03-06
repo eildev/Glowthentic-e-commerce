@@ -58,7 +58,7 @@ const AllProductPage = () => {
          
           <SidebarFilter ></SidebarFilter>
         </div>
-        <AllProduct />
+        <AllProduct  className=" " />
       </div>
 
       <div
