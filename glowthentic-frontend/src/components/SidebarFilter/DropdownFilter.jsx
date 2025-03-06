@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Checkbox from "../typography/Checkbox";
 import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 
+
 const DropdownFilter = ({selectedData, setSelectedData}) => {
   const { data, isLoading, error, className } = useGetCategoryQuery();
     console.log(data);

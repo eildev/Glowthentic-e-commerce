@@ -46,11 +46,6 @@ const SearchBar = ({ className }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [dispatch]); // Dependency: Runs when dispatch changes
 
-  // Handler for selecting a suggestion, updates query and hides suggestions
-  // const handleSelect = (title) => {
-  //   dispatch(setQuery(title)); // Set the selected suggestion as the new query
-  //   dispatch(setSuggestionsVisible(false)); // Hide suggestions after selection
-  // };
 
   // Memoizing the rendered suggestions to optimize performance by preventing unnecessary re-renders
   const renderedSuggestions = useMemo(() => {
