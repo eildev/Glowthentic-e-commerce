@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import Checkbox from "../typography/Checkbox";
 import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 
-
-const DropdownFilter = ({selectedData, setSelectedData}) => {
+const DropdownFilter = ({ selectedData, setSelectedData }) => {
   const { data, isLoading, error, className } = useGetCategoryQuery();
-    console.log(data);
+  console.log("categories", data);
   // const categories = [
   //   { name: "Cleansers" },
   //   { name: "Exfoliators" },
@@ -53,7 +52,7 @@ const DropdownFilter = ({selectedData, setSelectedData}) => {
   };
   // useEffect(() => {
   //   handleSelectedData(selectedData);
-  // }, [selectedData, handleSelectedData]); 
+  // }, [selectedData, handleSelectedData]);
   return (
     <div>
       <div className="collapse collapse-arrow  bg-white">
@@ -65,7 +64,7 @@ const DropdownFilter = ({selectedData, setSelectedData}) => {
           Category
         </div>
         <div className="collapse-content">
-          {data.categories.map((category) => (
+          {data.categories.slice(0, 10).map((category) => (
             <div key={category.categoryName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
