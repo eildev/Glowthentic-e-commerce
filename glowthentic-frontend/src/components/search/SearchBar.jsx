@@ -2,31 +2,10 @@ import { useEffect, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuery, setSuggestionsVisible } from "../../redux/features/slice/searchSlice";
 import { Icon } from "@iconify/react";
-<<<<<<< HEAD
-import { 
-    useSearchProductsMutation, 
-    // useSearchCategoriesMutation,
-    // useSearchBrandsMutation 
-} from "../../redux/features/api/product-api/productApi";
-import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
-
-const ProductItemSkeleton = () => (
-  <div className="flex w-full flex-col gap-4  mt-2 mx-4">
-    <div className="flex items-center gap-4">
-      <div className="skeleton h-16 bg-[#0f12281a] w-16 shrink-0 "></div>
-      <div className="flex flex-col w-full gap-4">
-        <div className="skeleton bg-[#0f12281a] h-4 w-60"></div>
-        <div className="skeleton bg-[#0f12281a] h-4 w-40"></div>
-      </div>
-    </div>
-  </div>
-);
-=======
 import { useSearchProductsMutation } from "../../redux/features/api/product-api/productApi";
 import cn from "../../utils/cn";
 import RenderSuggestion from "./RenderSuggestion";
 import debounce from "../../utils/debounce";
->>>>>>> 9cdf75a9811129918932c7d5d1160247c94284f9
 
 const SearchBar = ({ className }) => {
   const dispatch = useDispatch(); // Initializing Redux dispatch function to send actions
@@ -67,11 +46,6 @@ const SearchBar = ({ className }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [dispatch]); // Dependency: Runs when dispatch changes
 
-  // Handler for selecting a suggestion, updates query and hides suggestions
-  // const handleSelect = (title) => {
-  //   dispatch(setQuery(title)); // Set the selected suggestion as the new query
-  //   dispatch(setSuggestionsVisible(false)); // Hide suggestions after selection
-  // };
 
   // Memoizing the rendered suggestions to optimize performance by preventing unnecessary re-renders
   const renderedSuggestions = useMemo(() => {
