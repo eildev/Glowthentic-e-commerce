@@ -7,10 +7,7 @@ const DynamicHelmet = ({ title, content, keywords, url }) => {
       {/* Meta Tags */}
       <meta
         name="description"
-        content={
-          `Welcome to Glowthentic e-commerce store. Discover the best products and offers!` ||
-          content
-        }
+        content={content ? content : `Welcome to Glowthentic e-commerce store. Discover the best products and offers!`}
       />
       <meta
         name="keywords"

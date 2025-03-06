@@ -54,10 +54,6 @@ const router = createBrowserRouter([
         element: <AllProductPage />,
       },
       {
-        path: "/products",
-        element: <AllProductPage />,
-      },
-      {
         path: "/product/:id", // Dynamic route with :title
         element: <ProductDetails />,
       },
