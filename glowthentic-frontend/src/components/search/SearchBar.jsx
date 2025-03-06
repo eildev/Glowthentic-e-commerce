@@ -1,6 +1,9 @@
 import { useEffect, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setQuery, setSuggestionsVisible } from "../../redux/features/slice/searchSlice";
+import {
+  setQuery,
+  setSuggestionsVisible,
+} from "../../redux/features/slice/searchSlice";
 import { Icon } from "@iconify/react";
 import { useSearchProductsMutation } from "../../redux/features/api/product-api/productApi";
 import cn from "../../utils/cn";
@@ -13,7 +16,8 @@ const SearchBar = ({ className }) => {
   const searchRef = useRef(null); // Creating a ref to track the search bar DOM element for click-outside detection
 
   // Initializing RTK Query mutation hook to search products, destructuring data, loading state, and error
-  const [searchProducts, { data: productData, isLoading, error }] = useSearchProductsMutation();
+  const [searchProducts, { data: productData, isLoading, error }] =
+    useSearchProductsMutation();
 
   // Memoizing the debounced search function to prevent unnecessary re-renders, delays execution by 300ms
   const debouncedSearch = useMemo(
@@ -23,7 +27,8 @@ const SearchBar = ({ className }) => {
 
   // Effect to handle search query updates and trigger debounced search
   useEffect(() => {
-    if (query.length > 0) { // Check if the search query is not empty
+    if (query.length > 0) {
+      // Check if the search query is not empty
       debouncedSearch(query); // Trigger debounced search with the current query
       dispatch(setSuggestionsVisible(true)); // Show suggestions when query exists
     } else {
@@ -46,7 +51,6 @@ const SearchBar = ({ className }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [dispatch]); // Dependency: Runs when dispatch changes
 
-
   // Memoizing the rendered suggestions to optimize performance by preventing unnecessary re-renders
   const renderedSuggestions = useMemo(() => {
     return (
@@ -64,12 +68,19 @@ const SearchBar = ({ className }) => {
 
   // JSX for rendering the search bar UI
   return (
-    <div ref={searchRef} className={cn("relative", className)}> {/* Assign ref and apply dynamic class names */}
+    <div ref={searchRef} className={cn("relative", className)}>
+      {" "}
+      {/* Assign ref and apply dynamic class names */}
       {/* Search input container with styling */}
-      <div className={cn("relative bg-white rounded-3xl shadow-md overflow-hidden z-40")}>
+      <div
+        className={cn(
+          "relative bg-white rounded-3xl shadow-md overflow-hidden z-40"
+        )}
+      >
         {/* Search icon positioned absolutely on the right */}
         <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
-          <Icon icon="ic:outline-search" className="text-black" width="24" /> {/* Search icon from Iconify */}
+          <Icon icon="ic:outline-search" className="text-black" width="24" />{" "}
+          {/* Search icon from Iconify */}
         </span>
         {/* Search input field */}
         <input
@@ -92,29 +103,12 @@ const SearchBar = ({ className }) => {
 
 export default SearchBar;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import { useEffect, useRef, useState } from "react";
 // import SuggestionProduct from "./SuggestionProduct";
 // import cn from "../../utils/cn";
 // import { Icon } from "@iconify/react";
 // import { useSearchProductsMutation } from "../../redux/features/api/product-api/productApi";
 // import SerachItemSkeleton from "./SerachItemSkeleton";
-
-
 
 // const SearchBar = ({ className }) => {
 //   const [query, setQuery] = useState("");
@@ -178,7 +172,6 @@ export default SearchBar;
 //               </div>
 //             )}
 //             {productError && <p>Error loading product suggestions</p>}
-
 
 //             {(!isProductLoading && productData?.products?.length === 0) && (
 //               <ul className="absolute left-0 right-0 flex items-center justify-center text-center pt-5 text-black bg-white rounded-b-xl max-h-screen overflow-y-scroll">
