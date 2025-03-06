@@ -7,7 +7,7 @@ import {
     // useSearchCategoriesMutation,
     // useSearchBrandsMutation 
 } from "../../redux/features/api/product-api/productApi";
-import { useGetCategoryQuery, useSearchCategoryMutation } from "../../redux/features/api/category/categoryApi";
+import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 
 const ProductItemSkeleton = () => (
   <div className="flex w-full flex-col gap-4  mt-2 mx-4">
