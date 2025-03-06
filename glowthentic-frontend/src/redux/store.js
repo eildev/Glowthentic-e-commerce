@@ -14,6 +14,7 @@ const store = configureStore({
         [subscriptionApi.reducerPath]: subscriptionApi.reducer,
         [contactUsApi.reducerPath]: contactUsApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
+        // category: categoryReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()

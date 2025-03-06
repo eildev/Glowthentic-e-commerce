@@ -1,4 +1,3 @@
-import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -7,6 +6,8 @@ import bannerImg2 from '../../assets/img/banner/banner-2.jpg';
 import bannerImg3 from '../../assets/img/banner/banner-3.jpg';
 import bannerImg4 from '../../assets/img/banner/banner-4.jpg';
 import bannerImg5 from '../../assets/img/banner/banner-5.jpg';
+
+
 
 
 const bannerImages = [bannerImg1, bannerImg2, bannerImg3, bannerImg4, bannerImg5];

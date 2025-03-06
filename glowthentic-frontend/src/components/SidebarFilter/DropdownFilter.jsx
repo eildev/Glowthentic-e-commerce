@@ -4,6 +4,8 @@ import { useGetCategoryQuery } from "../../redux/features/api/category/categoryA
 
 const DropdownFilter = ({selectedData, setSelectedData}) => {
   const { data, isLoading, error, className } = useGetCategoryQuery();
+
+  
     console.log(data);
   // const categories = [
   //   { name: "Cleansers" },
