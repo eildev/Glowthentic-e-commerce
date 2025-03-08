@@ -4,7 +4,7 @@ export const getCartFromLocalStorage = () => {
     return storedCart ? JSON.parse(storedCart) : [];
   };
   
-  // Local storage-এ কার্ট ডেটা সংরক্ষণ করা
+  // Local storage- Save
   export const saveCartToLocalStorage = (cartItems) => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   };
