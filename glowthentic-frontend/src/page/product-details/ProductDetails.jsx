@@ -1,14 +1,7 @@
 import Container from "../../components/Container";
 import { useEffect, useRef, useState } from "react";
-
-import { Swiper, SwiperSlide } from "swiper/react";
 import { FiPlus } from "react-icons/fi";
 import { FiMinus } from "react-icons/fi";
-import image from "../../assets/img/homeslider/Hero.png";
-
-import image1 from "../../assets/img/special-offer/13.png";
-import image2 from "../../assets/img/special-offer/14.png";
-import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 import "swiper/css/pagination";
 import "./ProductDetails.css";
@@ -21,20 +14,19 @@ import RecommendedSlider from "./RecommendedSlider";
 import ProductQueryNevigation from "./ProductQueryNevigation";
 import { useParams } from "react-router-dom";
 import { useGetProductByDetailsQuery } from "../../redux/features/api/product-api/productApi.js";
-import { option } from "framer-motion/client";
 
 
 const ProductDetails = () => {
   const { id } = useParams(); // Extracts the product ID from the URL
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
-  console.log(data);
-  console.log(data?.data.variants.regular_price  );
+  // console.log(data?.data?.variants?.regular_price );
   const images = [
     "https://picsum.photos/200/300",
     "https://picsum.photos/300/300",
     "https://picsum.photos/300/200",
     "https://picsum.photos/400/300",
   ];
+
   const faqs = [
     {
       question: "What is the best way to use this product?",
@@ -68,20 +60,22 @@ const ProductDetails = () => {
       question: "Can this product be used in conjunction with other skincare",
       answer: " As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
     },
-  
+
   ];
+
+
   const [variant, setVariant] = useState([0])
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   useEffect(() => {
-    if (data?.data.variants.length > 0) {
-      setSelectedVariant(data.data.variants[0]);
+    if (data?.data?.variants?.length > 0) {
+      setSelectedVariant(data?.data?.variants[0]);
     }
   }, [data]);
 
   const handleVariantChange = (e) => {
     const variantId = e.target.value;
-    const selected = data?.data.variants.find((v) => v.id === parseInt(variantId));
+    const selected = data?.data?.variants?.find((v) => v.id === parseInt(variantId));
     setSelectedVariant(selected);
   };
   console.log("sdfsdf sadf" + selectedVariant);
@@ -89,7 +83,7 @@ const ProductDetails = () => {
 
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  
+
   const mainSwiperRef = useRef(null);
   const thumbsSwiperRef = useRef(null);
 
@@ -105,7 +99,7 @@ const ProductDetails = () => {
 
   const truncateText = (text, limit, isExpanded) =>
     isExpanded ? text : `${text.substring(0, limit)}...`;
-  
+
   return (
     <div>
       <Container>
@@ -113,7 +107,7 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section Start ----> */}
           <div className="sm:hidden block mt-4 p-2">
             <HeadTitle>
-              
+
               Pierre Cardin Matte Rouge Lipstick Fushion Pink 745
             </HeadTitle>
             <br />
@@ -130,9 +124,9 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
           <div className="sm:col-span-7 my-[35px]">
-  <ProductSlider data={data}  
+            <ProductSlider data={data}
               variantId={selectedVariant?.id}></ProductSlider>
-</div>
+          </div>
 
           {/*-------------------------- Slide End----------------------------*/}
 
@@ -141,9 +135,9 @@ const ProductDetails = () => {
             {/* //show big device small device hidden Start// */}
             <div className="hidden sm:block w-full">
               <HeadTitle>
-              {
-                data?.data.product_name 
-              }
+                {
+                  data?.data?.product_name ?? ""
+                }
               </HeadTitle>
               <br />
               <h4 className="font-bold">Anti-aging face serum</h4>
@@ -159,9 +153,9 @@ const ProductDetails = () => {
             {/* //show big device small device hidden End/ / */}
             <div className=" lg:mt-4 flex flex-wrap items-center">
               <span className="text-secondary  font-bold text-xl  pe-4">
-              {
-                data?.data.variants.regular_price 
-              }
+                {
+                  data?.data?.variants?.regular_price
+                }
               </span>
               <span className="text-gray  text-xs md:text-sm font-thin  pe-2 ">
                 <del>$1040.00 |</del>
@@ -174,22 +168,22 @@ const ProductDetails = () => {
             </div>
             {/* //Select price// */}
             <div className="flex items-center justify-between mt-4">
-              
-            <div>
+
+              <div>
                 <select
                   className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
                   value={selectedVariant?.id || ""}
                   onChange={handleVariantChange}
                 >
-                  {data?.data.variants.map((variant) => (
+                  {data?.data?.variants?.map((variant) => (
                     <option key={variant.id} className="py-3" value={variant.id}>
                       {variant.weight}
                     </option>
                   ))}
                 </select>
               </div>
-              
-             
+
+
               <span className="text-lg font-semibold text-gray">    {selectedVariant ? `৳${selectedVariant.regular_price}` : "Loading..."}</span>
             </div>
             <hr className="text-gray-bold" />
@@ -228,11 +222,11 @@ const ProductDetails = () => {
 
         {/* //-----Product Description Big Device--------// */}
         <div className="hidden sm:block">
-       
 
-    <ProductQueryNevigation data={data}></ProductQueryNevigation>
-       
-  
+
+          <ProductQueryNevigation data={data}></ProductQueryNevigation>
+
+
         </div>
         {/* //-----Product Description Small device--------// */}
         <div className="block lg:hidden">
@@ -323,7 +317,7 @@ const ProductDetails = () => {
         </div>
         {/* //-------------------------Review Section Start----------------------// */}
         <div>
-<ProductReviews images={images}></ProductReviews>
+          <ProductReviews images={images}></ProductReviews>
         </div>
         {/* //---------------------------Review Section End---------------------------// */}
         {/* //Banner section  big Screen// */}
@@ -361,52 +355,51 @@ const ProductDetails = () => {
             </p>
           </div>
         </div>
-     
 
-<section className=" py-10 px-">
-      <div className="text-center pt-4 pb-1">
-        <HeadTitle className="text-2xl font-semibold text-center text-[#0C0C0C] lg:text-3xl">
-        Prestige lA micro-huile serum frequently asked questions
-        </HeadTitle>
 
-        <div className="mt-12 bg-white">
-          {faqs.map((faq, index) => (
-            <div key={index} className="border-t  border-t-[#CBCBCB]">
-              <button
-                className="flex items-center justify-between w-full py-4 md:py-6 px-2 md:px-4"
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              >
-                <h2 className="font-semibold md:font-bold text-start text-sm md:text-xl text-[#0C0C0C]">{faq.question}</h2>
-                <span
-                  className={`transition-transform transform rounded-full p-1 ${
-                      openIndex === index ? "text-[#0C0C0C] " : "text-[#0C0C0C]"
-                  }`}
-                >
-              
-                    {openIndex === index ? (
-                      <FiMinus className="text-xl"></FiMinus>
-                    ) : (
-                      <FiPlus className="text-xl"></FiPlus>
+        <section className=" py-10 px-">
+          <div className="text-center pt-4 pb-1">
+            <HeadTitle className="text-2xl font-semibold text-center text-[#0C0C0C] lg:text-3xl">
+              Prestige lA micro-huile serum frequently asked questions
+            </HeadTitle>
+
+            <div className="mt-12 bg-white">
+              {faqs.map((faq, index) => (
+                <div key={index} className="border-t  border-t-[#CBCBCB]">
+                  <button
+                    className="flex items-center justify-between w-full py-4 md:py-6 px-2 md:px-4"
+                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  >
+                    <h2 className="font-semibold md:font-bold text-start text-sm md:text-xl text-[#0C0C0C]">{faq.question}</h2>
+                    <span
+                      className={`transition-transform transform rounded-full p-1 ${openIndex === index ? "text-[#0C0C0C] " : "text-[#0C0C0C]"
+                        }`}
+                    >
+
+                      {openIndex === index ? (
+                        <FiMinus className="text-xl"></FiMinus>
+                      ) : (
+                        <FiPlus className="text-xl"></FiPlus>
+                      )}
+
+                    </span>
+                  </button>
+
+                  <div
+                    className={`transition-max-height duration-300 ease-in-out overflow-hidden ${openIndex === index ? "max-h-screen" : "max-h-0"}`}
+                  >
+                    {faq.answer && (
+                      <div>
+                        <hr className="border-[0.5] border-t-[#CBCBCB]" />
+                        <p className="p-4 text-xs md:text-lg text-start font-normal text-[#0C0C0C]">{faq.answer}</p>
+                      </div>
                     )}
-                
-                </span>
-              </button>
-
-              <div
-                className={`transition-max-height duration-300 ease-in-out overflow-hidden ${openIndex === index ? "max-h-screen" : "max-h-0"}`}
-              >
-                {faq.answer && (
-                  <div>
-                    <hr className="border-[0.5] border-t-[#CBCBCB]" />
-                    <p className="p-4 text-xs md:text-lg text-start font-normal text-[#0C0C0C]">{faq.answer}</p>
                   </div>
-                )}
-              </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
+          </div>
+        </section>
         {/*  //Bottom Accordian  End*/}
 
 
