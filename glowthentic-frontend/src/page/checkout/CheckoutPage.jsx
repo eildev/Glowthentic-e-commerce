@@ -6,7 +6,20 @@ import OrderSummary from "../../components/checkout/OrderSummary";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 const CheckoutPage = () => {
+
+  const [carts, setCarts] = useState([]);
+  const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCarts(cart);
+    const total = cart.reduce((sum, item) => sum + (item.variants[0].regular_price * item.quantity), 0);
+    setTotal(total.toFixed(2));
+  }, []);
+
+  // console.log(carts);
   return (
     <div>
       <DynamicHelmet title="Checkout Page" />
@@ -32,20 +45,19 @@ const CheckoutPage = () => {
                 {/* Right Column: Order Summary */}
                 <div className="col-span-5  md:col-span-3    ">
                   <div className=" bg-white shadow rounded-lg">
-                    <OrderSummary></OrderSummary>
+                    <OrderSummary carts={carts} total={total}></OrderSummary>
                     <div className="px-6 py-3">
                       <Link to='/order-confirmation'>
-                      <button className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center">
-                        PLACE ORDER
-                        {/* <Icon icon="mdi-light:arrow-right" width="1.5em" height="2em" /> */}
-                        <Icon
-                          icon="mdi:arrow-right"
-                          width="1.5em"
-                          height="1.5em"
-                        />
-                      </button>
+                        <button className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center">
+                          PLACE ORDER
+                          {/* <Icon icon="mdi-light:arrow-right" width="1.5em" height="2em" /> */}
+                          <Icon
+                            icon="mdi:arrow-right"
+                            width="1.5em"
+                            height="1.5em"
+                          />
+                        </button>
                       </Link>
-                     
                     </div>
                   </div>
                 </div>
