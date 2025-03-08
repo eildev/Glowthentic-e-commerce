@@ -65,9 +65,13 @@ const Product = ({ product, isDark }) => {
   const discountAmount = discountPercentage
     ? Math.ceil((discountPercentage * price) / 100)
     : 0;
+  // const discountPercentage = 0;
   const finalPrice = discountPercentage
     ? (price - discountAmount).toFixed(2)
     : price;
+  // const price = variants[0]?.regular_price || 0;
+  // const discountPercentage = 0; // ধরে নিচ্ছি ডিসকাউন্ট ব্যাকএন্ড থেকে আসছে না
+  // const stock = productStock[0]?.stock || 0;
 
   return (
     <div
