@@ -21,8 +21,9 @@ const CartPage = () => {
   const [voucherActive, isVoucherActive] = useState(false);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
 
+  console.log(cartItems);
   useEffect(() => {
-    const total = cartItems.reduce((sum, item) => sum + (item.variants[0].regular_price * item.quantity), 0);
+    const total = cartItems.reduce((sum, item) => sum + (item.regular_price * item.quantity), 0);
     setSubTotalPrice(total.toFixed(2));
   }, [cartItems]);
 
@@ -97,13 +98,13 @@ const CartPage = () => {
               </div>
 
               {/* For small device */}
-              <table className="table border-t border-[#D7D7D7] block md:hidden">
+              {/* <table className="table border-t border-[#D7D7D7] block md:hidden">
                 <tbody>
                   {cartItems.map((item, index) => (
                     <tr key={index} className="border-none">
                       <div>
                         <th>
-                          <Checkbox />
+                          <Checkbox checked={allSelected} onChange={handleToggleAll} />
                         </th>
                         <td>
                           <div className="flex gap-3">
@@ -151,7 +152,7 @@ const CartPage = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table> */}
             </div>
           </div>
 

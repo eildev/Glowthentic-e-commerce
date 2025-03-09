@@ -12,12 +12,29 @@ const CheckoutPage = () => {
   const [carts, setCarts] = useState([]);
   const [total, setTotal] = useState(0)
 
+  // useEffect(() => {
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  //   setCarts(cart);
+  //   const total = cart.reduce((sum, item) => sum + (item.variants[0].regular_price * item.quantity), 0);
+  //   setTotal(total.toFixed(2));
+  // }, []);
+
+
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCarts(cart);
-    const total = cart.reduce((sum, item) => sum + (item.variants[0].regular_price * item.quantity), 0);
+  
+    const total = cart.reduce((sum, item) => {
+      // Ensure item.variants exists and has at least one element
+      if (!item.variants || item.variants.length === 0) {
+        return sum;
+      }
+      return sum + (item.variants[0].regular_price * item.quantity);
+    }, 0);
+  
     setTotal(total.toFixed(2));
   }, []);
+  
 
   // console.log(carts);
   return (

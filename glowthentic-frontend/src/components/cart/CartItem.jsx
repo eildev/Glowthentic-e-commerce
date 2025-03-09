@@ -22,11 +22,11 @@ const CartItem = ({ item, handleDelete }) => {
                 <div className="flex gap-3">
                     <div className="avatar">
                         <div className="mask rounded-xl h-[64px] w-[62px]">
-                            <img src={defaultImage} alt="Avatar Tailwind CSS Component" />
+                            <img src={item?.variant_image[0].image ?? defaultImage} alt="Avatar Tailwind CSS Component" />
                         </div>
                     </div>
                     <div>
-                        <div className="font-bold mb-1">{item?.product_name}</div>
+                        <div className="font-bold mb-1">{item?.product?.product_name ?? ""}</div>
                         <div className="text-sm opacity-50 mb-1">United States</div>
                         <div className="text-[#FA8232] flex items-center gap-2 cursor-pointer">
                             <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -56,7 +56,7 @@ const CartItem = ({ item, handleDelete }) => {
                 </div>
             </td>
             <td className="text-[#191818] flex justify-end font-semibold text-2xl md:absolute mt-2">
-                <span>$</span>{item.variants[0].regular_price}
+                <span>$</span>{item.regular_price ?? 0}
             </td>
             <td></td>
         </tr>
