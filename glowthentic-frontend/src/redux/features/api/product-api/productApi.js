@@ -8,7 +8,7 @@ const productApi = createApi({
             query: () => '/product',
         }),
         getProductByDetails: builder.query({
-            query: (id) => `/product/${id}`,
+            query: (slug) => `/product/${slug}`,
         }),
         searchProducts: builder.mutation({
             query: (product) => ({
@@ -17,13 +17,13 @@ const productApi = createApi({
                 body: { q: product },
             }),
         }),
-      
+
     })
 })
 
-export const { 
-    useGetProductsQuery, 
-    useGetProductByDetailsQuery, 
+export const {
+    useGetProductsQuery,
+    useGetProductByDetailsQuery,
     useSearchProductsMutation,
 
 } = productApi;

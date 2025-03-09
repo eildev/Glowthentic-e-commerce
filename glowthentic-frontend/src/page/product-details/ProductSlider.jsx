@@ -10,9 +10,9 @@ import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 
 const ProductSlider = ({data, variantId}) => {
-console.log(data?.data.variants);
+console.log(data?.data?.variants);
 
-const selectedVariantData = data?.data.variants.find(
+const selectedVariantData = data?.data?.variants?.find(
     (variant) => variant.id === variantId
   );
 
@@ -55,10 +55,6 @@ const selectedVariantData = data?.data.variants.find(
     //     "https://swiperjs.com/demos/images/nature-9.jpg",
     //     "https://swiperjs.com/demos/images/nature-10.jpg",
     // ];
-
-
-
-
     return (
         <>
             {/* Large Device */}
