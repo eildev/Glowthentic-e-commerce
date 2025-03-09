@@ -76,6 +76,7 @@ import debounce from "../../utils/debounce";
         <div
           className={cn(
             "relative bg-white rounded-3xl shadow-md overflow-hidden z-40"
+       
           )}
         >
           {/* Search icon positioned absolutely on the right */}
@@ -96,7 +97,7 @@ import debounce from "../../utils/debounce";
         </div>
         {/* Suggestions dropdown, shown only when isSuggestionsVisible is true */}
         {isSuggestionsVisible && (
-          <div className="absolute left-0 right-0 pt-5 bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30">
+          <div className="absolute left-0 right-0 pt-5 -mt-[12px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30">
             {renderedSuggestions} {/* Render memoized suggestions */}
           </div>
         )}
