@@ -50,13 +50,13 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
 
   // const [selectedData, setselectedData] = useState([]);
 
-  // const handleCheckboxChange = (item, ) => {
-  //   setSelectedData((prevSelected) =>
-  //     prevSelected.includes(item)
-  //       ? prevSelected.filter((i) => i !== item)
-  //       : [...prevSelected, item]
-  //   );
-  // };
+  const handleCheckboxChange = (item ) => {
+    setSelectedData((prevSelected) =>
+      prevSelected.includes(item)
+        ? prevSelected.filter((i) => i !== item)
+        : [...prevSelected, item]
+    );
+  };
   const handleCategoryChange = (categoryId) => {
     setSelectedData((prevData) => {
       if (prevData.includes(categoryId)) {
@@ -92,7 +92,7 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
-                // onClick={() => handleCheckboxChange(category.categoryName)}
+                onClick={() => handleCheckboxChange(category.categoryName)}
               >
                 {category.categoryName}
               </span>
