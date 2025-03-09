@@ -26,27 +26,32 @@ const Product = ({ product, isDark }) => {
     price,
     stock,
   } = product;
+  const defaultVariant = product.variants.find(variant => variant.status === 'Default');
+  // console.log("default variants", defaultVariants);
 
-  // console.log(product);
 
+  console.log("cartItems",cartItems);
   // Check if the product is in favorites or cart, and update states accordingly
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
     setIsFav(favourite.some((item) => item.id === id));
-    setIsInCart(cartItems.some((item) => item.id === id)); // Check if the product is in the cart from Redux
+    setIsInCart(cartItems.some((item) => item.id === defaultVariant.id)); // Check if the product is in the cart from Redux
   }, [id, cartItems]); // Re-run when id or cartItems change
 
+
+  // console.log('is in cart', isInCart);
   // Handle adding to or removing from cart
   const handleAddToCart = (productItem) => {
+    console.log('product item', productItem);
     if (isInCart) {
       // If the product is already in the cart, remove it
       dispatch(removeFromCart(productItem.id));
-      toast.error(`${productItem.product_name} removed from Cart!`);
+      toast.error(`${productItem?.product?.product_name ?? ""} removed from Cart!`);
     } else {
       // If the product is not in the cart, add it
       const newProduct = { ...productItem, quantity: 1 };
       dispatch(addToCart(newProduct));
-      toast.success(`${productItem.product_name} added to Cart!`);
+      toast.success(`${productItem?.product?.product_name ?? ""} added to Cart!`);
     }
   };
 
@@ -72,7 +77,7 @@ const Product = ({ product, isDark }) => {
     ? (price - discountAmount).toFixed(2)
     : price;
 
-    const productName = product_name + " " + variants?.[0].variant_name;
+  const productName = product_name + " " + variants?.[0].variant_name;
 
   return (
     <div
@@ -84,7 +89,8 @@ const Product = ({ product, isDark }) => {
           <img
             className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:py-5 py-2"
             // src={baseURL + (variant_image[0]?.image || defaultImage)}
-            src={defaultImage}
+            src={variants[0]?.variant_image[0]?.image || defaultImage}
+            // src={defaultImage}
             alt={product_name ?? "product image"}
           />
         </Link>
@@ -108,6 +114,7 @@ const Product = ({ product, isDark }) => {
           product={product}
           handleAddToCart={handleAddToCart}
           name={"cart"}
+          defaultVariant={defaultVariant}
         />
       </figure>
 
