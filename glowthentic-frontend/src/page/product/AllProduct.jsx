@@ -31,6 +31,8 @@ const AllProduct = ({ selectedCategories }) => {
 
   if (isLoading) return <Loading />;
   if (error) return <p className="text-red-500">Error: {error.message}</p>;
+console.log(selectedCategories);
+console.log(filteredProducts);
 
   return (
     <div className={cn(`grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5`)}>

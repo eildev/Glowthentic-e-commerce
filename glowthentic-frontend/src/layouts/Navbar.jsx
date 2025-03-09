@@ -11,7 +11,7 @@ const Navbar = ({ showMobileMenu }) => {
       .then(data => {
         // Sort categories to show `isButton: false` first
         const sortedData = data.sort((a, b) => a.isButton - b.isButton);
-        console.log(sortedData);
+        // console.log(sortedData);
         setCategorys(sortedData);
       });
   }, []);
