@@ -50,12 +50,23 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
 
   // const [selectedData, setselectedData] = useState([]);
 
-  const handleCheckboxChange = (item) => {
-    setSelectedData((prevSelected) =>
-      prevSelected.includes(item)
-        ? prevSelected.filter((i) => i !== item)
-        : [...prevSelected, item]
-    );
+  // const handleCheckboxChange = (item, ) => {
+  //   setSelectedData((prevSelected) =>
+  //     prevSelected.includes(item)
+  //       ? prevSelected.filter((i) => i !== item)
+  //       : [...prevSelected, item]
+  //   );
+  // };
+  const handleCategoryChange = (categoryId) => {
+    setSelectedData((prevData) => {
+      if (prevData.includes(categoryId)) {
+        // Remove category if it's already selected
+        return prevData.filter((id) => id !== categoryId);
+      } else {
+        // Add category if it's not selected yet
+        return [...prevData, categoryId];
+      }
+    });
   };
   // useEffect(() => {
   //   handleSelectedData(selectedData);
@@ -76,11 +87,12 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
               <Checkbox
                 className="checkbox-sm"
                 checked={selectedData.includes(category.categoryName)}
-                onChange={() => handleCheckboxChange(category.categoryName)}
+                onChange={() => handleCategoryChange(category.id)}
+               
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
-                onClick={() => handleCheckboxChange(category.categoryName)}
+                // onClick={() => handleCheckboxChange(category.categoryName)}
               >
                 {category.categoryName}
               </span>

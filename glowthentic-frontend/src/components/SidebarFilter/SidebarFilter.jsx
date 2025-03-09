@@ -1,80 +1,163 @@
-import { Link } from "react-router-dom";
-import HeadTitle from "../typography/HeadTitle";
-import Toggle from "../typography/Toggle";
-import DropdownFilter from "./DropdownFilter";
-import RegularButton from "../typography/RegularButton";
-import cn from "../../utils/cn";
-import { useState } from "react";
-import { IoMdClose } from "react-icons/io";
-import { useCallback } from "react";
-//Category Data
+import { useEffect, useState } from "react";
+import Checkbox from "../typography/Checkbox";
+import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
+import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
 
-const SidebarFilter = ({ className }) => {
-  const [selectData, setSelectData] = useState([]);
-
-  const handleSelectedData = useCallback((data) => {
-    setSelectData(data);
+const DropdownFilter = ({ selectedData, setSelectedData }) => {
+  const { data: categoryData, isLoading, error, refetch } = useGetCategoryQuery();
+  const { data: tagsdata, tagsIsLoading, tagsError } = useGetTagsQuery();
+  
+  useEffect(() => {
+    refetch();
   }, []);
+  
+  console.log("categories", categoryData);
+  console.log("tags", tagsdata);
 
-  const removeFilter = (itemToRemove) => {
-    setSelectData((prevData) => prevData.filter((item) => item !== itemToRemove));
-  };
+  const skinCondition = [
+    { name: "Brightening" },
+    { name: "Hydration" },
+    { name: "Acne" },
+    { name: "Anti-ageing" },
+    { name: "Redness" },
+    { name: "Sensitive Skin" },
+    { name: "Sun Protection" },
+  ];
+  
+  const featureds = [
+    { name: "New" },
+    { name: "Best Sellers" },
+    { name: "Travel Size" },
+    { name: "Professional Treatments" },
+    { name: "Daily Defense" },
+  ];
+  
+  const prices = [
+    { price: "$50.00 - $150.00" },
+    { price: "$150.00 - $250.00" },
+    { price: "$250.00 - $350.00" },
+    { price: "$350.00 - $450.00" },
+    { price: "$450.00 - $550.00" },
+  ];
 
-  const clearAllFilters = () => {
-    setSelectData([]);
+  // Simplified handler function for both checkbox and span clicks
+  const handleSelectionChange = (item, categoryId) => {
+    setSelectedData((prevSelected) =>
+      prevSelected.includes(item)
+        ? prevSelected.filter((i) => i !== item)
+        : [...prevSelected, item]
+    );
+    // Also handle categoryId for product filtering
+    if (categoryId) {
+      setSelectedData((prevData) => {
+        if (prevData.includes(categoryId)) {
+          return prevData.filter((id) => id !== categoryId);
+        } else {
+          return [...prevData, categoryId];
+        }
+      });
+    }
   };
 
   return (
-    <div className={cn(`min-w-72 max-w-[288px] bg-white p-3`, className)}>
-      <div className="mt-5 ">
-        <hr className="text-hr-thin" />
-        <div className="p-4">
-          <HeadTitle className="text-sm md:text-lg lg:text-lg xl:text-lg">
-            Applied filters
-          </HeadTitle>
+    <div>
+      <div className="collapse collapse-arrow bg-white">
+        <input type="checkbox" className="peer" id="category" defaultChecked />
+        <div className="collapse-title text-secondary font-bold" htmlFor="category">
+          Category
         </div>
-        <div className="p-4">
-  <div className=" flex flex-wrap gap-2 ">
-    {selectData && selectData.length > 0 ? (
-      selectData.map((item, index) => (
-        <div key={index} className="text-[#0C0C0C] flex gap-2 items-center text-sm border border-[#DFDFDF] p-2">
-          {item} <button><IoMdClose onClick={() => removeFilter(item)}/></button>
+        <div className="collapse-content">
+          {categoryData?.categories?.slice(0, 10).map((category) => (
+            <div key={category.categoryName} className="flex items-center py-2">
+              <Checkbox
+                className="checkbox-sm"
+                checked={selectedData.includes(category.categoryName)}
+                onChange={() => handleSelectionChange(category.categoryName, category.id)} // onChange will handle both the checkbox and category ID
+              />
+              <span
+                className="ml-3 font-normal mb-1 cursor-pointer"
+                onClick={() => handleSelectionChange(category.categoryName, category.id)} // onClick will handle both the span and category ID
+              >
+                {category.categoryName}
+              </span>
+            </div>
+          ))}
         </div>
-      ))
-    ) : (
-      <p className="text-gray-500 text-sm">No filters selected</p>
-    )}
-  </div>
-</div>
-
-        {/* //Here Filter tag// */}
-        <div></div>
-        {/* //Here Filter tag End// */}
-        <div className="p-4">
-          <Link className="text-secondary " onClick={clearAllFilters}>Clear All Filters</Link>
-        </div>
-        <hr className="text-hr-thin" />
-        <div className=" flex justify-between items-center  p-4">
-          <HeadTitle className="text-sm md:text-lg lg:text-lg xl:text-lg">
-            Out Of Stock Items
-          </HeadTitle>
-          <Toggle className="mt-1"> </Toggle>
-        </div>
-        <hr className="text-hr-thin" />
-        {/* //DropdownFilter // */}
-
-        <DropdownFilter selectedData={selectData} setSelectedData={setSelectData}></DropdownFilter>
       </div>
-
       <hr className="text-hr-thin" />
-      <div className="flex justify-between items-center py-4 pe-1">
-        <RegularButton className="bg-transparent text-secondary ">
-          Clear filters
-        </RegularButton>
-        <RegularButton className="py-2">Apply filters</RegularButton>
+      <div className="collapse collapse-arrow">
+        <input type="checkbox" className="peer" id="skin-condition" />
+        <div className="collapse-title text-secondary font-bold" htmlFor="skin-condition">
+          Skin Condition
+        </div>
+        <div className="collapse-content">
+          {tagsdata?.categories.map((tag) => (
+            <div key={tag.tagName} className="flex items-center py-2">
+              <Checkbox
+                className="checkbox-sm"
+                checked={selectedData.includes(tag.tagName)}
+                onChange={() => handleSelectionChange(tag.tagName)}
+              />
+              <span
+                className="ml-3 font-normal mb-1 cursor-pointer"
+                onClick={() => handleSelectionChange(tag.tagName)} // onClick handles the tag selection too
+              >
+                {tag.tagName}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <hr className="text-hr-thin" />
+      <div className="collapse collapse-arrow">
+        <input type="checkbox" className="peer" id="featured" />
+        <div className="collapse-title text-secondary font-bold" htmlFor="featured">
+          Featured
+        </div>
+        <div className="collapse-content">
+          {featureds.map((featured) => (
+            <div key={featured.name} className="flex items-center py-2">
+              <Checkbox
+                className="checkbox-sm"
+                checked={selectedData.includes(featured.name)}
+                onChange={() => handleSelectionChange(featured.name)}
+              />
+              <span
+                className="ml-3 font-normal mb-1 cursor-pointer"
+                onClick={() => handleSelectionChange(featured.name)}
+              >
+                {featured.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <hr className="text-hr-thin" />
+      <div className="collapse collapse-arrow">
+        <input type="checkbox" className="peer" id="price" />
+        <div className="collapse-title text-secondary font-bold" htmlFor="price">
+          Price
+        </div>
+        <div className="collapse-content">
+          {prices.map((price) => (
+            <div key={price.price} className="flex items-center py-2">
+              <Checkbox
+                className="checkbox-sm"
+                checked={selectedData.includes(price.price)}
+                onChange={() => handleSelectionChange(price.price)}
+              />
+              <span
+                className="ml-3 font-normal mb-1 cursor-pointer"
+                onClick={() => handleSelectionChange(price.price)}
+              >
+                {price.price}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default SidebarFilter;
+export default DropdownFilter;
