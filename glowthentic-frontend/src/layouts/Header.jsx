@@ -12,6 +12,8 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
 
   const userRoute = token ? "/user-profile" : "/login";
 
+  const cartLength = useSelector((state) => state.cart.cartItems.length);
+
   return (
     <div className="bg-primary border-b border-[rgba(255,255,255,0.25)]">
       <Container>
@@ -65,11 +67,10 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
 
           {/*--------- Search bar show in small Device  Start -----------*/}
           <div
-            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${
-              showSearchBar
+            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${showSearchBar
                 ? "opacity-100 visible translate-y-0"
                 : "opacity-0 invisible -translate-y-5"
-            }`}
+              }`}
           >
             <SearchBar className="w-full" />
           </div>
@@ -95,11 +96,10 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
             {/* Cart Icon  */}
             <div className="px-2">
               <CartIcon
-                cartCount={10}
+                cartCount={cartLength}
                 className="border-primary text-primary flex justify-center items-center"
               />
             </div>
-
             {/* Wishlist */}
             {token && (
               <Link to="/wishlist" className="px-2">
