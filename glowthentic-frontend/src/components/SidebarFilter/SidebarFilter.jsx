@@ -92,12 +92,12 @@ const clearAllFilters = () => {
       <hr className="text-hr-thin" />
 
       {/* Clear & Apply Filter Buttons */}
-      <div className="flex justify-between items-center py-4 pe-1">
+      {/* <div className="flex justify-between items-center py-4 pe-1">
         <RegularButton className="bg-transparent text-secondary" onClick={clearAllFilters}>
           Clear Filters
         </RegularButton>
         <RegularButton className="py-2">Apply Filters</RegularButton>
-      </div>
+      </div> */}
     </div>
   );
 };
