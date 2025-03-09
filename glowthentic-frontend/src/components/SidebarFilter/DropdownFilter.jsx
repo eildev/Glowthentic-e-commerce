@@ -3,7 +3,7 @@ import Checkbox from "../typography/Checkbox";
 import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
 
-const DropdownFilter = ({ selectedData, setSelectedData }) => {
+const DropdownFilter = ({ selectedData, setSelectedData, filterdCategories, setFilterdCategories }) => {
   const { data: categoryData, isLoading, error, refetch } = useGetCategoryQuery();
   const { data: tagsdata, tagsIsLoading, tagsError,  } = useGetTagsQuery();
   useEffect(() => {
@@ -50,15 +50,13 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
 
   // const [selectedData, setselectedData] = useState([]);
 
-  const handleCheckboxChange = (item ) => {
+  const handleCheckboxChange = (item, categoryId ) => {
     setSelectedData((prevSelected) =>
       prevSelected.includes(item)
         ? prevSelected.filter((i) => i !== item)
         : [...prevSelected, item]
     );
-  };
-  const handleCategoryChange = (categoryId) => {
-    setSelectedData((prevData) => {
+        setFilterdCategories((prevData) => {
       if (prevData.includes(categoryId)) {
         // Remove category if it's already selected
         return prevData.filter((id) => id !== categoryId);
@@ -67,6 +65,9 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
         return [...prevData, categoryId];
       }
     });
+  };
+  const handleCategoryChange = (categoryId) => {
+
   };
   // useEffect(() => {
   //   handleSelectedData(selectedData);
@@ -87,12 +88,12 @@ const DropdownFilter = ({ selectedData, setSelectedData }) => {
               <Checkbox
                 className="checkbox-sm"
                 checked={selectedData.includes(category.categoryName)}
-                onChange={() => handleCategoryChange(category.id)}
+                onChange={() => handleCheckboxChange(category.categoryName, category.id)}
                
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
-                onClick={() => handleCheckboxChange(category.categoryName)}
+                onClick={() => handleCheckboxChange(category.categoryName, category.id)}
               >
                 {category.categoryName}
               </span>

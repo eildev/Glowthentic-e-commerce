@@ -8,7 +8,7 @@ import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useCallback } from "react";
 
-const SidebarFilter = ({ className, selectedCategories, setSelectedCategories }) => {
+const SidebarFilter = ({ className, selectedCategories, setSelectedCategories, setFilterdCategories, filterdCategories }) => {
 
   // Function to handle category selection
   const handleSelectedData = useCallback((data) => {
@@ -73,7 +73,7 @@ const SidebarFilter = ({ className, selectedCategories, setSelectedCategories })
         <hr className="text-hr-thin" />
 
         {/* DropdownFilter Component for Category Selection */}
-        <DropdownFilter selectedData={selectedCategories} setSelectedData={handleSelectedData} />
+        <DropdownFilter selectedData={selectedCategories} setSelectedData={handleSelectedData} filterdCategories={filterdCategories} setFilterdCategories={setFilterdCategories}/>
 
       </div>
 
