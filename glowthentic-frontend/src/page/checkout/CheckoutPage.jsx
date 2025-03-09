@@ -5,114 +5,99 @@ import PaymentOption from "../../components/checkout/PaymentOption";
 import OrderSummary from "../../components/checkout/OrderSummary";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-const CheckoutPage = () => {
+import { usePlaceOrderMutation } from "../../redux/features/api/checkoutApi/checkoutApi";
+import toast from "react-hot-toast";
 
-  // const [carts, setCarts] = useState([]);
-  const [total, setTotal] = useState(0)
+
+const CheckoutPage = () => {
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const [placeOrder, { isLoading, isSuccess, isError, error }] = usePlaceOrderMutation(); // Destructure mutation hook
 
   useEffect(() => {
-    const total = cartItems.reduce((sum, item) => sum + (item.regular_price * item.quantity), 0);
+    const total = cartItems.reduce(
+      (sum, item) => sum + item.regular_price * item.quantity,
+      0
+    );
     setSubTotalPrice(total.toFixed(2));
   }, [cartItems]);
-
 
   const shippingPrice = 100;
   const discountPrice = 0;
   const tax = parseFloat((subTotalPrice + shippingPrice - discountPrice) * (2.5 / 100)).toFixed(2);
   const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice).toFixed(2);
 
-  // useEffect(() => {
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  //   setCarts(cart);
-  //   const total = cart.reduce((sum, item) => sum + (item.variants[0].regular_price * item.quantity), 0);
-  //   setTotal(total.toFixed(2));
-  // }, []);
-
-
-  // useEffect(() => {
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  //   setCarts(cart);
-  
-  //   const total = cart.reduce((sum, item) => {
-  //     // Ensure item.variants exists and has at least one element
-  //     if (!item.variants || item.variants.length === 0) {
-  //       return sum;
-  //     }
-  //     return sum + (item.variants[0].regular_price * item.quantity);
-  //   }, 0);
-  
-  //   setTotal(total.toFixed(2));
-  // }, []);
-
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-
-  // Watching checkbox value
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const shipToDifferentAddress = watch("shipToDifferentAddress");
 
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
+    const orderData = {
+      products: cartItems.map((item) => ({
+        variant_id: item.variant_id,
+        product_id: item.product_id,
+        variant_price: item.regular_price,
+        variant_quantity: item.quantity,
+        coupon_code: item.coupon_code || "",
+      })),
+      combo: [], // Add combo items if necessary
+      payment_method: data.paymentMethod,
+      shipping_method: "In-House",
+      shipping_charge: shippingPrice,
+      coupon_code: "",
+      order_note: data.orderNotes,
+    };
+
+    isSuccess && toast.success('Order placed successfully')
+    // Call the placeOrder mutation
+    placeOrder(orderData);
+
+   console.log(orderData);
+
   };
 
-  
-
-  // console.log(carts);
   return (
     <div>
       <DynamicHelmet title="Checkout Page" />
       <Container>
-        {/* <---small Device ----> */}
-        <div className="md:hidden ">
-          <CheckoutWizard></CheckoutWizard>
+        <div className="md:hidden">
+          <CheckoutWizard />
         </div>
-        {/* <---small Device End ----> */}
+
         <div className="container hidden md:block mx-auto px-4 py-8">
-          {/* Billing Information Section */}
-          <form onSubmit={handleSubmit(onSubmit)} className="">
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <h4 className="text-lg font-normal mb-4">Billing Information</h4>
               <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
                 {/* Left Column: Billing Form */}
-                <div className="space-y-4  col-span-5 md:col-span-7  p-6 shadow rounded-lg">
-                  {/* //info / */}
-                  <InputInfo register={register} errors={errors} shipToDifferentAddress={shipToDifferentAddress}></InputInfo>
-                  <PaymentOption register={register} errors={errors}></PaymentOption>
+                <div className="space-y-4 col-span-5 md:col-span-7 p-6 shadow rounded-lg">
+                  <InputInfo register={register} errors={errors} shipToDifferentAddress={shipToDifferentAddress} />
+                  <PaymentOption register={register} errors={errors} />
                 </div>
 
                 {/* Right Column: Order Summary */}
-                <div className="col-span-5  md:col-span-3    ">
-                  <div className=" bg-white shadow rounded-lg">
-                    <OrderSummary carts={cartItems} total={total}></OrderSummary>
+                <div className="col-span-5 md:col-span-3">
+                  <div className="bg-white shadow rounded-lg">
+                    <OrderSummary carts={cartItems} total={totalPrice} />
                     <div className="px-6 py-3">
-                      {/* <Link to='/order-confirmation'> */}
-                        <button type="submit" className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center">
-                          PLACE ORDER
-                          {/* <Icon icon="mdi-light:arrow-right" width="1.5em" height="2em" /> */}
-                          <Icon
-                            icon="mdi:arrow-right"
-                            width="1.5em"
-                            height="1.5em"
-                          />
-                        </button>
-                      {/* </Link> */}
+                      <button
+                        type="submit"
+                        className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center"
+                        disabled={isLoading}
+                      >
+                        PLACE ORDER
+                        <Icon icon="mdi:arrow-right" width="1.5em" height="1.5em" />
+                      </button>
+                      {isSuccess && <p>Order placed successfully!</p>}
+                      {isError && <p>Error placing order: {error.message}</p>}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </form>
-          {/* Payment Option Section */}
         </div>
       </Container>
     </div>
