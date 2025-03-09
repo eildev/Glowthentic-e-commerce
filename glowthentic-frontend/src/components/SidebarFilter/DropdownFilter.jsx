@@ -3,7 +3,7 @@ import Checkbox from "../typography/Checkbox";
 import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
 
-const DropdownFilter = ({ selectedData, setSelectedData, filterdCategories, setFilterdCategories }) => {
+const DropdownFilter = ({ selectedData, setSelectedData, filterdCategories, setFilterdCategories, setFilterdTags }) => {
   const { data: categoryData, isLoading, error, refetch } = useGetCategoryQuery();
   const { data: tagsdata, tagsIsLoading, tagsError,  } = useGetTagsQuery();
   useEffect(() => {
@@ -50,19 +50,34 @@ const DropdownFilter = ({ selectedData, setSelectedData, filterdCategories, setF
 
   // const [selectedData, setselectedData] = useState([]);
 
-  const handleCheckboxChange = (item, categoryId ) => {
+  const handleCategoriesCheckboxChange = (item, categoryId) => {
     setSelectedData((prevSelected) =>
       prevSelected.includes(item)
         ? prevSelected.filter((i) => i !== item)
         : [...prevSelected, item]
     );
-        setFilterdCategories((prevData) => {
+  
+    setFilterdCategories((prevData) => {
       if (prevData.includes(categoryId)) {
-        // Remove category if it's already selected
         return prevData.filter((id) => id !== categoryId);
       } else {
-        // Add category if it's not selected yet
         return [...prevData, categoryId];
+      }
+    });
+  };
+  
+  const handleTagsCheckboxChange = (item, tagId) => {
+    setSelectedData((prevSelected) =>
+      prevSelected.includes(item)
+        ? prevSelected.filter((i) => i !== item)
+        : [...prevSelected, item]
+    );
+  
+    setFilterdTags((prevData) => {
+      if (prevData.includes(tagId)) {
+        return prevData.filter((id) => id !== tagId);
+      } else {
+        return [...prevData, tagId];
       }
     });
   };
@@ -88,12 +103,12 @@ const DropdownFilter = ({ selectedData, setSelectedData, filterdCategories, setF
               <Checkbox
                 className="checkbox-sm"
                 checked={selectedData.includes(category.categoryName)}
-                onChange={() => handleCheckboxChange(category.categoryName, category.id)}
+                onChange={() => handleCategoriesCheckboxChange(category.categoryName, category.id)}
                
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
-                onClick={() => handleCheckboxChange(category.categoryName, category.id)}
+                onClick={() => handleCategoriesCheckboxChange(category.categoryName, category.id)}
               >
                 {category.categoryName}
               </span>
@@ -116,11 +131,11 @@ const DropdownFilter = ({ selectedData, setSelectedData, filterdCategories, setF
               <Checkbox
                 className="checkbox-sm"
                 checked={selectedData.includes(tag.tagName)}
-                onChange={() => handleCheckboxChange(tag.tagName)}
+                onChange={() => handleTagsCheckboxChange(tag?.tagName, tag.id)}
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
-                onClick={() => handleCheckboxChange(tag.tagName)}
+                onClick={() => handleTagsCheckboxChange(tag?.tagName, tag.id)}
               >
                 {tag.tagName}
               </span>

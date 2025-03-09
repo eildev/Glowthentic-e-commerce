@@ -11,6 +11,7 @@ const AllProductPage = () => {
   const [toggleFilter, setToggleFilter] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]); // ✅ Track selected categories
   const [filterdCategories, setFilterdCategories] = useState([])
+  const [filterdTags, setFilterdTags] = useState([])
 
   return (
     <Container>
@@ -48,9 +49,12 @@ const AllProductPage = () => {
       <div className="lg:flex lg:gap-5">
         {/* ✅ Passing selectedCategories and setter function */}
         <div className="hidden lg:block min-w-[290px] no-scrollbar top-[161px] h-[calc(100vh-161px)] overflow-y-auto sticky">
-          <SidebarFilter selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} setFilterdCategories={setFilterdCategories} filterdCategories={filterdCategories}/>
+          <SidebarFilter selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} 
+          setFilterdCategories={setFilterdCategories} filterdCategories={filterdCategories}
+          setFilterdTags={setFilterdTags}
+          />
         </div>
-        <AllProduct selectedCategories={filterdCategories} />
+        <AllProduct selectedCategories={filterdCategories} selectedTags={filterdTags}/>
       </div>
 
       <div
