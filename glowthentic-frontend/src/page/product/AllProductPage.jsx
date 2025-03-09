@@ -9,9 +9,10 @@ import AllProduct from "./AllProduct";
 
 const AllProductPage = () => {
   const [toggleFilter, setToggleFilter] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState([]); // ✅ Track selected categories
-  const [filterdCategories, setFilterdCategories] = useState([])
-  const [filterdTags, setFilterdTags] = useState([])
+  const [selectedCategories, setSelectedCategories] = useState([]); // Track selected categories
+  const [filterdCategories, setFilterdCategories] = useState([]); // Track filtered categories
+  const [filterdTags, setFilterdTags] = useState([]); // Track filtered tags
+  const [filterdPrices, setFilterdPrices] = useState([]); // Track filtered price ranges
 
   return (
     <Container>
@@ -47,28 +48,49 @@ const AllProductPage = () => {
       </div>
 
       <div className="lg:flex lg:gap-5">
-        {/* ✅ Passing selectedCategories and setter function */}
+        {/* SidebarFilter component: Pass all required props */}
         <div className="hidden lg:block min-w-[290px] no-scrollbar top-[161px] h-[calc(100vh-161px)] overflow-y-auto sticky">
-          <SidebarFilter selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} 
-          setFilterdCategories={setFilterdCategories} filterdCategories={filterdCategories}
-          setFilterdTags={setFilterdTags}
+          <SidebarFilter
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+            setFilterdCategories={setFilterdCategories}
+            filterdCategories={filterdCategories}
+            setFilterdTags={setFilterdTags}
+            filterdTags={filterdTags}
+            filterdPrices={filterdPrices}
+            setFilterdPrices={setFilterdPrices}
           />
         </div>
-        <AllProduct selectedCategories={filterdCategories} selectedTags={filterdTags}/>
+        {/* AllProduct component: Pass applied filters */}
+        <AllProduct
+          selectedCategories={filterdCategories}
+          selectedTags={filterdTags}
+          selectedPrices={filterdPrices}
+        />
       </div>
 
+      {/* Mobile Filter Sidebar */}
       <div
-  className={`fixed top-0 left-0 w-full z-[60] h-full overflow-y-scroll bg-white transition-all duration-300 ease-in-out transform ${
-    toggleFilter ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-[100%]"
-  }`}
->
+        className={`fixed top-0 left-0 w-full z-[60] h-full overflow-y-scroll bg-white transition-all duration-300 ease-in-out transform ${
+          toggleFilter ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-[100%]"
+        }`}
+      >
         <div className="flex justify-between items-center px-5">
           <HeadTitle className="mt-5 px-2">Filter</HeadTitle>
           <button onClick={() => setToggleFilter(false)}>
             <Icon icon="bitcoin-icons:cross-outline" width="24" height="24" />
           </button>
         </div>
-        <SidebarFilter selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
+        <SidebarFilter
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+          setFilterdCategories={setFilterdCategories}
+          filterdCategories={filterdCategories}
+          setFilterdTags={setFilterdTags}
+          filterdTags={filterdTags}
+          filterdPrices={filterdPrices}
+          setFilterdPrices={setFilterdPrices}
+        />
       </div>
     </Container>
   );

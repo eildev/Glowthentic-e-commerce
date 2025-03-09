@@ -8,23 +8,28 @@ import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useCallback } from "react";
 
-const SidebarFilter = ({ className, selectedCategories, setSelectedCategories, setFilterdCategories, filterdCategories, setFilterdTags }) => {
+const SidebarFilter = ({ className, selectedCategories, setSelectedCategories, setFilterdCategories, filterdCategories, setFilterdTags, filterdTags, filterdPrices,
+  setFilterdPrices }) => {
 
-  // Function to handle category selection
-  const handleSelectedData = useCallback((data) => {
-    setSelectedCategories(data); // ✅ Update selected category list
-  }, [setSelectedCategories]);
+// Function to handle category/tag selection
+const handleSelectedData = useCallback((data) => {
+  setSelectedCategories(data); // ✅ Update selected category list
+}, []);
 
-  // Function to remove a selected category
-  const removeFilter = (itemToRemove) => {
-    setSelectedCategories((prevData) => prevData.filter((item) => item !== itemToRemove));
-  };
+// Function to remove a selected filter
+const removeFilter = (itemToRemove) => {
+  setSelectedCategories((prevData) =>
+    prevData.filter((item) => item !== itemToRemove)
+  );
+};
 
-  // Function to clear all selected filters
-  const clearAllFilters = () => {
-    setSelectedCategories([]);
-  };
-
+// Function to clear all selected filters
+const clearAllFilters = () => {
+  setSelectedCategories([]);
+  setFilterdCategories([]);
+  setFilterdTags([]);
+  setFilterdPrices([]); // Clear price filters
+};
   return (
     <div className={cn("min-w-72 max-w-[288px] bg-white p-3", className)}>
 
@@ -73,10 +78,14 @@ const SidebarFilter = ({ className, selectedCategories, setSelectedCategories, s
         <hr className="text-hr-thin" />
 
         {/* DropdownFilter Component for Category Selection */}
-        <DropdownFilter selectedData={selectedCategories} setSelectedData={handleSelectedData} 
-        filterdCategories={filterdCategories} setFilterdCategories={setFilterdCategories}
-        setFilterdTags={setFilterdTags}
-        />
+        <DropdownFilter   selectedData={selectedCategories}
+          setSelectedData={handleSelectedData}
+          filterdCategories={filterdCategories}
+          setFilterdCategories={setFilterdCategories}
+          filterdTags={filterdTags}
+          setFilterdTags={setFilterdTags}
+          filterdPrices={filterdPrices} 
+          setFilterdPrices={setFilterdPrices} />
 
       </div>
 

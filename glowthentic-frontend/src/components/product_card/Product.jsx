@@ -30,7 +30,7 @@ const Product = ({ product, isDark }) => {
   // console.log("default variants", defaultVariants);
 
 
-  console.log("cartItems",cartItems);
+  // console.log("cartItems",cartItems);
   // Check if the product is in favorites or cart, and update states accordingly
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];

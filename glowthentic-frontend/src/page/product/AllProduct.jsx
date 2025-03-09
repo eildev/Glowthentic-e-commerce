@@ -4,33 +4,43 @@ import Loading from "../../components/spinners/Loading";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import cn from "../../utils/cn";
 
-const AllProduct = ({ selectedCategories = [], selectedTags = [] }) => {
+const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices = [] }) => {
   const { data, isLoading, error } = useGetProductsQuery();
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     if (data?.data) {
-      if (selectedCategories.length === 0 && selectedTags.length === 0) {
+      if (selectedCategories.length === 0 && selectedTags.length === 0 && selectedPrices.length === 0) {
+        // No filters applied, show all products
         setFilteredProducts(data.data);
       } else {
-        // ✅ Filter products based on selected categories and tags
-        const filtered = data.data.filter((product) =>
-          selectedCategories.includes(product.category_id) ||
-          (product.product_tags && product.product_tags.some(tag => selectedTags.includes(tag.tag_id)))
-        );
-  
-        // ✅ Ensure latest selected categories appear first
+        // Filter products based on selected categories, tags, and price ranges
+        const filtered = data.data.filter((product) => {
+          const matchesCategory = selectedCategories.includes(product.category_id);
+          const matchesTags =
+            product.product_tags &&
+            product.product_tags.some((tag) => selectedTags.includes(tag.tag_id));
+          const matchesPrice = selectedPrices.some(
+            (priceRange) =>
+              product.variants[0].regular_price >= priceRange.min && product.variants[0].regular_price <= priceRange.max
+          );
+
+          // Check if the product matches any of the selected filters
+          return matchesCategory || matchesTags || matchesPrice;
+        });
+
+        // Ensure latest selected categories appear first
         let sortedFiltered = filtered;
         if (selectedCategories.length > 0) {
           sortedFiltered = selectedCategories
             .map((catId) => filtered.filter((p) => p.category_id === catId))
             .flat();
         }
-  
+
         setFilteredProducts(sortedFiltered.length > 0 ? sortedFiltered : filtered);
       }
     }
-  }, [data, selectedCategories, selectedTags]);
+  }, [data, selectedCategories, selectedTags, selectedPrices]);
 console.log(filteredProducts);
   if (isLoading) return <Loading />;
   if (error) return <p className="text-red-500">Error: {error.message}</p>;
