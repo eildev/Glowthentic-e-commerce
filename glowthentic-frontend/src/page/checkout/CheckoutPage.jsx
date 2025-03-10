@@ -7,16 +7,19 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { usePlaceOrderMutation } from "../../redux/features/api/checkoutApi/checkoutApi";
 import toast from "react-hot-toast";
+import { clearCart } from "../../redux/features/slice/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
-  // user
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
-  const { userId } = useSelector((state) => state.auth);
-  console.log("userId",userId);
+  const navigate = useNavigate();
+  // const { userId } = useSelector((state) => state.auth);
+  // console.log("userId",userId);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [placeOrder, { isLoading, isSuccess, isError, error }] =
     usePlaceOrderMutation(); // Destructure mutation hook
@@ -74,20 +77,22 @@ const CheckoutPage = () => {
       shipping_charge: shipingCharge,
       coupon_code: "",
       order_note: data.orderNotes,
-      user_id : userId,
+      user_id : user.data.id,
     };
 
     console.log(orderData);
 
-    // try {
-    //   const response = await placeOrder(orderData).unwrap();
-    //   console.log("Order placed successfully:", response);
-    //   toast.success("Order placed successfully!");
-    //   reset();
-    // } catch (err) {
-    //   console.error("Error placing order:", err);
-    //   toast.error("Failed to place order.", err);
-    // }
+    try {
+      const response = await placeOrder(orderData).unwrap();
+      console.log("Order placed successfully:", response);
+      toast.success("Order placed successfully!");
+      dispatch(clearCart());
+      reset();
+      navigate('/order-confirmation')
+    } catch (err) {
+      console.error("Error placing order:", err);
+      toast.error("Failed to place order.", err);
+    }
   };
 
   return (
