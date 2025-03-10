@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 const initialState = {
     user: null,
+    userId: null,
     token: Cookies.get("token") || null,
     loading: false,
     error: null,
@@ -18,10 +19,11 @@ const authSlice = createSlice({
             state.error = null;
         },
         loginSuccess: (state, action) => {
-            console.log(state);
-            console.log(action);
+            // console.log(state);
+            console.log("redux state", action.payload);
             state.loading = false;
             state.user = action.payload.data.email;
+            state.userId = action.payload.data.id;
             state.token = action.payload.data.token;
             Cookies.set("token", action.payload.data.token, { expires: 7 }); // Store token in cookies
         },
