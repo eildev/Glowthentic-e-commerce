@@ -16,7 +16,7 @@ const Product = ({ product, isDark }) => {
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false); // Tracking if the product is in the cart
   const baseURL = "http://127.0.0.1:8000/";
-
+console.log(product);
   const {
     id,
     product_name,
@@ -132,6 +132,9 @@ const Product = ({ product, isDark }) => {
             {productName ?? "Beautya Capture Total Dreamskin Care & Perfect"}
           </HeadTitle>
         </Link>
+        <div>
+        <h1>{variants[0].regular_price}</h1>
+        </div>
         <Paragraph className="text-xs lg:text-sm">
           <span
             dangerouslySetInnerHTML={{
@@ -152,9 +155,14 @@ const Product = ({ product, isDark }) => {
           {discountPercentage > 0 && (
             <Paragraph className="lg:text-sm text-xs text-gray-thin">
               <del>{variants[0].regular_price}</del>
+              
             </Paragraph>
+       
           )}
         </div>
+       <h1>
+
+       </h1>
       </div>
     </div>
   );

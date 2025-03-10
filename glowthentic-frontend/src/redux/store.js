@@ -11,6 +11,9 @@ import offerBannerApi from "./features/api/offerBanner/offerBanner";
 import cartReducer from "./features/slice/cartSlice";
 import selectCartReducer from "./features/slice/selectCartSlice";
 import filterReducer from "./features/slice/filterSlice";
+import checkoutApi from "./features/api/checkoutApi/checkoutApi";
+
+
 const store = configureStore({
     reducer: {
         // all slice 
@@ -28,6 +31,7 @@ const store = configureStore({
         [subscriptionApi.reducerPath]: subscriptionApi.reducer,
         [contactUsApi.reducerPath]: contactUsApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
+        [checkoutApi.reducerPath]: checkoutApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -37,7 +41,8 @@ const store = configureStore({
             .concat(tagViewApi.middleware)
             .concat(subscriptionApi.middleware)
             .concat(contactUsApi.middleware)
-            .concat(authApi.middleware),
+            .concat(authApi.middleware)
+            .concat(checkoutApi.middleware),
 
 });
 
