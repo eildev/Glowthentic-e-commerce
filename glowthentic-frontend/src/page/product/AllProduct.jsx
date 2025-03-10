@@ -3,6 +3,7 @@ import Product from "../../components/product_card/Product";
 import Loading from "../../components/spinners/Loading";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import cn from "../../utils/cn";
+import { motion, AnimatePresence } from "framer-motion";
 
 const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices = [] }) => {
   const { data, isLoading, error } = useGetProductsQuery();
@@ -11,10 +12,8 @@ const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices
   useEffect(() => {
     if (data?.data) {
       if (selectedCategories.length === 0 && selectedTags.length === 0 && selectedPrices.length === 0) {
-        // No filters applied, show all products
         setFilteredProducts(data.data);
       } else {
-        // Filter products based on selected categories, tags, and price ranges
         const filtered = data.data.filter((product) => {
           const matchesCategory = selectedCategories.includes(product.category_id);
           const matchesTags =
@@ -22,14 +21,12 @@ const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices
             product.product_tags.some((tag) => selectedTags.includes(tag.tag_id));
           const matchesPrice = selectedPrices.some(
             (priceRange) =>
-              product.variants[0].regular_price >= priceRange.min && product.variants[0].regular_price <= priceRange.max
+              product.variants[0].regular_price >= priceRange.min &&
+              product.variants[0].regular_price <= priceRange.max
           );
-
-          // Check if the product matches any of the selected filters
           return matchesCategory || matchesTags || matchesPrice;
         });
 
-        // Ensure latest selected categories appear first
         let sortedFiltered = filtered;
         if (selectedCategories.length > 0) {
           sortedFiltered = selectedCategories
@@ -41,18 +38,61 @@ const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices
       }
     }
   }, [data, selectedCategories, selectedTags, selectedPrices]);
-console.log(filteredProducts);
+
   if (isLoading) return <Loading />;
   if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
+  // Animation Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, translateY: 20 },
+    show: { opacity: 1, translateY: 0, transition: { duration: 0.3 } },
+  };
+
   return (
-    <div className={cn(`grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5`)}>
-      {filteredProducts.length > 0 ? (
-        filteredProducts.map((product) => <Product key={product.id} product={product} />)
-      ) : (
-        <p className="col-span-3 text-center text-gray-500">No products found.</p>
-      )}
-    </div>
+    <motion.div
+      className={cn(`grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5`)}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+    >
+      <AnimatePresence>
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <motion.div
+              key={product.id}
+              className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+              variants={itemVariants}
+              whileHover={{
+                scale: 1.03,
+                boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <Product product={product} />
+            </motion.div>
+          ))
+        ) : (
+          <motion.p
+            className="col-span-3 text-center text-gray-500 italic"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            No products found.
+          </motion.p>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
