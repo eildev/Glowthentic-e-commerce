@@ -1,19 +1,43 @@
+import { useState } from "react";
 import avatar from "../../../assets/img/user-profile/avatar.jpeg";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
+import avatarPlaceholder from "../../../assets/img/user-profile/avatar.jpeg";
+import { FaCamera } from "react-icons/fa";
 
 const EditAccount = () => {
+
+  const [image, setImage] = useState(avatarPlaceholder);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
+    }
+  };
+
+
   return (
     <div className="px-2">
       <CommonTitle title={"Edit Account"} />
 
       <form>
         {/* Avatar Upload */}
-        <div className="w-24 h-24 lg:w-32 lg:h-32 mx-auto my-4 rounded-full">
+        <div className="relative w-24 h-24 lg:w-32 lg:h-32 mx-auto my-4 rounded-full group">
           <img
             className="w-full h-full rounded-full object-cover"
-            src={avatar}
+            src={image}
             alt="User Avatar"
           />
+          <label className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+            <FaCamera className="text-white text-2xl cursor-pointer" />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+          </label>
         </div>
 
         {/* Form Inputs */}
