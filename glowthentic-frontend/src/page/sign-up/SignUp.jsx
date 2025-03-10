@@ -1,61 +1,86 @@
 import DynamicForm from "../../components/dynamic-form/DynamicForm";
 import { useState } from "react";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { useForm } from "react-hook-form";
+import { Icon } from "@iconify/react";
 import RegularButton from "../../components/typography/RegularButton";
-import { Link } from "react-router-dom";
-import Checkbox from "../../components/typography/Checkbox";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+import { useRegisterInfoMutation } from "../../redux/features/api/registerApi/registerApi";
+import { datalist } from "framer-motion/client";
+import toast from "react-hot-toast";
+
+
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [registerInfo, { isLoading, isSuccess, isError, error }] = useRegisterInfoMutation();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
-  const signUpHandleData = (data) => {
-    // handle form data here
-    console.log("Sign Up Data", data);
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prevState) => !prevState);
   };
+
+  const signUpHandleData = async(data) => {
+    try {
+      await registerInfo(data);
+      toast.success("Registration successful!");
+      navigate("/");
+    } catch (error) {
+      toast.error(error?.message || "Registration failed. Please try again.");
+    }
+
+  };
+
   return (
     <div>
       <DynamicHelmet title="Sign Up" />
-      <DynamicForm title="Sign Up" handleForm={signUpHandleData}>
-        {/*-------------Children Start ------------ */}
+      <DynamicForm title="Sign Up" handleForm={handleSubmit(signUpHandleData)}>
         <p className="mb-6 text-gray-500 text-center">
-          Already have an account??{" "}
-          <Link href="#" className="text-secondary">
+          Already have an account?{" "}
+          <Link to="#" className="text-secondary">
             Sign In
           </Link>
         </p>
         <div className="mb-4">
           <input
             type="email"
-            name="email"
             placeholder="Email"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
+            className="w-full p-3 rounded border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+            {...register("email", { required: "Email is required" })}
           />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
         </div>
         <div className="mb-4">
           <input
             type="text"
-            name="firstName"
-            placeholder="First Name"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
+            placeholder="Name"
+            className="w-full p-3 rounded border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+            {...register("name", { required: "Name is required" })}
           />
-        </div>
-        <div className="mb-4">
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
-          />
+          {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
         </div>
         <div className="mb-4 relative">
           <input
             type={showPassword ? "text" : "password"}
-            name="password"
             placeholder="Password"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
+            className="w-full p-3 rounded border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+            {...register("password", {
+              required: "Password is required",
+              pattern: {
+                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                message: "Password must be Strong.",
+              },
+            })}
           />
           <button
             type="button"
@@ -69,55 +94,37 @@ const SignUp = () => {
               style={{ color: "#898989" }}
             />
           </button>
+          {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
         </div>
-        <RegularButton
-          type="submit"
-          className="w-full bg-secondary text-white py-3 rounded hover:bg-orange-600"
-        >
+        <div className="mb-4 relative">
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            placeholder="Confirm Password"
+            className="w-full p-3 rounded border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+            {...register("password_confirmation", {
+              required: "Confirm Password is required",
+              validate: (value) => value === watch("password") || "Passwords do not match",
+            })}
+          />
+          <button
+            type="button"
+            onClick={toggleConfirmPasswordVisibility}
+            className="absolute inset-y-0 right-4 flex items-center text-gray-500"
+          >
+            <Icon
+              icon={showConfirmPassword ? "ooui:eye-closed" : "ooui:eye"}
+              width="1.5em"
+              height="2em"
+              style={{ color: "#898989" }}
+            />
+          </button>
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+          )}
+        </div>
+        <RegularButton type="submit" className="w-full bg-secondary text-white py-3 rounded hover:bg-orange-600">
           Sign Up
         </RegularButton>
-        <div className="my-6 text-gray-500 text-center">or</div>
-
-        <div className="flex gap-4 md:flex-row">
-          <button className="flex items-center  bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded">
-            <Icon
-              icon="flat-color-icons:google"
-              width="2em"
-              height="2em"
-              className="w-5 h-5"
-            />
-            Google
-          </button>
-          <button className="flex items-center bg-white justify-center gap-2  w-full border border-gray-300 py-2 px-4 rounded">
-            <Icon
-              icon="ic:baseline-facebook"
-              width="2em"
-              height="2em"
-              style={{ color: "#1977f3" }}
-              className="w-5 h-5"
-            />
-            Facebook
-          </button>
-        </div>
-        <div className="flex gap-4 md:flex-row mt-4 ">
-          <Checkbox></Checkbox>{" "}
-          <span className="text-gray">
-            By clicking Create account, I agree that I have read and accepted
-            the Terms of Use and Privacy Policy.
-          </span>
-        </div>
-        <p className="text-xs text-gray-400 mt-6 text-center">
-          Protected by reCAPTCHA and subject to the Rhombus{" "}
-          <a href="#" className="text-secondary">
-            Privacy Policy
-          </a>{" "}
-          and{" "}
-          <a href="#" className="text-secondary">
-            Terms of Service
-          </a>
-          .
-        </p>
-        {/*-------------Children End ------------ */}
       </DynamicForm>
     </div>
   );

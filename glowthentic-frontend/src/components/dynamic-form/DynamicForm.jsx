@@ -8,11 +8,13 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
     const data = {
       email: e.target.email?.value,
       password: e.target.password?.value,
-      firstName: e.target.firstName?.value,
+      name: e.target.name?.value,
       lastName: e.target.lastName?.value,
       confirmPassword: e.target.confirmpassword?.value,
     };
     handleForm(data);
+
+    console.log(data);
   };
 
   return (
