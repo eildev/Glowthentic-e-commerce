@@ -8,34 +8,41 @@ import { motion, AnimatePresence } from "framer-motion";
 const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices = [] }) => {
   const { data, isLoading, error } = useGetProductsQuery();
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [trigger, setTrigger] = useState(0); // State to trigger re-render for animation
 
   useEffect(() => {
     if (data?.data) {
       if (selectedCategories.length === 0 && selectedTags.length === 0 && selectedPrices.length === 0) {
+        // No filters applied, show all products
         setFilteredProducts(data.data);
       } else {
+        // Filter products based on selected categories, tags, and price ranges
         const filtered = data.data.filter((product) => {
-          const matchesCategory = selectedCategories.includes(product.category_id);
+          const matchesCategory =
+            selectedCategories.length === 0 || selectedCategories.includes(product.category_id);
+
           const matchesTags =
-            product.product_tags &&
-            product.product_tags.some((tag) => selectedTags.includes(tag.tag_id));
-          const matchesPrice = selectedPrices.some(
-            (priceRange) =>
-              product.variants[0].regular_price >= priceRange.min &&
-              product.variants[0].regular_price <= priceRange.max
-          );
-          return matchesCategory || matchesTags || matchesPrice;
+            selectedTags.length === 0 ||
+            (product.product_tags &&
+              product.product_tags.some((tag) => selectedTags.includes(tag.tag_id)));
+
+          const matchesPrice =
+            selectedPrices.length === 0 ||
+            selectedPrices.some(
+              (priceRange) =>
+                product.variants[0].regular_price >= priceRange.min &&
+                product.variants[0].regular_price <= priceRange.max
+            );
+
+          // Combine conditions with AND logic
+          return matchesCategory && matchesTags && matchesPrice;
         });
 
-        let sortedFiltered = filtered;
-        if (selectedCategories.length > 0) {
-          sortedFiltered = selectedCategories
-            .map((catId) => filtered.filter((p) => p.category_id === catId))
-            .flat();
-        }
-
-        setFilteredProducts(sortedFiltered.length > 0 ? sortedFiltered : filtered);
+        setFilteredProducts(filtered);
       }
+
+      // Increment trigger state to re-render the product grid and trigger animations
+      setTrigger((prev) => prev + 1);
     }
   }, [data, selectedCategories, selectedTags, selectedPrices]);
 
@@ -48,19 +55,20 @@ const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.1, // Stagger animations for child elements
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, translateY: 20 },
-    show: { opacity: 1, translateY: 0, transition: { duration: 0.3 } },
+    hidden: { opacity: 0, translateY: 20 }, // Start position
+    show: { opacity: 1, translateY: 0, transition: { duration: 0.3 } }, // End position
   };
 
   return (
     <motion.div
       className={cn(`grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5`)}
+      key={trigger} // Use trigger as the key to force re-render for animations
       variants={containerVariants}
       initial="hidden"
       animate="show"
@@ -69,12 +77,12 @@ const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <motion.div
-              key={product.id}
+              key={product.id} // Ensure each product has a unique key
               className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
               variants={itemVariants}
               whileHover={{
-                scale: 1.03,
-                boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
+                scale: 1.03, // Subtle scale effect on hover
+                boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)", // Box shadow for hover
               }}
             >
               <Product product={product} />
