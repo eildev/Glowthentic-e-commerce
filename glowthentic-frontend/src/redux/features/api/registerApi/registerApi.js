@@ -6,15 +6,15 @@ const registerApi = createApi({
   reducerPath: 'registerApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api' }),
   endpoints: (builder) => ({
-    register: builder.mutation({
+    registerInfo: builder.mutation({
       query: (registerData) => ({
         url: '/register',
         method: 'POST',
-        body: orderData,
+        body: registerData,
       }),
     }),
   }),
 });
 
-export const { useRegisterMutation } = registerApi;
+export const { useRegisterInfoMutation } = registerApi;
 export default registerApi;
