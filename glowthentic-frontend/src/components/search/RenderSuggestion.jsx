@@ -17,9 +17,10 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
       {productData.products?.length > 0 && (
         <div>
           <h3 className="font-bold text-lg px-4 py-2 text-black">Products</h3>
+          <div className="my-1 h-[1px] bg-[#00000042] w-full"></div>
           <div>
             {productData.products.slice(0, 10).map((item, index) => (
-              <SuggestionItem key={index} item={item} />
+              <SuggestionItem key={index} item={item} showDivider={index !== productData.products.slice(0, 10).length}/>
             ))}
           </div>
         </div>
@@ -29,7 +30,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
           <h3 className="font-bold text-lg px-4 py-2 text-black">Categories</h3>
           <ul>
             {productData.categories.slice(0, 10).map((item, index) => (
-              <li key={index} className="text-black ps-4 flex items-center">
+              <li key={index} className="text-black ps-4  py-[3px]  flex items-center">
                 <Icon icon="iwwa:tag" width="16" height="16" className="mr-2" />
             
                 {item.categoryName ?? "NA"}
@@ -43,7 +44,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
           <h3 className="font-bold text-lg px-4 py-2 text-black">Brands</h3>
           <ul>
             {productData.brands.slice(0, 10).map((item, index) => (
-              <li key={index} className="text-black ps-4 flex items-center">
+              <li key={index} className="text-black ps-4 py-[3px] flex items-center">
              
                   <Icon icon="iwwa:tag" width="16" height="16" className="mr-2" />
                 {item.BrandName ?? "NA"}

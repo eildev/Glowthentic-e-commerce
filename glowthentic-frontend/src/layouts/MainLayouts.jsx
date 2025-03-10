@@ -10,8 +10,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { stopLoading } from "../redux/features/slice/loadingSlice";
 import Loading from "../components/spinners/Loading";
 import RedirectTop from "../components/RedirectTop";
+import { useGetUserQuery } from "../redux/features/api/auth/authApi";
+import Cookies from "js-cookie";
+import { loginSuccess, restoreUser } from "../redux/features/slice/authSlice";
 
 const MainLayouts = () => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const { data: userData, isSuccess } = useGetUserQuery(undefined, {
+    skip: !token,
+  });
+
+  useEffect(() => {
+    if (isSuccess && userData) {
+      dispatch(restoreUser(userData));
+    }
+  }, [isSuccess, userData, dispatch]);
+
+  useEffect(() => {
+    const storedToken = Cookies.get("token");
+    if (storedToken && !token) {
+      dispatch(loginSuccess({ data: { token: storedToken } }));
+    }
+  }, [dispatch, token]);
+
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   // const dispatch = useDispatch();
   // const isLoading = useSelector((state) => state.app.loading);

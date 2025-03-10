@@ -41,8 +41,14 @@ const authApi = createApi({
                 method: "GET",
             }),
         }),
+        getUser: builder.query({
+            query: () => ({
+                url: "/user-info",
+                method: "GET",
+            }),
+        }),
     }),
 });
 
-export const { useGetCsrfTokenQuery, useLoginUserMutation, useLogoutUserMutation } = authApi;
+export const { useGetCsrfTokenQuery, useLoginUserMutation, useLogoutUserMutation, useGetUserQuery } = authApi;
 export default authApi;

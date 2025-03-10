@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/features/slice/cartSlice";
 import { addToWishlist } from "../../redux/features/slice/wishlistSlice";
+import { useSubscribeUserMutation } from "../../redux/features/api/subscription/subscriptionApi";
+import { useWishlistMutation } from "../../redux/features/api/wishListApi/wishListApi";
 
 const Product = ({ product, isDark }) => {
   const dispatch = useDispatch();
@@ -18,8 +20,9 @@ const Product = ({ product, isDark }) => {
   const [isInCart, setIsInCart] = useState(false); // Tracking if the product is in the cart
   const baseURL = "http://127.0.0.1:8000/";
   const { token, user } = useSelector((state) => state.auth);
-  console.log(user);
-console.log(product);
+   const [wishlist, { isLoading, isError, isSuccess }] = useWishlistMutation();
+  console.log("user", user);
+// console.log(product);
   const {
     id,
     product_name,
@@ -71,22 +74,56 @@ console.log(product);
   //     toast.error("This product is already in your Wish list.");
   //   }
   // };
-  const handleFav = (productItem) => {
-    console.log(productItem);
-    const session_id = user.id
-    const product_id = productItem.id;
-    const variant_id = productItem.variants[0].id; // Assuming first variant is default
+  // const handleFav = (productItem) => {
+  //   console.log(productItem);
+  //   const session_id = user?.data?.id
+  //   const product_id = productItem.id;
+  //   const variant_id = productItem.variants[0].id; // Assuming first variant is default
   
-    dispatch(addToWishlist({ session_id, product_id, variant_id }))
-      .unwrap()
-      .then(() => {
-        setIsFav(true);
-        toast.success(`${productItem.product_name} added to Wishlist!`);
-      })
-      .catch((error) => {
-        toast.error(`Failed to add to Wishlist: ${error.message}`);
-      });
+  //   dispatch(addToWishlist({ session_id, product_id, variant_id }))
+  //     .unwrap()
+  //     .then(() => {
+  //       setIsFav(true);
+  //       toast.success(`${productItem.product_name} added to Wishlist!`);
+  //     })
+  //     .catch((error) => {
+  //       toast.error(`Failed to add to Wishlist: ${error.message}`);
+  //     });
+  // };
+  const handleFav = async (productItem) => {
+    if (!user) {
+      toast.error("Please log in to add items to your wishlist!");
+      return;
+    }
+  
+   
+  
+    const variantId = productItem.variants[0]?.id;
+  console.log(variantId);
+    try {
+      const wishlistData = {
+        product_id: productItem.id,
+        user_id: user?.data?.id,
+        variant_id: variantId,
+      };
+  
+      console.log("Adding to wishlist:", wishlistData); 
+      const result = await wishlist(wishlistData).unwrap();
+      console.log(result);
+  
+      if (result.success) {
+        setIsFav(true); // Update the favorite state
+        toast.success(`${product_name} added to your wishlist!`);
+        console.log(wishlist);
+      } else {
+        toast.error(`Failed to add ${product_name} to wishlist.`);
+      }
+    } catch (error) {
+      console.error("Failed to add to wishlist:", error); // Log the error
+      toast.error(error?.message || "An error occurred. Please try again.");
+    }
   };
+  
   // Calculate discount and final price
   const discountAmount = discountPercentage
     ? Math.ceil((discountPercentage * price) / 100)
