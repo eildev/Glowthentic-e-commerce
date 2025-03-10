@@ -17,6 +17,8 @@ const CheckoutPage = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [placeOrder, { isLoading, isSuccess, isError, error }] = usePlaceOrderMutation(); // Destructure mutation hook
 
+  console.log(cartItems);
+
   useEffect(() => {
     const total = cartItems.reduce(
       (sum, item) => sum + item.regular_price * item.quantity,
@@ -30,31 +32,46 @@ const CheckoutPage = () => {
   const tax = parseFloat((subTotalPrice + shippingPrice - discountPrice) * (2.5 / 100)).toFixed(2);
   const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice).toFixed(2);
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const subTotal = cartItems.reduce((sum, cartItem) => {
+    return sum + (cartItem.regular_price * cartItem.quantity);
+  }, 0);
+  const Shipping = cartItems.reduce((sum, cartItem) => {
+    return sum + cartItem.quantity;
+  }, 0);
+  const shipingCharge = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
+  const grandTotal = subTotal + shipingCharge;
+
+
+  const { register, handleSubmit, watch, formState: { errors }, reset  } = useForm();
   const shipToDifferentAddress = watch("shipToDifferentAddress");
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
+    console.log(data);
     const orderData = {
       products: cartItems.map((item) => ({
-        variant_id: item.variant_id,
+        variant_id: item.id,
         product_id: item.product_id,
         variant_price: item.regular_price,
         variant_quantity: item.quantity,
-        coupon_code: item.coupon_code || "",
+        coupon_code: item?.coupon_code || "",
       })),
       combo: [], // Add combo items if necessary
       payment_method: data.paymentMethod,
       shipping_method: "In-House",
-      shipping_charge: shippingPrice,
+      shipping_charge: shipingCharge,
       coupon_code: "",
       order_note: data.orderNotes,
     };
 
-    isSuccess && toast.success('Order placed successfully')
-    // Call the placeOrder mutation
-    placeOrder(orderData);
-
-   console.log(orderData);
+    try {
+      const response = await placeOrder(orderData).unwrap();
+      console.log("Order placed successfully:", response);
+      toast.success("Order placed successfully!");
+      reset()
+    } catch (err) {
+      console.error("Error placing order:", err);
+      toast.error("Failed to place order.", err);
+    }
 
   };
 
@@ -80,7 +97,7 @@ const CheckoutPage = () => {
                 {/* Right Column: Order Summary */}
                 <div className="col-span-5 md:col-span-3">
                   <div className="bg-white shadow rounded-lg">
-                    <OrderSummary carts={cartItems} total={totalPrice} />
+                    <OrderSummary carts={cartItems} total={totalPrice} shipingCharge={shipingCharge} Shipping={Shipping} subTotal={subTotal} />
                     <div className="px-6 py-3">
                       <button
                         type="submit"
@@ -90,7 +107,7 @@ const CheckoutPage = () => {
                         PLACE ORDER
                         <Icon icon="mdi:arrow-right" width="1.5em" height="1.5em" />
                       </button>
-                      {isSuccess && <p>Order placed successfully!</p>}
+                      {/* {isSuccess && <p>Order placed successfully!</p>} */}
                       {isError && <p>Error placing order: {error.message}</p>}
                     </div>
                   </div>

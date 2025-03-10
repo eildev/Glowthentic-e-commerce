@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import SerachItemSkeleton from "./SerachItemSkeleton";
 import SuggestionItem from "./SuggestionItem";
 
@@ -28,7 +29,9 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
           <h3 className="font-bold text-lg px-4 py-2 text-black">Categories</h3>
           <ul>
             {productData.categories.slice(0, 10).map((item, index) => (
-              <li key={index} className="text-black">
+              <li key={index} className="text-black ps-4 flex items-center">
+                <Icon icon="iwwa:tag" width="16" height="16" className="mr-2" />
+            
                 {item.categoryName ?? "NA"}
               </li>
             ))}
@@ -40,7 +43,9 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
           <h3 className="font-bold text-lg px-4 py-2 text-black">Brands</h3>
           <ul>
             {productData.brands.slice(0, 10).map((item, index) => (
-              <li key={index} className="text-black">
+              <li key={index} className="text-black ps-4 flex items-center">
+             
+                  <Icon icon="iwwa:tag" width="16" height="16" className="mr-2" />
                 {item.BrandName ?? "NA"}
               </li>
             ))}

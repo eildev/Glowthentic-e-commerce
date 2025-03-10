@@ -25,7 +25,9 @@ const SuggestionItem = memo(function SuggestionItem({ item }) {
           ৳ {variants?.[0]?.regular_price || "N/A"}
         </p>
       </div>
+     
     </Link>
+
   );
 });
 

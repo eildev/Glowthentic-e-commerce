@@ -29,7 +29,9 @@ const SuggestionProduct = ({ item, setQuery, setSuggestions }) => {
           ৳ {variants?.[0]?.regular_price || "N/A"}
         </p>
       </div>
+     
     </li>
+    
   );
 };
 

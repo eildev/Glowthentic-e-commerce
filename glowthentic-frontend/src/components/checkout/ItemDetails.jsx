@@ -1,16 +1,16 @@
 
-const ItemDetails = ({ carts, total }) => {
+const ItemDetails = ({ carts, total, shipingCharge, Shipping, subTotal}) => {
 
   
   // const numericTotal = Number(total) || 0; 
   
-  const subTotal = carts.reduce((sum, cartItem) => {
-    return sum + (cartItem.regular_price * cartItem.quantity);
-  }, 0);
-  const Shipping = carts.reduce((sum, cartItem) => {
-    return sum + cartItem.quantity;
-  }, 0);
-  const shipingCharge = carts.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
+  // const subTotal = carts.reduce((sum, cartItem) => {
+  //   return sum + (cartItem.regular_price * cartItem.quantity);
+  // }, 0);
+  // const Shipping = carts.reduce((sum, cartItem) => {
+  //   return sum + cartItem.quantity;
+  // }, 0);
+  // const shipingCharge = carts.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
   const grandTotal = subTotal + shipingCharge;
 
 
