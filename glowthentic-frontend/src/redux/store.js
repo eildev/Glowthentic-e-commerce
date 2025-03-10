@@ -10,11 +10,13 @@ import tagViewApi from "./features/api/tagViewApi/tagViewApi";
 import offerBannerApi from "./features/api/offerBanner/offerBanner";
 import cartReducer from "./features/slice/cartSlice";
 import selectCartReducer from "./features/slice/selectCartSlice";
+import wishlistReducer from "./features/slice//wishlistSlice";
 const store = configureStore({
     reducer: {
         search: searchReducer,
         auth: authReducer,
         cart: cartReducer,
+        wishlist: wishlistReducer,
         selectCart: selectCartReducer,
         [productApi.reducerPath]: productApi.reducer,
         [categoryApi.reducerPath]: categoryApi.reducer,

@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/features/slice/cartSlice";
+import { addToWishlist } from "../../redux/features/slice/wishlistSlice";
 
 const Product = ({ product, isDark }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,8 @@ const Product = ({ product, isDark }) => {
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false); // Tracking if the product is in the cart
   const baseURL = "http://127.0.0.1:8000/";
+  const { token, user } = useSelector((state) => state.auth);
+  console.log(user);
 console.log(product);
   const {
     id,
@@ -56,19 +59,34 @@ console.log(product);
   };
 
   // Handle adding to favorites
+  // const handleFav = (productItem) => {
+  //   let favourite = JSON.parse(localStorage.getItem("favourite")) || [];
+  //   if (!favourite.some((item) => item.id === productItem.id)) {
+  //     const newProduct = productItem;
+  //     favourite.push(newProduct);
+  //     localStorage.setItem("favourite", JSON.stringify(favourite));
+  //     setIsFav(true);
+  //     toast.success(`${productItem.product_name} added to Wish list!`);
+  //   } else {
+  //     toast.error("This product is already in your Wish list.");
+  //   }
+  // };
   const handleFav = (productItem) => {
-    let favourite = JSON.parse(localStorage.getItem("favourite")) || [];
-    if (!favourite.some((item) => item.id === productItem.id)) {
-      const newProduct = productItem;
-      favourite.push(newProduct);
-      localStorage.setItem("favourite", JSON.stringify(favourite));
-      setIsFav(true);
-      toast.success(`${productItem.product_name} added to Wish list!`);
-    } else {
-      toast.error("This product is already in your Wish list.");
-    }
+    console.log(productItem);
+    const session_id = user.id
+    const product_id = productItem.id;
+    const variant_id = productItem.variants[0].id; // Assuming first variant is default
+  
+    dispatch(addToWishlist({ session_id, product_id, variant_id }))
+      .unwrap()
+      .then(() => {
+        setIsFav(true);
+        toast.success(`${productItem.product_name} added to Wishlist!`);
+      })
+      .catch((error) => {
+        toast.error(`Failed to add to Wishlist: ${error.message}`);
+      });
   };
-
   // Calculate discount and final price
   const discountAmount = discountPercentage
     ? Math.ceil((discountPercentage * price) / 100)
@@ -98,14 +116,15 @@ console.log(product);
           {stock <= 0 ? "Stock Out" : `${discountPercentage}%`}
         </span>
         <ProductIcon
-          image={heartIcon}
-          className={`top-[15px] lg:top-[25px] hover:bg-secondary hover:text-white ${isFav ? "bg-secondary" : ""
-            }`}
-          imgClassName="h-4 w-4"
-          product={product}
-          handleFav={handleFav}
-          name={"heart"}
-        />
+  image={heartIcon}
+  className={`top-[15px] lg:top-[25px] hover:bg-secondary hover:text-white ${isFav ? "bg-secondary" : ""
+    }`}
+  imgClassName="h-4 w-4"
+  product={product}
+  handleFav={handleFav}
+  name={"heart"}
+/>
+
         <ProductIcon
           image={cartIcon}
           className={`bottom-[15px] lg:bottom-[25px] ${isInCart ? "bg-secondary" : "bg-primary"
