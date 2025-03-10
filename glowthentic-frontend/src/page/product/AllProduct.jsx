@@ -5,27 +5,26 @@ import { useGetProductsQuery } from "../../redux/features/api/product-api/produc
 import cn from "../../utils/cn";
 import { motion, AnimatePresence } from "framer-motion";
 
-const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices = [] }) => {
+const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices = [], sortOption }) => {
   const { data, isLoading, error } = useGetProductsQuery();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [trigger, setTrigger] = useState(0); // State to trigger re-render for animation
 
   useEffect(() => {
     if (data?.data) {
-      if (selectedCategories.length === 0 && selectedTags.length === 0 && selectedPrices.length === 0) {
-        // No filters applied, show all products
-        setFilteredProducts(data.data);
-      } else {
-        // Filter products based on selected categories, tags, and price ranges
-        const filtered = data.data.filter((product) => {
+      let filtered = [...data.data]; // Create a copy of the original array
+  
+      // Apply filtering
+      if (selectedCategories.length || selectedTags.length || selectedPrices.length) {
+        filtered = filtered.filter((product) => {
           const matchesCategory =
             selectedCategories.length === 0 || selectedCategories.includes(product.category_id);
-
+  
           const matchesTags =
             selectedTags.length === 0 ||
             (product.product_tags &&
               product.product_tags.some((tag) => selectedTags.includes(tag.tag_id)));
-
+  
           const matchesPrice =
             selectedPrices.length === 0 ||
             selectedPrices.some(
@@ -33,18 +32,41 @@ const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices
                 product.variants[0].regular_price >= priceRange.min &&
                 product.variants[0].regular_price <= priceRange.max
             );
-
-          // Combine conditions with AND logic
+  
           return matchesCategory && matchesTags && matchesPrice;
         });
-
-        setFilteredProducts(filtered);
       }
-
-      // Increment trigger state to re-render the product grid and trigger animations
-      setTrigger((prev) => prev + 1);
+  
+      // Apply sorting
+      if (sortOption === "Price High To Low") {
+        filtered = [...filtered].sort(
+          (a, b) => b.variants[0].regular_price - a.variants[0].regular_price
+        );
+      } else if (sortOption === "Price Low To High") {
+        filtered = [...filtered].sort(
+          (a, b) => a.variants[0].regular_price - b.variants[0].regular_price
+        );
+      } else if (sortOption === "Latest Arrival") {
+        filtered = [...filtered].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      } else if (sortOption === "Discount % High To Low") {
+        filtered = [...filtered].sort((a, b) => {
+          const discountA =
+            ((a.variants[0].regular_price - a.variants[0].sale_price) /
+              a.variants[0].regular_price) *
+            100;
+          const discountB =
+            ((b.variants[0].regular_price - b.variants[0].sale_price) /
+              b.variants[0].regular_price) *
+            100;
+          return discountB - discountA;
+        });
+      }
+  
+      setFilteredProducts(filtered);
+      setTrigger((prev) => prev + 1); // Trigger animation re-render
     }
-  }, [data, selectedCategories, selectedTags, selectedPrices]);
+  }, [data, selectedCategories, selectedTags, selectedPrices, sortOption]);
+  
 
   if (isLoading) return <Loading />;
   if (error) return <p className="text-red-500">Error: {error.message}</p>;
@@ -52,19 +74,14 @@ const AllProduct = ({ selectedCategories = [], selectedTags = [], selectedPrices
   // Animation Variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1, // Stagger animations for child elements
-      },
-    },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, translateY: 20 }, // Start position
-    show: { opacity: 1, translateY: 0, transition: { duration: 0.3 } }, // End position
+    hidden: { opacity: 0, translateY: 20 },
+    show: { opacity: 1, translateY: 0, transition: { duration: 0.3 } },
   };
-
+console.log(filteredProducts);
   return (
     <motion.div
       className={cn(`grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5`)}

@@ -13,6 +13,7 @@ const AllProductPage = () => {
   const [filterdCategories, setFilterdCategories] = useState([]); // Track filtered categories
   const [filterdTags, setFilterdTags] = useState([]); // Track filtered tags
   const [filterdPrices, setFilterdPrices] = useState([]); // Track filtered price ranges
+  const [sortOption, setSortOption] = useState("Recommended"); 
 
   return (
     <Container>
@@ -36,7 +37,11 @@ const AllProductPage = () => {
         </div>
 
         <div>
-          <select className="select h-[2rem] px-2 lg:px-5 select-bordered focus:outline-none shadow-sm w-full max-w-xs rounded-md border-gray-thin">
+          <select
+            className="select h-[2rem] px-2 lg:px-5 select-bordered focus:outline-none shadow-sm w-full max-w-xs rounded-md border-gray-thin"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)} // Update the sort option
+          >
             <option disabled>Sort :</option>
             <option value="Recommended">Recommended</option>
             <option value="Price High To Low">Price High To Low</option>
@@ -66,6 +71,7 @@ const AllProductPage = () => {
           selectedCategories={filterdCategories}
           selectedTags={filterdTags}
           selectedPrices={filterdPrices}
+          sortOption={sortOption}
         />
       </div>
 
