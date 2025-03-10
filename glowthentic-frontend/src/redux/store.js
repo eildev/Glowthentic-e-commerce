@@ -10,14 +10,19 @@ import tagViewApi from "./features/api/tagViewApi/tagViewApi";
 import offerBannerApi from "./features/api/offerBanner/offerBanner";
 import cartReducer from "./features/slice/cartSlice";
 import selectCartReducer from "./features/slice/selectCartSlice";
+import filterReducer from "./features/slice/filterSlice";
 import checkoutApi from "./features/api/checkoutApi/checkoutApi";
 import registerApi from "./features/api/registerApi/registerApi";
 const store = configureStore({
     reducer: {
+        // all slice 
         search: searchReducer,
         auth: authReducer,
         cart: cartReducer,
+        filters: filterReducer,
         selectCart: selectCartReducer,
+
+        // all api
         [productApi.reducerPath]: productApi.reducer,
         [categoryApi.reducerPath]: categoryApi.reducer,
         [offerBannerApi.reducerPath]: offerBannerApi.reducer,
