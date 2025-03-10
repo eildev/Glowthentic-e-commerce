@@ -34,7 +34,7 @@ const SignUp = () => {
     try {
       await registerInfo(data);
       toast.success("Registration successful!");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       toast.error(error?.message || "Registration failed. Please try again.");
     }
