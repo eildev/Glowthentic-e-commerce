@@ -111,7 +111,7 @@ const Product = ({ product, isDark }) => {
       const result = await wishlist(wishlistData).unwrap();
       console.log(result);
   
-      if (result.success) {
+      if (result.status === 200) {
         setIsFav(true); // Update the favorite state
         toast.success(`${product_name} added to your wishlist!`);
         console.log(wishlist);
