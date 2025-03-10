@@ -7,7 +7,7 @@ const PrivateRoute = ({ children }) => {
   const { token } = useSelector((state) => state.auth);
   const location = useLocation();
 
-  // console.log("my user", userId, user);
+
 
   return token ? (
     children

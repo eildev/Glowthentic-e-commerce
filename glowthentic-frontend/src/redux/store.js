@@ -10,8 +10,10 @@ import tagViewApi from "./features/api/tagViewApi/tagViewApi";
 import offerBannerApi from "./features/api/offerBanner/offerBanner";
 import cartReducer from "./features/slice/cartSlice";
 import selectCartReducer from "./features/slice/selectCartSlice";
+import wishlistReducer from "./features/slice//wishlistSlice";
 import filterReducer from "./features/slice/filterSlice";
 import checkoutApi from "./features/api/checkoutApi/checkoutApi";
+import wishListApi from "./features/api/wishListApi/wishListApi";
 import registerApi from "./features/api/registerApi/registerApi";
 const store = configureStore({
     reducer: {
@@ -19,6 +21,7 @@ const store = configureStore({
         search: searchReducer,
         auth: authReducer,
         cart: cartReducer,
+       
         filters: filterReducer,
         selectCart: selectCartReducer,
 
@@ -29,6 +32,7 @@ const store = configureStore({
         [tagViewApi.reducerPath]: tagViewApi.reducer,
         [subscriptionApi.reducerPath]: subscriptionApi.reducer,
         [contactUsApi.reducerPath]: contactUsApi.reducer,
+        [wishListApi.reducerPath]: wishListApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
         [checkoutApi.reducerPath]: checkoutApi.reducer,
         [registerApi.reducerPath]: registerApi.reducer,
@@ -42,6 +46,7 @@ const store = configureStore({
             .concat(tagViewApi.middleware)
             .concat(subscriptionApi.middleware)
             .concat(contactUsApi.middleware)
+            .concat(wishListApi.middleware)
             .concat(authApi.middleware)
             .concat(checkoutApi.middleware)
             .concat(registerApi.middleware),
