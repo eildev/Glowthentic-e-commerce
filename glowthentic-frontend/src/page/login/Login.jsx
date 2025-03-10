@@ -48,12 +48,12 @@ const Login = () => {
     try {
       const result = await loginUser(data).unwrap();
       if (result.status === 200) {
+        // console.log(result);
         dispatch(loginSuccess(result));
         navigate(from);
         toast.success(result.message);
       } else {
         dispatch(loginFailure(result.message));
-        // API থেকে আসা এরর ফিল্ড-স্পেসিফিকভাবে সেট করা
         if (result.errors) {
           Object.keys(result.errors).forEach((field) => {
             setError(field, {
