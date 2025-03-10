@@ -97,7 +97,7 @@ import debounce from "../../utils/debounce";
         </div>
         {/* Suggestions dropdown, shown only when isSuggestionsVisible is true */}
         {isSuggestionsVisible && (
-          <div className="absolute left-0 right-0 pt-5 -mt-[12px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30">
+          <div className="absolute left-0 right-0 pt-5  -mt-[12px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30">
             {renderedSuggestions}
             
              {/* Render memoized suggestions */}
