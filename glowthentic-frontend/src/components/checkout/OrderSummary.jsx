@@ -2,7 +2,7 @@
 import Item from "./Item";
 import ItemDetails from "./ItemDetails";
 
-const OrderSummary = ({ carts, total }) => {
+const OrderSummary = ({ carts, total, shipingCharge, Shipping, subTotal }) => {
 
 
   return (
@@ -10,7 +10,7 @@ const OrderSummary = ({ carts, total }) => {
       <h4 className="text-lg font-medium  mb-4">Order Summary</h4>
 
       <Item carts={carts}></Item>
-      <ItemDetails carts={carts} total={total}></ItemDetails>
+      <ItemDetails carts={carts} total={total} shipingCharge={shipingCharge} Shipping={Shipping} subTotal={subTotal}></ItemDetails>
     </div>
   );
 };

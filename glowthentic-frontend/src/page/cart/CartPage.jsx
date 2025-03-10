@@ -49,9 +49,10 @@ const CartPage = () => {
   };
 
   const shippingPrice = 100;
-  const discountPrice = 0;
+  const discountPrice = 1000;
   const tax = parseFloat((subTotalPrice + shippingPrice - discountPrice) * (2.5 / 100)).toFixed(2);
-  const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice).toFixed(2);
+  const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice + tax).toFixed(2);
+  console.log(tax, totalPrice);
 
   return (
     <div className="md:py-10">

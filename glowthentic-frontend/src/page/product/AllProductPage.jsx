@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Container from "../../components/Container";
 import Breadcrumb from "../../components/navbar/Breadcrumb";
@@ -5,22 +6,26 @@ import SidebarFilter from "../../components/SidebarFilter/SidebarFilter";
 import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import AllProduct from "./AllProduct";
-import { useState } from "react";
 
 const AllProductPage = () => {
   const [toggleFilter, setToggleFilter] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]); // Track selected categories
+  const [filterdCategories, setFilterdCategories] = useState([]); // Track filtered categories
+  const [filterdTags, setFilterdTags] = useState([]); // Track filtered tags
+  const [filterdPrices, setFilterdPrices] = useState([]); // Track filtered price ranges
+  const [sortOption, setSortOption] = useState("Recommended"); 
 
   return (
     <Container>
-      <Breadcrumb className="">
+      <Breadcrumb>
         <li>Products</li>
       </Breadcrumb>
       <HeadTitle className="mt-5 lg:text-3xl mx-5 mb-3">
-        Women skincare
-        <span className="text-gray text-sm lg:text-lg ms-1">(110)</span>
+        Women Skincare <span className="text-gray text-sm lg:text-lg ms-1">(110)</span>
       </HeadTitle>
+      
       <div className="flex justify-between items-center mb-5 mx-5 gap-2">
-        <div className="w-1/2 ">
+        <div className="w-1/2">
           <HeadTitle className="mt-5 px-2 lg:block hidden">Filter</HeadTitle>
           <RegularButton
             onClick={() => setToggleFilter((prev) => !prev)}
@@ -31,51 +36,67 @@ const AllProductPage = () => {
           </RegularButton>
         </div>
 
-        <div className="">
-          <select className="select h-[2rem] px-2 lg:px-5 select-bordered focus:outline-none shadow-sm w-full max-w-xs rounded-md border-gray-thin">
+        <div>
+          <select
+            className="select h-[2rem] px-2 lg:px-5 select-bordered focus:outline-none shadow-sm w-full max-w-xs rounded-md border-gray-thin"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)} // Update the sort option
+          >
             <option disabled>Sort :</option>
             <option value="Recommended">Recommended</option>
-            <option className="py-2 lg:py-3" value="Price High To Low">
-              Price High To Low
-            </option>
-            <option className="py-2 lg:py-3" value="Price Low To High">
-              Price Low To High
-            </option>
-            <option className="py-2 lg:py-3" value="Latest Arrival">
-              Latest Arrival
-            </option>
-            <option className="py-2 lg:py-3" value="Discount % High To Low">
-              Discount % High To Low
-            </option>
+            <option value="Price High To Low">Price High To Low</option>
+            <option value="Price Low To High">Price Low To High</option>
+            <option value="Latest Arrival">Latest Arrival</option>
+            <option value="Discount % High To Low">Discount % High To Low</option>
           </select>
         </div>
       </div>
-<div>
 
-</div>
-      <div  className="lg:flex lg:gap-5 ">
-        <div className="hidden lg:block min-w-[290px]   no-scrollbar top-[161px] h-[calc(100vh-161px)] overflow-y-auto sticky">
-         
-          <SidebarFilter ></SidebarFilter>
+      <div className="lg:flex lg:gap-5">
+        {/* SidebarFilter component: Pass all required props */}
+        <div className="hidden lg:block min-w-[290px] no-scrollbar top-[161px] h-[calc(100vh-161px)] overflow-y-auto sticky">
+          <SidebarFilter
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+            setFilterdCategories={setFilterdCategories}
+            filterdCategories={filterdCategories}
+            setFilterdTags={setFilterdTags}
+            filterdTags={filterdTags}
+            filterdPrices={filterdPrices}
+            setFilterdPrices={setFilterdPrices}
+          />
         </div>
-        <AllProduct />
+        {/* AllProduct component: Pass applied filters */}
+        <AllProduct
+          selectedCategories={filterdCategories}
+          selectedTags={filterdTags}
+          selectedPrices={filterdPrices}
+          sortOption={sortOption}
+        />
       </div>
 
+      {/* Mobile Filter Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-full z-[60] h-full overflow-y-scroll bg-white transition-all duration-300 ease-in-out transform ${toggleFilter
-          ? "opacity-100 visible translate-y-0"
-          : "opacity-0 invisible -translate-y-[100%]"
-          }`}
+        className={`fixed top-0 left-0 w-full z-[60] h-full overflow-y-scroll bg-white transition-all duration-300 ease-in-out transform ${
+          toggleFilter ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-[100%]"
+        }`}
       >
-        <div className="">
-          <div className="flex justify-between items-center px-5">
-            <HeadTitle className="mt-5 px-2">Filter</HeadTitle>
-            <button onClick={() => setToggleFilter(false)}>
-              <Icon icon="bitcoin-icons:cross-outline" width="24" height="24" />
-            </button>
-          </div>
+        <div className="flex justify-between items-center px-5">
+          <HeadTitle className="mt-5 px-2">Filter</HeadTitle>
+          <button onClick={() => setToggleFilter(false)}>
+            <Icon icon="bitcoin-icons:cross-outline" width="24" height="24" />
+          </button>
         </div>
-        <SidebarFilter className={`h-full w-full`}></SidebarFilter>
+        <SidebarFilter
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+          setFilterdCategories={setFilterdCategories}
+          filterdCategories={filterdCategories}
+          setFilterdTags={setFilterdTags}
+          filterdTags={filterdTags}
+          filterdPrices={filterdPrices}
+          setFilterdPrices={setFilterdPrices}
+        />
       </div>
     </Container>
   );
