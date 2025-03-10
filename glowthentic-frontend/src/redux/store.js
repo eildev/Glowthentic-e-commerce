@@ -11,6 +11,7 @@ import offerBannerApi from "./features/api/offerBanner/offerBanner";
 import cartReducer from "./features/slice/cartSlice";
 import selectCartReducer from "./features/slice/selectCartSlice";
 import checkoutApi from "./features/api/checkoutApi/checkoutApi";
+import registerApi from "./features/api/registerApi/registerApi";
 const store = configureStore({
     reducer: {
         search: searchReducer,
@@ -25,6 +26,7 @@ const store = configureStore({
         [contactUsApi.reducerPath]: contactUsApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
         [checkoutApi.reducerPath]: checkoutApi.reducer,
+        [registerApi.reducerPath]: registerApi.reducer,
         // category: categoryReducer,
     },
     middleware: (getDefaultMiddleware) =>
@@ -36,7 +38,8 @@ const store = configureStore({
             .concat(subscriptionApi.middleware)
             .concat(contactUsApi.middleware)
             .concat(authApi.middleware)
-            .concat(checkoutApi.middleware),
+            .concat(checkoutApi.middleware)
+            .concat(registerApi.middleware),
 
 });
 

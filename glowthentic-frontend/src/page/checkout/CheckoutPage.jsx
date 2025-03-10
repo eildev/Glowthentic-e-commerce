@@ -14,6 +14,8 @@ import toast from "react-hot-toast";
 
 const CheckoutPage = () => {
   const [subTotalPrice, setSubTotalPrice] = useState(0);
+  const { userId } = useSelector((state) => state.auth);
+  console.log("userId",userId);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [placeOrder, { isLoading, isSuccess, isError, error }] = usePlaceOrderMutation(); // Destructure mutation hook
 
@@ -61,6 +63,7 @@ const CheckoutPage = () => {
       shipping_charge: shipingCharge,
       coupon_code: "",
       order_note: data.orderNotes,
+      user_id : userId,
     };
 
     try {
