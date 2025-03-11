@@ -8,23 +8,32 @@ import RegularButton from "../../components/typography/RegularButton";
 import RoundedIcon from "../../components/typography/RoundedIcon";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { useGetWishlistByUserIdQuery } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 
 const WishlistPage = () => {
-  const navigate = useNavigate();
+  const { token, user } = useSelector((state) => state.auth);
+  console.log("token",  token);
+  console.log(user?.data?.id);
 
+  const navigate = useNavigate();
+  const { data: wishlist, error, isLoading } = useGetWishlistByUserIdQuery(user?.data?.id);
   const [isDeleteActive, setIsDeleteActive] = useState(false)
   const [wishListItems, setWishListItems] = useState([])
   const [getItemId, setGetItemId] = useState(null)
   const [isInCart, setIsInCart] = useState([]);
-console.log(isInCart);
 
+ 
+// console.log(isInCart);+
 
-  useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    setIsInCart(cart)
-    const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
-    setWishListItems(favourite);
-  }, []);
+console.log(wishlist.wishlist);
+
+  // useEffect(() => {
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  //   setIsInCart(cart)
+  //   const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
+  //   setWishListItems(favourite);
+  // }, []);
 
 
   const handleDelete = (id) => {
@@ -63,7 +72,7 @@ console.log(isInCart);
         <div className="bg-white p-0 ">
           <HeadTitle className="bg-white p-5 hidden md:block">Wishlist</HeadTitle>
           {
-            wishListItems.length == 0 ? <div className="text-center text-lg pb-5 font-semibold">No Wish List Items Availabel !</div> : <div className="overflow-x-auto ">
+            wishlist.wishlist.length == 0 ? <div className="text-center text-lg pb-5 font-semibold">No Wish List Items Availabel !</div> : <div className="overflow-x-auto ">
             <div className="hidden md:block">
               <table className="table">
                 {/* head */}
@@ -78,7 +87,7 @@ console.log(isInCart);
                 <tbody>
                   {/* row 1 */}
                   {
-                    wishListItems.map((item, i)=>(
+                    wishlist.wishlist.map((item, i)=>(
                       <tr key={i} className="border-none">
 
                     <td>
@@ -86,18 +95,18 @@ console.log(isInCart);
                         <div className="avatar">
                           <div className="mask mask-squircle h-12 w-12">
                             <img
-                              src={item?.thumbnail}
+                              src={item?.variant.variant_image[0].image}
                               alt="Avatar Tailwind CSS Component"
                             />
                           </div>
                         </div>
                         <div>
-                          <div className="text-[13px] text-[#475156]">{item.brand}</div>
+                          <div className="text-[13px] text-[#475156]">{item?.wishlist_product.product_name}</div>
                         </div>
                       </div>
                     </td>
                     <th></th>
-                    <td className="text-[#FA8232] text-[13px] font-medium">{item?.price}</td>
+                    <td className="text-[#FA8232] text-[13px] font-medium">{item?.variant.regular_price}</td>
                     <td className="flex gap-3 justify-between items-center">
                       <button onClick={() => setIsDeleteActive(!isDeleteActive)}>
                         <RoundedIcon
@@ -140,7 +149,7 @@ console.log(isInCart);
 
                 <tbody>
                   {/* row 1 */}
-                  {
+                  {/* {
                     wishListItems.map((item, i)=>(
                       <tr key={i} className="border-none ">
                     <td>
@@ -179,7 +188,7 @@ console.log(isInCart);
                   </tr>
                     ))
                       
-                  }
+                  } */}
                 </tbody>
                 {/* foot */}
               </table>
