@@ -26,7 +26,7 @@ const WishlistPage = () => {
  
 // console.log(isInCart);+
 
-console.log(wishlist.wishlist);
+console.log(wishlist?.wishlist);
 
   // useEffect(() => {
   //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -72,7 +72,7 @@ console.log(wishlist.wishlist);
         <div className="bg-white p-0 ">
           <HeadTitle className="bg-white p-5 hidden md:block">Wishlist</HeadTitle>
           {
-            wishlist.wishlist.length == 0 ? <div className="text-center text-lg pb-5 font-semibold">No Wish List Items Availabel !</div> : <div className="overflow-x-auto ">
+            wishlist?.wishlist?.length == 0 ? <div className="text-center text-lg pb-5 font-semibold">No Wish List Items Availabel !</div> : <div className="overflow-x-auto ">
             <div className="hidden md:block">
               <table className="table">
                 {/* head */}
@@ -87,7 +87,7 @@ console.log(wishlist.wishlist);
                 <tbody>
                   {/* row 1 */}
                   {
-                    wishlist.wishlist.map((item, i)=>(
+                    wishlist?.wishlist?.map((item, i)=>(
                       <tr key={i} className="border-none">
 
                     <td>
