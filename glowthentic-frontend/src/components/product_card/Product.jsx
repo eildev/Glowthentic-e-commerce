@@ -1,11 +1,12 @@
 import defaultImage from "../../assets/img/Product/20.png";
 import Paragraph from "../typography/Paragraph";
 import HeadTitle from "../typography/HeadTitle";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import heartIcon from "../../assets/img/Product/heart.svg";
 import cartIcon from "../../assets/img/Product/cart.svg";
 import ProductIcon from "./ProductIcon";
 import toast from "react-hot-toast";
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,6 +16,7 @@ import {
 import { useWishlistMutation } from "../../redux/features/api/wishListApi/wishListApi";
 
 const Product = ({ product, isDark }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems); // Reading cart items from Redux store
   const [isFav, setIsFav] = useState(false);
@@ -65,7 +67,7 @@ const Product = ({ product, isDark }) => {
 
   const handleFav = async (productItem) => {
     if (!user) {
-      toast.error("Please log in to add items to your wishlist!");
+      navigate("/login");
       return;
     }
 
