@@ -9,6 +9,7 @@ const filterSlice = createSlice({
         filteredPrices: [],
         toggleFilter: false,
         filteredProducts: [],
+        sortOption: "Recommended",
     },
     reducers: {
         setSelectedCategories(state, action) {
@@ -33,16 +34,19 @@ const filterSlice = createSlice({
             state.filteredPrices = [];
             state.filteredProducts = [];
         },
+        setSortOption(state, action) {
+            state.sortOption = action.payload;
+        },
         setFilteredProducts(state, action) {
             const products = action.payload;
+
+            let filtered = products;
             if (
-                state.filteredCategories.length === 0 &&
-                state.filteredTags.length === 0 &&
-                state.filteredPrices.length === 0
+                state.filteredCategories.length > 0 ||
+                state.filteredTags.length > 0 ||
+                state.filteredPrices.length > 0
             ) {
-                state.filteredProducts = products;
-            } else {
-                const filtered = products.filter((product) => {
+                filtered = products.filter((product) => {
                     const matchesCategory = state.filteredCategories.includes(product.category_id);
                     const matchesTags =
                         product.product_tags &&
@@ -54,15 +58,43 @@ const filterSlice = createSlice({
                     );
                     return matchesCategory || matchesTags || matchesPrice;
                 });
-
-                let sortedFiltered = filtered;
-                if (state.filteredCategories.length > 0) {
-                    sortedFiltered = state.filteredCategories
-                        .map((catId) => filtered.filter((p) => p.category_id === catId))
-                        .flat();
-                }
-                state.filteredProducts = sortedFiltered.length > 0 ? sortedFiltered : filtered;
             }
+
+            let sortedProducts = [...filtered];
+            switch (state.sortOption) {
+                case "Price High To Low":
+                    sortedProducts.sort((a, b) => b.variants[0].regular_price - a.variants[0].regular_price);
+                    break;
+                case "Price Low To High":
+                    sortedProducts.sort((a, b) => a.variants[0].regular_price - b.variants[0].regular_price);
+                    break;
+                case "Latest Arrival":
+                    sortedProducts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                    break;
+                case "Old First":
+                    sortedProducts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+                    break;
+                case "Discount % High To Low":
+                    sortedProducts.sort((a, b) => {
+                        const discountA = ((a.variants[0].regular_price - a.variants[0].sale_price) / a.variants[0].regular_price) * 100 || 0;
+                        const discountB = ((b.variants[0].regular_price - b.variants[0].sale_price) / b.variants[0].regular_price) * 100 || 0;
+                        return discountB - discountA;
+                    });
+                    break;
+                case "Discount % Low To High":
+                    sortedProducts.sort((a, b) => {
+                        const discountA = ((a.variants[0].regular_price - a.variants[0].sale_price) / a.variants[0].regular_price) * 100 || 0;
+                        const discountB = ((b.variants[0].regular_price - b.variants[0].sale_price) / b.variants[0].regular_price) * 100 || 0;
+                        return discountA - discountB;
+                    });
+                    break;
+                case "Recommended":
+                default:
+                    sortedProducts = [...filtered];
+                    break;
+            }
+
+            state.filteredProducts = sortedProducts;
         },
     },
 });
@@ -75,6 +107,7 @@ export const {
     toggleFilter,
     clearAllFilters,
     setFilteredProducts,
+    setSortOption
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

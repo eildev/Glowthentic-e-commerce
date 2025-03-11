@@ -9,11 +9,11 @@ import { useRegisterInfoMutation } from "../../redux/features/api/registerApi/re
 import { datalist } from "framer-motion/client";
 import toast from "react-hot-toast";
 
-
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [registerInfo, { isLoading, isSuccess, isError, error }] = useRegisterInfoMutation();
+  const [registerInfo, { isLoading, isSuccess, isError, error }] =
+    useRegisterInfoMutation();
   const navigate = useNavigate();
   const {
     register,
@@ -30,7 +30,7 @@ const SignUp = () => {
     setShowConfirmPassword((prevState) => !prevState);
   };
 
-  const signUpHandleData = async(data) => {
+  const signUpHandleData = async (data) => {
     try {
       await registerInfo(data);
       toast.success("Registration successful!");
@@ -38,7 +38,6 @@ const SignUp = () => {
     } catch (error) {
       toast.error(error?.message || "Registration failed. Please try again.");
     }
-
   };
 
   return (
@@ -58,7 +57,9 @@ const SignUp = () => {
             className="w-full p-3 rounded border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-none"
             {...register("email", { required: "Email is required" })}
           />
-          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
         </div>
         <div className="mb-4">
           <input
@@ -67,7 +68,9 @@ const SignUp = () => {
             className="w-full p-3 rounded border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-none"
             {...register("name", { required: "Name is required" })}
           />
-          {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+          {errors.name && (
+            <p className="text-red-500 text-sm">{errors.name.message}</p>
+          )}
         </div>
         <div className="mb-4 relative">
           <input
@@ -94,7 +97,9 @@ const SignUp = () => {
               style={{ color: "#898989" }}
             />
           </button>
-          {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
+          )}
         </div>
         <div className="mb-4 relative">
           <input
@@ -103,7 +108,8 @@ const SignUp = () => {
             className="w-full p-3 rounded border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:outline-none"
             {...register("password_confirmation", {
               required: "Confirm Password is required",
-              validate: (value) => value === watch("password") || "Passwords do not match",
+              validate: (value) =>
+                value === watch("password") || "Passwords do not match",
             })}
           />
           <button
@@ -119,10 +125,15 @@ const SignUp = () => {
             />
           </button>
           {errors.confirmPassword && (
-            <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+            <p className="text-red-500 text-sm">
+              {errors.confirmPassword.message}
+            </p>
           )}
         </div>
-        <RegularButton type="submit" className="w-full bg-secondary text-white py-3 rounded hover:bg-orange-600">
+        <RegularButton
+          type="submit"
+          className="w-full bg-secondary text-white py-3 rounded hover:bg-orange-600"
+        >
           Sign Up
         </RegularButton>
       </DynamicForm>
