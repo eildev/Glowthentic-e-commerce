@@ -22,7 +22,6 @@ const store = configureStore({
         search: searchReducer,
         auth: authReducer,
         cart: cartReducer,
-       
         filters: filterReducer,
         selectCart: selectCartReducer,
 
