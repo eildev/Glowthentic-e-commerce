@@ -8,8 +8,15 @@ import RegularButton from "../../components/typography/RegularButton";
 import HeadTitle from "../../components/typography/HeadTitle";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ProgressProductTitle from "../../components/track-order/order-progress/ProgressProductTitle";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 const OrdeProgressPage = () => {
+  const location = useLocation(); // Get the current location (URL)
+  const queryParams = new URLSearchParams(location.search);
+  const orderId = queryParams.get("orderId");
+  console.log(orderId);
   const items = [
     {
       title: "W7 Prime Magic Face Primer",
@@ -38,6 +45,7 @@ const OrdeProgressPage = () => {
       image: "https://i.imgur.com/4A5r7bR.jpg", // Functional product image
     },
   ];
+
 
   return (
     <div>
