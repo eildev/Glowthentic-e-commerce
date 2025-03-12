@@ -157,39 +157,6 @@ const Login = () => {
         >
           {loginLoading ? "Logging in..." : "Sign In"}
         </RegularButton>
-        <div className="my-6 text-gray-500 text-center">or</div>
-        <div className="flex gap-4 md:flex-row">
-          <button className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded">
-            <Icon
-              icon="flat-color-icons:google"
-              width="2em"
-              height="2em"
-              className="w-5 h-5"
-            />
-            Google
-          </button>
-          <button className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded">
-            <Icon
-              icon="ic:baseline-facebook"
-              width="2em"
-              height="2em"
-              style={{ color: "#1977f3" }}
-              className="w-5 h-5"
-            />
-            Facebook
-          </button>
-        </div>
-        <p className="text-xs text-gray-400 mt-6 text-center">
-          Protected by reCAPTCHA and subject to the Rhombus{" "}
-          <a href="#" className="text-secondary">
-            Privacy Policy
-          </a>{" "}
-          and{" "}
-          <a href="#" className="text-secondary">
-            Terms of Service
-          </a>
-          .
-        </p>
       </DynamicForm>
     </div>
   );
