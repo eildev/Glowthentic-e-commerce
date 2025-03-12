@@ -12,9 +12,9 @@ const authApi = createApi({
             if (csrfToken) {
                 headers.set("X-XSRF-TOKEN", decodeURIComponent(csrfToken));
             }
-            const token = getState().auth.token; // Redux থেকে Sanctum টোকেন নেওয়া
+            const token = getState().auth.token;
             if (token) {
-                headers.set("Authorization", `Bearer ${token}`); // Sanctum টোকেন হেডারে যোগ
+                headers.set("Authorization", `Bearer ${token}`);
             }
             headers.set("Content-Type", "application/json");
             headers.set("Accept", "application/json");
@@ -35,6 +35,13 @@ const authApi = createApi({
                 body: credentials,
             }),
         }),
+        registerUser: builder.mutation({
+            query: (credentials) => ({
+                url: "/register",
+                method: "POST",
+                body: credentials,
+            }),
+        }),
         logoutUser: builder.mutation({
             query: () => ({
                 url: "/logout",
@@ -50,5 +57,5 @@ const authApi = createApi({
     }),
 });
 
-export const { useGetCsrfTokenQuery, useLoginUserMutation, useLogoutUserMutation, useGetUserQuery } = authApi;
+export const { useGetCsrfTokenQuery, useLoginUserMutation, useRegisterUserMutation, useLogoutUserMutation, useGetUserQuery } = authApi;
 export default authApi;
