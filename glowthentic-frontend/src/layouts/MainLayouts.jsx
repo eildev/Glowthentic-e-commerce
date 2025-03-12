@@ -54,7 +54,10 @@ const MainLayouts = () => {
           showMobileMenu={showMobileMenu}
         />
         {/*--------- Navbar -----------*/}
-        <Navbar showMobileMenu={showMobileMenu} />
+        <Navbar
+          showMobileMenu={showMobileMenu}
+          setShowMobileMenu={setShowMobileMenu}
+        />
       </div>
       <div className="lg:h-[161px] h-[80px]"></div>
       <div className="lg:min-h-[calc(100vh-553px)] min-h-[calc(100vh-80px)]">

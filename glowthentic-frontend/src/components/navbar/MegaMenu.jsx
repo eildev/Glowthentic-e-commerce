@@ -2,13 +2,12 @@ import Container from "../Container";
 import image from "../../assets/img/navbar.jpg";
 import { Link } from "react-router-dom";
 
-const MegaMenu = ({ showMegaMenu, data }) => {
+const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
   const { subcategories, brands, tags, product_feature } = data;
 
-  // console.log(product_feature);
   return (
     <div
-      className={`bg-white w-full text-black  absolute top-[100%] left-0 z-20 shadow-lg 
+      className={`bg-white w-full text-black absolute top-[100%] left-0 z-20 shadow-lg 
       transition-all duration-300 ease-in-out transform 
       ${
         showMegaMenu
@@ -25,7 +24,12 @@ const MegaMenu = ({ showMegaMenu, data }) => {
                   key={feature?.slug}
                   className="cursor-pointer hover:text-secondary"
                 >
-                  <Link to="/products" className="capitalize">
+                  <Link
+                    to="/products"
+                    state={{ featureSlug: feature?.slug }}
+                    onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
+                    className="capitalize"
+                  >
                     {feature?.slug ?? ""}
                   </Link>
                 </li>
@@ -40,7 +44,13 @@ const MegaMenu = ({ showMegaMenu, data }) => {
                   className="font-normal hover:text-secondary"
                   key={subcategory.slug}
                 >
-                  <Link to="/products">{subcategory?.categoryName ?? ""}</Link>
+                  <Link
+                    to="/products"
+                    state={{ subcategoryId: subcategory.id }}
+                    onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
+                  >
+                    {subcategory?.categoryName ?? ""}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -53,7 +63,13 @@ const MegaMenu = ({ showMegaMenu, data }) => {
                   className="font-normal hover:text-secondary"
                   key={brand?.slug}
                 >
-                  <Link to="/products">{brand?.brandName}</Link>
+                  <Link
+                    to="/products"
+                    state={{ brandId: brand.id }}
+                    onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
+                  >
+                    {brand?.brandName}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -63,7 +79,13 @@ const MegaMenu = ({ showMegaMenu, data }) => {
             <ul className="grid gap-2">
               {tags.slice(0, 10).map((tag) => (
                 <li className="font-normal hover:text-secondary" key={tag.id}>
-                  <Link to="/products"> {tag?.tagName}</Link>
+                  <Link
+                    to="/products"
+                    state={{ tagId: tag.id }}
+                    onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
+                  >
+                    {tag?.tagName}
+                  </Link>
                 </li>
               ))}
             </ul>

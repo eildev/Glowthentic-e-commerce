@@ -5,7 +5,6 @@ import cn from "../../utils/cn";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilteredProducts } from "../../redux/features/slice/filterSlice";
 import ProductSkeleton from "../../components/product_card/ProductSkeleton";
-import ProductSkeleton2 from "../../components/product_card/ProductSkeleton2";
 
 const AllProduct = () => {
   const dispatch = useDispatch();

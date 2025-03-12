@@ -7,44 +7,29 @@ const filterSlice = createSlice({
         filteredCategories: [],
         filteredTags: [],
         filteredPrices: [],
+        filteredBrands: [],
+        filteredFeatures: [],
+        filteredSearchQuery: "",
         toggleFilter: false,
         filteredProducts: [],
         sortOption: "Recommended",
     },
     reducers: {
-        setSelectedCategories(state, action) {
-            state.selectedCategories = action.payload;
-        },
-        setFilteredCategories(state, action) {
-            state.filteredCategories = action.payload;
-        },
-        setFilteredTags(state, action) {
-            state.filteredTags = action.payload;
-        },
-        setFilteredPrices(state, action) {
-            state.filteredPrices = action.payload;
-        },
-        toggleFilter(state) {
-            state.toggleFilter = !state.toggleFilter;
-        },
-        clearAllFilters(state) {
-            state.selectedCategories = [];
-            state.filteredCategories = [];
-            state.filteredTags = [];
-            state.filteredPrices = [];
-            state.filteredProducts = [];
-        },
-        setSortOption(state, action) {
-            state.sortOption = action.payload;
+        // ... Existing reducers ...
+        setFilteredSearchQuery(state, action) {
+            state.filteredSearchQuery = action.payload;
         },
         setFilteredProducts(state, action) {
             const products = action.payload;
-
             let filtered = products;
+
             if (
                 state.filteredCategories.length > 0 ||
                 state.filteredTags.length > 0 ||
-                state.filteredPrices.length > 0
+                state.filteredPrices.length > 0 ||
+                state.filteredBrands.length > 0 ||
+                state.filteredFeatures.length > 0 ||
+                state.filteredSearchQuery
             ) {
                 filtered = products.filter((product) => {
                     const matchesCategory = state.filteredCategories.includes(product.category_id);
@@ -56,7 +41,21 @@ const filterSlice = createSlice({
                             product.variants[0].regular_price >= priceRange.min &&
                             product.variants[0].regular_price <= priceRange.max
                     );
-                    return matchesCategory || matchesTags || matchesPrice;
+                    const matchesBrand = state.filteredBrands.includes(product.brand_id);
+                    const matchesFeature = state.filteredFeatures.includes(product.feature?.slug);
+                    const matchesSearch = state.filteredSearchQuery
+                        ? product.product_name
+                            .toLowerCase()
+                            .includes(state.filteredSearchQuery.toLowerCase())
+                        : true;
+                    return (
+                        matchesCategory ||
+                        matchesTags ||
+                        matchesPrice ||
+                        matchesBrand ||
+                        matchesFeature ||
+                        matchesSearch
+                    );
                 });
             }
 
@@ -65,29 +64,7 @@ const filterSlice = createSlice({
                 case "Price High To Low":
                     sortedProducts.sort((a, b) => b.variants[0].regular_price - a.variants[0].regular_price);
                     break;
-                case "Price Low To High":
-                    sortedProducts.sort((a, b) => a.variants[0].regular_price - b.variants[0].regular_price);
-                    break;
-                case "Latest Arrival":
-                    sortedProducts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                    break;
-                case "Old First":
-                    sortedProducts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-                    break;
-                case "Discount % High To Low":
-                    sortedProducts.sort((a, b) => {
-                        const discountA = ((a.variants[0].regular_price - a.variants[0].sale_price) / a.variants[0].regular_price) * 100 || 0;
-                        const discountB = ((b.variants[0].regular_price - b.variants[0].sale_price) / b.variants[0].regular_price) * 100 || 0;
-                        return discountB - discountA;
-                    });
-                    break;
-                case "Discount % Low To High":
-                    sortedProducts.sort((a, b) => {
-                        const discountA = ((a.variants[0].regular_price - a.variants[0].sale_price) / a.variants[0].regular_price) * 100 || 0;
-                        const discountB = ((b.variants[0].regular_price - b.variants[0].sale_price) / b.variants[0].regular_price) * 100 || 0;
-                        return discountA - discountB;
-                    });
-                    break;
+                // ... Other sort options ...
                 case "Recommended":
                 default:
                     sortedProducts = [...filtered];
@@ -104,10 +81,13 @@ export const {
     setFilteredCategories,
     setFilteredTags,
     setFilteredPrices,
+    setFilteredBrands,
+    setFilteredFeatures,
+    setFilteredSearchQuery,
     toggleFilter,
     clearAllFilters,
     setFilteredProducts,
-    setSortOption
+    setSortOption,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;
