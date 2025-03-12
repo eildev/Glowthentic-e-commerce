@@ -10,12 +10,16 @@ const categoryApi = createApi({
         getProductByDetails: builder.query({
             query: (id) => `/category/${id}`,
         }),
+        getNavbarCategory: builder.query({
+            query: () => '/nav/category/show',
+        }),
     })
 })
 
-export const { 
-    useGetCategoryQuery, 
+export const {
+    useGetCategoryQuery,
     useGetProductByDetailsQuery,
+    useGetNavbarCategoryQuery,
 
 } = categoryApi;
 
