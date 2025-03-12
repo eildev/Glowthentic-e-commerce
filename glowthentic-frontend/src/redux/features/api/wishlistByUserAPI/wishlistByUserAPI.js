@@ -8,11 +8,19 @@ const wishlistByUserAPI = createApi({
         getWishlistByUserId: builder.query({
             query: (userId) => `/wishlist/${userId}`,
         }),
+        // Delete Wishlist Item
+        deleteWishlistItem: builder.mutation({
+            query: (itemId) => ({
+                url: `/wishlist/delete/${itemId}`,
+                method: 'DELETE',
+            }),
+        }),
     }),
 });
 
 export const {
     useGetWishlistByUserIdQuery, // Hook for fetching wishlist
+    useDeleteWishlistItemMutation, // Hook for deleting wishlist item
 } = wishlistByUserAPI;
 
 export default wishlistByUserAPI;
