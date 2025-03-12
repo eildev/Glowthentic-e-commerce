@@ -9,7 +9,7 @@ import RoundedIcon from "../../components/typography/RoundedIcon";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { useGetWishlistByUserIdQuery } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
+import { useDeleteWishlistItemMutation, useGetWishlistByUserIdQuery } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 
 const WishlistPage = () => {
   const { token, user } = useSelector((state) => state.auth);
@@ -26,10 +26,10 @@ const WishlistPage = () => {
   const [wishListItems, setWishListItems] = useState([]);
   const [getItemId, setGetItemId] = useState(null);
   const [isInCart, setIsInCart] = useState([]);
-
+  const [deleteWishlistItem] = useDeleteWishlistItemMutation()
   // console.log(isInCart);+
 
-  // console.log(wishlist.wishlist);
+
 
   // useEffect(() => {
   //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -38,13 +38,21 @@ const WishlistPage = () => {
   //   setWishListItems(favourite);
   // }, []);
 
-  const handleDelete = (id) => {
-    const updatedItems = wishListItems.filter((item) => item.id !== id);
-    setWishListItems(updatedItems);
-    toast.success("Delete Successfully");
-    setIsDeleteActive(false);
-    localStorage.setItem("favourite", JSON.stringify(updatedItems));
-  };
+const handleDeleteItems = (itemID) => {
+  setGetItemId(itemID)
+  setIsDeleteActive(!isDeleteActive)
+}
+  const handleDelete = async (itemId) => {
+    console.log(itemId);
+    try {
+        await deleteWishlistItem(itemId).unwrap();
+        alert;
+        toast('Item deleted successfully!')
+    } catch (error) {
+        console.error('Failed to delete the item:', error);
+        alert('Error deleting the item!');
+    }
+};
 
   const handleAddCart = (productItem) => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -93,7 +101,7 @@ const WishlistPage = () => {
                   </thead>
                   <tbody>
                     {/* row 1 */}
-                    {wishlist?.wishlist.map((item, i) => (
+                    {wishlist?.wishlist?.map((item, i) => (
                       <tr key={i} className="border-none">
                         <td>
                           <div className="flex items-center gap-3">
@@ -118,11 +126,13 @@ const WishlistPage = () => {
                         </td>
                         <td className="flex gap-3 justify-between items-center">
                           <button
-                            onClick={() => setIsDeleteActive(!isDeleteActive)}
+                            onClick={() => handleDeleteItems(item.id)}
+                           
                           >
                             <RoundedIcon
                               className="bg-transparent rounded-none p-2 text-secondary"
                               iconName="hugeicons:delete-03"
+                              
                               setGetItemId={setGetItemId}
                               item={item}
                             ></RoundedIcon>
