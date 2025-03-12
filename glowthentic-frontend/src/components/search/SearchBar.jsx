@@ -53,7 +53,8 @@ const SearchBar = ({ className }) => {
     // Cleanup: Remove event listener on unmount to prevent memory leaks
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [dispatch]); // Dependency: Runs when dispatch changes
-
+ 
+ 
   // Memoizing the rendered suggestions to optimize performance by preventing unnecessary re-renders
   const renderedSuggestions = useMemo(() => {
     return (
@@ -62,6 +63,7 @@ const SearchBar = ({ className }) => {
         error={error} // Pass error state to RenderSuggestion
         productData={productData} // Pass fetched product data to RenderSuggestion
         // handleSelect={handleSelect} // Pass selection handler to RenderSuggestion
+      
       />
     );
   }, [isLoading, error, productData]); // Dependencies: Re-renders if any of these change
@@ -95,14 +97,14 @@ const SearchBar = ({ className }) => {
           className="ps-4 border-none w-full focus:outline-none text-black h-9 placeholder:text-gray-500"
         />
       </div>
-      {/* Suggestions dropdown, shown only when isSuggestionsVisible is true */}
       {isSuggestionsVisible && (
-        <div className="absolute left-0 right-0 pt-5 -mt-[12px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30">
+        <div className="absolute left-0 right-0 pt-5 -mt-[14px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30 ">
           {renderedSuggestions}
-
-          {/* Render memoized suggestions */}
+         
         </div>
-      )}
+       
+     )}  
+      
     </div>
   );
 };

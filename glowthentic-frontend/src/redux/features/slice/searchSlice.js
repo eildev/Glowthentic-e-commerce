@@ -12,6 +12,7 @@ const searchSlice = createSlice({
     },
     setSuggestionsVisible: (state, action) => {
       state.isSuggestionsVisible = action.payload;
+      // console.log(action);
     },
   },
 });
