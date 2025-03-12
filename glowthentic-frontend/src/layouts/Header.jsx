@@ -6,10 +6,18 @@ import { useState } from "react";
 import Logo from "../components/navbar/Logo";
 import CartIcon from "../components/navbar/CartIcon";
 import { useSelector } from "react-redux";
+import { useGetWishlistByUserIdQuery } from "../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
+import WishIcon from "../components/navbar/WishIcon";
 const Header = ({ setShowMobileMenu, showMobileMenu }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
 
+  console.log("token",  token);
+  console.log(user?.data?.id);
+
+
+  const { data: wishlist, error, isLoading } = useGetWishlistByUserIdQuery(user?.data?.id);
+  const wishListCount = wishlist?.wishlist.length
   const userRoute = token ? "/user-profile" : "/login";
 
   const cartLength = useSelector((state) => state.cart.cartItems.length);
@@ -102,11 +110,11 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
             </div>
             {/* Wishlist */}
             {token && (
-              <Link to="/wishlist" className="px-2">
-                <Icon icon="mdi-light:heart" width="30" height="30" />
-              </Link>
+              <div className="px-2">
+                <WishIcon wishListCount={wishListCount}
+                className="border-primary text-primary flex justify-center items-center"></WishIcon>
+              </div>
             )}
-
             {/* user  */}
             <Link to={userRoute} className="px-2">
               <Icon icon="line-md:account-small" width="30" height="30" />
