@@ -38,7 +38,7 @@ const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [checkoutApi.reducerPath]: checkoutApi.reducer,
         [registerApi.reducerPath]: registerApi.reducer,
-        [userApi.reducerPath]: registerApi.reducer,
+        [userApi.reducerPath]: userApi.reducer,
         // category: categoryReducer,
     },
     middleware: (getDefaultMiddleware) =>

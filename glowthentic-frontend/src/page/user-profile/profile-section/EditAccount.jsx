@@ -3,16 +3,18 @@ import avatarPlaceholder from "../../../assets/img/user-profile/avatar.jpeg";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
 import { FaCamera } from "react-icons/fa";
 
-import { useGetUserInfoQuery } from "../../../redux/features/api/userApi/userApi";
+
 import { useSelector } from "react-redux";
 import { usePostUserMutation } from "../../../redux/features/api/userApi/postUserApi";
+import { useGetUserInfoQuery } from "../../../redux/features/api/userApi/userApi";
 
 const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
-  // console.log("user sambdsad", user.data.id);
+  console.log("user sambdsad", user);
   const userID = user?.data?.id;
-  const { data, isLoading, isError } = useGetUserInfoQuery(userID);
-  // console.log("user", data);
+  console.log("userid", userID);
+  const { dataL: userData, isLoading, isError } = useGetUserInfoQuery(userID);
+  console.log("user", userData);
   const [
     postUser,
     { isLoading: postLoad, isSuccess, isError: postError, error },
@@ -21,13 +23,13 @@ const EditAccount = () => {
   // State for form data
   const [formData, setFormData] = useState({
     image: avatarPlaceholder,
-    name: user?.data?.name,
-    address: "Wukanda Forever, Noakhali Division, 3 No Mainka Chipa",
+    name: user?.data?.name || " ",
+    address:  "Wukanda Forever, Noakhali Division, 3 No Mainka Chipa",
     country: "Uganda",
     region: "Dhaka",
     zone: "Banasree",
     postalCode: "6969696",
-    email: user?.data?.email,
+    email: user?.data?.email || " ",
     phone: "0809210301002",
     saveAddress: false,
   });
