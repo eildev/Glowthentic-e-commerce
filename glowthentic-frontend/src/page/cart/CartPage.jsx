@@ -246,7 +246,7 @@ const CartPage = () => {
               </div>
             </div>
 
-            <div className="card bg-base-100 shadow-sm rounded-[5px]">
+            <div className="card bg-base-100 shadow-sm rounded-[5px] hidden md:block">
               <div className="card-body">
                 <h2 className="card-title font-medium text-sm text-[#191C1F] border-b border-[#E4E7E9] py-2">
                   Coupon Code
@@ -279,7 +279,7 @@ const CartPage = () => {
         </div>
         {voucherActive && (
           <div
-            onClick={() => isVoucherActive(!voucherActive)}
+            
             className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[90]"
           >
             <div className="h-56 w-full bg-white fixed bottom-0 rounded-t-xl px-3 py-5">
@@ -291,7 +291,7 @@ const CartPage = () => {
                   className="p-4 border border-[#F4F5FD] rounded-lg mt-4 w-full placeholder:text-xs placeholder:font-normal"
                 />
               </div>
-              <button className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-8">
+              <button onClick={() => isVoucherActive(!voucherActive)} className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-8">
                 Apply
               </button>
             </div>
