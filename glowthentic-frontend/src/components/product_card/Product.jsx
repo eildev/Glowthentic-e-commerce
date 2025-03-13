@@ -36,12 +36,12 @@ const Product = ({ product, isDark }) => {
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
-
-  useEffect(() => {
-    const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
-    setIsFav(favourite.some((item) => item.id === id));
-    setIsInCart(cartItems.some((item) => item.id === defaultVariant.id));
-  }, [id, cartItems]);
+const discount = 50
+  // useEffect(() => {
+  //   const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
+  //   setIsFav(favourite.some((item) => item?.id === id));
+  //   setIsInCart(cartItems.some((item) => item?.id === defaultVariant.id));
+  // }, [id, cartItems]);
 
   const handleAddToCart = (productItem) => {
     if (isInCart) {
@@ -104,13 +104,16 @@ const Product = ({ product, isDark }) => {
             alt={product_name ?? "product image"}
           />
         </Link>
-        <span
+        {
+          discount &&      <span
           className={`bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold transition-opacity duration-300 ${
             stock <= 0 ? "opacity-100" : "hover:opacity-75"
           }`}
         >
-          {stock <= 0 ? "Stock Out" : `${discountPercentage}%`}
+          {stock <= 0 ? "Stock Out" : `${discount}%`}
         </span>
+        }
+   
         <ProductIcon
           image={heartIcon}
           className={`top-[15px] lg:top-[25px] hover:bg-secondary hover:text-white transition-all duration-200 ease-in-out transform hover:scale-110 ${
