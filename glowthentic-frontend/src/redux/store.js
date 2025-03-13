@@ -10,12 +10,10 @@ import tagViewApi from "./features/api/tagViewApi/tagViewApi";
 import offerBannerApi from "./features/api/offerBanner/offerBanner";
 import cartReducer from "./features/slice/cartSlice";
 import selectCartReducer from "./features/slice/selectCartSlice";
-import wishlistReducer from "./features/slice//wishlistSlice";
 import filterReducer from "./features/slice/filterSlice";
 import checkoutApi from "./features/api/checkoutApi/checkoutApi";
 import wishListApi from "./features/api/wishListApi/wishListApi";
 import registerApi from "./features/api/registerApi/registerApi";
-import userApi from "./features/api/userApi/userApi";
 import wishlistByUserAPI from "./features/api/wishlistByUserAPI/wishlistByUserAPI";
 const store = configureStore({
     reducer: {
@@ -38,8 +36,6 @@ const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [checkoutApi.reducerPath]: checkoutApi.reducer,
         [registerApi.reducerPath]: registerApi.reducer,
-        [userApi.reducerPath]: registerApi.reducer,
-        // category: categoryReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -54,7 +50,6 @@ const store = configureStore({
             .concat(authApi.middleware)
             .concat(checkoutApi.middleware)
             .concat(registerApi.middleware)
-            .concat(userApi.middleware),
 
 });
 
