@@ -15,7 +15,7 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
     };
     handleForm(data);
 
-    console.log(data);
+    // console.log(data);
   };
 
   return (

@@ -9,9 +9,12 @@ import { usePostUserMutation } from "../../../redux/features/api/userApi/postUse
 
 const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
-  console.log(user?.data?.email);
+  // console.log();
   const { data, isLoading, isError } = useGetUserInfoQuery(user?.data?.id);
-  const [postUser, { isLoading: postLoad, isSuccess, isError: postError, error }] = usePostUserMutation();
+  const [
+    postUser,
+    { isLoading: postLoad, isSuccess, isError: postError, error },
+  ] = usePostUserMutation();
 
   // State for form data
   const [formData, setFormData] = useState({
@@ -54,17 +57,28 @@ const EditAccount = () => {
       <form>
         {/* Avatar Upload */}
         <div className="relative w-24 h-24 lg:w-32 lg:h-32 mx-auto my-4 rounded-full group">
-          <img className="w-full h-full rounded-full object-cover" src={formData.image} alt="User Avatar" />
+          <img
+            className="w-full h-full rounded-full object-cover"
+            src={formData.image}
+            alt="User Avatar"
+          />
           <label className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
             <FaCamera className="text-white text-2xl cursor-pointer" />
-            <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            />
           </label>
         </div>
 
         {/* Form Inputs */}
         <div>
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Name</label>
+            <label className="block text-xl text-dark font-normal font-encode mb-2">
+              Name
+            </label>
             <input
               type="text"
               name="name"
@@ -74,7 +88,9 @@ const EditAccount = () => {
             />
           </div>
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Address</label>
+            <label className="block text-xl text-dark font-normal font-encode mb-2">
+              Address
+            </label>
             <input
               type="text"
               name="address"
@@ -87,7 +103,9 @@ const EditAccount = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Country</label>
+            <label className="block text-xl text-dark font-normal font-encode mb-2">
+              Country
+            </label>
             <input
               type="text"
               name="country"
@@ -97,7 +115,9 @@ const EditAccount = () => {
             />
           </div>
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Province/Region</label>
+            <label className="block text-xl text-dark font-normal font-encode mb-2">
+              Province/Region
+            </label>
             <select
               name="region"
               value={formData.region}
@@ -111,7 +131,9 @@ const EditAccount = () => {
             </select>
           </div>
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Zone</label>
+            <label className="block text-xl text-dark font-normal font-encode mb-2">
+              Zone
+            </label>
             <input
               type="text"
               name="zone"
@@ -121,7 +143,9 @@ const EditAccount = () => {
             />
           </div>
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Postal Code</label>
+            <label className="block text-xl text-dark font-normal font-encode mb-2">
+              Postal Code
+            </label>
             <input
               type="text"
               name="postalCode"
@@ -138,7 +162,9 @@ const EditAccount = () => {
               onChange={handleInputChange}
               className="w-5 h-5"
             />
-            <label className="block text-xl text-dark font-normal font-encode ml-2">Save this address to my profile</label>
+            <label className="block text-xl text-dark font-normal font-encode ml-2">
+              Save this address to my profile
+            </label>
           </div>
         </div>
 
@@ -146,7 +172,9 @@ const EditAccount = () => {
         <div className="my-8">
           <CommonTitle title={"Contact"} />
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Email</label>
+            <label className="block text-xl text-dark font-normal font-encode mb-2">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -156,7 +184,9 @@ const EditAccount = () => {
             />
           </div>
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Phone Number</label>
+            <label className="block text-xl text-dark font-normal font-encode mb-2">
+              Phone Number
+            </label>
             <input
               type="text"
               name="phone"

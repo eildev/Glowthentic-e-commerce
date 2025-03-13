@@ -10,59 +10,82 @@ import toast from "react-hot-toast";
 import CartItem from "../../components/cart/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import IncrementDecrement from "../../components/typography/IncrementDecrement";
-import { clearCart, removeFromCart } from "../../redux/features/slice/cartSlice";
-import { clearSelections, toggleAllSelection } from "../../redux/features/slice/selectCartSlice";
+import {
+  clearCart,
+  removeFromCart,
+} from "../../redux/features/slice/cartSlice";
+import {
+  clearSelections,
+  toggleAllSelection,
+} from "../../redux/features/slice/selectCartSlice";
 
 const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const { selectedItems, allSelected } = useSelector((state) => state.selectCart);
+  const { selectedItems, allSelected } = useSelector(
+    (state) => state.selectCart
+  );
   const [voucherActive, isVoucherActive] = useState(false);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
 
   console.log(cartItems);
   useEffect(() => {
-    const total = cartItems.reduce((sum, item) => sum + (item.regular_price * item.quantity), 0);
+    const total = cartItems.reduce(
+      (sum, item) => sum + item.regular_price * item.quantity,
+      0
+    );
     setSubTotalPrice(total.toFixed(2));
   }, [cartItems]);
 
   const handleDelete = (id) => {
     dispatch(removeFromCart(id));
-    toast.success('Deleted Successfully');
+    toast.success("Deleted Successfully");
   };
 
   const handleRemoveAll = () => {
     if (selectedItems.length === 0) {
       dispatch(clearCart());
-      toast.success('All items removed from cart');
+      toast.success("All items removed from cart");
     } else {
-      selectedItems.forEach(id => dispatch(removeFromCart(id)));
+      selectedItems.forEach((id) => dispatch(removeFromCart(id)));
       dispatch(clearSelections());
-      toast.success('Selected items removed from cart');
+      toast.success("Selected items removed from cart");
     }
   };
 
   const handleToggleAll = () => {
-    const allItemIds = cartItems.map(item => item.id);
+    const allItemIds = cartItems.map((item) => item.id);
     dispatch(toggleAllSelection(allItemIds));
   };
 
   const shippingPrice = 100;
   const discountPrice = 1000;
-  const tax = parseFloat((subTotalPrice + shippingPrice - discountPrice) * (2.5 / 100)).toFixed(2);
-  const totalPrice = parseFloat(subTotalPrice + shippingPrice + discountPrice + tax).toFixed(2);
+  const tax = parseFloat(
+    (subTotalPrice + shippingPrice - discountPrice) * (2.5 / 100)
+  ).toFixed(2);
+  const totalPrice = parseFloat(
+    subTotalPrice + shippingPrice + discountPrice + tax
+  ).toFixed(2);
   console.log(tax, totalPrice);
 
   return (
     <div className="md:py-10">
       <DynamicHelmet title="Cart Page" />
       <div className="flex justify-between px-4 py-2 bg-white md:hidden">
-        <button onClick={() => navigate(-1)}><PreviousPage title={"My Cart"}></PreviousPage></button>
-        <button onClick={() => isVoucherActive(true)}><h1>Voucher Code</h1></button>
+        <button onClick={() => navigate(-1)}>
+          <PreviousPage title={"My Cart"}></PreviousPage>
+        </button>
+        <button onClick={() => isVoucherActive(true)}>
+          <h1>Voucher Code</h1>
+        </button>
       </div>
       <Container>
-        <div className={`lg:grid-cols-3 gap-4 ${cartItems.length === 0 ? "hidden" : "grid"}`}>
+        <div
+          className={`lg:grid-cols-3 gap-4 ${
+            cartItems.length === 0 ? "hidden" : "grid"
+          }`}
+        >
           <div className="md:bg-white p-5 lg:col-span-2">
             <div className="flex justify-between border-b border-[#D7D7D7]">
               <HeadTitle className="md:bg-white p-5 font-medium text-base md:text-2xl leading-[24px] md:leading-[36px]">
@@ -83,7 +106,10 @@ const CartPage = () => {
                   <thead className="w-full">
                     <tr className="uppercase border-none mx-auto text-[#7A7A7A]">
                       <th>
-                        <Checkbox checked={allSelected} onChange={handleToggleAll} />
+                        <Checkbox
+                          checked={allSelected}
+                          onChange={handleToggleAll}
+                        />
                       </th>
                       <th>Product</th>
                       <th className="text-center">Quantity</th>
@@ -92,7 +118,11 @@ const CartPage = () => {
                   </thead>
                   <tbody>
                     {cartItems.map((item, index) => (
-                      <CartItem key={index} item={item} handleDelete={handleDelete} />
+                      <CartItem
+                        key={index}
+                        item={item}
+                        handleDelete={handleDelete}
+                      />
                     ))}
                   </tbody>
                 </table>
@@ -160,7 +190,9 @@ const CartPage = () => {
           <div className="grid gap-5">
             <div className="card bg-base-100 shadow-sm rounded-[5px]">
               <div className="card-body">
-                <h2 className="card-title font-medium text-sm text-[#191C1F]">Cart Total</h2>
+                <h2 className="card-title font-medium text-sm text-[#191C1F]">
+                  Cart Total
+                </h2>
                 <div className="border-b border-gray py-2 text-gray text-sm space-y-[10px]">
                   <ul className="flex justify-between">
                     <li className="text-[11px] text-[#5F6C72]">Sub-total</li>
@@ -189,14 +221,16 @@ const CartPage = () => {
                 </div>
                 <div className="pb-3">
                   <ul className="flex justify-between">
-                    <li className="text-[13px] text-[#191C1F]">Product Total</li>
+                    <li className="text-[13px] text-[#191C1F]">
+                      Product Total
+                    </li>
                     <li className="font-bold text-[13px] text-[#191C1F]">
                       <span>{totalPrice}$</span>
                     </li>
                   </ul>
                 </div>
                 <div className="card-actions justify-center">
-                  <Link to='/checkout'>
+                  <Link to="/checkout">
                     <RegularButton className="btn-wide">Checkout</RegularButton>
                   </Link>
                 </div>
@@ -217,13 +251,21 @@ const CartPage = () => {
                   />
                 </div>
                 <div className="card-actions justify-start">
-                  <RegularButton className="text-[10px] px-[18px] font-bold uppercase">Apply</RegularButton>
+                  <RegularButton className="text-[10px] px-[18px] font-bold uppercase">
+                    Apply
+                  </RegularButton>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className={`${cartItems.length === 0 ? "block text-center text-lg font-semibold" : "hidden"}`}>
+        <div
+          className={`${
+            cartItems.length === 0
+              ? "block text-center text-lg font-semibold"
+              : "hidden"
+          }`}
+        >
           No Items Available!
         </div>
         {voucherActive && (
@@ -240,7 +282,9 @@ const CartPage = () => {
                   className="p-4 border border-[#F4F5FD] rounded-lg mt-4 w-full placeholder:text-xs placeholder:font-normal"
                 />
               </div>
-              <button className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-8">Apply</button>
+              <button className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-8">
+                Apply
+              </button>
             </div>
           </div>
         )}
@@ -250,23 +294,6 @@ const CartPage = () => {
 };
 
 export default CartPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { Link, useNavigate } from "react-router-dom";
 // import Container from "../../components/Container";
@@ -508,7 +535,6 @@ export default CartPage;
 //             </div>
 //           </div>)
 //         }
-
 
 //       </Container>
 //     </div>

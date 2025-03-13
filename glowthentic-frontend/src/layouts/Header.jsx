@@ -12,12 +12,15 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { token, user } = useSelector((state) => state.auth);
 
-  console.log("token",  token);
-  console.log(user?.data?.id);
+  // console.log("token",  token);
+  // console.log(user?.data?.id);
 
-
-  const { data: wishlist, error, isLoading } = useGetWishlistByUserIdQuery(user?.data?.id);
-  const wishListCount = wishlist?.wishlist.length
+  const {
+    data: wishlist,
+    error,
+    isLoading,
+  } = useGetWishlistByUserIdQuery(user?.data?.id);
+  const wishListCount = wishlist?.wishlist.length;
   const userRoute = token ? "/user-profile" : "/login";
 
   const cartLength = useSelector((state) => state.cart.cartItems.length);
@@ -75,10 +78,11 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
 
           {/*--------- Search bar show in small Device  Start -----------*/}
           <div
-            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${showSearchBar
+            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${
+              showSearchBar
                 ? "opacity-100 visible translate-y-0"
                 : "opacity-0 invisible -translate-y-5"
-              }`}
+            }`}
           >
             <SearchBar className="w-full" />
           </div>
@@ -103,16 +107,15 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
           <div className="navbar-end hidden lg:flex">
             {/* Cart Icon  */}
             <div className="px-2">
-              <CartIcon
-                cartCount={cartLength}
-                className="border-primary text-primary flex justify-center items-center"
-              />
+              <CartIcon className="border-primary text-primary flex justify-center items-center" />
             </div>
             {/* Wishlist */}
             {token && (
               <div className="px-2">
-                <WishIcon wishListCount={wishListCount}
-                className="border-primary text-primary flex justify-center items-center"></WishIcon>
+                <WishIcon
+                  wishListCount={wishListCount}
+                  className="border-primary text-primary flex justify-center items-center"
+                ></WishIcon>
               </div>
             )}
             {/* user  */}

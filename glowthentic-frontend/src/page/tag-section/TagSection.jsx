@@ -1,13 +1,12 @@
 import Container from "../../components/Container";
 import HeadTitle from "../../components/typography/HeadTitle";
 import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
-
+import defaultTag from "../../assets/img/tags/11.png";
 
 const TagSection = () => {
+  const { data, tagsIsLoading, tagsError } = useGetTagsQuery();
 
-    const { data, tagsIsLoading, tagsError,  } = useGetTagsQuery();
-
-    console.log(data);
+  // console.log(data);
 
   return (
     <div>
@@ -20,7 +19,7 @@ const TagSection = () => {
               className=" lg:px-16 px-5 md:px-10  items-center justify-center"
             >
               <img
-                src={tags?.images}
+                src={tags?.images ?? defaultTag}
                 alt={tags?.tagName}
                 className="w-full  object-cover rounded"
               />

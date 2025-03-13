@@ -10,8 +10,8 @@ const offerBannerApi = createApi({
     })
 })
 
-export const { 
-    useGetOfferBannerQuery, 
+export const {
+    useGetOfferBannerQuery,
 
 } = offerBannerApi;
 

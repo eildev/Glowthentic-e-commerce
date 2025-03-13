@@ -7,15 +7,15 @@ const tagViewApi = createApi({
         getTags: builder.query({
             query: () => '/tagname',
         }),
-     
-      
-      
+
+
+
     })
 })
 
-export const { 
-    useGetTagsQuery, 
-  
+export const {
+    useGetTagsQuery,
+
 
 } = tagViewApi;
 

@@ -8,7 +8,7 @@ import Blog from "../page/blog/Blog";
 import MainLogin from "../page/login/MainLogin";
 import SignUp from "../page/sign-up/SignUp";
 import ForgetPassword from "../page/forget-password/ForgetPassword";
-// import Page404 from "../page/error/Page404";
+import Page404 from "../page/error/Page404";
 import AllProductPage from "../page/product/AllProductPage";
 import ProductDetails from "../page/product-details/ProductDetails";
 import WishlistPage from "../page/wishlist/WishlistPage";
@@ -34,16 +34,16 @@ import PrivateRoute from "./PrivateRoute";
 import Signout from "../page/Signout";
 import Login from "../page/login/Login";
 
-// const ErrorBoundary = ({ error }) => {
-//   console.error("Error caught:", error);
-//   return <Page404 />;
-// };
+const ErrorBoundary = ({ error }) => {
+  console.error("Error caught:", error);
+  return <Page404 />;
+};
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
-    // errorElement: <ErrorBoundary />, // Error Boundary
+    errorElement: <ErrorBoundary />, // Error Boundary
     children: [
       {
         path: "/",

@@ -17,15 +17,20 @@ import { loginSuccess, restoreUser } from "../redux/features/slice/authSlice";
 const MainLayouts = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  const { data: userData, isSuccess } = useGetUserQuery(undefined, {
-    skip: !token,
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: userData,
+    isSuccess,
+    isLoading,
+  } = useGetUserQuery(undefined, {
+    skip: !token || !!user,
   });
 
   useEffect(() => {
-    if (isSuccess && userData) {
+    if (isSuccess && userData && !user) {
       dispatch(restoreUser(userData));
     }
-  }, [isSuccess, userData, dispatch]);
+  }, [isSuccess, userData, dispatch, user]);
 
   useEffect(() => {
     const storedToken = Cookies.get("token");

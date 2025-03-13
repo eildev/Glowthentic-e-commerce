@@ -109,7 +109,6 @@
     {{-- <script src="{{ asset('backend/main-js/combo.js') }}"></script> --}}
 
     <script>
-
         $(document).on('click', '.save_combo', function() {
             let formData = new FormData($('#comboAddForm')[0]);
 
@@ -150,92 +149,92 @@
 
 
         // update combo
-        $(document).on('click', '.update_combo', function () {
-                let formData= new FormData($('#comboUpdateForm')[0])
+        $(document).on('click', '.update_combo', function() {
+            let formData = new FormData($('#comboUpdateForm')[0])
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    url: '/combo/update',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (data) {
-                        console.log('Success:', data);
-                        $('#comboUpdateForm')[0].reset();
-                        $('#comboUpdateModal').modal('hide');
-                        toastr.success('Combo updated successfully');
-                        showData();
-                    },
-                    error: function (xhr, status, error) {
-                        console.log('AJAX Error:', error);
-                    }
-                });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             });
+
+            $.ajax({
+                url: '/combo/update',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    console.log('Success:', data);
+                    $('#comboUpdateForm')[0].reset();
+                    $('#comboUpdateModal').modal('hide');
+                    toastr.success('Combo updated successfully');
+                    showData();
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error:', error);
+                }
+            });
+        });
 
 
 
         // Deleted Combo
-          $(document).on('click','.delete',function(){
+        $(document).on('click', '.delete', function() {
 
             let id = $(this).data("id");
             console.log(id);
             $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-             $.ajax({
-                url:'/combo/delete',
-                type:'POST',
-                data:{
-                    id:id
-                },
-                success:function(data){
-
-                    console.log(data);
-                   toastr.success("Combo Delete Successfully");
-                    showData();
-                },
-             });
-
-          });
-
-        // change Status
-         $(document).on('click','.status_inactive',function(){
-
-            let status_id=$(this).data("id");
-            $.ajaxSetup({
                 headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             });
 
             $.ajax({
-               url:'/combo/status/change',
-               type:'post',
-               data:{
-                status_id:status_id
-               },
-               success:function(data){
+                url: '/combo/delete',
+                type: 'POST',
+                data: {
+                    id: id
+                },
+                success: function(data) {
 
-                   console.log(data);
-                   toastr.success("Combo Status Change Successfully");
+                    // console.log(data);
+                    toastr.success("Combo Delete Successfully");
+                    showData();
+                },
+            });
+
+        });
+
+        // change Status
+        $(document).on('click', '.status_inactive', function() {
+
+            let status_id = $(this).data("id");
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: '/combo/status/change',
+                type: 'post',
+                data: {
+                    status_id: status_id
+                },
+                success: function(data) {
+
+                    // console.log(data);
+                    toastr.success("Combo Status Change Successfully");
                     showData();
 
-               }
+                }
 
             });
 
-         });
+        });
 
-          // show all data
+        // show all data
         function showData() {
             // alert('ok');
             $.ajax({
@@ -291,20 +290,20 @@
                         let combo = data.combo;
                         let comboImages = data.combo_image;
                         //  console.log(comboImages);
-                        $("#combo_id").val(combo.id??'');
+                        $("#combo_id").val(combo.id ?? '');
                         $("#combo_name").val(combo.name ?? '');
                         $("#combo_price").val(combo.offerd_price ?? '');
                         $(".img-show").empty();
 
 
-                            comboImages.forEach(image => {
-                                $(".img-show").append(`
+                        comboImages.forEach(image => {
+                            $(".img-show").append(`
                                     <div class="image-item position-relative" data-image-id="${image.id}">
                                         <img src="${image.image}" class="img-thumbnail" width="100" height="100">
                                         <a class="btn btn-danger btn-sm delete-image" style="position:absolute; top:0; right:0;">X</a>
                                     </div>
                                 `);
-                            });
+                        });
 
                     }
                 }
@@ -313,28 +312,28 @@
 
 
 
-            $(document).on('click', '.delete-image', function () {
-                let imageDiv = $(this).closest('.image-item');
+        $(document).on('click', '.delete-image', function() {
+            let imageDiv = $(this).closest('.image-item');
 
-                let imageId = imageDiv.data('image-id');
+            let imageId = imageDiv.data('image-id');
 
-                $.ajax({
-                    url: '/combo/delete-image/',
-                    type: 'POST',
-                    data: {
-                        image_id: imageId,
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        console.log(response);
-                        if (response.status == 200) {
-                            imageDiv.remove();
-                        } else {
-                            alert('Error deleting image.');
-                        }
+            $.ajax({
+                url: '/combo/delete-image/',
+                type: 'POST',
+                data: {
+                    image_id: imageId,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.status == 200) {
+                        imageDiv.remove();
+                    } else {
+                        alert('Error deleting image.');
                     }
-                });
+                }
             });
+        });
 
         showData();
     </script>

@@ -1,39 +1,66 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Container from "../components/Container";
 import { Icon } from "@iconify/react";
 import CartIcon from "../components/navbar/CartIcon";
+import { useSelector } from "react-redux";
+import { useGetWishlistByUserIdQuery } from "../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
+import WishIcon from "../components/navbar/WishIcon";
 
 const AppBar = () => {
-  const cartCount = 10;
+  const { token, user } = useSelector((state) => state.auth);
+  const {
+    data: wishlist,
+    error,
+    isLoading,
+  } = useGetWishlistByUserIdQuery(user?.data?.id);
+  const wishListCount = wishlist?.wishlist.length;
+  const userRoute = token ? "/user-profile" : "/login";
   return (
     <div className="fixed bottom-1 bg-white w-full right-0 lg:hidden rounded-3xl drop-shadow-xl border border-secondary z-20">
       <Container>
         <ul className="flex justify-between items-center my-2 mx-5 text-gray-thin">
-          <li className="">
-            <Link to="#">
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "text-secondary" : "text-gray-thin"
+              }
+            >
               <Icon icon="proicons:home" width="30" height="30" />
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="#">
+            <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                isActive ? "text-secondary" : "text-gray-thin"
+              }
+            >
               <Icon icon="mdi:compass-outline" width="30" height="30" />
-            </Link>
+            </NavLink>
           </li>
-          <li className="text-secondary">
-            <CartIcon
-              cartCount={cartCount}
-              className="border-secondary text-secondary flex justify-center items-center"
-            />
+          <li className="">
+            <CartIcon className="flex justify-center items-center" />
           </li>
           <li>
-            <Link to="#">
-              <Icon icon="basil:heart-outline" width="30" height="30" />
-            </Link>
+            {token && (
+              <div className="px-2">
+                <WishIcon
+                  wishListCount={wishListCount}
+                  className="flex justify-center items-center"
+                />
+              </div>
+            )}
           </li>
           <li>
-            <Link to="#">
+            <NavLink
+              to={userRoute}
+              className={({ isActive }) =>
+                isActive ? "text-secondary" : "text-gray-thin"
+              }
+            >
               <Icon icon="basil:user-outline" width="30" height="30" />
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </Container>

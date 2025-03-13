@@ -6,15 +6,14 @@ const userApi = createApi({
     endpoints: builder => ({
         getUserInfo: builder.query({
             query: (id) => {
-                console.log("Fetching data for ID:", id); // Check if ID is coming
                 return `/user/details/show/${id}`;
             },
         }),
     })
 })
 
-export const { 
-    useGetUserInfoQuery, 
+export const {
+    useGetUserInfoQuery,
 
 } = userApi;
 
