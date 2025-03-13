@@ -61,12 +61,12 @@ const authApi = createApi({
             },
         }),
         updateUser: builder.mutation({
-            query: (data) => ({
-                url: '/user/details/create',
-                method: 'POST',
-                body: data,
+            query: ({ id, ...data }) => ({
+              url: `user/details/update/${id}`, // Assuming the backend expects ID in the URL
+              method: 'PUT', 
+              body: data,
             }),
-        }),
+          }),
     }),
 });
 

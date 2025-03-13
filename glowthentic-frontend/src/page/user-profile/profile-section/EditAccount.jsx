@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import avatarPlaceholder from "../../../assets/img/user-profile/avatar.jpeg";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
 import { FaCamera } from "react-icons/fa";
@@ -10,39 +10,41 @@ import {
 
 const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
-  // console.log("user sambdsad", user);
   const userID = user?.data?.id;
-  // console.log("userid", userID);
+
+  // Get user info
   const { data, isLoading, isError } = useGetUserInfoQuery(userID);
 
+  // Update user mutation
   const [
-    postUser,
-    { isLoading: postLoad, isSuccess, isError: postError, error },
-  ] = useUpdateUserMutation();
-const userInfo = data || {}
-console.log("userInfo", userInfo);
-  // State for form data
+    updateUser, // Mutation trigger
+    { isLoading: isUpdating, isSuccess: isUpdated, isError: updateError, error },
+  ] = useUpdateUserMutation(userID);
+
+  // Initialize user data in state
   const [formData, setFormData] = useState({
     image: avatarPlaceholder,
-    name: data?.user?.name || " ",
-    address:  "Wukanda Forever, Noakhali Division, 3 No Mainka Chipa",
+    name: data?.user?.name || "",
+    address: "Wukanda Forever, Noakhali Division, 3 No Mainka Chipa",
     country: "Uganda",
     region: "Dhaka",
     zone: "Banasree",
     postalCode: "6969696",
-    email: data?.user?.email || " ",
+    email: data?.user?.email || "",
     phone: "0809210301002",
     saveAddress: false,
   });
 
-  // Handle image change
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setFormData((prev) => ({ ...prev, image: imageUrl }));
+  // Update formData when API data is loaded
+  useEffect(() => {
+    if (data?.user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: data.user.name,
+        email: data.user.email,
+      }));
     }
-  };
+  }, [data]);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -53,11 +55,40 @@ console.log("userInfo", userInfo);
     }));
   };
 
+  // Handle form submit
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const updatedData = {
+        id: userID,        // Pass the user ID
+        ...formData,       // Include other form fields
+      };
+      await updateUser(updatedData).unwrap(); // Call the mutation with the payload
+      alert("User information updated successfully!");
+    } catch (err) {
+      console.error("Failed to update user:", err.data);
+      alert("Failed to update user. Please try again.");
+    }
+  };
+
+  if (isLoading) return <p>Loading user data...</p>;
+  if (isError) return <p>Failed to load user data.</p>;
+  // Handle image change
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setFormData((prev) => ({ ...prev, image: imageUrl }));
+    }
+  };
+
+  
+
   return (
     <div className="px-2">
       <CommonTitle title={"Edit Account"} />
 
-      <form>
+      <form onSubmit={handleFormSubmit}>
         {/* Avatar Upload */}
         <div className="relative w-24 h-24 lg:w-32 lg:h-32 mx-auto my-4 rounded-full group">
           <img

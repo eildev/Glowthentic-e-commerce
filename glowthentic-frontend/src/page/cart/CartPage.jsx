@@ -29,7 +29,7 @@ const CartPage = () => {
   const [voucherActive, isVoucherActive] = useState(false);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
 
-  // console.log(cartItems);
+  console.log(cartItems);
   useEffect(() => {
     const total = cartItems.reduce(
       (sum, item) => sum + item.regular_price * item.quantity,
@@ -129,7 +129,7 @@ const CartPage = () => {
               </div>
 
               {/* For small device */}
-              {/* <table className="table border-t border-[#D7D7D7] block md:hidden">
+              <table className="table border-t border-[#D7D7D7] block md:hidden">
                 <tbody>
                   {cartItems.map((item, index) => (
                     <tr key={index} className="border-none">
@@ -137,17 +137,23 @@ const CartPage = () => {
                         <th>
                           <Checkbox checked={allSelected} onChange={handleToggleAll} />
                         </th>
-                        <td>
+                        <td className="pl-0">
+                          <div>
                           <div className="flex gap-3">
                             <div className="avatar">
-                              <div className="mask mask-squircle h-12 w-12">
+                              <div className="mask mask-squircle h-14 w-12">
                                 <img src={item?.thumbnail} alt="Avatar Tailwind CSS Component" />
                               </div>
                             </div>
                             <div>
-                              <div className="font-semibold text-xs">{item?.title}</div>
-                              <div className="text-[10px] leading-3 opacity-50">United States</div>
-                              <div className="text-[#FA8232] flex items-center gap-2">
+                              <div className="font-semibold text-xs text-[#362629]">{item?.product.product_name}</div>
+                             <div className="flex items-center gap-3">
+                             <div className="text-[10px] font-normal leading-3 opacity-50">Makeup</div>
+                             <div className="rounded-full w-1 h-1 bg-[#D7D7D7]"></div>
+                             <div className="text-[10px] leading-3 opacity-50">{item?.variant_name}</div>
+                             </div>
+                              
+                              <div className="text-[#FA8232] flex items-center gap-2 mt-2">
                                 <svg width="11" height="11" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M13.859 4.63978L5.44557 13.5451C5.12789 13.8832 4.82046 14.5493 4.75898 15.0105L4.37981 18.3308C4.24659 19.5298 5.1074 20.3496 6.29614 20.1446L9.59591 19.581C10.0571 19.499 10.7027 19.1608 11.0203 18.8124L19.4338 9.90712C20.8889 8.36996 21.5448 6.61759 19.28 4.47581C17.0255 2.35453 15.3142 3.10261 13.859 4.63978Z" stroke="#FA8232" strokeWidth="1.02477" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                                   <path d="M12.4551 6.125C12.8957 8.95338 15.1912 11.1157 18.0401 11.4026" stroke="#FA8232" strokeWidth="1.02477" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
@@ -157,11 +163,9 @@ const CartPage = () => {
                               </div>
                             </div>
                           </div>
-                        </td>
-                      </div>
-                      <div className="flex justify-between">
-                        <td>
-                          <div className="flex flex-col justify-center items-center">
+                          <div className="flex items-center justify-between -ml-5 -mr-6">
+                        <td className="">
+                          <div className="flex flex-col justify-center items-center ">
                             <div className="w-20 h-8">
                               <IncrementDecrement item={item} />
                             </div>
@@ -172,18 +176,23 @@ const CartPage = () => {
                                 <path d="M10.3779 9.21462L10.5214 8.33331C10.6239 7.69795 10.7059 7.21631 11.8434 7.21631H13.606C14.7435 7.21631 14.8254 7.71844 14.9279 8.33331L15.0714 9.20437" stroke="#FF342D" strokeWidth="1.02477" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M17.326 9.97266L16.8854 16.7362C16.8136 17.7917 16.7521 18.6115 14.8768 18.6115H10.5625C8.68715 18.6115 8.62566 17.7917 8.55393 16.7362L8.11328 9.97266" stroke="#FF342D" strokeWidth="1.02477" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
-                              <h1 className="text-[#FF342D] text-xs font-medium">Remove</h1>
+                              <h1 className="text-[#FF342D] text-xs font-semibold">Remove</h1>
                             </div>
                           </div>
                         </td>
-                        <td className="text-[#191818] flex items-center font-semibold text-xl">
-                          <span>$</span>{item.price}
+                        <td className="text-[#191818]  font-semibold text-xl p-0">
+                          <span>$</span>{item.regular_price}
                         </td>
                       </div>
+                          </div>
+                         
+                        </td>
+                      </div>
+                     
                     </tr>
                   ))}
                 </tbody>
-              </table> */}
+              </table>
             </div>
           </div>
 
