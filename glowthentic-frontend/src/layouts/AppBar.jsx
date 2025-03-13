@@ -5,6 +5,7 @@ import CartIcon from "../components/navbar/CartIcon";
 import { useSelector } from "react-redux";
 import { useGetWishlistByUserIdQuery } from "../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import WishIcon from "../components/navbar/WishIcon";
+import cn from "../utils/cn";
 
 const AppBar = () => {
   const { token, user } = useSelector((state) => state.auth);
@@ -15,6 +16,9 @@ const AppBar = () => {
   } = useGetWishlistByUserIdQuery(user?.data?.id);
   const wishListCount = wishlist?.wishlist.length;
   const userRoute = token ? "/user-profile" : "/login";
+  const wishlistRoute = token ? "/wishlist" : "/login";
+
+  const cartLength = useSelector((state) => state.cart.cartItems.length);
   return (
     <div className="fixed bottom-1 bg-white w-full right-0 lg:hidden rounded-3xl drop-shadow-xl border border-secondary z-20">
       <Container>
@@ -40,17 +44,43 @@ const AppBar = () => {
             </NavLink>
           </li>
           <li className="">
-            <CartIcon className="flex justify-center items-center" />
+            {/* <CartIcon className="" /> */}
+            <NavLink
+              to="/cart"
+              className={({ isActive }) =>
+                isActive ? "text-secondary relative" : "text-gray-thin relative"
+              }
+            >
+              <Icon icon="proicons:cart" width="30" height="30" />
+              <span
+                className={cn(
+                  "absolute -top-1 -right-1 border-2 bg-white w-5 h-5 rounded-full text-[10px]",
+                  cartLength > 0 ? "block" : "hidden",
+                  "flex justify-center items-center"
+                )}
+              >
+                {cartLength}
+              </span>
+            </NavLink>
           </li>
           <li>
-            {token && (
-              <div className="px-2">
-                <WishIcon
-                  wishListCount={wishListCount}
-                  className="flex justify-center items-center"
-                />
-              </div>
-            )}
+            <NavLink
+              to={wishlistRoute}
+              className={({ isActive }) =>
+                isActive ? "text-secondary relative" : "text-gray-thin relative"
+              }
+            >
+              <Icon icon="mdi-light:heart" width="30" height="30" />
+              <span
+                className={cn(
+                  "absolute -top-1 -right-1 border-2 bg-white w-5 h-5 rounded-full text-[10px]",
+                  wishListCount > 0 ? "block" : "hidden",
+                  "flex justify-center items-center"
+                )}
+              >
+                {wishListCount}
+              </span>
+            </NavLink>
           </li>
           <li>
             <NavLink

@@ -50,8 +50,6 @@ const EditAccount = () => {
     }));
   };
 
-  console.log(formData?.name);
-
   return (
     <div className="px-2">
       <CommonTitle title={"Edit Account"} />
