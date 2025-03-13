@@ -22,6 +22,7 @@ const WishlistPage = () => {
     error,
     isLoading,
   } = useGetWishlistByUserIdQuery(user?.data?.id);
+  console.log(wishlist);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [wishListItems, setWishListItems] = useState([]);
   const [getItemId, setGetItemId] = useState(null);
