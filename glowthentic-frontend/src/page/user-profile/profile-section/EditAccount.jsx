@@ -9,8 +9,10 @@ import { usePostUserMutation } from "../../../redux/features/api/userApi/postUse
 
 const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
-  // console.log();
-  const { data, isLoading, isError } = useGetUserInfoQuery(user?.data?.id);
+  // console.log("user sambdsad", user.data.id);
+  const userID = user?.data?.id;
+  const { data, isLoading, isError } = useGetUserInfoQuery(userID);
+  // console.log("user", data);
   const [
     postUser,
     { isLoading: postLoad, isSuccess, isError: postError, error },
