@@ -27,7 +27,7 @@ const MainLogin = () => {
     try {
       // Step 1: Fetch CSRF cookie (use absolute URL)
       const csrfResponse = await fetch(
-        "http://127.0.0.1:8000/sanctum/csrf-cookie",
+        "https://backend.glowthentic.store/sanctum/csrf-cookie",
         {
           method: "GET",
           credentials: "include", // Allow cookies
@@ -52,16 +52,19 @@ const MainLogin = () => {
       }
 
       // Step 3: Make login request with CSRF token
-      const response = await fetch("http://127.0.0.1:8000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "X-XSRF-TOKEN": decodeURIComponent(csrfToken),
-        },
-        body: JSON.stringify(data),
-        credentials: "include", // Include cookies
-      });
+      const response = await fetch(
+        "https://backend.glowthentic.store/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-XSRF-TOKEN": decodeURIComponent(csrfToken),
+          },
+          body: JSON.stringify(data),
+          credentials: "include", // Include cookies
+        }
+      );
       // console.log(response);
       // const text = await response.text();
       // let result;

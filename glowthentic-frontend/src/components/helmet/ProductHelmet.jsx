@@ -21,7 +21,7 @@ const ProductHelmet = ({ product }) => {
       <meta property="og:image" content={img} />
 
       {/* Canonical Link */}
-      <link rel="canonical" href={`https://glowthentic.store/${url}`} />
+      <link rel="canonical" href={`https://backend.glowthentic.store/${url}`} />
     </Helmet>
   );
 };

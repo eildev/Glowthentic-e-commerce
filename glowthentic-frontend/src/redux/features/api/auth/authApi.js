@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api",
+        baseUrl: "https://backend.glowthentic.store/api",
         credentials: "include",
         prepareHeaders: (headers, { getState }) => {
             const csrfToken = Cookies.get("XSRF-TOKEN");
@@ -54,8 +54,21 @@ const authApi = createApi({
                 method: "GET",
             }),
         }),
+        getUserInfo: builder.query({
+            query: (id) => {
+                console.log("in api", id);
+                return `/user/details/show/${id}`;
+            },
+        }),
+        updateUser: builder.mutation({
+            query: (data) => ({
+                url: '/user/details/create',
+                method: 'POST',
+                body: data,
+            }),
+        }),
     }),
 });
 
-export const { useGetCsrfTokenQuery, useLoginUserMutation, useRegisterUserMutation, useLogoutUserMutation, useGetUserQuery } = authApi;
+export const { useGetCsrfTokenQuery, useLoginUserMutation, useRegisterUserMutation, useLogoutUserMutation, useGetUserQuery, useGetUserInfoQuery, useUpdateUserMutation } = authApi;
 export default authApi;

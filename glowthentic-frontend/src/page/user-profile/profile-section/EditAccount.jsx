@@ -2,34 +2,35 @@ import { useState } from "react";
 import avatarPlaceholder from "../../../assets/img/user-profile/avatar.jpeg";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
 import { FaCamera } from "react-icons/fa";
-
-
 import { useSelector } from "react-redux";
-import { usePostUserMutation } from "../../../redux/features/api/userApi/postUserApi";
-import { useGetUserInfoQuery } from "../../../redux/features/api/userApi/userApi";
+import {
+  useGetUserInfoQuery,
+  useUpdateUserMutation,
+} from "../../../redux/features/api/auth/authApi";
 
 const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
-  console.log("user sambdsad", user);
+  // console.log("user sambdsad", user);
   const userID = user?.data?.id;
-  console.log("userid", userID);
-  const { dataL: userData, isLoading, isError } = useGetUserInfoQuery(userID);
-  console.log("user", userData);
+  // console.log("userid", userID);
+  const { data, isLoading, isError } = useGetUserInfoQuery(userID);
+
   const [
     postUser,
     { isLoading: postLoad, isSuccess, isError: postError, error },
-  ] = usePostUserMutation();
-
+  ] = useUpdateUserMutation();
+const userInfo = data || {}
+console.log("userInfo", userInfo);
   // State for form data
   const [formData, setFormData] = useState({
     image: avatarPlaceholder,
-    name: user?.data?.name || " ",
+    name: data?.user?.name || " ",
     address:  "Wukanda Forever, Noakhali Division, 3 No Mainka Chipa",
     country: "Uganda",
     region: "Dhaka",
     zone: "Banasree",
     postalCode: "6969696",
-    email: user?.data?.email || " ",
+    email: data?.user?.email || " ",
     phone: "0809210301002",
     saveAddress: false,
   });
@@ -51,8 +52,6 @@ const EditAccount = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
-  console.log(formData?.name);
 
   return (
     <div className="px-2">
@@ -184,7 +183,7 @@ const EditAccount = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border border-hr-thin rounded-md outline-secondary"
+              className="block w-full text-xl text-dark font-normal font-encode px-4 py-2  border border-hr-thin rounded-md outline-secondary"
             />
           </div>
           <div className="my-4">

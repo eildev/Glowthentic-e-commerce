@@ -29,7 +29,7 @@ const CartPage = () => {
   const [voucherActive, isVoucherActive] = useState(false);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
 
-  console.log(cartItems);
+  // console.log(cartItems);
   useEffect(() => {
     const total = cartItems.reduce(
       (sum, item) => sum + item.regular_price * item.quantity,
@@ -67,7 +67,7 @@ const CartPage = () => {
   const totalPrice = parseFloat(
     subTotalPrice + shippingPrice + discountPrice + tax
   ).toFixed(2);
-  console.log(tax, totalPrice);
+  // console.log(tax, totalPrice);
 
   return (
     <div className="md:py-10">
@@ -313,7 +313,7 @@ export default CartPage;
 //   const [cartItem, setCartItem] = useState([]);
 //   const [subTotalPrice, setSubTotalPrice] = useState(0);
 //   const [reFetch, setReFetch] = useState(false);
-//   const baseURL = "http://127.0.0.1:8000/";
+//   const baseURL = "https://backend.glowthentic.store/";
 //   useEffect(() => {
 //     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 //     setCartItem(cart);

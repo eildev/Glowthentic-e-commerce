@@ -20,7 +20,7 @@ const Product = ({ product, isDark }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
-  const baseURL = "http://127.0.0.1:8000/";
+  const baseURL = "https://backend.glowthentic.store/";
   const { token, user } = useSelector((state) => state.auth);
   const [wishlist, { isLoading, isError, isSuccess }] = useWishlistMutation();
 
