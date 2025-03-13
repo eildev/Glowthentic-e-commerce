@@ -2,10 +2,11 @@ import { useState } from "react";
 import avatarPlaceholder from "../../../assets/img/user-profile/avatar.jpeg";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
 import { FaCamera } from "react-icons/fa";
-
-import { useGetUserInfoQuery } from "../../../redux/features/api/userApi/userApi";
 import { useSelector } from "react-redux";
-import { usePostUserMutation } from "../../../redux/features/api/userApi/postUserApi";
+import {
+  useGetUserInfoQuery,
+  useUpdateUserMutation,
+} from "../../../redux/features/api/auth/authApi";
 
 const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
@@ -16,7 +17,7 @@ const EditAccount = () => {
   const [
     postUser,
     { isLoading: postLoad, isSuccess, isError: postError, error },
-  ] = usePostUserMutation();
+  ] = useUpdateUserMutation();
 
   // State for form data
   const [formData, setFormData] = useState({
