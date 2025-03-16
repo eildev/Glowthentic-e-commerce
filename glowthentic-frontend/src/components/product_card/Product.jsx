@@ -37,15 +37,6 @@ const Product = ({ product, isDark }) => {
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
-<<<<<<< HEAD
-const discount = 50
-
-  useEffect(() => {
-    const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
-    setIsFav(favourite.some((item) => item?.id === id));
-    setIsInCart(cartItems.some((item) => item?.id === defaultVariant.id));
-  }, [id, cartItems]);
-=======
 
   // console.log(defaultVariant?.product_stock);
   console.log(variants[0]?.variant_image[0]?.image);
@@ -61,7 +52,6 @@ const discount = 50
   //   setIsFav(favourite.some((item) => item?.id === id));
   //   setIsInCart(cartItems.some((item) => item?.id === defaultVariant.id));
   // }, [id, cartItems]);
->>>>>>> 0ab37a5b0a37eab5897bcc276dbc4147c96f17f5
 
   const handleAddToCart = (productItem) => {
     if (isInCart) {

@@ -29,8 +29,11 @@ const CartPage = () => {
   );
   const [voucherActive, isVoucherActive] = useState(false);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
+  // New states for modal
+  const [showModal, setShowModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [isRemoveAll, setIsRemoveAll] = useState(false);
 
-  console.log(cartItems);
   useEffect(() => {
     const total = cartItems.reduce(
       (sum, item) => sum + item.regular_price * item.quantity,
@@ -39,20 +42,44 @@ const CartPage = () => {
     setSubTotalPrice(total.toFixed(2));
   }, [cartItems]);
 
+  // Modified handleDelete to show modal
   const handleDelete = (id) => {
-    dispatch(removeFromCart(id));
-    toast.success("Deleted Successfully");
+    setItemToDelete(id);
+    setIsRemoveAll(false);
+    setShowModal(true);
   };
 
+  // Modified handleRemoveAll to show modal
   const handleRemoveAll = () => {
-    if (selectedItems.length === 0) {
-      dispatch(clearCart());
-      toast.success("All items removed from cart");
-    } else {
-      selectedItems.forEach((id) => dispatch(removeFromCart(id)));
-      dispatch(clearSelections());
-      toast.success("Selected items removed from cart");
+    setIsRemoveAll(true);
+    setShowModal(true);
+  };
+
+  // New function to confirm deletion
+  const confirmDelete = () => {
+    if (isRemoveAll) {
+      if (selectedItems.length === 0) {
+        dispatch(clearCart());
+        toast.success("All items removed from cart");
+      } else {
+        selectedItems.forEach((id) => dispatch(removeFromCart(id)));
+        dispatch(clearSelections());
+        toast.success("Selected items removed from cart");
+      }
+    } else if (itemToDelete) {
+      dispatch(removeFromCart(itemToDelete));
+      toast.success("Deleted Successfully");
     }
+    setShowModal(false);
+    setItemToDelete(null);
+    setIsRemoveAll(false);
+  };
+
+  // Function to cancel deletion
+  const cancelDelete = () => {
+    setShowModal(false);
+    setItemToDelete(null);
+    setIsRemoveAll(false);
   };
 
   const handleToggleAll = () => {
@@ -68,7 +95,6 @@ const CartPage = () => {
   const totalPrice = parseFloat(
     subTotalPrice + shippingPrice + discountPrice + tax
   ).toFixed(2);
-  // console.log(tax, totalPrice);
 
   return (
     <div className="md:py-10">
@@ -242,6 +268,37 @@ const CartPage = () => {
               >
                 Apply
               </button>
+            </div>
+          </div>
+        )}
+        {/* New Confirmation Modal */}
+        {showModal && (
+          <div className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[100]">
+            <div className="w-full max-w-md bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl px-5 py-8">
+              <div className="text-center">
+                <h1 className="text-[#1C1B1B] text-lg font-semibold">
+                  {isRemoveAll ? "Remove All Items" : "Remove Item"}
+                </h1>
+                <p className="text-[#5F6C72] mt-2">
+                  {isRemoveAll
+                    ? "Are you sure you want to remove all selected items from your cart?"
+                    : "Are you sure you want to remove this item from your cart?"}
+                </p>
+              </div>
+              <div className="flex justify-center gap-4 mt-6">
+                <button
+                  onClick={cancelDelete}
+                  className="px-6 py-2 bg-gray-200 text-[#1C1B1B] rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="px-6 py-2 bg-red-500 text-white rounded-lg"
+                >
+                  Yes, Remove
+                </button>
+              </div>
             </div>
           </div>
         )}
