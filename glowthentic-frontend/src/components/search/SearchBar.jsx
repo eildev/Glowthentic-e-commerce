@@ -9,11 +9,11 @@ import { useSearchProductsMutation } from "../../redux/features/api/product-api/
 import cn from "../../utils/cn";
 import RenderSuggestion from "./RenderSuggestion";
 import debounce from "../../utils/debounce";
-import { useNavigate } from "react-router-dom"; // Navigation-এর জন্য
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = ({ className }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Navigation-এর জন্য
+  const navigate = useNavigate();
   const { query, isSuggestionsVisible } = useSelector((state) => state.search);
   const searchRef = useRef(null);
 
@@ -80,7 +80,7 @@ const SearchBar = ({ className }) => {
       >
         <span
           className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-          onClick={handleSearchClick} // Search Icon-এ ক্লিক করলে
+          onClick={handleSearchClick}
         >
           <Icon icon="ic:outline-search" className="text-black" width="24" />
         </span>

@@ -43,7 +43,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
-    errorElement: <ErrorBoundary />, // Error Boundary
+    // errorElement: <ErrorBoundary />, // Error Boundary
     children: [
       {
         path: "/",
@@ -54,10 +54,9 @@ const router = createBrowserRouter([
         element: <AllProductPage />,
       },
       {
-        path: "/product/:id", // Dynamic route with :title
+        path: "/product/:id",
         element: <ProductDetails />,
       },
-
       {
         path: "/wishlist",
         element: (

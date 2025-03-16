@@ -15,9 +15,6 @@ const filterSlice = createSlice({
         sortOption: "Recommended",
     },
     reducers: {
-        setSelectedCategories(state, action) {
-            state.selectedCategories = action.payload;
-        },
         setFilteredCategories(state, action) {
             state.filteredCategories = action.payload;
         },
