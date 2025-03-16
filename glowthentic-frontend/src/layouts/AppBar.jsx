@@ -15,7 +15,7 @@ const AppBar = () => {
     isLoading,
   } = useGetWishlistByUserIdQuery(user?.data?.id);
   const wishListCount = wishlist?.wishlist.length;
-  const userRoute = token ? "/user-profile" : "/login";
+  const userRoute = token ? "/profile-mobile" : "/login";
   const wishlistRoute = token ? "/wishlist" : "/login";
 
   const cartLength = useSelector((state) => state.cart.cartItems.length);

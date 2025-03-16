@@ -13,6 +13,7 @@ import {
   removeFromCart,
 } from "../../redux/features/slice/cartSlice";
 import { useWishlistMutation } from "../../redux/features/api/wishListApi/wishListApi";
+import { imagePath } from "../../utils/imagePath";
 
 const Product = ({ product, isDark }) => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Product = ({ product, isDark }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
-  const baseURL = "https://backend.glowthentic.store/";
+  const baseURL = "http://127.0.0.1:8000/";
   const { token, user } = useSelector((state) => state.auth);
   const [wishlist, { isLoading, isError, isSuccess }] = useWishlistMutation();
 
@@ -36,6 +37,7 @@ const Product = ({ product, isDark }) => {
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
+<<<<<<< HEAD
 const discount = 50
 
   useEffect(() => {
@@ -43,6 +45,23 @@ const discount = 50
     setIsFav(favourite.some((item) => item?.id === id));
     setIsInCart(cartItems.some((item) => item?.id === defaultVariant.id));
   }, [id, cartItems]);
+=======
+
+  // console.log(defaultVariant?.product_stock);
+  console.log(variants[0]?.variant_image[0]?.image);
+
+  useEffect(() => {
+    const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
+    setIsFav(favourite.some((item) => item.id === id));
+    setIsInCart(cartItems.some((item) => item.id === defaultVariant.id));
+  }, [id, cartItems]);
+  const discount = 50;
+  // useEffect(() => {
+  //   const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
+  //   setIsFav(favourite.some((item) => item?.id === id));
+  //   setIsInCart(cartItems.some((item) => item?.id === defaultVariant.id));
+  // }, [id, cartItems]);
+>>>>>>> 0ab37a5b0a37eab5897bcc276dbc4147c96f17f5
 
   const handleAddToCart = (productItem) => {
     if (isInCart) {
@@ -58,6 +77,11 @@ const discount = 50
       );
     }
   };
+
+  // const url = `http://127.0.0.1:8000/api/${variants[0]?.variant_image[0]?.image}`;
+  // console.log(url);
+
+  const productImage = imagePath(variants[0]?.variant_image[0]?.image);
 
   const handleFav = async (productItem) => {
     if (!user) {
@@ -101,20 +125,21 @@ const discount = 50
         <Link to={`/product/${product.slug}`}>
           <img
             className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:py-5 py-2 transition-transform duration-500 hover:scale-105"
-            src={variants[0]?.variant_image[0]?.image || defaultImage}
+            src={productImage ?? defaultImage}
+            // src={defaultVariant || defaultImage}
             alt={product_name ?? "product image"}
           />
         </Link>
-        {
-          discount &&      <span
-          className={`bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold transition-opacity duration-300 ${
-            stock <= 0 ? "opacity-100" : "hover:opacity-75"
-          }`}
-        >
-          {stock <= 0 ? "Stock Out" : `${discount}%`}
-        </span>
-        }
-   
+        {discount && (
+          <span
+            className={`bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold transition-opacity duration-300 ${
+              stock <= 0 ? "opacity-100" : "hover:opacity-75"
+            }`}
+          >
+            {stock <= 0 ? "Stock Out" : `${discount}%`}
+          </span>
+        )}
+
         <ProductIcon
           image={heartIcon}
           className={`top-[15px] lg:top-[25px] hover:bg-secondary hover:text-white transition-all duration-200 ease-in-out transform hover:scale-110 ${
