@@ -1,4 +1,6 @@
-const SerachItemSkeleton = () => {
+import React from "react";
+
+const SearchItemSkeleton = () => {
   return (
     <div className="flex w-full flex-col gap-4  mt-2 mx-4">
       <div className="flex items-center gap-4">
@@ -12,4 +14,4 @@ const SerachItemSkeleton = () => {
   );
 };
 
-export default SerachItemSkeleton;
+export default SearchItemSkeleton;
