@@ -22,7 +22,7 @@ const MainLogin = () => {
                 method: "GET",
                 credentials: "include", // Allow cookies
             });
-    
+            
             // Check if CSRF cookie was set
             if (!csrfResponse.ok) {
                 throw new Error("Failed to fetch CSRF cookie");
@@ -33,12 +33,14 @@ const MainLogin = () => {
             //     .split('; ')
             //     .find(row => row.startsWith('XSRF-TOKEN='))
             //     ?.split('=')[1];
-
+            
             const csrfToken = Cookies.get('XSRF-TOKEN');
-    
+            console.log(csrfToken);
+            console.log(csrfResponse);
             if (!csrfToken) {
                 throw new Error("CSRF token not found in cookies");
             }
+            
     
             // Step 3: Make login request with CSRF token
             const response = await fetch("http://127.0.0.1:8000/api/login", {
@@ -46,12 +48,12 @@ const MainLogin = () => {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    "X-XSRF-TOKEN": decodeURIComponent(csrfToken),
+                    "X-XSRF-TOKEN": csrfToken,
                 },
                 body: JSON.stringify(data),
                 credentials: "include", // Include cookies
             });
-            // console.log(response);
+            console.log("the response is: ", response);
             // const text = await response.text(); 
             // let result;
             // try {
@@ -62,13 +64,16 @@ const MainLogin = () => {
             // }
     
             const result = await response.json();
+            console.log("the result is: ", result);
     
             if (result.status === 200) {
                 // console.log("Login successful:", result);
-                dispatch(loginSuccess(result));                
+                dispatch(loginSuccess(result));
+                navigate("/dashboard");             
             } else {
                 console.error("Login failed:", result.message);
                 dispatch(loginFailure(result.message));
+                console.log(error);
             }
 
         } catch (err) {
