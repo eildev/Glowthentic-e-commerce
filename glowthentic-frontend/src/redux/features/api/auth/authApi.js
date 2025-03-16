@@ -56,16 +56,17 @@ const authApi = createApi({
         }),
         getUserInfo: builder.query({
             query: (id) => {
+                console.log("in api", id);
                 return `/user/details/show/${id}`;
             },
         }),
         updateUser: builder.mutation({
-            query: (data) => ({
-                url: '/user/details/create',
-                method: 'POST',
-                body: data,
+            query: ({ id, ...data }) => ({
+              url: `user/details/update/${id}`, // Assuming the backend expects ID in the URL
+              method: 'PUT', 
+              body: data,
             }),
-        }),
+          }),
     }),
 });
 
