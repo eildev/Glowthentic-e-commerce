@@ -1,77 +1,185 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // Import animation library
+import React, { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
 
-const sectionsData = [
-  { id: "product-details", title: "Product Details", content: "Product details content..." },
-  { id: "how-to-apply", title: "How To Apply", content: "How to apply content..." },
-  { id: "ingredient", title: "Ingredient", content: "Ingredients content..." },
-  { id: "what-makes-it-advance", title: "What Makes It Advance", content: "Advanced features content..." },
-  { id: "product-specification", title: "Product Specification", content: "Product specs content..." },
+const tabs = [
+  { id: "details", label: "Product Details" },
+  { id: "apply", label: "How to Apply" },
+  { id: "ingredients", label: "Ingredient" },
+  { id: "advance", label: "What Makes It Advance" },
+  { id: "specs", label: "Product Specification" }
 ];
 
-const ProductQueryNavigation = () => {
-  const [activeSection, setActiveSection] = useState("product-details");
+const cleanHTML = (html) => html.replace(/<p>/g, "<div>").replace(/<\/p>/g, "</div>");
 
-  const handleClick = (id) => {
-    setActiveSection(id);
+
+
+const advance = (
+  <p>
+    OVER 11 AWARDS WON! <br />
+    BIONYMPH PEPTIDE: peptide blend that helps to condition for smoother, plumper looking skin <br />
+    VITAMINS C & E: work in harmony to BRIGHTEN the look of your complexion and EVEN the appearance of the skin tone
+  </p>
+);
+
+const specification = (
+  <p>
+    Product Code-46000701 <br />
+    Key Ingredients-Hyaluronic Acid, Vitamin C <br />
+    Beauty Effect-Brightening
+  </p>)
+const truncateText = (element, length) => {
+  if (!element) return "";
+
+  if (typeof element === "string") {
+    // Convert HTML string to plain text
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(element, "text/html");
+    const text = doc.body.textContent || "";
+
+    return text.length > length ? text.substring(0, length) + "..." : text;
+  }
+
+  // If it's a React element, extract text
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(element.props.children, "text/html");
+  const text = doc.body.textContent || "";
+
+  return text.length > length ? text.substring(0, length) + "..." : text;
+};
+
+
+
+
+
+
+export default function ProductQueryNavigation({data}) {
+  console.log(data?.data?.productdetails[0]?.description);
+  const [selectedTab, setSelectedTab] = useState("details");
+  const [expandedTabs, setExpandedTabs] = useState({});
+  const sectionRefs = useRef({});
+  const productDetails = data?.data?.productdetails[0]?.description
+  const apply = data?.data?.productdetails[0]?.usage_instruction
+  const ingredients = data?.data?.productdetails[0]?.ingredients
+  const tabs = [
+    { id: "details", label: "Product Details" },
+    { id: "apply", label: "How to Apply" },
+    { id: "ingredients", label: "Ingredient" },
+    { id: "advance", label: "What Makes It Advance" },
+    { id: "specs", label: "Product Specification" }
+  ];
+  const contentData = {
+    details: {
+      short: truncateText(productDetails, 100),
+      full: productDetails
+    },
+    apply: {
+      short: truncateText(apply, 80),
+      full: apply
+    },
+    ingredients: {
+      short: truncateText(ingredients, 80),
+      full: ingredients
+    },
+    advance: {
+      short: truncateText(advance, 80),
+      full: advance
+    },
+    specs: {
+      short: truncateText(specification, 80),
+      full: specification
+    }
+  };
+  const handleTabClick = (tabId) => {
+    setSelectedTab(tabId);
+    setExpandedTabs(prev => ({
+      ...prev,
+      [tabId]: [tabId]
+    }))
+  };
+
+  const handleSeeMoreClick = (tabId) => {
+    setExpandedTabs(prev => ({
+      ...prev,
+      [tabId]: !prev[tabId]
+    }));
+  };
+
+  useEffect(() => {
+    Object.keys(sectionRefs.current).forEach(key => {
+      if (sectionRefs.current[key]) {
+        sectionRefs.current[key].style.transition = "height 0.5s ease-in-out";
+      }
+    });
+  }, [expandedTabs]);
+
+  const getTotalHeight = (tabId) => {
+    const index = tabs.findIndex(tab => tab.id === tabId);
+    let totalHeight = 0;
+    for (let i = 0; i < index; i++) {
+      const ref = sectionRefs.current[tabs[i].id];
+      if (ref) {
+        totalHeight += ref.offsetHeight;
+      }
+    }
+    return totalHeight;
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
-      {/* Navigation Bar */}
-      <ul className="flex justify-between font-semibold list-none pb-2 w-full border-b-[1px] border-gray-400 sticky top-0 bg-white z-10">
-        {sectionsData.map((section) => (
-          <li key={section.id}>
-            <button
-              className={`px-4 py-2 transition-all duration-300 ${
-                activeSection === section.id ? "border-b-2 border-black" : ""
-              }`}
-              onClick={() => handleClick(section.id)}
-            >
-              {section.title}
-            </button>
-          </li>
+    <div className="max-w-full  mx-auto ">
+      <div className="flex justify-between border-b border-[#606060]">
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => handleTabClick(tab.id)}
+            className={`flex  py-2 text-start ${
+              selectedTab === tab.id ? "border-b-2 borde-[#0C0C0C] text-[#0C0C0C] text-xl font-bold" : "text-[#606060] text-xl font-bold"
+            }`}
+          >
+            {tab.label}
+          </button>
         ))}
-      </ul>
-
-      {/* Animated Section Transition */}
-      <div className="w-full mt-6 relative">
-        <AnimatePresence mode="wait">
-          {sectionsData
-            .filter((section) => section.id === activeSection)
-            .map((section) => (
-              <motion.div
-                key={section.id}
-                initial={{ opacity: 0, y: 50, scale: 0.95 }} // Start position
-                animate={{ opacity: 1, y: 0, scale: 1 }} // Animation effect
-                exit={{ opacity: 0, y: -50, scale: 0.95 }} // Exit animation
-                transition={{ duration: 0.5, ease: "easeInOut" }} // Smooth transition
-                className="w-full p-6 bg-gray-100 rounded-lg shadow-lg mb-4"
-              >
-                <h4 className="font-semibold text-lg mb-4">{section.title}</h4>
-                <p className="leading-relaxed text-gray-700">{section.content}</p>
-              </motion.div>
-            ))}
-        </AnimatePresence>
-
-        {/* Other Sections Stay Below */}
-        {sectionsData
-          .filter((section) => section.id !== activeSection)
-          .map((section) => (
+      </div>
+      <div className="mt-4 overflow-hidden relative">
+        <motion.div
+          initial={{ y: 0 }}
+          animate={{ y: -getTotalHeight(selectedTab) }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="space-y-0.5"
+        >
+          {tabs.map((tab) => (
             <motion.div
-              key={section.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 0.75, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="w-full p-6 bg-gray-50 rounded-lg shadow-md mb-4"
+              key={tab.id}
+              layout
+              className="p-4  shadow-sm bg-white"
+              ref={el => (sectionRefs.current[tab.id] = el)}
             >
-              <h4 className="font-semibold text-lg mb-4">{section.title}</h4>
-              <p className="leading-relaxed text-gray-600">{section.content}</p>
+              <h2 className="text-xl text-[#0C0C0C] font-bold">{tab.label}</h2>
+              <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
+              <div
+  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+  dangerouslySetInnerHTML={{ __html: expandedTabs[tab.id] ? contentData[tab.id].full : contentData[tab.id].short }}
+/>
+              </p>
+              <button
+  className="text-[#0C0C0C] text-base font-normal mt-4 flex items-center gap-2"
+  onClick={() => handleSeeMoreClick(tab.id)}
+>
+  {expandedTabs[tab.id] ? (
+    <>
+      Read Less  <IoIosArrowBack className="text-2xl"/>
+    </>
+  ) : (
+    <>
+      Read More <IoIosArrowForward className="text-2xl"/>
+    </>
+  )}
+</button>
             </motion.div>
           ))}
+        </motion.div>
       </div>
     </div>
   );
-};
-
-export default ProductQueryNavigation;
+}

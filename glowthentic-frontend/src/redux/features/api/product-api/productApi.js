@@ -2,20 +2,30 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const productApi = createApi({
     reducerPath: 'productApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api' }),
     endpoints: builder => ({
         getProducts: builder.query({
-            query: () => '/products?skip=0',
-        }),
-        searchProducts: builder.query({
-            query: (product) => `/products/search?q=${product}`,
+            query: () => '/product',
         }),
         getProductByDetails: builder.query({
-            query: (id) => `/products/${id}`,
+            query: (slug) => `/product/${slug}`,
         }),
+        searchProducts: builder.mutation({
+            query: (product) => ({
+                url: '/product/search',
+                method: 'POST',
+                body: { q: product },
+            }),
+        }),
+
     })
 })
 
-export const { useGetProductsQuery, useGetProductByDetailsQuery, useSearchProductsQuery, useLazyGetProductsQuery } = productApi;
+export const {
+    useGetProductsQuery,
+    useGetProductByDetailsQuery,
+    useSearchProductsMutation,
+
+} = productApi;
 
 export default productApi;

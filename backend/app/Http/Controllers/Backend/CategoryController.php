@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Exception;
@@ -19,12 +20,20 @@ class CategoryController extends Controller
     // category store function
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'categoryName' => 'required|max:100',
-        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
-        // ]);
+        try{
+            $validator = Validator::make($request->all(), [
+                'categoryName' => 'required|max:100',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+                'parent_id' => 'nullable|integer|exists:categories,id', // Ensure parent_id is valid
+            ]);
 
-
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
 
 
         if ($request->image) {
@@ -40,8 +49,19 @@ class CategoryController extends Controller
             }
             // $category->approved_by = auth()->user()->id;
             $category->save();
-            return response()->json(['message' => 'Category Added Successfully']);
+            return response()->json([
+                 'status' => 200,
+                'message' => 'Category Added Successfully'
+            ]);
         }
+    }
+    catch(Exception $e){
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to add category.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
     }
 
     // category View function
@@ -141,12 +161,27 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
 
+        $validator = Validator::make($request->all(), [
+            'categoryName' => 'required|max:100',
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+            'parent_id' => 'nullable|integer|exists:categories,id', // Ensure parent_id is valid
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+
 
         if ($request->image) {
-            $request->validate([
-                'categoryName' => 'required|max:100',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
-            ]);
+            // $request->validate([
+            //     'categoryName' => 'required|max:100',
+            //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+            // ]);
             $imageName = rand() . '.' . $request->image->extension();
             $request->image->move(public_path('uploads/category/'), $imageName);
             $category = Category::findOrFail($request->cat_id);

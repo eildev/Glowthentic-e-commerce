@@ -18,7 +18,8 @@ return new class extends Migration
             $table->text('url');
             $table->string('browser_name', 20);
             $table->string('system_user_name', 50)->nullable();
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

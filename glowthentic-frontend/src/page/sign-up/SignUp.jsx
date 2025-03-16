@@ -1,61 +1,169 @@
-import DynamicForm from "../../components/dynamic-form/DynamicForm";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import RegularButton from "../../components/typography/RegularButton";
-import { Link } from "react-router-dom";
-import Checkbox from "../../components/typography/Checkbox";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+import DynamicForm from "../../components/dynamic-form/DynamicForm";
+import { useDispatch } from "react-redux";
+import {
+  useRegisterUserMutation,
+  useGetCsrfTokenQuery,
+} from "../../redux/features/api/auth/authApi"; // authApi থেকে registerUser
+import {
+  loginSuccess,
+  loginStart,
+  loginFailure,
+} from "../../redux/features/slice/authSlice";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // যে পেজ থেকে এসেছে সেখানে redirect করার জন্য
+  const from = location.state?.from || "/";
+
+  // RTK Query hooks
+  const { isLoading: csrfLoading } = useGetCsrfTokenQuery();
+  const [registerUser, { isLoading: registerLoading, error: registerError }] =
+    useRegisterUserMutation();
+
+  // react-hook-form setup
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { errors },
+  } = useForm();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
-  const signUpHandleData = (data) => {
-    // handle form data here
-    console.log("Sign Up Data", data);
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prevState) => !prevState);
   };
+
+  const signUpHandleData = async (data) => {
+    dispatch(loginStart()); // Loading শুরু
+    try {
+      const result = await registerUser({
+        email: data.email,
+        name: data.name,
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+      }).unwrap();
+
+      if (result.status === 200 || result.status === 201) {
+        // Registration সফল হলে auto login
+        dispatch(loginSuccess(result));
+        toast.success("Registration successful! You are now logged in.");
+        navigate(from); // যে পেজ থেকে এসেছে সেখানে redirect
+      } else {
+        dispatch(loginFailure(result.message));
+        if (result.errors) {
+          Object.keys(result.errors).forEach((field) => {
+            setError(field, {
+              type: "manual",
+              message: result.errors[field][0],
+            });
+          });
+        } else {
+          toast.error(result.message || "Registration failed");
+        }
+      }
+    } catch (err) {
+      dispatch(loginFailure(err?.data?.message || "Registration failed"));
+      const errorData = err?.data;
+      if (errorData?.errors) {
+        Object.keys(errorData.errors).forEach((field) => {
+          setError(field, {
+            type: "manual",
+            message: errorData.errors[field][0],
+          });
+        });
+      } else {
+        toast.error(errorData?.message || "Registration failed");
+      }
+    }
+  };
+
   return (
     <div>
       <DynamicHelmet title="Sign Up" />
-      <DynamicForm title="Sign Up" handleForm={signUpHandleData}>
-        {/*-------------Children Start ------------ */}
+      <DynamicForm title="Sign Up" handleForm={handleSubmit(signUpHandleData)}>
         <p className="mb-6 text-gray-500 text-center">
-          Already have an account??{" "}
-          <Link href="#" className="text-secondary">
+          Already have an account?{" "}
+          <Link to="/login" className="text-secondary">
             Sign In
           </Link>
         </p>
         <div className="mb-4">
           <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+              errors.name ? "border-red-500" : ""
+            }`}
+            {...register("name", {
+              required: "Name is required",
+              minLength: {
+                value: 2,
+                message: "Name must be at least 2 characters",
+              },
+            })}
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <input
             type="email"
             name="email"
             placeholder="Email"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
+            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+              errors.email ? "border-red-500" : ""
+            }`}
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                message: "Invalid email format",
+              },
+            })}
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+          )}
         </div>
-        <div className="mb-4">
-          <input
-            type="text"
-            name="firstName"
-            placeholder="First Name"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
-          />
-        </div>
-        <div className="mb-4">
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
-          />
-        </div>
+
         <div className="mb-4 relative">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
-            className="w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300"
+            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+              errors.password ? "border-red-500" : ""
+            }`}
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters",
+              },
+              // pattern: {
+              //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+              //   message:
+              //     "Password must contain at least one letter and one number",
+              // },
+            })}
           />
           <button
             type="button"
@@ -69,58 +177,280 @@ const SignUp = () => {
               style={{ color: "#898989" }}
             />
           </button>
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+        <div className="mb-4 relative">
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            name="password_confirmation"
+            placeholder="Confirm Password"
+            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+              errors.password_confirmation ? "border-red-500" : ""
+            }`}
+            {...register("password_confirmation", {
+              required: "Confirm Password is required",
+              validate: (value) =>
+                value === watch("password") || "Passwords do not match",
+            })}
+          />
+          <button
+            type="button"
+            onClick={toggleConfirmPasswordVisibility}
+            className="absolute inset-y-0 right-4 flex items-center text-gray-500"
+          >
+            <Icon
+              icon={showConfirmPassword ? "ooui:eye-closed" : "ooui:eye"}
+              width="1.5em"
+              height="2em"
+              style={{ color: "#898989" }}
+            />
+          </button>
+          {errors.password_confirmation && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password_confirmation.message}
+            </p>
+          )}
         </div>
         <RegularButton
           type="submit"
           className="w-full bg-secondary text-white py-3 rounded hover:bg-orange-600"
+          disabled={csrfLoading || registerLoading}
         >
-          Sign Up
+          {registerLoading ? "Signing up..." : "Sign Up"}
         </RegularButton>
-        <div className="my-6 text-gray-500 text-center">or</div>
-
-        <div className="flex gap-4 md:flex-row">
-          <button className="flex items-center  bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded">
-            <Icon
-              icon="flat-color-icons:google"
-              width="2em"
-              height="2em"
-              className="w-5 h-5"
-            />
-            Google
-          </button>
-          <button className="flex items-center bg-white justify-center gap-2  w-full border border-gray-300 py-2 px-4 rounded">
-            <Icon
-              icon="ic:baseline-facebook"
-              width="2em"
-              height="2em"
-              style={{ color: "#1977f3" }}
-              className="w-5 h-5"
-            />
-            Facebook
-          </button>
-        </div>
-        <div className="flex gap-4 md:flex-row mt-4 ">
-          <Checkbox></Checkbox>{" "}
-          <span className="text-gray">
-            By clicking Create account, I agree that I have read and accepted
-            the Terms of Use and Privacy Policy.
-          </span>
-        </div>
-        <p className="text-xs text-gray-400 mt-6 text-center">
-          Protected by reCAPTCHA and subject to the Rhombus{" "}
-          <a href="#" className="text-secondary">
-            Privacy Policy
-          </a>{" "}
-          and{" "}
-          <a href="#" className="text-secondary">
-            Terms of Service
-          </a>
-          .
-        </p>
-        {/*-------------Children End ------------ */}
       </DynamicForm>
     </div>
   );
 };
 
 export default SignUp;
+
+// // src/pages/SignUp.js
+// import { Link, useNavigate } from "react-router-dom";
+// import { useState } from "react";
+// import { Icon } from "@iconify/react/dist/iconify.js";
+// import RegularButton from "../../components/typography/RegularButton";
+// import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+// import DynamicForm from "../../components/dynamic-form/DynamicForm";
+// import { useDispatch } from "react-redux";
+// import {
+//   useGetCsrfTokenQuery,
+//   useRegisterUserMutation,
+// } from "../../redux/features/api/auth/authApi";
+// import {
+//   loginStart,
+//   loginSuccess,
+//   loginFailure,
+// } from "../../redux/features/slice/authSlice"; // loginSuccess ব্যবহার করা যেতে পারে registration এর পরে
+// import toast from "react-hot-toast";
+// import { useForm } from "react-hook-form";
+
+// const SignUp = () => {
+//   const [showPassword, setShowPassword] = useState(false);
+//   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+
+//   // RTK Query hooks
+//   const { isLoading: csrfLoading } = useGetCsrfTokenQuery();
+//   const [registerUser, { isLoading: registerLoading, error: registerError }] =
+//     useRegisterUserMutation();
+
+//   // react-hook-form setup
+//   const {
+//     register,
+//     handleSubmit,
+//     watch,
+//     setError,
+//     formState: { errors },
+//   } = useForm();
+
+//   const togglePasswordVisibility = () => {
+//     setShowPassword((prevState) => !prevState);
+//   };
+
+//   const toggleConfirmPasswordVisibility = () => {
+//     setShowConfirmPassword((prevState) => !prevState);
+//   };
+
+//   const signUpHandleData = async (data) => {
+//     dispatch(loginStart());
+//     try {
+//       const result = await registerUser({
+//         email: data.email,
+//         name: data.name,
+//         password: data.password,
+//         password_confirmation: data.password_confirmation,
+//       }).unwrap();
+
+//       if (result.status === 200) {
+//         dispatch(loginSuccess(result)); // যদি registration এর পরে auto-login হয়
+//         toast.success("Registration successful! Please log in.");
+//         navigate("/login");
+//       } else {
+//         dispatch(loginFailure(result.message));
+//         if (result.errors) {
+//           Object.keys(result.errors).forEach((field) => {
+//             setError(field, {
+//               type: "manual",
+//               message: result.errors[field][0],
+//             });
+//           });
+//         } else {
+//           toast.error(result.message || "Registration failed");
+//         }
+//       }
+//     } catch (err) {
+//       dispatch(loginFailure(err?.data?.message || "Registration failed"));
+//       const errorData = err?.data;
+//       if (errorData?.errors) {
+//         Object.keys(errorData.errors).forEach((field) => {
+//           setError(field, {
+//             type: "manual",
+//             message: errorData.errors[field][0],
+//           });
+//         });
+//       } else {
+//         toast.error(errorData?.message || "Registration failed");
+//       }
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <DynamicHelmet title="Sign Up" />
+//       <DynamicForm title="Sign Up" handleForm={handleSubmit(signUpHandleData)}>
+//         <p className="mb-6 text-gray-500 text-center">
+//           Already have an account?{" "}
+//           <Link to="/login" className="text-secondary">
+//             Sign In
+//           </Link>
+//         </p>
+//         <div className="mb-4">
+//           <input
+//             type="email"
+//             name="email"
+//             placeholder="Email"
+//             className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+//               errors.email ? "border-red-500" : ""
+//             }`}
+//             {...register("email", {
+//               required: "Email is required",
+//               pattern: {
+//                 value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+//                 message: "Invalid email format",
+//               },
+//             })}
+//           />
+//           {errors.email && (
+//             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+//           )}
+//         </div>
+//         <div className="mb-4">
+//           <input
+//             type="text"
+//             name="name"
+//             placeholder="Name"
+//             className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+//               errors.name ? "border-red-500" : ""
+//             }`}
+//             {...register("name", {
+//               required: "Name is required",
+//               minLength: {
+//                 value: 2,
+//                 message: "Name must be at least 2 characters",
+//               },
+//             })}
+//           />
+//           {errors.name && (
+//             <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+//           )}
+//         </div>
+//         <div className="mb-4 relative">
+//           <input
+//             type={showPassword ? "text" : "password"}
+//             name="password"
+//             placeholder="Password"
+//             className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+//               errors.password ? "border-red-500" : ""
+//             }`}
+//             {...register("password", {
+//               required: "Password is required",
+//               minLength: {
+//                 value: 8,
+//                 message: "Password must be at least 8 characters",
+//               },
+//               pattern: {
+//                 value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+//                 message:
+//                   "Password must contain at least one letter and one number",
+//               },
+//             })}
+//           />
+//           <button
+//             type="button"
+//             onClick={togglePasswordVisibility}
+//             className="absolute inset-y-0 right-4 flex items-center text-gray-500"
+//           >
+//             <Icon
+//               icon={showPassword ? "ooui:eye-closed" : "ooui:eye"}
+//               width="1.5em"
+//               height="2em"
+//               style={{ color: "#898989" }}
+//             />
+//           </button>
+//           {errors.password && (
+//             <p className="text-red-500 text-sm mt-1">
+//               {errors.password.message}
+//             </p>
+//           )}
+//         </div>
+//         <div className="mb-4 relative">
+//           <input
+//             type={showConfirmPassword ? "text" : "password"}
+//             name="password_confirmation"
+//             placeholder="Confirm Password"
+//             className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+//               errors.password_confirmation ? "border-red-500" : ""
+//             }`}
+//             {...register("password_confirmation", {
+//               required: "Confirm Password is required",
+//               validate: (value) =>
+//                 value === watch("password") || "Passwords do not match",
+//             })}
+//           />
+//           <button
+//             type="button"
+//             onClick={toggleConfirmPasswordVisibility}
+//             className="absolute inset-y-0 right-4 flex items-center text-gray-500"
+//           >
+//             <Icon
+//               icon={showConfirmPassword ? "ooui:eye-closed" : "ooui:eye"}
+//               width="1.5em"
+//               height="2em"
+//               style={{ color: "#898989" }}
+//             />
+//           </button>
+//           {errors.password_confirmation && (
+//             <p className="text-red-500 text-sm mt-1">
+//               {errors.password_confirmation.message}
+//             </p>
+//           )}
+//         </div>
+//         <RegularButton
+//           type="submit"
+//           className="w-full bg-secondary text-white py-3 rounded hover:bg-orange-600"
+//           disabled={csrfLoading || registerLoading}
+//         >
+//           {registerLoading ? "Signing up..." : "Sign Up"}
+//         </RegularButton>
+//       </DynamicForm>
+//     </div>
+//   );
+// };
+
+// export default SignUp;

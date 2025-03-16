@@ -16,8 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('variant_id');
             $table->integer('StockQuantity')->nullable();
-            $table->enum('status', ['Available','Stock Out','Low Stock']);
-            $table->timestamps();
+            $table->enum('status', ['Available', 'Stock Out', 'Low Stock']);
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

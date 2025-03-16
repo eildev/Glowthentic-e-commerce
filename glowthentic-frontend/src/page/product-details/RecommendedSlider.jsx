@@ -1,6 +1,9 @@
 import HeadTitle from '../../components/typography/HeadTitle';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Product from '../../components/product_card/Product';
+import { useGetProductsQuery } from '../../redux/features/api/product-api/productApi';
+import Loading from '../../components/spinners/Loading';
 
 
 const items = [
@@ -55,6 +58,9 @@ const items = [
 ]
 
 const RecommendedSlider = () => {
+    const { data, isLoading, error } = useGetProductsQuery();
+    if (isLoading) return <Loading />;
+    if (error) return <p>Error: {error}</p>;
     return (
         <div>
             <HeadTitle className="text-center pt-4 pb-1">
@@ -85,20 +91,11 @@ const RecommendedSlider = () => {
                         1280: { slidesPerView: 4, spaceBetween: 24 }  
                     }}
                 >
-                    {
-                        items.map((item, index) => (
-                            <SwiperSlide key={index} className='cursor-pointer'>
-                        <div className='text-left border border-[#DFDFDF]'>
-                            <img src={item.img} alt="" className='md:min-h-[384px] min-h-[202px] object-cover md:max-h-[384px]' />
-                            <div className='p-4 pb-6 bg-white'>
-                                <h3 className='text-[#0C0C0C] sm:text-base text-sm sm:font-bold font-semibold'>{item.title}</h3>
-                                <p className='text-[#0C0C0C] text-[12px] my-2'>{item.description}</p>
-                                <p className='text-[#FA8232] sm:text-lg text-sm'>{item.price}</p>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-                        ))
-                    }
+                     {data?.data.slice(0, 10).map((product) => (
+            <SwiperSlide key={product?.id}>
+              <Product product={product} isDark={false} />
+            </SwiperSlide>
+          ))}
                 </Swiper>
                 <div className='lg:flex hidden button-prev2 cursor-pointer w-[40px] h-[40px] bg-white border border-[#CBCBCB] justify-center items-center absolute top-[50%] left-0 z-20 translate-x-[-50%] translate-y-[-100%]'>
                     <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">

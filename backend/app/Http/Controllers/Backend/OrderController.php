@@ -61,6 +61,7 @@ class OrderController extends Controller
 
                         $coupon = Coupon::where('cupon_code', $product['cupon_code'])
                             ->where('is_global', 0)
+                            ->where('type','coupon')
                             ->where('end_date', '>=', Carbon::today())
                             ->first();
 

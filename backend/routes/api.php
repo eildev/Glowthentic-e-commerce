@@ -19,6 +19,10 @@ use App\Http\Controllers\Backend\ProductPromotionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\Backend\comboProductController;
+use App\Http\Controllers\Frontend\ContactUsController;
+use App\Http\Controllers\Frontend\SubscribeController;
+use App\Http\Controllers\API\ApiProductController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,7 +53,19 @@ Route::controller(TagNameController::class)->group(function () {
 Route::controller(ProductController::class)->group(function () {
     Route::get('/product', 'viewAll')->name('product.view');
     Route::get('/product/{id}', 'show')->name('product.show');
+    // Route::post('/product/search', 'search');
 });
+
+
+Route::controller(ApiProductController::class)->group(function () {
+    Route::post('/product/search', 'search');
+    Route::post('/product/filter', 'filter');
+});
+
+
+
+
+
 
 Route::controller(comboProductController::class)->group(function () {
     Route::get('/comboProduct', 'view')->name('comboProduct.view');
@@ -97,6 +113,15 @@ Route::controller(BlogCommentController::class)->group(function () {
 Route::controller(OrderController::class)->group(function () {
     Route::post('/order/create', 'store')->name('order.store');
     Route::get('/order/{id}', 'show')->name('order.show');
+});
+
+
+Route::controller(SubscribeController::class)->group(function () {
+    Route::post('/subscribe/store', 'store');
+});
+
+Route::controller(ContactUsController::class)->group(function () {
+    Route::post('/contact-us/save', 'contactSave');
 });
 
 // Route::get('/product', [App\Http\Controllers\Backend\ProductController::class, 'index']);

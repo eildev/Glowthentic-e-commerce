@@ -236,10 +236,36 @@
                 <li>
                     <a href="{{ route('order.processed') }}"><i class="bx bx-right-arrow-alt"></i>Processed Order</a>
                 </li>
+
+
                 <li>
-                    <a href="{{ route('order.delivering') }}"><i class="bx bx-right-arrow-alt"></i>Delivering
-                        Order</a>
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="menu-title">Delivering Order </div>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="{{ route('order.delivering') }}"><i class="bx bx-right-arrow-alt"></i>Shipping
+                                Order</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('order.transit') }}"><i class="bx bx-right-arrow-alt"></i>In Transit
+                                Order</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('order.delivered') }}"><i class="bx bx-right-arrow-alt"></i>Delivered
+                                Order</a>
+                        </li>
+                    </ul>
+
+
                 </li>
+
+
+
                 <li>
                     <a href="{{ route('order.completed') }}"><i class="bx bx-right-arrow-alt"></i>Completed Order</a>
                 </li>
@@ -346,6 +372,8 @@
                     <div class="menu-title">Stock Management</div>
                 </a>
                 <ul>
+                    <li> <a href="{{ route('product.stock.manage') }}"><i class="bx bx-right-arrow-alt"></i>Product Stock</a>
+                    </li>
                     <li>
                         <a href="{{ route('stock.view') }}"><i class="bx bx-right-arrow-alt"></i>View Stock</a>
                     </li>
@@ -509,6 +537,11 @@
                 </li>
             </ul>
         </li>
+
+
+
+
+
 
     </ul>
     <!--end navigation-->

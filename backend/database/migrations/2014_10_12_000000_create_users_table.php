@@ -13,20 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('userName');
+            $table->string('userName', 255);
             $table->text('socialId')->nullable();
-            $table->string('fullName',100)->nullable();
-            $table->string('pic',100)->nullable();
-            $table->string('phone',16)->nullable();
-            $table->string('present_address', 100)->nullable();
-            $table->string('permanent_address', 100)->nullable();
-            $table->enum('role',['superadmin','admin','user'])->default('user');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('status',['Active','Inactive'])->default('Active');
+            $table->enum('role', ['superadmin', 'admin', 'user'])->default('user');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

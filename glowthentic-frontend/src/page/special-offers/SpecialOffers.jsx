@@ -8,7 +8,7 @@ const SpecialOffers = () => {
     <div>
       {/* <DynamicHelmet title="Special Offers" /> */}
       <Container>
-        <div className="flex flex-wrap mt-3 ">
+        <div className="flex flex-wrap mt-3 mb-14">
           <div className="w-full px-5 lg:px-2  sm:w-1/2">
             <img
               src={image1}

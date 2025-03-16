@@ -7,17 +7,22 @@ import bannerImage3 from "../../assets/img/banner/b3.png";
 import bannerImage4 from "../../assets/img/banner/b4.png";
 // import bannerImage5 from "../../assets/img/banner/banner-image-5.png";
 import DynamicBanner from "../../components/banner/DynamicBanner";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import bannerImg1 from "../../assets/img/banner/banner-1.jpg";
+import bannerImg2 from "../../assets/img/banner/banner-2.jpg";
+import bannerImg3 from "../../assets/img/banner/banner-3.jpg";
+import bannerImg4 from "../../assets/img/banner/banner-4.jpg";
+import bannerImg5 from "../../assets/img/banner/banner-5.jpg";
 
 const data = [
   {
     title: "Free Shipping Beauty",
     details: "",
     price: "",
-    button: "book now",
+    button: "Book Now",
     url: "#",
-    image: [bannerImage1, bannerImage2, bannerImage3, bannerImage4],
+    image: [bannerImg1, bannerImg2, bannerImg3, bannerImg4],
     colspan: 2,
   },
   {
@@ -26,7 +31,7 @@ const data = [
     price: "",
     button: "Discover Now",
     url: "#",
-    image: [bannerImage2],
+    image: [bannerImg2],
     colspan: 2,
   },
   {
@@ -35,7 +40,7 @@ const data = [
     price: "",
     button: "Shop Now",
     url: "#",
-    image: [bannerImage3],
+    image: [bannerImg3],
     colspan: 2,
   },
   {
@@ -44,7 +49,7 @@ const data = [
     price: "",
     button: "Shop Now",
     url: "#",
-    image: [bannerImage4],
+    image: [bannerImg4],
     colspan: 2,
   },
   {
@@ -53,43 +58,72 @@ const data = [
     price: "",
     button: "Shop Now",
     url: "#",
-    image: [bannerImage4],
+    image: [bannerImg5],
     colspan: 2,
   },
 ];
 
 const BannerSection = () => {
   return (
-
     <div className="flex justify-between items-center flex-wrap gap-[30px] my-[30px]">
       {data.map((element, index) => (
-        <div key={index} className={`rounded-2xl ${
-          index === 0 ? "w-[62.5%] h-[543px]" : 
-          index === 1 ? "w-[34.4%] h-[543px]" : 
-          index === 2 ? "w-[55.2%] h-[277px]" : 
-          index === 3 ? "w-[19.4%] h-[277px]" : 
-          index === 4 ? "w-[19.4%] h-[277px]" : "w-full h-full"
-        }`}> 
- <Swiper
-    pagination={{
-      dynamicBullets: true,
-    }}
-    modules={[Pagination]}
-    className={`mySwiper rounded-2xl`}
-  >
-            
-{
-  element.image.map((image, index) => (
-    <SwiperSlide key={index} className={`cursor-pointer`}>
-      <div className="w-full h-full absolute top-0 left-0 bg-[#0F1228] bg-opacity-50">
-        <h1>{element?.title}</h1>
-      </div>
-      <img src={image} alt="" className={`object-cover w-full h-full rounded-2xl`}/>
-    </SwiperSlide>
-  ))
- 
-}
-  </Swiper>
+        <div
+          key={index}
+          className={`rounded-2xl ${
+            index === 0
+              ? "w-[62.5%] h-[543px]"
+              : index === 1
+              ? "w-[34.4%] h-[543px] "
+              : index === 2
+              ? "w-[55.2%] h-[277px]"
+              : index === 3
+              ? "w-[19.4%] h-[277px]"
+              : index === 4
+              ? "w-[19.4%] h-[277px]"
+              : "w-full h-full"
+          }`}
+        >
+          <Swiper
+            pagination={{
+              dynamicBullets: true,
+            }}
+            modules={[Pagination]}
+            className={`mySwiper rounded-2xl`}
+          >
+            {element.image.map((image, i) => (
+              <SwiperSlide key={i} className={`cursor-pointer`}>
+                <div className="w-full h-full absolute top-0 left-0 bg-[#0F1228] bg-opacity-50">
+                  <div className="pl-10">
+                    <h1
+                      className={` ${
+                        index === 0
+                          ? "custome-font text-5xl    font-bold max-w-[217px] leading-[46px] text-left text-white mt-[100px] mb-32 "
+                          : index === 1
+                          ? "custome-font text-white font-bold text-5xl text-center mt-12"
+                          : index === 2
+                          ? ""
+                          : index === 3
+                          ? ""
+                          : index === 4
+                          ? ""
+                          : "w-full h-full"
+                      }`}
+                    >
+                      {element?.title}
+                    </h1>
+                    <button className="bg-white py-3 px-11 rounded-3xl text-xl font-medium w-fit block">
+                      {element?.button}
+                    </button>
+                  </div>
+                </div>
+                <img
+                  src={image}
+                  alt=""
+                  className={`object-cover w-full h-full rounded-2xl`}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       ))}
     </div>

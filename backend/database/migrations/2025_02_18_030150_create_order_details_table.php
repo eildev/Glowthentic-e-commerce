@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('order_id')->unsigned();
+            $table->unsignedBigInteger('order_id')->unsigned();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('variant_id')->nullable();
             $table->unsignedBigInteger('combo_id')->nullable();
@@ -39,7 +39,8 @@ return new class extends Migration
                 ->on('variants');
 
 
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

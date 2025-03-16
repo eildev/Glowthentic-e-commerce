@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string("phone", 16);
             $table->string("manager_name");
             $table->tinyInteger("status")->default(1);
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

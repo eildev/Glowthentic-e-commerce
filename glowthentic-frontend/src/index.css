@@ -103,3 +103,16 @@
       scrollbar-width: none;  /* Firefox */
 }
 }
+
+
+.custome-font{
+  font-family: "Playfair Display", serif;
+}
+
+.custom-html-content p {
+  margin: 0;
+  padding: 0;
+}
+.custom-html-content strong {
+  font-weight: bold;
+}

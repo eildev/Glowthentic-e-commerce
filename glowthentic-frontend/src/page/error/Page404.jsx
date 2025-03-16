@@ -1,12 +1,16 @@
 import HeadTitle from "../../components/typography/HeadTitle";
 import image from "../../assets/img/error/404.png";
+import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+import { Link } from "react-router-dom";
+import Container from "../../components/Container";
 const Page404 = () => {
   return (
-    <div>
+    <Container>
       <DynamicHelmet title="404 Not Fount" />
-      <HeadTitle>404 Not Fount</HeadTitle>
-      <img src={image} alt="" />
-    </div>
+      <Link to="/">
+        <img className="w-full h-full object-contain" src={image} alt="" />
+      </Link>
+    </Container>
   );
 };
 

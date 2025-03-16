@@ -275,6 +275,9 @@ $(document).on('click', '.save_coupon', function () {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
 
+    $('.error-message').remove();
+    // $('.is-invalid').removeClass('is-invalid');
+
     $.ajax({
         url: '/coupon/store',
         type: 'POST',
@@ -293,6 +296,7 @@ $(document).on('click', '.save_coupon', function () {
         error: function(xhr) {
             if (xhr.status === 422) {
                 let errors = xhr.responseJSON.errors;
+
                 $.each(errors, function(key, value) {
                     let inputField = $('[name="' + key + '"]');
                     inputField.after('<span class="text-danger error-message">' + value[0] + '</span>');
@@ -382,7 +386,7 @@ $(document).on('click', '.delete', function () {
         data:{
             id:id,
         },
-       
+
         success: function (response) {
             if (response.status === 200) {
                 $('#couponEditForm')[0].reset();

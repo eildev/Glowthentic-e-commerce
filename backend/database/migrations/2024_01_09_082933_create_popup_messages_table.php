@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('link');
             $table->string('image');
             $table->tinyInteger('status')->default(1);
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

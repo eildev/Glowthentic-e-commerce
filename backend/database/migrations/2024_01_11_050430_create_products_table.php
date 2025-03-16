@@ -36,15 +36,15 @@ return new class extends Migration
                 ->on('categories')
                 ->onDelete('cascade');
 
-                // $table->foreign('unit_id')
-                // ->references('id')
-                // ->on('units')
-                // ->onDelete('cascade');
+            // $table->foreign('unit_id')
+            // ->references('id')
+            // ->on('units')
+            // ->onDelete('cascade');
 
-                // $table->foreign('tag_id')
-                // ->references('id')
-                // ->on('Product_tags')
-                // ->onDelete('cascade');
+            // $table->foreign('tag_id')
+            // ->references('id')
+            // ->on('Product_tags')
+            // ->onDelete('cascade');
 
             // $table->foreign('subcategory_id')
             //     ->references('id')
@@ -54,7 +54,8 @@ return new class extends Migration
                 ->references('id')
                 ->on('brands')
                 ->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps(0);
+            $table->softDeletes();
         });
     }
 

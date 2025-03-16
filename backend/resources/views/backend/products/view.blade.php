@@ -46,7 +46,7 @@
                             <thead>
                                 <tr>
                                     <th>SI</th>
-                                    <th>Image</th>
+                                    {{-- <th>Image</th> --}}
                                     <th>Product name</th>
                                     <th>Category</th>
                                     <th>Sub Category</th>
@@ -69,11 +69,11 @@
                                         <tr>
                                             <td>{{ $serialNumber++ }}</td>
 
-                                            <td>
+                                            {{-- <td>
                                                 <img src="{{ asset($product->varient[0]->image)??'' }}"
                                                     style="height: 50px; object-fit: cover;" class="img-fluid"
                                                     alt="Products Image">
-                                            </td>
+                                            </td> --}}
                                             <td>{{ Illuminate\Support\Str::limit($product->product_name, 29) }}</td>
                                             <td>{{ $product->category->categoryName }}</td>
                                             @php
