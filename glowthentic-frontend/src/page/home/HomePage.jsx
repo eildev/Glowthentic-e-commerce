@@ -7,7 +7,9 @@ import LatestBannerSection from "./LatestBannerSection";
 import TopProductsSection from "./TopProductsSection";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import BannerCollection from "./BannerCollection";
+import { useGetOfferBannerQuery } from "../../redux/features/api/offerBanner/offerBanner";
 const HomePage = () => {
+  
   return (
     <div>
       <DynamicHelmet title="Home page" />
