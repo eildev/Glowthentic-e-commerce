@@ -22,7 +22,7 @@ const AllProductPage = () => {
   const dispatch = useDispatch();
   const { toggleFilter: isFilterOpen } = useSelector((state) => state.filters);
   const location = useLocation();
-  console.log({ setFilteredCategories });
+  // console.log({ setFilteredCategories });
 
   useEffect(() => {
     const {

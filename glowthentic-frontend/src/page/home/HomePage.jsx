@@ -24,7 +24,6 @@ const HomePage = () => {
         <div className="my-10 lg:my-20">
           <TopProductsSection></TopProductsSection>
         </div>
-        {/* <TopProducts></TopProducts> */}
       </Container>
       <div className="bg-[#FBEFF2]">
         <SpecialOffers></SpecialOffers>
