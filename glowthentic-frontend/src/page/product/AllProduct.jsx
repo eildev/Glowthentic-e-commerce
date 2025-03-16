@@ -17,7 +17,7 @@ const AllProduct = () => {
     sortOption,
   } = useSelector((state) => state.filters);
   const [visibleProducts, setVisibleProducts] = useState([]);
-
+console.log(visibleProducts);
   useEffect(() => {
     if (data?.data) {
       dispatch(setFilteredProducts(data.data));
