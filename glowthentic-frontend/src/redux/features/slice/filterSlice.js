@@ -15,7 +15,27 @@ const filterSlice = createSlice({
         sortOption: "Recommended",
     },
     reducers: {
-        // ... Existing reducers ...
+        setFilteredCategories(state, action) {
+            state.filteredCategories = action.payload;
+        },
+        setFilteredTags(state, action) {
+            state.filteredTags = action.payload;
+        },
+        setFilteredBrands(state, action) {
+            state.filteredBrands = action.payload;
+        },
+        setFilteredFeatures(state, action) {
+            state.filteredFeatures = action.payload;
+        },
+        setFilteredSearchQuery(state, action) {
+            state.filteredSearchQuery = action.payload;
+        },
+        toggleFilter(state) {
+            state.toggleFilter = !state.toggleFilter;
+        },
+        setSortOption(state, action) {
+            state.sortOption = action.payload;
+        },
         setFilteredSearchQuery(state, action) {
             state.filteredSearchQuery = action.payload;
         },

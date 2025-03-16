@@ -13,6 +13,7 @@ import {
   removeFromCart,
 } from "../../redux/features/slice/cartSlice";
 import { useWishlistMutation } from "../../redux/features/api/wishListApi/wishListApi";
+import { imagePath } from "../../utils/imagePath";
 
 const Product = ({ product, isDark }) => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Product = ({ product, isDark }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
-  const baseURL = "https://backend.glowthentic.store/";
+  const baseURL = "http://127.0.0.1:8000/";
   const { token, user } = useSelector((state) => state.auth);
   const [wishlist, { isLoading, isError, isSuccess }] = useWishlistMutation();
 
@@ -36,6 +37,9 @@ const Product = ({ product, isDark }) => {
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
+
+  // console.log(defaultVariant?.product_stock);
+  console.log(variants[0]?.variant_image[0]?.image);
 
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
@@ -57,6 +61,11 @@ const Product = ({ product, isDark }) => {
       );
     }
   };
+
+  // const url = `http://127.0.0.1:8000/api/${variants[0]?.variant_image[0]?.image}`;
+  // console.log(url);
+
+  const productImage = imagePath(variants[0]?.variant_image[0]?.image);
 
   const handleFav = async (productItem) => {
     if (!user) {
@@ -100,7 +109,8 @@ const Product = ({ product, isDark }) => {
         <Link to={`/product/${product.slug}`}>
           <img
             className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:py-5 py-2 transition-transform duration-500 hover:scale-105"
-            src={variants[0]?.variant_image[0]?.image || defaultImage}
+            src={productImage ?? defaultImage}
+            // src={defaultVariant || defaultImage}
             alt={product_name ?? "product image"}
           />
         </Link>

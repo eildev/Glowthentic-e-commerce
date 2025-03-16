@@ -59,24 +59,24 @@ const AllProduct = () => {
 
   return (
     <div
-      className={cn(`grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5`)}
-    >
-      {visibleProducts.length > 0 ? (
-        visibleProducts.map((product) => (
-          <div
-            key={product.id}
-            className={`transition-all duration-500 ease-in-out ${
-              product.isExiting ? "animate-fadeOut" : "animate-fadeIn"
-            }`}
-          >
-            <Product product={product} />
-          </div>
-        ))
-      ) : (
-        <p className="col-span-3 text-center text-gray-500">
-          No products found.
-        </p>
+      className={cn(
+        `grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5 w-full`
       )}
+    >
+      {visibleProducts.length > 0
+        ? visibleProducts.map((product) => (
+            <div
+              key={product.id}
+              className={`transition-all duration-500 ease-in-out ${
+                product.isExiting ? "animate-fadeOut" : "animate-fadeIn"
+              }`}
+            >
+              <Product product={product} />
+            </div>
+          ))
+        : Array(9)
+            .fill(0)
+            .map((_, index) => <ProductSkeleton key={index} />)}
     </div>
   );
 };

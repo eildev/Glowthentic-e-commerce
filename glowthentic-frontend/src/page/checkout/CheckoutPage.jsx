@@ -18,13 +18,9 @@ const CheckoutPage = () => {
   const { user } = useSelector((state) => state.auth);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const navigate = useNavigate();
-  // const { userId } = useSelector((state) => state.auth);
-  // console.log("userId",userId);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [placeOrder, { isLoading, isSuccess, isError, error }] =
-    usePlaceOrderMutation(); // Destructure mutation hook
-
-  console.log("user", user);
+    usePlaceOrderMutation();
 
   useEffect(() => {
     const total = cartItems.reduce(
@@ -34,21 +30,14 @@ const CheckoutPage = () => {
     setSubTotalPrice(total.toFixed(2));
   }, [cartItems]);
 
-  const shippingPrice = 100;
-  const discountPrice = 0;
-  const tax = parseFloat(
-    (subTotalPrice + shippingPrice - discountPrice) * (2.5 / 100)
-  ).toFixed(2);
-  const totalPrice = parseFloat(
-    subTotalPrice + shippingPrice + discountPrice
-  ).toFixed(2);
-
-  const subTotal = cartItems.reduce((sum, cartItem) => {
-    return sum + cartItem.regular_price * cartItem.quantity;
-  }, 0);
-  const Shipping = cartItems.reduce((sum, cartItem) => {
-    return sum + cartItem.quantity;
-  }, 0);
+  const subTotal = cartItems.reduce(
+    (sum, cartItem) => sum + cartItem.regular_price * cartItem.quantity,
+    0
+  );
+  const Shipping = cartItems.reduce(
+    (sum, cartItem) => sum + cartItem.quantity,
+    0
+  );
   const shipingCharge = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
   const grandTotal = subTotal + shipingCharge;
 
@@ -58,11 +47,11 @@ const CheckoutPage = () => {
     watch,
     formState: { errors },
     reset,
+    trigger,
   } = useForm();
   const shipToDifferentAddress = watch("shipToDifferentAddress");
 
   const onSubmit = async (data) => {
-    // console.log(data);
     const orderData = {
       products: cartItems.map((item) => ({
         variant_id: item.id,
@@ -71,24 +60,25 @@ const CheckoutPage = () => {
         variant_quantity: item.quantity,
         coupon_code: item?.coupon_code || "",
       })),
-      combo: [], // Add combo items if necessary
+      combo: [],
       payment_method: data.paymentMethod,
       shipping_method: "In-House",
       shipping_charge: shipingCharge,
       coupon_code: "",
       order_note: data.orderNotes,
-      user_id : user.data.id,
+      user_id: user.data.id,
     };
-
-    console.log(orderData);
 
     try {
       const response = await placeOrder(orderData).unwrap();
-      console.log("Order placed successfully:", response);
-      toast.success("Order placed successfully!");
-      dispatch(clearCart());
-      reset();
-      navigate('/order-confirmation')
+      if (response.status === 200) {
+        toast.success("Order placed successfully!");
+        dispatch(clearCart());
+        reset();
+        navigate("/order-confirmation");
+      } else {
+        toast.error("Order placed Unsuccessful!");
+      }
     } catch (err) {
       console.error("Error placing order:", err);
       toast.error("Failed to place order.", err);
@@ -99,16 +89,28 @@ const CheckoutPage = () => {
     <div>
       <DynamicHelmet title="Checkout Page" />
       <Container>
-        <div className="md:hidden">
-          <CheckoutWizard />
-        </div>
-
-        <div className="container hidden md:block mx-auto px-4 py-8">
+        {/* Small Device */}
+        {/* <div className="md:hidden">
+          <CheckoutWizard
+            register={register}
+            errors={errors}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            cartItems={cartItems}
+            subTotal={subTotal}
+            shipingCharge={shipingCharge}
+            Shipping={Shipping}
+            trigger={trigger}
+            watch={watch}
+          />
+        </div> */}
+        {/* Large Device */}
+        {/* <div className="container hidden md:block mx-auto px-4 py-8"> */}
+        <div className="container mx-auto px-4 py-8">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <h4 className="text-lg font-normal mb-4">Billing Information</h4>
               <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
-                {/* Left Column: Billing Form */}
                 <div className="space-y-4 col-span-5 md:col-span-7 p-6 shadow rounded-lg">
                   <InputInfo
                     register={register}
@@ -117,13 +119,11 @@ const CheckoutPage = () => {
                   />
                   <PaymentOption register={register} errors={errors} />
                 </div>
-
-                {/* Right Column: Order Summary */}
                 <div className="col-span-5 md:col-span-3">
                   <div className="bg-white shadow rounded-lg">
                     <OrderSummary
                       carts={cartItems}
-                      total={totalPrice}
+                      total={grandTotal}
                       shipingCharge={shipingCharge}
                       Shipping={Shipping}
                       subTotal={subTotal}
@@ -141,7 +141,6 @@ const CheckoutPage = () => {
                           height="1.5em"
                         />
                       </button>
-                      {/* {isSuccess && <p>Order placed successfully!</p>} */}
                       {isError && <p>Error placing order: {error.message}</p>}
                     </div>
                   </div>

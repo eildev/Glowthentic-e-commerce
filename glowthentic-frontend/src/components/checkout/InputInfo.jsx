@@ -15,9 +15,12 @@ const InputInfo = ({ register, errors }) => {
   }
 
   return (
-    <div className="text-left">
+    <form className="text-left">
       {/* Full Name */}
-      <label htmlFor="name" className="text-sm font-medium text-gray-700 text-primary py-2">
+      <label
+        htmlFor="name"
+        className="text-sm font-medium text-gray-700 text-primary py-2"
+      >
         Name
       </label>
       <input
@@ -26,12 +29,17 @@ const InputInfo = ({ register, errors }) => {
         placeholder="Full Name"
         className="focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-thin rounded p-2 w-full"
       />
-      {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+      {errors.name && (
+        <p className="text-red-500 text-sm">{errors.name.message}</p>
+      )}
 
       {/* Phone & Email */}
       <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 text-primary py-2">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium text-gray-700 text-primary py-2"
+          >
             Phone Number
           </label>
           <input
@@ -40,10 +48,15 @@ const InputInfo = ({ register, errors }) => {
             placeholder="Phone Number"
             className="focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-thin rounded p-2 w-full"
           />
-          {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
+          {errors.phone && (
+            <p className="text-red-500 text-sm">{errors.phone.message}</p>
+          )}
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 text-primary py-2">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700 text-primary py-2"
+          >
             Email
           </label>
           <input
@@ -52,12 +65,17 @@ const InputInfo = ({ register, errors }) => {
             placeholder="Email"
             className="focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-thin rounded p-2 w-full"
           />
-          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
         </div>
       </div>
 
       {/* Address */}
-      <label htmlFor="address" className="text-sm font-medium text-gray-700 text-primary py-2">
+      <label
+        htmlFor="address"
+        className="text-sm font-medium text-gray-700 text-primary py-2"
+      >
         Address
       </label>
       <textarea
@@ -65,16 +83,22 @@ const InputInfo = ({ register, errors }) => {
         placeholder="Address"
         className="focus:outline-none focus:ring-2 mt-2 focus:ring-orange-500 border border-gray-thin rounded p-2 w-full h-24"
       />
-      {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
+      {errors.address && (
+        <p className="text-red-500 text-sm">{errors.address.message}</p>
+      )}
 
       {/* Checkbox */}
       <div className="flex items-center mt-2">
-        <Checkbox register={register} id="same-address" className="mr-2 mt-2 h-5 w-5" />
+        <Checkbox
+          register={register}
+          id="same-address"
+          className="mr-2 mt-2 h-5 w-5"
+        />
         <label htmlFor="same-address" className="text-sm text-primary py-2">
           Ship to a different address
         </label>
       </div>
-    </div>
+    </form>
   );
 };
 

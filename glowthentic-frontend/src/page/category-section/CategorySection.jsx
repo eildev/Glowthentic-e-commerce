@@ -20,8 +20,8 @@ const CategorySection = () => {
                 className="lg:px-16 px-5 md:px-10 items-center justify-center"
               >
                 <img
-                  // src={category?.image ?? catImages}
-                  src={catImages}
+                  src={category?.image ?? catImages}
+                  // src={catImages}
                   alt={category?.categoryName}
                   className="w-full object-cover rounded"
                 />
