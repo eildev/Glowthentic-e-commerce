@@ -15,6 +15,7 @@ import checkoutApi from "./features/api/checkoutApi/checkoutApi";
 import wishListApi from "./features/api/wishListApi/wishListApi";
 import registerApi from "./features/api/registerApi/registerApi";
 import wishlistByUserAPI from "./features/api/wishlistByUserAPI/wishlistByUserAPI";
+import homeBannerApi from "./features/api/homeBannerApi/homeBannerApi";
 const store = configureStore({
     reducer: {
         // all slice 
@@ -36,6 +37,7 @@ const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [checkoutApi.reducerPath]: checkoutApi.reducer,
         [registerApi.reducerPath]: registerApi.reducer,
+        [homeBannerApi.reducerPath]: homeBannerApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -50,6 +52,7 @@ const store = configureStore({
             .concat(authApi.middleware)
             .concat(checkoutApi.middleware)
             .concat(registerApi.middleware)
+            .concat(homeBannerApi.middleware)
 
 });
 

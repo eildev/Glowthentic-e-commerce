@@ -10,6 +10,7 @@ const wishListApi = createApi({
                 method: 'POST',
                 body: wishlistData,
             }),
+            invalidatesTags: ['Wishlist'],
         }),
     }),
 });
