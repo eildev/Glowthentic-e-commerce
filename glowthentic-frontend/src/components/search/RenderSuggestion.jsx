@@ -10,11 +10,14 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
   const handleHideSuggestions = () => {
     dispatch(setSuggestionsVisible(false));
   };
+
+  console.log("error", error);
   if (isLoading) {
     return [...Array(5)].map((_, index) => <SerachItemSkeleton key={index} />);
   }
   if (error)
     return <p className="px-4 py-2 text-red-500">Error loading suggestions</p>;
+
   if (
     !productData?.products?.length &&
     !productData?.categories?.length &&

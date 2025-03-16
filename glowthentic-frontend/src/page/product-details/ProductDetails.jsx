@@ -14,9 +14,12 @@ import RecommendedSlider from "./RecommendedSlider";
 import ProductQueryNevigation from "./ProductQueryNevigation";
 import { useParams } from "react-router-dom";
 import { useGetProductByDetailsQuery } from "../../redux/features/api/product-api/productApi.js";
-
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/features/slice/cartSlice";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
+  const dispatch = useDispatch();
   const { id } = useParams(); // Extracts the product ID from the URL
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   // console.log(data?.data?.variants?.regular_price );
@@ -30,41 +33,47 @@ const ProductDetails = () => {
   const faqs = [
     {
       question: "What is the best way to use this product?",
-      answer: "Beautya s 1st revitalizing serum that concentrates the double power of the Rose de Granville from the stem to the flower torevitalize the skin twice as fast (1) and visibly rejuvenate. Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed bythe power of the Rose sap. The next-generation,92%natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated,(4) combining the nourishing richness of an oil with the deep penetration of a serum. From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin elasticity.(5) With regular use, skin looks and feels transformed. As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists, after 30 min.",
+      answer:
+        "Beautya s 1st revitalizing serum that concentrates the double power of the Rose de Granville from the stem to the flower torevitalize the skin twice as fast (1) and visibly rejuvenate. Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed bythe power of the Rose sap. The next-generation,92%natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated,(4) combining the nourishing richness of an oil with the deep penetration of a serum. From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin elasticity.(5) With regular use, skin looks and feels transformed. As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists, after 30 min.",
     },
     {
       question: " Can this product be used on all skin types?",
-      answer: "Our product is suitable for most skin types, including normal, oily, dry, and combination skin. However, if you have sensitive skin or a skin condition, we recommend performing a patch test before using the product all over your face. Apply a small amount of the product to the inside of your elbow and wait 24 hours to make sure you do not have an allergic reaction or irritation. If you experience any discomfort, discontinue use of the product immediately",
+      answer:
+        "Our product is suitable for most skin types, including normal, oily, dry, and combination skin. However, if you have sensitive skin or a skin condition, we recommend performing a patch test before using the product all over your face. Apply a small amount of the product to the inside of your elbow and wait 24 hours to make sure you do not have an allergic reaction or irritation. If you experience any discomfort, discontinue use of the product immediately",
     },
     {
       question: "How often should I use this product?",
-      answer: "Richness of an oil with the deep penetration of a serum. From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin lasticity.(5) With regular use, skin looks and feels transformed. As if replenished from within, the skin seems",
+      answer:
+        "Richness of an oil with the deep penetration of a serum. From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin lasticity.(5) With regular use, skin looks and feels transformed. As if replenished from within, the skin seems",
     },
     {
       question: "Can this product be used during pregnancy?",
-      answer: "Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed by the power of the Rose sap. The next-generation, 92% natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated",
+      answer:
+        "Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed by the power of the Rose sap. The next-generation, 92% natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated",
     },
     {
       question: "How often should I use this product?",
-      answer: "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
+      answer:
+        "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
     },
     {
       question: "How should I store this product?",
-      answer: "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists"
+      answer:
+        "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
     },
     {
       question: "How long will it take to see results from using this product?",
-      answer: "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
+      answer:
+        "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
     },
     {
       question: "Can this product be used in conjunction with other skincare",
-      answer: " As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
+      answer:
+        " As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
     },
-
   ];
 
-
-  const [variant, setVariant] = useState([0])
+  const [variant, setVariant] = useState([0]);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   useEffect(() => {
@@ -75,12 +84,28 @@ const ProductDetails = () => {
 
   const handleVariantChange = (e) => {
     const variantId = e.target.value;
-    const selected = data?.data?.variants?.find((v) => v.id === parseInt(variantId));
+    const selected = data?.data?.variants?.find(
+      (v) => v.id === parseInt(variantId)
+    );
     setSelectedVariant(selected);
   };
-  console.log("sdfsdf sadf" + selectedVariant);
-  const [openIndex, setOpenIndex] = useState(0);
 
+  // console.log("Selected Variants" + selectedVariant);
+
+  const selectedVariantData = data?.data?.variants?.find(
+    (variant) => variant.id === selectedVariant?.id
+  );
+
+  console.log("Selected Variants", selectedVariantData);
+
+  const handleAddToCart = () => {
+    // alert("Add to cart");
+    const newProduct = { ...selectedVariantData, quantity: 1 };
+    dispatch(addToCart(newProduct));
+    toast.success(`${data?.data?.product_name ?? ""} added to Cart!`);
+  };
+
+  const [openIndex, setOpenIndex] = useState(0);
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
@@ -107,7 +132,6 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section Start ----> */}
           <div className="sm:hidden block mt-4 p-2">
             <HeadTitle>
-
               Pierre Cardin Matte Rouge Lipstick Fushion Pink 745
             </HeadTitle>
             <br />
@@ -124,8 +148,10 @@ const ProductDetails = () => {
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
           <div className="sm:col-span-7 my-[35px]">
-            <ProductSlider data={data}
-              variantId={selectedVariant?.id}></ProductSlider>
+            <ProductSlider
+              data={data}
+              variantId={selectedVariant?.id}
+            ></ProductSlider>
           </div>
 
           {/*-------------------------- Slide End----------------------------*/}
@@ -134,11 +160,7 @@ const ProductDetails = () => {
           <div className="sm:col-span-3 md:pt-7 md:pl-4 ">
             {/* //show big device small device hidden Start// */}
             <div className="hidden sm:block w-full">
-              <HeadTitle>
-                {
-                  data?.data?.product_name ?? ""
-                }
-              </HeadTitle>
+              <HeadTitle>{data?.data?.product_name ?? ""}</HeadTitle>
               <br />
               <h4 className="font-bold">Anti-aging face serum</h4>
               <p>
@@ -153,14 +175,14 @@ const ProductDetails = () => {
             {/* //show big device small device hidden End/ / */}
             <div className=" lg:mt-4 flex flex-wrap items-center">
               <span className="text-secondary  font-bold text-xl  pe-4">
-                {
-                  data?.data?.variants?.regular_price
-                }
+                {data?.data?.variants?.regular_price}
               </span>
               <span className="text-gray  text-xs md:text-sm font-thin  pe-2 ">
                 <del>$1040.00 |</del>
               </span>
-              <span className="text-black text-nowrap text-xs md:text-sm pe-2 font-normal">Save ৳651.00</span>
+              <span className="text-black text-nowrap text-xs md:text-sm pe-2 font-normal">
+                Save ৳651.00
+              </span>
               <span className="bg-secondary rounded-tl-[20px]  rounded-br-[20px] text-white  text-nowrap  text-xs p-1 px-2">
                 {" "}
                 50% OFF
@@ -168,7 +190,6 @@ const ProductDetails = () => {
             </div>
             {/* //Select price// */}
             <div className="flex items-center justify-between mt-4">
-
               <div>
                 <select
                   className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
@@ -176,21 +197,32 @@ const ProductDetails = () => {
                   onChange={handleVariantChange}
                 >
                   {data?.data?.variants?.map((variant) => (
-                    <option key={variant.id} className="py-3" value={variant.id}>
+                    <option
+                      key={variant.id}
+                      className="py-3"
+                      value={variant.id}
+                    >
                       {variant.weight}
                     </option>
                   ))}
                 </select>
               </div>
 
-
-              <span className="text-lg font-semibold text-gray">    {selectedVariant ? `৳${selectedVariant.regular_price}` : "Loading..."}</span>
+              <span className="text-lg font-semibold text-gray">
+                {" "}
+                {selectedVariant
+                  ? `৳${selectedVariant.regular_price}`
+                  : "Loading..."}
+              </span>
             </div>
             <hr className="text-gray-bold" />
             {/* //Select price end// */}
             {/* //Button// */}
             <div className="mt-4">
-              <RegularButton className="me-4 my-1 px-6 text-sm">
+              <RegularButton
+                className="me-4 my-1 px-6 text-sm"
+                onClick={() => handleAddToCart()}
+              >
                 Add To Cart
               </RegularButton>
               <RegularButton className="px-6 text-sm">Buy Now</RegularButton>
@@ -222,11 +254,7 @@ const ProductDetails = () => {
 
         {/* //-----Product Description Big Device--------// */}
         <div className="hidden sm:block">
-
-
           <ProductQueryNevigation data={data}></ProductQueryNevigation>
-
-
         </div>
         {/* //-----Product Description Small device--------// */}
         <div className="block lg:hidden">
@@ -356,7 +384,6 @@ const ProductDetails = () => {
           </div>
         </div>
 
-
         <section className=" py-10 px-">
           <div className="text-center pt-4 pb-1">
             <HeadTitle className="text-2xl font-semibold text-center text-[#0C0C0C] lg:text-3xl">
@@ -368,30 +395,39 @@ const ProductDetails = () => {
                 <div key={index} className="border-t  border-t-[#CBCBCB]">
                   <button
                     className="flex items-center justify-between w-full py-4 md:py-6 px-2 md:px-4"
-                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                    onClick={() =>
+                      setOpenIndex(openIndex === index ? null : index)
+                    }
                   >
-                    <h2 className="font-semibold md:font-bold text-start text-sm md:text-xl text-[#0C0C0C]">{faq.question}</h2>
+                    <h2 className="font-semibold md:font-bold text-start text-sm md:text-xl text-[#0C0C0C]">
+                      {faq.question}
+                    </h2>
                     <span
-                      className={`transition-transform transform rounded-full p-1 ${openIndex === index ? "text-[#0C0C0C] " : "text-[#0C0C0C]"
-                        }`}
+                      className={`transition-transform transform rounded-full p-1 ${
+                        openIndex === index
+                          ? "text-[#0C0C0C] "
+                          : "text-[#0C0C0C]"
+                      }`}
                     >
-
                       {openIndex === index ? (
                         <FiMinus className="text-xl"></FiMinus>
                       ) : (
                         <FiPlus className="text-xl"></FiPlus>
                       )}
-
                     </span>
                   </button>
 
                   <div
-                    className={`transition-max-height duration-300 ease-in-out overflow-hidden ${openIndex === index ? "max-h-screen" : "max-h-0"}`}
+                    className={`transition-max-height duration-300 ease-in-out overflow-hidden ${
+                      openIndex === index ? "max-h-screen" : "max-h-0"
+                    }`}
                   >
                     {faq.answer && (
                       <div>
                         <hr className="border-[0.5] border-t-[#CBCBCB]" />
-                        <p className="p-4 text-xs md:text-lg text-start font-normal text-[#0C0C0C]">{faq.answer}</p>
+                        <p className="p-4 text-xs md:text-lg text-start font-normal text-[#0C0C0C]">
+                          {faq.answer}
+                        </p>
                       </div>
                     )}
                   </div>
@@ -401,7 +437,6 @@ const ProductDetails = () => {
           </div>
         </section>
         {/*  //Bottom Accordian  End*/}
-
 
         {/* recommended products slider */}
 
