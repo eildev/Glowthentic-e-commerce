@@ -37,11 +37,12 @@ const Product = ({ product, isDark }) => {
     (variant) => variant.status === "Default"
   );
 const discount = 50
-  // useEffect(() => {
-  //   const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
-  //   setIsFav(favourite.some((item) => item?.id === id));
-  //   setIsInCart(cartItems.some((item) => item?.id === defaultVariant.id));
-  // }, [id, cartItems]);
+
+  useEffect(() => {
+    const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
+    setIsFav(favourite.some((item) => item?.id === id));
+    setIsInCart(cartItems.some((item) => item?.id === defaultVariant.id));
+  }, [id, cartItems]);
 
   const handleAddToCart = (productItem) => {
     if (isInCart) {
