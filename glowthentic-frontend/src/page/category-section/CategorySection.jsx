@@ -26,6 +26,7 @@ const CategorySection = () => {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-6">
           {data?.categories
             ?.filter((category) => category?.parent_id === null)
+            .slice(0, 12)
             .map((category, index) => (
               <Link
                 to="/products"

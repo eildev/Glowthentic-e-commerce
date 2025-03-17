@@ -47,6 +47,7 @@ const Login = () => {
     dispatch(loginStart());
     try {
       const result = await loginUser(data).unwrap();
+      // console.log(result);
       if (result.status === 200) {
         // console.log(result);
         dispatch(loginSuccess(result));
@@ -66,6 +67,7 @@ const Login = () => {
         }
       }
     } catch (err) {
+      // console.log(err);
       dispatch(loginFailure(err?.data?.message || "Login failed"));
       const errorData = err?.data;
       if (errorData?.errors) {

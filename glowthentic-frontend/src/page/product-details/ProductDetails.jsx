@@ -225,7 +225,7 @@ const ProductDetails = () => {
               >
                 Add To Cart
               </RegularButton>
-              <RegularButton className="px-6 text-sm">Buy Now</RegularButton>
+              {/* <RegularButton className="px-6 text-sm">Buy Now</RegularButton> */}
             </div>
             {/* //Button End// */}
             <div className="bg-[#fbeff2] p-2 font-normal text-sm mt-4">
