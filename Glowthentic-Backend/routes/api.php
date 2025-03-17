@@ -16,8 +16,8 @@ use App\Http\Controllers\API\ApiSubscribeController;
 use App\Http\Controllers\API\ApiTagNameController;
 use App\Http\Controllers\API\ApiProductController;
 use App\Http\Controllers\API\AuthController;
-
-
+use App\Http\Controllers\API\ApiWishListController;
+use App\Http\Controllers\API\ApiUserManageController;
 // Open Routes
 Route::post('/register', [AuthController::class, "register"]);
 Route::post('/login', [AuthController::class, "login"]);
@@ -30,8 +30,15 @@ Route::group([
 ], function(){
     Route::get("/profile", [AuthController::class, "profile"]);
     Route::get("/logout", [AuthController::class, "logout"]);
+
+    Route::put("user/details/{id}",[ApiUserManageController::class, 'update']);
 });
 
+
+
+Route::controller(ApiUserManageController::class)->group(function(){
+   Route::post('/user/details/create', 'UserDetailsStore')->name('userDetails.Store');
+});
 Route::controller(ApiCategoryController::class)->group(function () {
     Route::get('/category', 'view')->name('category.view');
     Route::get('/category/{id}', 'show')->name('category.show');
@@ -108,6 +115,11 @@ Route::controller(ApiSubscribeController::class)->group(function () {
 
 Route::controller(ApiContactUsController::class)->group(function () {
     Route::post('/contact-us/save', 'contactSave');
+});
+
+Route::controller(ApiWishListController::class)->group(function () {
+    Route::post('/wishlist/add', 'addWishList');
+    Route::get('/wishlist/{user_id}','getWishList');
 });
 
 // Route::get('/product', [App\Http\Controllers\Backend\ProductController::class, 'index']);

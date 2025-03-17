@@ -47,7 +47,19 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                                    <label for="inputEnterYourName" class="col-sm-3 col-form-label">Link Button Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="link_button"
+                                            class="form-control @error('title') is-invalid  @enderror"
+                                            id="inputEnterYourName" value="{{ $bannerContent->link_button }}"
+                                            placeholder="Enter Banner Title">
+                                        @error('title')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
 
+                                </div>
 
                                 <div class="row mb-3">
                                     <label for="inputEnterYourName" class="col-sm-3 col-form-label">Banner Link</label>
@@ -61,6 +73,66 @@
                                         @enderror
                                     </div>
                                 </div>
+
+
+
+                                <div class="row mb-3">
+                                    <label for="inputEnterYourName" class="col-sm-3 col-form-label">Cart Status</label>
+                                    <div class="col-sm-9">
+                                        <select id="" name="status" class="form-select selectstatus">
+                                            <option selected>Choose...</option>
+                                            <option value="cart1" {{ $bannerContent->status == 'cart1' ? 'selected' : '' }}>CART 1</option>
+                                            <option value="cart2" {{ $bannerContent->status == 'cart2' ? 'selected' : '' }}>CART 2</option>
+                                            <option value="cart3" {{ $bannerContent->status == 'cart3' ? 'selected' : '' }}>CART 3</option>
+                                            <option value="cart4" {{ $bannerContent->status == 'cart4' ? 'selected' : '' }}>CART 4</option>
+                                            <option value="cart5" {{ $bannerContent->status == 'cart5' ? 'selected' : '' }}>CART 5</option>
+
+                                        </select>
+                                        @error('parent_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                </div>
+
+
+                              @if($bannerContent->status == 'cart1')
+                             <div class="row mb-3">
+                                    <label for="image" class="col-sm-3 col-form-label">Gallery Images </label>
+                                    <div class="col-sm-9">
+                                        <input type="file" id="galleryimages" class="form-control" name="galleryimages[]"
+                                            multiple>
+                                        <div class="my-1">
+                                            <i>
+                                                <b>Note:</b> <span class="text-danger">Please provide 142 X 83 size image for cart 1 it's not applicable for other cart</span>
+
+                                            </i>
+                                        </div>
+                                        <div>
+                                            @foreach ($bannerContent->images as $image)
+                                                <div style="display: inline-block; margin: 5px; position: relative;">
+                                                    <img src="{{ asset($image->image) }}" height="50" width="50" alt="">
+
+                                                    <form action="{{ route('offerBanerimage.delete', $image->id) }}" method="POST" style="display: inline;">
+                                                        @csrf
+
+                                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this image?')"
+                                                                style="position: absolute; top: 0; right: 0; background: red; color: white; border: none; cursor: pointer;">
+                                                            &times;
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                 @endif
+
+
+
 
                                 <div class="row mb-3">
                                     <label for="image" class="col-sm-3 col-form-label">Banner Thumbnail </label>
@@ -78,11 +150,14 @@
                                         @enderror
                                         <div class="mt-3">
                                             <img id="showImage" class="" height="150" width="200"
-                                                src="{{ asset('uploads/offer_banner/' . $bannerContent->image) }}"
+                                                src="{{ asset($bannerContent->image) }}"
                                                 alt="banner image">
 
                                         </div>
+
+
                                     </div>
+
                                 </div>
 
                                 <div class="row">
@@ -99,4 +174,21 @@
         </div>
         <!--end row-->
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $('.galleryimage').hide();
+
+            $(document).on('change', '.selectstatus', function(){
+                var cart = $(this).val();
+                console.log("Selected cart: ", cart);
+
+                if(cart === 'cart1'){
+                    $('.galleryimage').fadeIn();
+                } else {
+                    $('.galleryimage').fadeOut();
+                }
+            });
+        });
+    </script>
 @endsection
