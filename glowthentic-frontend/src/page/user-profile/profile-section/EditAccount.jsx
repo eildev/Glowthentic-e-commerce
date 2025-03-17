@@ -11,19 +11,19 @@ const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
   console.log(user?.data?.email);
   const { data, isLoading, isError } = useGetUserInfoQuery(user?.data?.id);
+  console.log(data);
   const [postUser, { isLoading: postLoad, isSuccess, isError: postError, error }] = usePostUserMutation();
 
   // State for form data
   const [formData, setFormData] = useState({
     image: avatarPlaceholder,
-    name: user?.data?.name,
-    address: "Wukanda Forever, Noakhali Division, 3 No Mainka Chipa",
-    country: "Uganda",
-    region: "Dhaka",
-    zone: "Banasree",
-    postalCode: "6969696",
+    full_name: user?.data?.name,
+    address: "",
+    country: "",
+    police_station: "",
+    postal_code: "",
     email: user?.data?.email,
-    phone: "0809210301002",
+    phone_number: "",
     saveAddress: false,
   });
 
@@ -45,7 +45,7 @@ const EditAccount = () => {
     }));
   };
 
-  console.log(formData?.name);
+  console.log(formData?.full_name);
 
   return (
     <div className="px-2">
@@ -62,13 +62,13 @@ const EditAccount = () => {
         </div>
 
         {/* Form Inputs */}
-        <div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4"> 
           <div className="my-4">
             <label className="block text-xl text-dark font-normal font-encode mb-2">Name</label>
             <input
               type="text"
               name="name"
-              value={formData.name}
+              value={formData.full_name}
               onChange={handleInputChange}
               className="block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border border-hr-thin rounded-md outline-secondary"
             />
@@ -96,7 +96,7 @@ const EditAccount = () => {
               className="block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border border-hr-thin rounded-md outline-secondary"
             />
           </div>
-          <div className="my-4">
+          {/* <div className="my-4">
             <label className="block text-xl text-dark font-normal font-encode mb-2">Province/Region</label>
             <select
               name="region"
@@ -109,13 +109,13 @@ const EditAccount = () => {
               <option value="Rajshahi">Rajshahi</option>
               <option value="Sylhet">Sylhet</option>
             </select>
-          </div>
+          </div> */}
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Zone</label>
+            <label className="block text-xl text-dark font-normal font-encode mb-2">Police Station</label>
             <input
               type="text"
-              name="zone"
-              value={formData.zone}
+              name="police_station"
+              value={formData.police_station}
               onChange={handleInputChange}
               className="block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border border-hr-thin rounded-md outline-secondary"
             />
@@ -124,8 +124,8 @@ const EditAccount = () => {
             <label className="block text-xl text-dark font-normal font-encode mb-2">Postal Code</label>
             <input
               type="text"
-              name="postalCode"
-              value={formData.postalCode}
+              name="postal_code"
+              value={formData.postal_code}
               onChange={handleInputChange}
               className="block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border border-hr-thin rounded-md outline-secondary"
             />
