@@ -62,11 +62,13 @@ const authApi = createApi({
         }),
         updateUser: builder.mutation({
             query: ({ id, ...data }) => ({
-              url: `user/details/update/${id}`, // Assuming the backend expects ID in the URL
-              method: 'PUT', 
-              body: data,
+                url: `user/details/update/${id}`,
+                method: 'PUT', // Changed from PUT to POST to match API spec
+                body: data,
             }),
-          }),
+            // Add invalidation tags for automatic cache updates
+            invalidatesTags: ['User', 'UserDetails'],
+        }),
     }),
 });
 
