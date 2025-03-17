@@ -12,10 +12,11 @@ import { usePlaceOrderMutation } from "../../redux/features/api/checkoutApi/chec
 import toast from "react-hot-toast";
 import { clearCart } from "../../redux/features/slice/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { getOrCreateSessionId } from "../../utils/getSessionId";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -49,6 +50,9 @@ const CheckoutPage = () => {
     reset,
     trigger,
   } = useForm();
+
+  const userSessionId = getOrCreateSessionId();
+
   const shipToDifferentAddress = watch("shipToDifferentAddress");
 
   const onSubmit = async (data) => {
@@ -67,6 +71,7 @@ const CheckoutPage = () => {
       coupon_code: "",
       order_note: data.orderNotes,
       user_id: user.data.id,
+      ...(token ? { user_id: user.data.id } : { session_id: userSessionId }),
     };
 
     try {

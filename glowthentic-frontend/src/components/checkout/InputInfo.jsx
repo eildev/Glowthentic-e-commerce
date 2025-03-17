@@ -48,8 +48,10 @@ const InputInfo = ({ register, errors }) => {
             placeholder="Phone Number"
             className="focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-thin rounded p-2 w-full"
           />
-          {errors.phone && (
-            <p className="text-red-500 text-sm">{errors.phone.message}</p>
+          {errors?.phone && (
+            <p className="text-red-500 text-sm">
+              {errors?.phone?.message ?? ""}
+            </p>
           )}
         </div>
         <div>
@@ -60,13 +62,15 @@ const InputInfo = ({ register, errors }) => {
             Email
           </label>
           <input
-            {...register("email", { required: "Email is required" })}
+            {...register("email")}
             type="email"
             placeholder="Email"
             className="focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-thin rounded p-2 w-full"
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          {errors?.email && (
+            <p className="text-red-500 text-sm">
+              {errors?.email?.message ?? ""}
+            </p>
           )}
         </div>
       </div>
@@ -83,8 +87,8 @@ const InputInfo = ({ register, errors }) => {
         placeholder="Address"
         className="focus:outline-none focus:ring-2 mt-2 focus:ring-orange-500 border border-gray-thin rounded p-2 w-full h-24"
       />
-      {errors.address && (
-        <p className="text-red-500 text-sm">{errors.address.message}</p>
+      {errors?.address && (
+        <p className="text-red-500 text-sm">{errors?.address?.message ?? ""}</p>
       )}
 
       {/* Checkbox */}
