@@ -51,7 +51,7 @@ console.log("user", data?.userDetails);
       };
       reset(userData);
       if (data.user.image) {
-        setImagePreview(data.user.image);
+        setImagePreview(data?.userDetails?.image);
       }
     }
   }, [data, reset]);
