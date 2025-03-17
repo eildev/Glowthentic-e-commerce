@@ -2,27 +2,24 @@ import { useState } from "react";
 import avatarPlaceholder from "../../../assets/img/user-profile/avatar.jpeg";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
 import { FaCamera } from "react-icons/fa";
-
 import { useGetUserInfoQuery } from "../../../redux/features/api/userApi/userApi";
 import { useSelector } from "react-redux";
 import { usePostUserMutation } from "../../../redux/features/api/userApi/postUserApi";
 
 const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
-  console.log(user?.data?.email);
-  const { data, isLoading, isError } = useGetUserInfoQuery(user?.data?.id);
-  console.log(data);
+  const { data } = useGetUserInfoQuery(user?.data?.id);
   const [postUser, { isLoading: postLoad, isSuccess, isError: postError, error }] = usePostUserMutation();
 
   // State for form data
   const [formData, setFormData] = useState({
     image: avatarPlaceholder,
-    full_name: user?.data?.name,
+    full_name: user?.data?.name || "",
     address: "",
     country: "",
     police_station: "",
     postal_code: "",
-    email: user?.data?.email,
+    email: user?.data?.email || "",
     phone_number: "",
     saveAddress: false,
   });
@@ -45,13 +42,26 @@ const EditAccount = () => {
     }));
   };
 
-  console.log(formData?.full_name);
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await postUser(formData);
+      if (response?.data) {
+        alert("Profile updated successfully!");
+      } else {
+        alert("Something went wrong! Please try again.");
+      }
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      alert("Failed to update profile.");
+    }
+  };
 
   return (
     <div className="px-2">
       <CommonTitle title={"Edit Account"} />
-
-      <form>
+      <form onSubmit={handleSubmit}>
         {/* Avatar Upload */}
         <div className="relative w-24 h-24 lg:w-32 lg:h-32 mx-auto my-4 rounded-full group">
           <img className="w-full h-full rounded-full object-cover" src={formData.image} alt="User Avatar" />
@@ -62,12 +72,12 @@ const EditAccount = () => {
         </div>
 
         {/* Form Inputs */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4"> 
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="my-4">
             <label className="block text-xl text-dark font-normal font-encode mb-2">Name</label>
             <input
               type="text"
-              name="name"
+              name="full_name"
               value={formData.full_name}
               onChange={handleInputChange}
               className="block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border border-hr-thin rounded-md outline-secondary"
@@ -96,20 +106,6 @@ const EditAccount = () => {
               className="block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border border-hr-thin rounded-md outline-secondary"
             />
           </div>
-          {/* <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">Province/Region</label>
-            <select
-              name="region"
-              value={formData.region}
-              onChange={handleInputChange}
-              className="block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border border-hr-thin rounded-md outline-secondary"
-            >
-              <option value="Dhaka">Dhaka</option>
-              <option value="Chattogram">Chattogram</option>
-              <option value="Rajshahi">Rajshahi</option>
-              <option value="Sylhet">Sylhet</option>
-            </select>
-          </div> */}
           <div className="my-4">
             <label className="block text-xl text-dark font-normal font-encode mb-2">Police Station</label>
             <input
@@ -159,8 +155,8 @@ const EditAccount = () => {
             <label className="block text-xl text-dark font-normal font-encode mb-2">Phone Number</label>
             <input
               type="text"
-              name="phone"
-              value={formData.phone}
+              name="phone_number"
+              value={formData.phone_number}
               onChange={handleInputChange}
               className="block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border border-hr-thin rounded-md outline-secondary"
             />
@@ -170,8 +166,9 @@ const EditAccount = () => {
         <button
           type="submit"
           className="block w-full px-6 py-4 lg:px-8 lg:py-6 rounded-md text-lg font-normal font-encode text-white bg-secondary hover:bg-secondary-dark transition"
+          disabled={postLoad}
         >
-          Save Changes
+          {postLoad ? "Saving..." : "Save Changes"}
         </button>
       </form>
     </div>
