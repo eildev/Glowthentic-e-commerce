@@ -18,7 +18,7 @@ const EditAccount = () => {
   const { data, isLoading, isError } = useGetUserInfoQuery(userID, {
     skip: !userID,
   });
-
+console.log("user", data?.userDetails);
   const [
     updateUser,
     { isLoading: isUpdating, isSuccess: isUpdated, isError: updateError, error },
@@ -39,15 +39,15 @@ const EditAccount = () => {
   useEffect(() => {
     if (data?.user) {
       const userData = {
-        name: data.user.name || "",
-        email: data.user.email || "",
-        address: data.user.address || "",
-        country: data.user.country || "",
-        region: data.user.region || "",
-        zone: data.user.zone || "",
-        postalCode: data.user.postalCode || "",
-        phone: data.user.phone || "",
-        saveAddress: data.user.saveAddress || false,
+        name: data?.user?.name || "",
+        email: data?.user?.email || "",
+        address: data?.userDetails?.address || "",
+        country: data?.userDetails?.country || "",
+        region: data?.userDetails?.city || "",
+        zone: data?.userDetails?.police_station || "",
+        postalCode: data?.userDetails?.postal_code || "",
+        phone: data?.userDetails?.phone_number || "",
+    
       };
       reset(userData);
       if (data.user.image) {
