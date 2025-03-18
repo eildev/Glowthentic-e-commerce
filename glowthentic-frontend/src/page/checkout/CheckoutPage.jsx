@@ -70,21 +70,21 @@ const CheckoutPage = () => {
       shipping_charge: shipingCharge,
       coupon_code: "",
       order_note: data.orderNotes,
-      ...(token ? { user_id: user.data.id } : { session_id: userSessionId }),
+      ...(token ? { user_id: user.id } : { session_id: userSessionId }),
     };
 
     try {
       const response = await placeOrder(orderData).unwrap();
       // console.log(response);
-      // if (response.status) {
-      toast.success("Order placed successfully!");
-      // console.log(response.status);
-      dispatch(clearCart());
-      reset();
-      navigate("/order-confirmation");
-      // } else {
-      //   toast.error("Order placed Unsuccessful!");
-      // }
+      if (response.status) {
+        toast.success("Order placed successfully!");
+        // console.log(response.status);
+        dispatch(clearCart());
+        reset();
+        navigate("/order-confirmation");
+      } else {
+        toast.error("Order placed Unsuccessful!");
+      }
     } catch (err) {
       console.error("Error placing order:", err);
       toast.error("Failed to place order.", err);
