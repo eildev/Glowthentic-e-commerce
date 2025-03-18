@@ -49,12 +49,7 @@ const SignUp = () => {
   };
 
   const signUpHandleData = async (data) => {
-<<<<<<< HEAD
-    console.log(data);
-    dispatch(loginStart()); // Loading শুরু
-=======
     dispatch(loginStart());
->>>>>>> ee8a33b84ebdea9ebba5bd81ef3fee04e2556a84
     try {
       const result = await registerUser({
         email: data.email,
