@@ -18,10 +18,15 @@ const EditAccount = () => {
   const { data, isLoading, isError } = useGetUserInfoQuery(userID, {
     skip: !userID,
   });
-console.log("user", data?.userDetails);
+  // console.log("user", data?.userDetails);
   const [
     updateUser,
-    { isLoading: isUpdating, isSuccess: isUpdated, isError: updateError, error },
+    {
+      isLoading: isUpdating,
+      isSuccess: isUpdated,
+      isError: updateError,
+      error,
+    },
   ] = useUpdateUserMutation();
 
   const {
@@ -47,7 +52,6 @@ console.log("user", data?.userDetails);
         zone: data?.userDetails?.police_station || "",
         postalCode: data?.userDetails?.postal_code || "",
         phone: data?.userDetails?.phone_number || "",
-    
       };
       reset(userData);
       if (data.user.image) {
@@ -92,7 +96,6 @@ console.log("user", data?.userDetails);
         police_station: formData.zone,
         postal_code: formData.postalCode,
         phone_number: formData.phone,
-    
       };
 
       // If there's an image, we'll need to handle multipart/form-data
@@ -146,7 +149,10 @@ console.log("user", data?.userDetails);
   }
 
   if (isLoading) return <div className="text-center">Loading user data...</div>;
-  if (isError) return <div className="text-center text-red-500">Failed to load user data.</div>;
+  if (isError)
+    return (
+      <div className="text-center text-red-500">Failed to load user data.</div>
+    );
 
   return (
     <div className="px-2">
@@ -180,13 +186,20 @@ console.log("user", data?.userDetails);
             <input
               {...register("name", {
                 required: "Name is required",
-                minLength: { value: 2, message: "Name must be at least 2 characters" },
+                minLength: {
+                  value: 2,
+                  message: "Name must be at least 2 characters",
+                },
               })}
               className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
                 errors.name ? "border-red-500" : "border-hr-thin"
               }`}
             />
-            {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
+            {errors.name && (
+              <span className="text-red-500 text-sm">
+                {errors.name.message}
+              </span>
+            )}
           </div>
 
           <div className="my-4">
@@ -196,13 +209,20 @@ console.log("user", data?.userDetails);
             <input
               {...register("address", {
                 required: "Address is required",
-                minLength: { value: 5, message: "Address must be at least 5 characters" },
+                minLength: {
+                  value: 5,
+                  message: "Address must be at least 5 characters",
+                },
               })}
               className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
                 errors.address ? "border-red-500" : "border-hr-thin"
               }`}
             />
-            {errors.address && <span className="text-red-500 text-sm">{errors.address.message}</span>}
+            {errors.address && (
+              <span className="text-red-500 text-sm">
+                {errors.address.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -217,7 +237,11 @@ console.log("user", data?.userDetails);
                 errors.country ? "border-red-500" : "border-hr-thin"
               }`}
             />
-            {errors.country && <span className="text-red-500 text-sm">{errors.country.message}</span>}
+            {errors.country && (
+              <span className="text-red-500 text-sm">
+                {errors.country.message}
+              </span>
+            )}
           </div>
 
           <div className="my-4">
@@ -235,7 +259,11 @@ console.log("user", data?.userDetails);
               <option value="Rajshahi">Rajshahi</option>
               <option value="Sylhet">Sylhet</option>
             </select>
-            {errors.region && <span className="text-red-500 text-sm">{errors.region.message}</span>}
+            {errors.region && (
+              <span className="text-red-500 text-sm">
+                {errors.region.message}
+              </span>
+            )}
           </div>
 
           <div className="my-4">
@@ -248,7 +276,11 @@ console.log("user", data?.userDetails);
                 errors.zone ? "border-red-500" : "border-hr-thin"
               }`}
             />
-            {errors.zone && <span className="text-red-500 text-sm">{errors.zone.message}</span>}
+            {errors.zone && (
+              <span className="text-red-500 text-sm">
+                {errors.zone.message}
+              </span>
+            )}
           </div>
 
           <div className="my-4">
@@ -256,12 +288,18 @@ console.log("user", data?.userDetails);
               Postal Code
             </label>
             <input
-              {...register("postalCode", { required: "Postal code is required" })}
+              {...register("postalCode", {
+                required: "Postal code is required",
+              })}
               className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
                 errors.postalCode ? "border-red-500" : "border-hr-thin"
               }`}
             />
-            {errors.postalCode && <span className="text-red-500 text-sm">{errors.postalCode.message}</span>}
+            {errors.postalCode && (
+              <span className="text-red-500 text-sm">
+                {errors.postalCode.message}
+              </span>
+            )}
           </div>
 
           <div className="flex items-center my-4">
@@ -295,7 +333,11 @@ console.log("user", data?.userDetails);
                 errors.email ? "border-red-500" : "border-hr-thin"
               }`}
             />
-            {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
+            {errors.email && (
+              <span className="text-red-500 text-sm">
+                {errors.email.message}
+              </span>
+            )}
           </div>
 
           <div className="my-4">
@@ -314,7 +356,11 @@ console.log("user", data?.userDetails);
                 errors.phone ? "border-red-500" : "border-hr-thin"
               }`}
             />
-            {errors.phone && <span className="text-red-500 text-sm">{errors.phone.message}</span>}
+            {errors.phone && (
+              <span className="text-red-500 text-sm">
+                {errors.phone.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -322,7 +368,9 @@ console.log("user", data?.userDetails);
           type="submit"
           disabled={isUpdating}
           className={`block w-full px-6 py-4 lg:px-8 lg:py-6 rounded-md text-lg font-normal font-encode text-white transition ${
-            isUpdating ? "bg-gray-400 cursor-not-allowed" : "bg-secondary hover:bg-secondary-dark"
+            isUpdating
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-secondary hover:bg-secondary-dark"
           }`}
         >
           {isUpdating ? "Saving..." : "Save Changes"}

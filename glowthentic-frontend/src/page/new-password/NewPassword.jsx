@@ -16,7 +16,7 @@ const NewPassword = () => {
     setShowConfirmPassword((prevState) => !prevState);
   };
   const newPasswordHandleData = (formData) => {
-    console.log("New Password", formData);
+    // console.log("New Password", formData);
   };
   return (
     <div>

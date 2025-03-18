@@ -56,7 +56,7 @@ const authApi = createApi({
         }),
         getUserInfo: builder.query({
             query: (id) => {
-                console.log("in api", id);
+                // console.log("in api", id);
                 return `/user/details/show/${id}`;
             },
         }),

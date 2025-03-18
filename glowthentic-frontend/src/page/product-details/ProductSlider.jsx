@@ -7,13 +7,13 @@ import "swiper/css/thumbs";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 const ProductSlider = ({ data, variantId }) => {
-  console.log(data?.data?.variants);
+  // console.log(data?.data?.variants);
 
   const selectedVariantData = data?.data?.variants?.find(
     (variant) => variant.id === variantId
   );
 
-  console.log(selectedVariantData);
+  // console.log(selectedVariantData);
   const images = selectedVariantData?.variant_image || [];
 
   const swiperRef = useRef(null);

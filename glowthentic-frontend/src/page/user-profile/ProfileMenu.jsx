@@ -107,19 +107,6 @@ const ProfileMenu = () => {
         </div>
 
         <Logout />
-
-        {/* <Link
-          to="/"
-          className="group block mt-6 bg-light lg:bg-transparent lg:m-0 px-2 lg:px-0 py-2 rounded-lg lg:rounded-[5px] hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300"
-        >
-          <p className="flex items-center justify-between text-md lg:text-xl font-bold font-encode">
-            Logout
-            <Icon
-              className="w-6 lg:w-8 h-6 lg:h-8 text-gray"
-              icon="mdi-light:chevron-right"
-            />
-          </p>
-        </Link> */}
       </div>
     </div>
   );

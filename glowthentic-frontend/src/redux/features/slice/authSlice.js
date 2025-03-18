@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 const initialState = {
-    user: JSON.parse(localStorage.getItem("user")) || null, // localStorage থেকে ইউজার ডেটা লোড
+    user: JSON.parse(localStorage.getItem("user")) || null,
     token: Cookies.get("token") || null,
     loading: false,
     error: null,
@@ -18,10 +18,10 @@ const authSlice = createSlice({
         },
         loginSuccess: (state, action) => {
             state.loading = false;
-            state.user = action.payload.data.user || null; // API থেকে ইউজার ডেটা আসলে সেট করুন
+            state.user = action.payload.data.user || null;
             state.token = action.payload.data.token;
             Cookies.set("token", action.payload.data.token, { expires: 7 });
-            localStorage.setItem("user", JSON.stringify(state.user)); // ইউজার ডেটা localStorage-এ স্টোর
+            localStorage.setItem("user", JSON.stringify(state.user));
         },
         loginFailure: (state, action) => {
             state.loading = false;
@@ -31,14 +31,14 @@ const authSlice = createSlice({
             state.user = null;
             state.token = null;
             Cookies.remove("token");
-            localStorage.removeItem("user"); // localStorage থেকে ইউজার ডেটা মুছে ফেলুন
+            localStorage.removeItem("user");
         },
-        restoreUser: (state, action) => {
-            state.user = action.payload;
-            localStorage.setItem("user", JSON.stringify(action.payload)); // Restore করার সময়ও স্টোর করুন
-        },
+        // restoreUser: (state, action) => {
+        //     state.user = action.payload;
+        //     localStorage.setItem("user", JSON.stringify(action.payload)); 
+        // },
     },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, restoreUser } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -5,7 +5,7 @@ import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 
 const ForgetPassword = () => {
   const ForgetPasswordHandleData = (data) => {
-    console.log("Forget Password Data: ", data);
+    // console.log("Forget Password Data: ", data);
   };
   return (
     <div>
