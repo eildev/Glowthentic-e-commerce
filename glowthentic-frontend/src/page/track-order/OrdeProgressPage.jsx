@@ -8,8 +8,15 @@ import RegularButton from "../../components/typography/RegularButton";
 import HeadTitle from "../../components/typography/HeadTitle";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ProgressProductTitle from "../../components/track-order/order-progress/ProgressProductTitle";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 const OrdeProgressPage = () => {
+  const location = useLocation(); // Get the current location (URL)
+  const queryParams = new URLSearchParams(location.search);
+  const orderId = queryParams.get("orderId");
+  // console.log(orderId);
   const items = [
     {
       title: "W7 Prime Magic Face Primer",
@@ -204,14 +211,20 @@ const OrdeProgressPage = () => {
                   {/* Order Summary */}
                   <div className="mt-6 bg-gray-100 p-2 rounded-lg">
                     <div className="flex justify-between">
-                      <HeadTitle className="text-md lg:text-2xl">Order Summary</HeadTitle>
+                      <HeadTitle className="text-md lg:text-2xl">
+                        Order Summary
+                      </HeadTitle>
                       <HeadTitle className="text-md lg:text-xl">
                         Paid with{" "}
-                        <span className="font-normal text-md lg:text-xl">Credit Card</span>
+                        <span className="font-normal text-md lg:text-xl">
+                          Credit Card
+                        </span>
                       </HeadTitle>
                     </div>
 
-                    <p className="py-2 lg:text-lg text-sm">Your order is now confirmed!</p>
+                    <p className="py-2 lg:text-lg text-sm">
+                      Your order is now confirmed!
+                    </p>
                     <div className="flex justify-between text-sm text-gray-700">
                       <p className="lg:text-lg text-sm">Subtotal:</p>
                       <p className="lg:text-lg text-sm">$1,300.00 USD</p>

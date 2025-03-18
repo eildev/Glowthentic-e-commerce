@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import image from "../../assets/img/order-confirmation/Online-shopping.png";
 import Container from "../../components/Container";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
@@ -27,9 +28,12 @@ const OrderConfirmation = () => {
             Thank you for choosing us! Feel free to continue shopping and
             explore our wide range of products. Happy Shopping!
           </p>
-          <button className="px-6 py-2 bg-orange-500 text-white font-bold rounded hover:bg-orange-600 transition">
+          <Link
+            to="/products"
+            className="px-6 py-2 bg-orange-500 text-white font-bold rounded hover:bg-orange-600 transition"
+          >
             Continue Shopping
-          </button>
+          </Link>
         </div>
       </div>
     </Container>

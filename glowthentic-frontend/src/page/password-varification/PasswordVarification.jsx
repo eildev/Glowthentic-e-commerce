@@ -5,7 +5,7 @@ import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 
 const PasswordVarification = () => {
   const varificationPasswordHandleData = (data) => {
-    console.log("Password verification Code:", data); // data will be the form data.
+    // console.log("Password verification Code:", data); // data will be the form data.
   };
   return (
     <div>

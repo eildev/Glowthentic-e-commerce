@@ -8,6 +8,7 @@ import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { usePlaceOrderMutation } from "../../redux/features/api/checkoutApi/checkoutApi";
 import toast from "react-hot-toast";
 import { clearCart } from "../../redux/features/slice/cartSlice";
 import { useNavigate } from "react-router-dom";
@@ -15,14 +16,12 @@ import { getOrCreateSessionId } from "../../utils/getSessionId";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
-  const { user, token, } = useSelector((state) => state.auth);
-
-  console.log(user.data.id);
+  const { user, token } = useSelector((state) => state.auth);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [placeOrder, { isLoading, isSuccess, isError, error }] =
-    usePlaceOrderMutatio();
+    usePlaceOrderMutation();
 
   useEffect(() => {
     const total = cartItems.reduce(

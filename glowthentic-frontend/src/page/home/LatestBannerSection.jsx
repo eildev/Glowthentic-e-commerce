@@ -30,7 +30,10 @@ const data = [
 // import Banner from "../../components/banner/Banner";
 
 import DynamicBanner from "../../components/banner/DynamicBanner";
+import { useGetOfferBannerQuery } from "../../redux/features/api/offerBanner/offerBanner";
 const LatestBannerSection = () => {
+  const { data: offerData } = useGetOfferBannerQuery();
+  // console.log(offerData);
   return (
     <div className="px-5 py-5">
       <HeadTitle className="text-center mb-5 lg:text-3xl">

@@ -35,6 +35,7 @@ const Banner = ({ children, image, className }) => {
             <img
                 src={image}
                 alt="banner"
+                className=""
                 ref={imgRef}
                 style={{ display: 'none' }}
             />

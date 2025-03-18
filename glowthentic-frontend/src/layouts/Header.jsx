@@ -5,8 +5,25 @@ import SearchBar from "../components/search/SearchBar";
 import { useState } from "react";
 import Logo from "../components/navbar/Logo";
 import CartIcon from "../components/navbar/CartIcon";
+import { useSelector } from "react-redux";
+import { useGetWishlistByUserIdQuery } from "../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
+import WishIcon from "../components/navbar/WishIcon";
 const Header = ({ setShowMobileMenu, showMobileMenu }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const { token, user } = useSelector((state) => state.auth);
+
+  // console.log("token",  token);
+  // console.log(user?.data?.id);
+
+  const {
+    data: wishlist,
+    error,
+    isLoading,
+  } = useGetWishlistByUserIdQuery(user?.data?.id);
+  const wishListCount = wishlist?.wishlist.length;
+  const userRoute = token ? "/user-profile" : "/login";
+
+  const cartLength = useSelector((state) => state.cart.cartItems.length);
 
   return (
     <div className="bg-primary border-b border-[rgba(255,255,255,0.25)]">
@@ -90,19 +107,19 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
           <div className="navbar-end hidden lg:flex">
             {/* Cart Icon  */}
             <div className="px-2">
-              <CartIcon
-                cartCount={10}
-                className="border-primary text-primary flex justify-center items-center"
-              />
+              <CartIcon className="border-primary text-primary flex justify-center items-center" />
             </div>
-
-            {/* Wishlist  */}
-            <Link to="/wishlist" className="px-2">
-              <Icon icon="mdi-light:heart" width="30" height="30" />
-            </Link>
-
+            {/* Wishlist */}
+            {token && (
+              <div className="px-2">
+                <WishIcon
+                  wishListCount={wishListCount}
+                  className="border-primary text-primary flex justify-center items-center"
+                ></WishIcon>
+              </div>
+            )}
             {/* user  */}
-            <Link to="/login" className="px-2">
+            <Link to={userRoute} className="px-2">
               <Icon icon="line-md:account-small" width="30" height="30" />
             </Link>
           </div>
