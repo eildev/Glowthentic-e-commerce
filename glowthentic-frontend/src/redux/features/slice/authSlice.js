@@ -33,12 +33,12 @@ const authSlice = createSlice({
             Cookies.remove("token");
             localStorage.removeItem("user");
         },
-        // restoreUser: (state, action) => {
-        //     state.user = action.payload;
-        //     localStorage.setItem("user", JSON.stringify(action.payload)); 
-        // },
+        restoreUser: (state, action) => {
+            state.user = action.payload;
+            localStorage.setItem("user", JSON.stringify(action.payload));
+        },
     },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout, restoreUser } = authSlice.actions;
 export default authSlice.reducer;
