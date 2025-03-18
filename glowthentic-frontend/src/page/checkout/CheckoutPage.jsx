@@ -86,6 +86,7 @@ const CheckoutPage = () => {
         toast.error("Order placed Unsuccessful!");
       }
     } catch (err) {
+      console.log(err);
       console.error("Error placing order:", err);
       toast.error("Failed to place order.", err);
     }
