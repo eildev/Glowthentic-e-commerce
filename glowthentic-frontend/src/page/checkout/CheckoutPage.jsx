@@ -56,6 +56,7 @@ const CheckoutPage = () => {
   const shipToDifferentAddress = watch("shipToDifferentAddress");
 
   const onSubmit = async (data) => {
+    console.log(data);
     const orderData = {
       products: cartItems.map((item) => ({
         variant_id: item.id,
