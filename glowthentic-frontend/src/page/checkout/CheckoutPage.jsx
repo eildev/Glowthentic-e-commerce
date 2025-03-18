@@ -76,16 +76,17 @@ const CheckoutPage = () => {
 
     try {
       const response = await placeOrder(orderData).unwrap();
-      // console.log(response);
-      // if (response.status) {
+      console.log("res", response);
+      if (response.status === 200) {
       toast.success("Order placed successfully!");
-      // console.log(response.status);
+      console.log(response);
       dispatch(clearCart());
       reset();
       navigate("/order-confirmation");
-      // } else {
-      //   toast.error("Order placed Unsuccessful!");
-      // }
+      } else {
+        console.log("error", response);
+        toast.error("Order placed Unsuccessful!");
+      }
     } catch (err) {
       console.error("Error placing order:", err);
       toast.error("Failed to place order.", err);
