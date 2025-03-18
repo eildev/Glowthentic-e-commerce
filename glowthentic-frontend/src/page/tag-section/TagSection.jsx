@@ -10,6 +10,8 @@ const TagSection = () => {
   const { data, tagsIsLoading, tagsError } = useGetTagsQuery();
   const dispatch = useDispatch();
 
+  console.log(data);
+
   const handleTagClick = (tagId) => {
     // Dispatch selected tag ID to Redux store
     dispatch(setFilteredTags([tagId])); // Assuming single tag selection
@@ -29,7 +31,7 @@ const TagSection = () => {
             >
               <img
                 src={tags?.images ?? defaultTag}
-                alt={tags?.tagName}
+                alt={tags?.tagName ?? ""}
                 className="w-full object-cover rounded"
               />
               <h3 className="text-sm text-gray-600 mt-2 text-center">

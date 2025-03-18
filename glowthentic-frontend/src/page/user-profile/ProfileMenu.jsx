@@ -2,8 +2,10 @@ import { Icon } from "@iconify/react";
 import { Link, NavLink } from "react-router-dom";
 import avatar from "../../assets/img/user-profile/avatar.jpeg";
 import Logout from "../../components/logout/Logout";
+import { useSelector } from "react-redux";
 
 const ProfileMenu = () => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <div className="lg:w-[350px] lg:mt-0 p-4 mt-4">
       {/* Avatar */}
@@ -17,13 +19,13 @@ const ProfileMenu = () => {
         </div>
         <div>
           <h3 className="text-xl sm:text-2xl lg:text-3xl text-dark font-bold font-encode">
-            Hi, Lotifa
+            {user?.name ?? ""}
           </h3>
-          <h5 className="hidden lg:block text-sm sm:text-md text-gray font-normal font-encode">
+          {/* <h5 className="hidden lg:block text-sm sm:text-md text-gray font-normal font-encode">
             Member Since 2024
-          </h5>
-          <h5 className="block lg:hidden text-sm sm:text-md text-gray font-normal font-encode">
-            mehrimajannat30@gmail.com
+          </h5> */}
+          <h5 className="text-sm sm:text-md text-gray font-normal font-encode">
+            {user?.email ?? ""}
           </h5>
         </div>
       </div>

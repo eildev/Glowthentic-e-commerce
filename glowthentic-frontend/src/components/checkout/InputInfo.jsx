@@ -92,7 +92,7 @@ const InputInfo = ({ register, errors }) => {
       )}
 
       {/* Checkbox */}
-      <div className="flex items-center mt-2">
+      {/* <div className="flex items-center mt-2">
         <Checkbox
           register={register}
           id="same-address"
@@ -101,7 +101,7 @@ const InputInfo = ({ register, errors }) => {
         <label htmlFor="same-address" className="text-sm text-primary py-2">
           Ship to a different address
         </label>
-      </div>
+      </div> */}
     </form>
   );
 };
