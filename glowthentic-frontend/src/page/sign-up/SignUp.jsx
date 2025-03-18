@@ -50,6 +50,7 @@ const SignUp = () => {
   };
 
   const signUpHandleData = async (data) => {
+    console.log(data);
     dispatch(loginStart()); // Loading শুরু
     try {
       const result = await registerUser({
