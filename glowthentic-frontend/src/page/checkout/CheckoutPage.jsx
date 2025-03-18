@@ -17,7 +17,8 @@ import { getOrCreateSessionId } from "../../utils/getSessionId";
 const CheckoutPage = () => {
   const dispatch = useDispatch();
   const { user, token, } = useSelector((state) => state.auth);
-  console.log(token);
+
+  console.log(user.data.id);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -71,7 +72,7 @@ const CheckoutPage = () => {
       shipping_charge: shipingCharge,
       coupon_code: "",
       order_note: data.orderNotes,
-      ...(token ? { user_id: user.id } : { session_id: userSessionId }),
+      ...(token ? { user_id: user.data.id } : { session_id: userSessionId }),
     };
 
     try {
