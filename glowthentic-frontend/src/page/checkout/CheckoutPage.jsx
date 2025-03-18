@@ -75,8 +75,8 @@ const CheckoutPage = () => {
 
     try {
       const response = await placeOrder(orderData).unwrap();
-      // console.log(response);
-      if (response.status) {
+      console.log(response);
+      if (response.status === 200) {
         toast.success("Order placed successfully!");
         // console.log(response.status);
         dispatch(clearCart());
