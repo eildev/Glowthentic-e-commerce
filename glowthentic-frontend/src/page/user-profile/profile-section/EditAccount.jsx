@@ -12,7 +12,9 @@ import toast from "react-hot-toast";
 
 const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
-  const userID = user?.data?.id;
+  const userID = user?.id;
+
+  // console.log("login user", user);
 
   // Skip query if userID is undefined
   const { data, isLoading, isError } = useGetUserInfoQuery(userID, {

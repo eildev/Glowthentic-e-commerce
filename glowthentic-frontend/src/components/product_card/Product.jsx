@@ -22,7 +22,8 @@ const Product = ({ product, isDark }) => {
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const { token, user } = useSelector((state) => state.auth);
-  const [addToWishlist, { isLoading, isError, isSuccess }] = useAddToWishlistMutation();
+  const [addToWishlist, { isLoading, isError, isSuccess }] =
+    useAddToWishlistMutation();
 
   const {
     id,
@@ -36,7 +37,7 @@ const Product = ({ product, isDark }) => {
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
-// console.log(product);
+  // console.log(product);
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
     setIsFav(favourite.some((item) => item.id === id));
@@ -83,7 +84,9 @@ const Product = ({ product, isDark }) => {
         toast.error(`Failed to add ${product_name} to wishlist.`);
       }
     } catch (error) {
-      toast.error(error?.data?.message || "An error occurred. Please try again.");
+      toast.error(
+        error?.data?.message || "An error occurred. Please try again."
+      );
     }
   };
 
@@ -104,7 +107,7 @@ const Product = ({ product, isDark }) => {
       <figure className="relative overflow-hidden">
         <Link to={`/product/${product.slug}`}>
           <img
-            className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:py-5 py-2 transition-transform duration-500 hover:scale-105"
+            className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:pb-3 pb-2 transition-transform duration-500 hover:scale-105"
             src={productImage ?? defaultImage}
             alt={product_name ?? "product image"}
           />

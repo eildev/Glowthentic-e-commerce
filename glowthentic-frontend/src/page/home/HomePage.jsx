@@ -8,8 +8,11 @@ import TopProductsSection from "./TopProductsSection";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import BannerCollection from "./BannerCollection";
 import { useGetOfferBannerQuery } from "../../redux/features/api/offerBanner/offerBanner";
+import { useSelector } from "react-redux";
 const HomePage = () => {
-  
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
+
   return (
     <div>
       <DynamicHelmet title="Home page" />
