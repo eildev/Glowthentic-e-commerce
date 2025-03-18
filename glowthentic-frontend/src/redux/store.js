@@ -38,6 +38,7 @@ const store = configureStore({
         [checkoutApi.reducerPath]: checkoutApi.reducer,
         [registerApi.reducerPath]: registerApi.reducer,
         [homeBannerApi.reducerPath]: homeBannerApi.reducer,
+     
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
