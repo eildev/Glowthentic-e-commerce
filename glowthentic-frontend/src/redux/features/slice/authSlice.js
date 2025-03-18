@@ -17,11 +17,12 @@ const authSlice = createSlice({
             state.error = null;
         },
         loginSuccess: (state, action) => {
+            // console.log(action.payload.data);
             state.loading = false;
-            state.user = action.payload.data.user || null;
+            state.user = action.payload.data || null;
             state.token = action.payload.data.token;
             Cookies.set("token", action.payload.data.token, { expires: 7 });
-            localStorage.setItem("user", JSON.stringify(state.user));
+            localStorage.setItem("user", JSON.stringify(action.payload.data));
         },
         loginFailure: (state, action) => {
             state.loading = false;
