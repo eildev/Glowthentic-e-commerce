@@ -16,7 +16,9 @@ import { getOrCreateSessionId } from "../../utils/getSessionId";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
-  const { user, token } = useSelector((state) => state.auth);
+  const { user, token, } = useSelector((state) => state.auth);
+
+  console.log(user.data.id);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
