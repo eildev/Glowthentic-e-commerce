@@ -22,7 +22,7 @@ const Product = ({ product, isDark }) => {
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const { token, user } = useSelector((state) => state.auth);
-  const [addToWishlist, { isLoading, isError, isSuccess }] =
+  const [addToWishlist, { isLoading, isError, isSuccess, data }] =
     useAddToWishlistMutation();
 
   const {

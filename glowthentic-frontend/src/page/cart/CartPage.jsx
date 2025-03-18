@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import CartItem from "../../components/cart/CartItem";
 import { useDispatch, useSelector } from "react-redux";
+import { IoCloseSharp } from "react-icons/io5";
 import IncrementDecrement from "../../components/typography/IncrementDecrement";
 import {
   clearCart,
@@ -107,11 +108,13 @@ const CartPage = () => {
           <h1>Voucher Code</h1>
         </button>
       </div>
-      <Container>
+      <Container >
         <div
+        
           className={`lg:grid-cols-3 gap-4 ${
             cartItems.length === 0 ? "hidden" : "grid"
           }`}
+          
         >
           <div className="md:bg-white p-5 lg:col-span-2">
             <div className="flex justify-between border-b border-[#D7D7D7]">
@@ -252,8 +255,12 @@ const CartPage = () => {
           No Items Available!
         </div>
         {voucherActive && (
-          <div className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[90]">
-            <div className="h-56 w-full bg-white fixed bottom-0 rounded-t-xl px-3 py-5">
+          <div
+           className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[90]"
+           
+           >
+          
+            <div className="h-auto w-full bg-white fixed bottom-0 rounded-t-xl px-3 py-5">
               <div>
                 <h1 className="text-[#1C1B1B]">Voucher Code</h1>
                 <input
@@ -267,6 +274,12 @@ const CartPage = () => {
                 className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-8"
               >
                 Apply
+              </button>
+              <button
+                onClick={() => isVoucherActive(!voucherActive)}
+                className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-2"
+              >
+                cancel
               </button>
             </div>
           </div>
