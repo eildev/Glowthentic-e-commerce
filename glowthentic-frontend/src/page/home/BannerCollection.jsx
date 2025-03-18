@@ -16,7 +16,7 @@ const bannerImages = [
   bannerImg4,
   bannerImg5,
 ];
-const baseURL = "http://127.0.0.1:8000/";
+const baseURL = "https://backend.glowthentic.store/";
 
 const sliderSettings = {
   dots: true,
