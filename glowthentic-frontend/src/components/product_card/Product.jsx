@@ -12,7 +12,7 @@ import {
   addToCart,
   removeFromCart,
 } from "../../redux/features/slice/cartSlice";
-import { useWishlistMutation } from "../../redux/features/api/wishListApi/wishListApi";
+import { useAddToWishlistMutation } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI"; // Updated import
 import { imagePath } from "../../utils/imagePath";
 
 const Product = ({ product, isDark }) => {
@@ -21,9 +21,9 @@ const Product = ({ product, isDark }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
-  const baseURL = "http://127.0.0.1:8000/";
   const { token, user } = useSelector((state) => state.auth);
-  const [wishlist, { isLoading, isError, isSuccess }] = useWishlistMutation();
+  const [addToWishlist, { isLoading, isError, isSuccess, data }] =
+    useAddToWishlistMutation();
 
   const {
     id,
@@ -37,21 +37,16 @@ const Product = ({ product, isDark }) => {
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
-
-  // console.log(defaultVariant?.product_stock);
-  console.log(variants[0]?.variant_image[0]?.image);
-
+  // console.log(product);
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
     setIsFav(favourite.some((item) => item.id === id));
     setIsInCart(cartItems.some((item) => item.id === defaultVariant.id));
   }, [id, cartItems]);
+
   const discount = 50;
-  // useEffect(() => {
-  //   const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
-  //   setIsFav(favourite.some((item) => item?.id === id));
-  //   setIsInCart(cartItems.some((item) => item?.id === defaultVariant.id));
-  // }, [id, cartItems]);
+
+  const productImage = imagePath(variants[0]?.variant_image[0]?.image);
 
   const handleAddToCart = (productItem) => {
     if (isInCart) {
@@ -68,11 +63,6 @@ const Product = ({ product, isDark }) => {
     }
   };
 
-  // const url = `http://127.0.0.1:8000/api/${variants[0]?.variant_image[0]?.image}`;
-  // console.log(url);
-
-  const productImage = imagePath(variants[0]?.variant_image[0]?.image);
-
   const handleFav = async (productItem) => {
     if (!user) {
       navigate("/login");
@@ -85,15 +75,18 @@ const Product = ({ product, isDark }) => {
         user_id: user?.data?.id,
         variant_id: variantId,
       };
-      const result = await wishlist(wishlistData).unwrap();
+      const result = await addToWishlist(wishlistData).unwrap();
       if (result.status === 200) {
         setIsFav(true);
         toast.success(`${product_name} added to your wishlist!`);
+        // The invalidatesTags in the API slice will trigger a refetch in WishlistPage
       } else {
         toast.error(`Failed to add ${product_name} to wishlist.`);
       }
     } catch (error) {
-      toast.error(error?.message || "An error occurred. Please try again.");
+      toast.error(
+        error?.data?.message || "An error occurred. Please try again."
+      );
     }
   };
 
@@ -114,9 +107,8 @@ const Product = ({ product, isDark }) => {
       <figure className="relative overflow-hidden">
         <Link to={`/product/${product.slug}`}>
           <img
-            className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:py-5 py-2 transition-transform duration-500 hover:scale-105"
+            className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:pb-3 pb-2 transition-transform duration-500 hover:scale-105"
             src={productImage ?? defaultImage}
-            // src={defaultVariant || defaultImage}
             alt={product_name ?? "product image"}
           />
         </Link>
@@ -169,9 +161,6 @@ const Product = ({ product, isDark }) => {
             {productName ?? "Beautya Capture Total Dreamskin Care & Perfect"}
           </HeadTitle>
         </Link>
-        {/* <div>
-          <h1>{variants[0].regular_price}</h1>
-        </div> */}
         <Paragraph className="text-xs lg:text-sm transition-opacity duration-200 hover:opacity-80">
           <span
             dangerouslySetInnerHTML={{

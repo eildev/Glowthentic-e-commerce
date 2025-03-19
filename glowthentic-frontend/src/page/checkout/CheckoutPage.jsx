@@ -12,10 +12,13 @@ import { usePlaceOrderMutation } from "../../redux/features/api/checkoutApi/chec
 import toast from "react-hot-toast";
 import { clearCart } from "../../redux/features/slice/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { getOrCreateSessionId } from "../../utils/getSessionId";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
+
+  // console.log(user.data.id);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -49,9 +52,13 @@ const CheckoutPage = () => {
     reset,
     trigger,
   } = useForm();
+
+  const userSessionId = getOrCreateSessionId();
+
   const shipToDifferentAddress = watch("shipToDifferentAddress");
 
   const onSubmit = async (data) => {
+    console.log(data);
     const orderData = {
       products: cartItems.map((item) => ({
         variant_id: item.id,
@@ -66,13 +73,15 @@ const CheckoutPage = () => {
       shipping_charge: shipingCharge,
       coupon_code: "",
       order_note: data.orderNotes,
-      user_id: user.data.id,
+      ...(token ? { user_id: user.id } : { session_id: userSessionId }),
     };
 
     try {
       const response = await placeOrder(orderData).unwrap();
+      console.log(response);
       if (response.status === 200) {
         toast.success("Order placed successfully!");
+        // console.log(response.status);
         dispatch(clearCart());
         reset();
         navigate("/order-confirmation");
@@ -80,6 +89,7 @@ const CheckoutPage = () => {
         toast.error("Order placed Unsuccessful!");
       }
     } catch (err) {
+      console.log(err);
       console.error("Error placing order:", err);
       toast.error("Failed to place order.", err);
     }

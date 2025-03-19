@@ -4,6 +4,7 @@ import IncrementDecrement from "../typography/IncrementDecrement";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice";
 import { Icon } from "@iconify/react";
+import { imagePath } from "../../utils/imagePath";
 
 const CartItem = ({ item, handleDelete }) => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const CartItem = ({ item, handleDelete }) => {
     dispatch(toggleItemSelection(item.id));
   };
 
+  const image = imagePath(item?.variant_image[0].image);
+
   return (
     <tr className="border-none">
       <th>
@@ -23,10 +26,7 @@ const CartItem = ({ item, handleDelete }) => {
         <div className="flex gap-3">
           <div className="avatar">
             <div className="mask rounded-xl h-[64px] w-[62px]">
-              <img
-                src={item?.variant_image[0].image ?? defaultImage}
-                alt="Avatar Tailwind CSS Component"
-              />
+              <img src={image} alt="Avatar Tailwind CSS Component" />
             </div>
           </div>
           <div>

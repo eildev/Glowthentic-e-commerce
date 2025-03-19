@@ -169,21 +169,14 @@ class ProductController extends Controller
             //     $variant->image=$path.$filename;
             // }
             $variant->save();
-<<<<<<< HEAD
-=======
 
 
->>>>>>> debc938e61cc8e5a13dc977f47a7cb551248eed8
             if ($variant->id) {
                 if ($request->hasFile('product_main_image')) {
                     foreach ($request->file('product_main_image') as $image) {
                         $file = $image;
                         $extension = $file->extension();
-<<<<<<< HEAD
-                        $filename = time() . '.' . $extension;
-=======
                         $filename = time() . '_' . uniqid() . '.' . $image->extension();
->>>>>>> debc938e61cc8e5a13dc977f47a7cb551248eed8
                         $path = 'uploads/products/variant/';
                         $file->move($path, $filename);
                         $galleryImage = $path . $filename;
@@ -195,17 +188,6 @@ class ProductController extends Controller
                     }
                 }
             }
-<<<<<<< HEAD
-        }
-
-        if ($product && $variant && $request->stock_quantity) {
-            $stock = new ProductStock();
-            $stock->product_id = $product->id;
-            $stock->variant_id = $variant->id;
-            $stock->StockQuantity = $request->stock_quantity;
-            $stock->status = 'Available';
-            $stock->save();
-=======
 
             if ($product && $variant && $request->stock_quantity) {
                 $stock = new ProductStock();
@@ -215,7 +197,6 @@ class ProductController extends Controller
                 $stock->status = 'Available';
                 $stock->save();
             }
->>>>>>> debc938e61cc8e5a13dc977f47a7cb551248eed8
         }
 
         return response()->json([
@@ -619,25 +600,6 @@ class ProductController extends Controller
 
     public function variantProductStore(Request $request)
     {
-<<<<<<< HEAD
-
-        try {
-
-            if ($request->price ?? 0) {
-                foreach ($request->price as $key => $price) {
-
-                    $productVerify = Variant::where('product_id', $request->product_id)->first();
-
-                    $variant = new Variant;
-                    $variant->product_id = $request->product_id;
-                    $variant->size = $request->size[$key];
-                    $variant->color = $request->color[$key];
-                    $variant->regular_price = $price;
-                    $variant->weight = $request->weight[$key];
-                    $variant->flavor = $request->flavor[$key];
-                    $variant->variant_name = $request->variant_name[$key];
-
-=======
         try {
             if (!empty($request->price ?? 0)) {
                 foreach ($request->price as $key => $price) {
@@ -653,45 +615,12 @@ class ProductController extends Controller
                     $variant->flavor = $request->flavor[$key] ?? null;
                     $variant->variant_name = $request->variant_name[$key] ?? null;
 
->>>>>>> debc938e61cc8e5a13dc977f47a7cb551248eed8
                     if ($productVerify) {
                         $variant->status = "Variant";
                     }
                     $variant->save();
 
 
-<<<<<<< HEAD
-                    if ($variant->id) {
-
-                        if ($request->hasFile('image') && isset($request->image[$key])) {
-                            foreach ($request->image[$key] as $image) {
-                                // dd($request->image[$key]);
-                                $file = $request->file('image')[$key];
-                                $extension = $file->extension();
-                                $filename = time() . '_' . $key . '.' . $extension;
-                                $path = 'uploads/products/variant/';
-                                $file->move($path, $filename);
-                                $galleryImage = $path . $filename;
-
-                                $variantImage = new VariantImageGallery();
-                                $variantImage->variant_id = $variant->id;
-                                $variantImage->product_id = $request->product_id;
-                                $variantImage->image = $galleryImage;
-                                $variantImage->save();
-                            }
-                        }
-                    }
-
-
-
-
-
-
-
-
-                    if ($request->stock_quantity && isset($request->stock_quantity[$key])) {
-
-=======
                     if ($variant->id && $request->hasFile("image.$key")) {
                         foreach ($request->file("image.$key") as $image) {
                             $filename = time() . '_' . uniqid() . '.' . $image->extension();
@@ -708,16 +637,11 @@ class ProductController extends Controller
 
 
                     if (!empty($request->stock_quantity[$key])) {
->>>>>>> debc938e61cc8e5a13dc977f47a7cb551248eed8
                         $stock = new ProductStock();
                         $stock->product_id = $request->product_id;
                         $stock->variant_id = $variant->id;
                         $stock->StockQuantity = $request->stock_quantity[$key];
                         $stock->status = 'Available';
-<<<<<<< HEAD
-
-=======
->>>>>>> debc938e61cc8e5a13dc977f47a7cb551248eed8
                         $stock->save();
                     }
                 }
@@ -729,34 +653,13 @@ class ProductController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-<<<<<<< HEAD
-                'status' => '500',
-                'message' => 'Something went wrong',
-=======
                 'status' => 500,
                 'message' => 'Something went wrong',
                 'error' => $e->getMessage(),
->>>>>>> debc938e61cc8e5a13dc977f47a7cb551248eed8
             ]);
         }
     }
 
-<<<<<<< HEAD
-    //rest Api Start
-    public function viewAll()
-    {
-        $products = Product::orderByDesc('id')->with('variants', 'product_tags', 'productStock')->where('status', 1)->get();
-        return response()->json([
-            'status' => '200',
-            'message' => 'Product List',
-            'data' => $products,
-        ]);
-    }
-
-    public function show($id)
-    {
-        $products = Product::with('variants', 'product_tags', 'productStock')->where('id', $id)->first();
-=======
 
 
 
@@ -777,15 +680,11 @@ class ProductController extends Controller
     {
         $products = Product::with('variants.variantImage', 'product_tags', 'productStock', 'productdetails', 'variantImage')->where('id', $id)->first();
 
->>>>>>> debc938e61cc8e5a13dc977f47a7cb551248eed8
         return response()->json([
             'status' => '200',
             'message' => 'Product Search',
             'data' => $products,
-<<<<<<< HEAD
-=======
             'ID' => $id,
->>>>>>> debc938e61cc8e5a13dc977f47a7cb551248eed8
         ]);
     }
 }

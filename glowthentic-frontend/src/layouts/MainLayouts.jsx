@@ -15,29 +15,29 @@ import Cookies from "js-cookie";
 import { loginSuccess, restoreUser } from "../redux/features/slice/authSlice";
 
 const MainLayouts = () => {
-  const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
-  const user = useSelector((state) => state.auth.user);
-  const {
-    data: userData,
-    isSuccess,
-    isLoading,
-  } = useGetUserQuery(undefined, {
-    skip: !token || !!user,
-  });
+  // const dispatch = useDispatch();
+  // const token = useSelector((state) => state.auth.token);
+  // const user = useSelector((state) => state.auth.user);
+  // const {
+  //   data: userData,
+  //   isSuccess,
+  //   isLoading,
+  // } = useGetUserQuery(undefined, {
+  //   skip: !token || !!user,
+  // });
 
-  useEffect(() => {
-    if (isSuccess && userData && !user) {
-      dispatch(restoreUser(userData));
-    }
-  }, [isSuccess, userData, dispatch, user]);
+  // useEffect(() => {
+  //   if (isSuccess && userData && !user) {
+  //     dispatch(restoreUser(userData));
+  //   }
+  // }, [isSuccess, userData, dispatch, user]);
 
-  useEffect(() => {
-    const storedToken = Cookies.get("token");
-    if (storedToken && !token) {
-      dispatch(loginSuccess({ data: { token: storedToken } }));
-    }
-  }, [dispatch, token]);
+  // useEffect(() => {
+  //   const storedToken = Cookies.get("token");
+  //   if (storedToken && !token) {
+  //     dispatch(loginSuccess({ data: { token: storedToken } }));
+  //   }
+  // }, [dispatch, token]);
 
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   // const dispatch = useDispatch();

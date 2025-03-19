@@ -1,9 +1,9 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import SerachItemSkeleton from "./SerachItemSkeleton";
 import SuggestionItem from "./SuggestionItem";
 import { useDispatch } from "react-redux";
 import { setSuggestionsVisible } from "../../redux/features/slice/searchSlice";
 import { Link } from "react-router-dom";
+import SearchItemSkeleton from "./SearchItemSkeleton";
 
 const RenderSuggestion = ({ isLoading, error, productData }) => {
   const dispatch = useDispatch();
@@ -11,9 +11,12 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
     dispatch(setSuggestionsVisible(false));
   };
 
-  console.log("error", error);
+  const handleSuggestionClick = (e) => {
+    e.stopPropagation(); // Prevent suggestion click from bubbling up
+  };
+
   if (isLoading) {
-    return [...Array(5)].map((_, index) => <SerachItemSkeleton key={index} />);
+    return [...Array(5)].map((_, index) => <SearchItemSkeleton key={index} />);
   }
   if (error)
     return <p className="px-4 py-2 text-red-500">Error loading suggestions</p>;
@@ -27,7 +30,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
   }
 
   return (
-    <>
+    <div onClick={handleSuggestionClick}>
       {productData.products?.length > 0 && (
         <div>
           <h3 className="font-bold text-lg px-4 py-2 text-black">Products</h3>
@@ -91,7 +94,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

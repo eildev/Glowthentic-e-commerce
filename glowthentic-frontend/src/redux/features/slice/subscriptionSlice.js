@@ -5,7 +5,7 @@ export const subscribeUser = createAsyncThunk(
   "subscription/subscribeUser",
   async (email, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/subscribe/store", {
+      const response = await fetch("https://backend.glowthentic.store/api/subscribe/store", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

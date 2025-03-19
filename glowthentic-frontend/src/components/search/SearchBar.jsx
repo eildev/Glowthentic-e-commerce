@@ -35,17 +35,25 @@ const SearchBar = ({ className }) => {
     return () => debouncedSearch.cancel();
   }, [query, debouncedSearch, dispatch]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        dispatch(setSuggestionsVisible(false));
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     console.log("Clicked element:", event.target);
+  //     console.log(
+  //       "searchRef contains target:",
+  //       searchRef.current && searchRef.current.contains(event.target)
+  //     );
+  //     if (searchRef.current && !searchRef.current.contains(event.target)) {
+  //       console.log("Hiding suggestions");
+  //       dispatch(setSuggestionsVisible(false));
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     console.log("Removing event listener");
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [dispatch]);
 
-  // Enter key press handler
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && query.trim()) {
       dispatch(setSuggestionsVisible(false));
@@ -53,12 +61,15 @@ const SearchBar = ({ className }) => {
     }
   };
 
-  // Search Icon click handler
   const handleSearchClick = () => {
     if (query.trim()) {
       dispatch(setSuggestionsVisible(false));
       navigate("/products", { state: { searchQuery: query } });
     }
+  };
+
+  const handleInputClick = (e) => {
+    e.stopPropagation(); // Prevent input click from triggering handleClickOutside
   };
 
   const renderedSuggestions = useMemo(() => {
@@ -89,7 +100,8 @@ const SearchBar = ({ className }) => {
           placeholder="Search for products, brands..."
           value={query}
           onChange={(e) => dispatch(setQuery(e.target.value))}
-          onKeyPress={handleKeyPress} // Enter key press handler
+          onKeyPress={handleKeyPress}
+          onClick={handleInputClick} // Stop propagation on input click
           className="ps-4 border-none w-full focus:outline-none text-black h-9 placeholder:text-gray-500"
         />
       </div>

@@ -3,6 +3,7 @@ import Checkbox from "../typography/Checkbox";
 import IncrementDecrement from "../typography/IncrementDecrement";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice";
+import { imagePath } from "../../utils/imagePath";
 
 const CartItemForSmallDevice = ({ item, handleDelete }) => {
   const dispatch = useDispatch();
@@ -12,6 +13,8 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
   const handleCheckboxChange = () => {
     dispatch(toggleItemSelection(item.id));
   };
+
+  const image = imagePath(item?.variant_image[0].image);
   return (
     <tr className="border-none">
       <div>
@@ -22,10 +25,7 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
           <div className="flex gap-3">
             <div className="avatar">
               <div className="mask mask-squircle h-12 w-12">
-                <img
-                  src={item?.variant_image[0].image ?? defaultImage}
-                  alt="Avatar Tailwind CSS Component"
-                />
+                <img src={image} alt="Avatar Tailwind CSS Component" />
               </div>
             </div>
             <div>

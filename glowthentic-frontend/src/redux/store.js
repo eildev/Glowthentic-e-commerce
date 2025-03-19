@@ -11,10 +11,17 @@ import offerBannerApi from "./features/api/offerBanner/offerBanner";
 import cartReducer from "./features/slice/cartSlice";
 import selectCartReducer from "./features/slice/selectCartSlice";
 import filterReducer from "./features/slice/filterSlice";
+import orderReducer from "./features/slice/orderSlice";
 import checkoutApi from "./features/api/checkoutApi/checkoutApi";
 import wishListApi from "./features/api/wishListApi/wishListApi";
 import registerApi from "./features/api/registerApi/registerApi";
 import wishlistByUserAPI from "./features/api/wishlistByUserAPI/wishlistByUserAPI";
+import homeBannerApi from "./features/api/homeBannerApi/homeBannerApi";
+import orderAPI from "./features/api/orderApi/orderApi";
+import orderGetApi from "./features/api/orderApi/orderGetApi";
+import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
+// import orderGetApi from "./features/api/orderApi/orderGetApi";
+// import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
 const store = configureStore({
     reducer: {
         // all slice 
@@ -23,6 +30,7 @@ const store = configureStore({
         cart: cartReducer,
         filters: filterReducer,
         selectCart: selectCartReducer,
+        order: orderReducer,
 
         // all api
         [productApi.reducerPath]: productApi.reducer,
@@ -36,6 +44,11 @@ const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [checkoutApi.reducerPath]: checkoutApi.reducer,
         [registerApi.reducerPath]: registerApi.reducer,
+        [orderAPI.reducerPath]: orderAPI.reducer,
+        [homeBannerApi.reducerPath]: homeBannerApi.reducer,
+        [orderGetApi.reducerPath]: orderGetApi.reducer,
+        [orderHistoryApi.reducerPath]: orderGetApi.reducer,
+
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -50,6 +63,10 @@ const store = configureStore({
             .concat(authApi.middleware)
             .concat(checkoutApi.middleware)
             .concat(registerApi.middleware)
+            .concat(orderAPI.middleware)
+            .concat(homeBannerApi.middleware)
+            .concat(orderGetApi.middleware)
+            .concat(orderHistoryApi.middleware)
 
 });
 

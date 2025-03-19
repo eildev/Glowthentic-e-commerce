@@ -55,6 +55,9 @@ const Footer = () => {
               <Link to="#" className="link link-hover">
                 Blog
               </Link>
+              <Link to="/track-order" className="link link-hover">
+                Order Tracking
+              </Link>
             </nav>
             <nav>
               <CardTitle>Products</CardTitle>
