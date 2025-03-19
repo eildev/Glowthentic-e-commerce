@@ -11,6 +11,7 @@ import offerBannerApi from "./features/api/offerBanner/offerBanner";
 import cartReducer from "./features/slice/cartSlice";
 import selectCartReducer from "./features/slice/selectCartSlice";
 import filterReducer from "./features/slice/filterSlice";
+import orderReducer from "./features/slice/orderSlice";
 import checkoutApi from "./features/api/checkoutApi/checkoutApi";
 import wishListApi from "./features/api/wishListApi/wishListApi";
 import registerApi from "./features/api/registerApi/registerApi";
@@ -27,6 +28,7 @@ const store = configureStore({
         cart: cartReducer,
         filters: filterReducer,
         selectCart: selectCartReducer,
+        order: orderReducer,
 
         // all api
         [productApi.reducerPath]: productApi.reducer,
