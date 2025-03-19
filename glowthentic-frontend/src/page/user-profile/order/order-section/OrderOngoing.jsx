@@ -3,7 +3,6 @@ import OrderCard from "../../../../components/user-profile/OrderCard";
 import { useGetOrderInfoQuery } from "../../../../redux/features/api/orderApi/orderGetApi";
 
 const OrderOngoing = () => {
-
   const { user } = useSelector((state) => state.auth);
   const userID = user?.id;
 
@@ -11,7 +10,7 @@ const OrderOngoing = () => {
 
   const { data: order, isLoading, error } = useGetOrderInfoQuery(userID);
 
-  console.log("data",order);
+  console.log("data", order);
 
   return (
     <div>
