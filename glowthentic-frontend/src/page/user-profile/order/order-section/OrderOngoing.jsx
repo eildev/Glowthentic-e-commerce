@@ -8,13 +8,12 @@ const OrderOngoing = () => {
 
   console.log("id", userID);
 
-  const { data: order, isLoading, error } = useGetOrderInfoQuery(userID);
+  const { data: order, isLoading : orderLoad, error } = useGetOrderInfoQuery(userID);
 
-  console.log("order Data", order);
 
   return (
     <div>
-      <OrderCard order={order} status="On Delivery" />
+      <OrderCard order={order} orderLoad={orderLoad} status="On Delivery" />
     </div>
   );
 };

@@ -9,15 +9,14 @@ const OrderHistory = () => {
 
   console.log("id", userID);
 
-  const { data: history, isLoading, error } =  useGetOrderHistoryQuery(userID);
-
+  const { data: history, isLoading : historyLoad, error } =  useGetOrderHistoryQuery(userID);
 
 
 
 
   return (
     <div>
-      <OrderCard history={history} status="done" />
+      <OrderCard history={history} historyLoad={historyLoad} status="done" />
     </div>
   );
 };
