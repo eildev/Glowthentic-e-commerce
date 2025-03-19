@@ -10,7 +10,7 @@ const OrderOngoing = () => {
 
   const { data: order, isLoading, error } = useGetOrderInfoQuery(userID);
 
-  console.log("data", order);
+  console.log("order Data", order);
 
   return (
     <div>

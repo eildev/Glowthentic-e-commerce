@@ -20,6 +20,8 @@ import homeBannerApi from "./features/api/homeBannerApi/homeBannerApi";
 import orderAPI from "./features/api/orderApi/orderApi";
 import orderGetApi from "./features/api/orderApi/orderGetApi";
 import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
+// import orderGetApi from "./features/api/orderApi/orderGetApi";
+// import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
 const store = configureStore({
     reducer: {
         // all slice 
