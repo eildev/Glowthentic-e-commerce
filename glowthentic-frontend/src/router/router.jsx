@@ -3,9 +3,6 @@ import MainLayouts from "../layouts/MainLayouts";
 import HomePage from "../page/home/HomePage";
 import AboutPage from "../page/about/AboutPage";
 import Blog from "../page/blog/Blog";
-
-// import Login from "../page/login/Login";
-import MainLogin from "../page/login/MainLogin";
 import SignUp from "../page/sign-up/SignUp";
 import ForgetPassword from "../page/forget-password/ForgetPassword";
 import Page404 from "../page/error/Page404";
@@ -43,7 +40,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
-    // errorElement: <ErrorBoundary />, // Error Boundary
+    errorElement: <ErrorBoundary />, // Error Boundary
     children: [
       {
         path: "/",
@@ -103,7 +100,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile-mobile",
-        element: <ProfileMenu />,
+        element:
+          (<PrivateRoute>
+            <ProfileMenu />
+          </PrivateRoute>)
       },
       {
         path: "/blog",
