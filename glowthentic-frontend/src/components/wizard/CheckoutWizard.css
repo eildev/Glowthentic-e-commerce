@@ -1,0 +1,44 @@
+
+.smooth-border-left-to-right{
+    border:1.5px solid #FF9800!important;
+    
+}
+.wizard-icon-container {
+    background-color: #faf9f5;
+}
+.wizard-icon{
+    color: #6f7384;
+    background-color: transparent !important;
+}
+.wizard-icon  {
+    color: #6f7384!important;
+}
+.wizard-card-footer .wizard-btn {
+    background-color: #fa8232;
+    padding: 7px;
+
+   font-size: 18px;
+}
+.react-form-wizard .wizard-card-footer .wizard-footer-right {
+    float: none;
+    text-align: center;
+    background-color:transparent !important;
+}
+.stepTitle {
+    color: #6f7384!important;
+    margin-top: 0px;
+}
+ .active{
+    color: #FF9800!important;
+   
+}
+.active .wizard-icon {
+    color: #FF9800 !important;
+}
+.react-form-wizard.md .wizard-icon-circle {
+
+    width: 40px;
+    height: 35px;
+    font-size: 24px;
+}
+ 

@@ -1,8 +1,8 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
   { ignores: ['dist'] },
@@ -10,7 +10,10 @@ export default [
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        require: 'readonly', // Add require as a global variable
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
@@ -33,7 +36,14 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
-      'react/prop-types': 'off'
+      'react/prop-types': 'off',
     },
   },
-]
+  // Override for CSS files to ignore unknown at rules
+  {
+    files: ['**/*.css'],
+    rules: {
+      'unknownAtRules': 'off', // Turn off the unknown at rules warning
+    },
+  },
+];

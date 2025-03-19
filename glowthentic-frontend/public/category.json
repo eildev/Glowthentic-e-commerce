@@ -1,0 +1,327 @@
+[
+  {
+    "id": 1,
+    "name": "Skincare",
+    "slug": "skincare",
+    "isButton": true,
+    "tags": [
+      { "id": 1101, "category_id": 1, "name": "Natural", "slug": "natural" },
+      { "id": 1102, "category_id": 1, "name": "Hydrating", "slug": "hydrating" }
+    ],
+    "types": [
+      { "id": 1201, "category_id": 1, "name": "Cream", "slug": "cream" }
+    ],
+    "offers": [
+      { "id": 1301, "category_id": 1, "name": "Discount", "slug": "discount" },
+      { "id": 1302, "category_id": 1, "name": "Hot Deal", "slug": "hot-deal" },
+      { "id": 1303, "category_id": 1, "name": "Buy 1 Get 1", "slug": "bogo" },
+      {
+        "id": 1304,
+        "category_id": 1,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      },
+      {
+        "id": 1305,
+        "category_id": 1,
+        "name": "Limited Time Offer",
+        "slug": "limited-time"
+      }
+    ],
+    "subcategories": [
+      { "id": 101, "name": "Moisturizers", "slug": "moisturizers" },
+      { "id": 102, "name": "Cleansers", "slug": "cleansers" }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Makeup",
+    "slug": "makeup",
+    "isButton": false,
+    "tags": [
+      { "id": 2101, "category_id": 2, "name": "Vegan", "slug": "vegan" }
+    ],
+    "types": [
+      { "id": 2201, "category_id": 2, "name": "Powder", "slug": "powder" },
+      { "id": 2202, "category_id": 2, "name": "Liquid", "slug": "liquid" }
+    ],
+    "offers": [
+      { "id": 2301, "category_id": 2, "name": "Discount", "slug": "discount" },
+      { "id": 2302, "category_id": 2, "name": "Hot Deal", "slug": "hot-deal" },
+      { "id": 2303, "category_id": 2, "name": "Buy 1 Get 1", "slug": "bogo" },
+      {
+        "id": 2304,
+        "category_id": 2,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      },
+      {
+        "id": 2305,
+        "category_id": 2,
+        "name": "Limited Time Offer",
+        "slug": "limited-time"
+      }
+    ],
+    "subcategories": [
+      { "id": 201, "name": "Foundations", "slug": "foundations" },
+      { "id": 202, "name": "Lipsticks", "slug": "lipsticks" }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Haircare",
+    "slug": "haircare",
+    "isButton": true,
+    "tags": [],
+    "types": [],
+    "offers": [
+      {
+        "id": 3301,
+        "category_id": 3,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      },
+      { "id": 3302, "category_id": 3, "name": "Discount", "slug": "discount" },
+      { "id": 3303, "category_id": 3, "name": "Hot Deal", "slug": "hot-deal" },
+      { "id": 3304, "category_id": 3, "name": "Buy 1 Get 1", "slug": "bogo" },
+      {
+        "id": 3305,
+        "category_id": 3,
+        "name": "Limited Time Offer",
+        "slug": "limited-time"
+      }
+    ],
+    "subcategories": [
+      { "id": 301, "name": "Shampoos", "slug": "shampoos" },
+      { "id": 302, "name": "Conditioners", "slug": "conditioners" }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Fragrances",
+    "slug": "fragrances",
+    "isButton": false,
+    "tags": [
+      { "id": 4101, "category_id": 4, "name": "Luxury", "slug": "luxury" }
+    ],
+    "types": [],
+    "offers": [
+      {
+        "id": 4301,
+        "category_id": 4,
+        "name": "Limited Time Offer",
+        "slug": "limited-time"
+      },
+      { "id": 4302, "category_id": 4, "name": "Discount", "slug": "discount" },
+      { "id": 4303, "category_id": 4, "name": "Hot Deal", "slug": "hot-deal" },
+      { "id": 4304, "category_id": 4, "name": "Buy 1 Get 1", "slug": "bogo" },
+      {
+        "id": 4305,
+        "category_id": 4,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      }
+    ],
+    "subcategories": [
+      { "id": 401, "name": "Perfumes", "slug": "perfumes" },
+      { "id": 402, "name": "Body Mists", "slug": "body-mists" }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Bodycare",
+    "slug": "bodycare",
+    "isButton": true,
+    "tags": [],
+    "types": [
+      { "id": 5201, "category_id": 5, "name": "Lotion", "slug": "lotion" }
+    ],
+    "offers": [
+      { "id": 5301, "category_id": 5, "name": "Discount", "slug": "discount" },
+      { "id": 5302, "category_id": 5, "name": "Hot Deal", "slug": "hot-deal" },
+      { "id": 5303, "category_id": 5, "name": "Buy 1 Get 1", "slug": "bogo" },
+      {
+        "id": 5304,
+        "category_id": 5,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      },
+      {
+        "id": 5305,
+        "category_id": 5,
+        "name": "Limited Time Offer",
+        "slug": "limited-time"
+      }
+    ],
+    "subcategories": [
+      { "id": 501, "name": "Body Lotions", "slug": "body-lotions" },
+      { "id": 502, "name": "Body Washes", "slug": "body-washes" }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Nailcare",
+    "slug": "nailcare",
+    "isButton": false,
+    "tags": [],
+    "types": [],
+    "offers": [
+      { "id": 6301, "category_id": 6, "name": "Discount", "slug": "discount" },
+      { "id": 6302, "category_id": 6, "name": "Hot Deal", "slug": "hot-deal" },
+      { "id": 6303, "category_id": 6, "name": "Buy 1 Get 1", "slug": "bogo" },
+      {
+        "id": 6304,
+        "category_id": 6,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      },
+      {
+        "id": 6305,
+        "category_id": 6,
+        "name": "Limited Time Offer",
+        "slug": "limited-time"
+      }
+    ],
+    "subcategories": [
+      { "id": 601, "name": "Nail Polishes", "slug": "nail-polishes" },
+      { "id": 602, "name": "Nail Treatments", "slug": "nail-treatments" }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Men's Grooming",
+    "slug": "mens-grooming",
+    "isButton": false,
+    "tags": [
+      {
+        "id": 7101,
+        "category_id": 7,
+        "name": "Beard Care",
+        "slug": "beard-care"
+      }
+    ],
+    "types": [{ "id": 7201, "category_id": 7, "name": "Gel", "slug": "gel" }],
+    "offers": [
+      { "id": 7301, "category_id": 7, "name": "Buy 1 Get 1", "slug": "bogo" },
+      { "id": 7302, "category_id": 7, "name": "Discount", "slug": "discount" },
+      { "id": 7303, "category_id": 7, "name": "Hot Deal", "slug": "hot-deal" },
+      {
+        "id": 7304,
+        "category_id": 7,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      },
+      {
+        "id": 7305,
+        "category_id": 7,
+        "name": "Limited Time Offer",
+        "slug": "limited-time"
+      }
+    ],
+    "subcategories": [
+      { "id": 701, "name": "Shaving Creams", "slug": "shaving-creams" },
+      { "id": 702, "name": "Beard Oils", "slug": "beard-oils" }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Tools & Accessories",
+    "slug": "tools-accessories",
+    "isButton": false,
+    "tags": [],
+    "types": [
+      { "id": 8201, "category_id": 8, "name": "Brush", "slug": "brush" }
+    ],
+    "offers": [
+      { "id": 8301, "category_id": 8, "name": "Discount", "slug": "discount" },
+      { "id": 8302, "category_id": 8, "name": "Hot Deal", "slug": "hot-deal" },
+      { "id": 8303, "category_id": 8, "name": "Buy 1 Get 1", "slug": "bogo" },
+      {
+        "id": 8304,
+        "category_id": 8,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      },
+      {
+        "id": 8305,
+        "category_id": 8,
+        "name": "Limited Time Offer",
+        "slug": "limited-time"
+      }
+    ],
+    "subcategories": [
+      { "id": 801, "name": "Makeup Brushes", "slug": "makeup-brushes" },
+      { "id": 802, "name": "Hair Tools", "slug": "hair-tools" }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Oral Care",
+    "slug": "oral-care",
+    "isButton": true,
+    "tags": [
+      { "id": 9101, "category_id": 9, "name": "Whitening", "slug": "whitening" }
+    ],
+    "types": [],
+    "offers": [
+      { "id": 9301, "category_id": 9, "name": "Discount", "slug": "discount" },
+      { "id": 9302, "category_id": 9, "name": "Hot Deal", "slug": "hot-deal" },
+      { "id": 9303, "category_id": 9, "name": "Buy 1 Get 1", "slug": "bogo" },
+      {
+        "id": 9304,
+        "category_id": 9,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      },
+      {
+        "id": 9305,
+        "category_id": 9,
+        "name": "Limited Time Offer",
+        "slug": "limited-time"
+      }
+    ],
+    "subcategories": [
+      { "id": 901, "name": "Toothpastes", "slug": "toothpastes" },
+      { "id": 902, "name": "Toothbrushes", "slug": "toothbrushes" }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Bath & Shower",
+    "slug": "bath-shower",
+    "isButton": false,
+    "tags": [],
+    "types": [],
+    "offers": [
+      {
+        "id": 10301,
+        "category_id": 10,
+        "name": "Seasonal Discount",
+        "slug": "seasonal-discount"
+      },
+      {
+        "id": 10302,
+        "category_id": 10,
+        "name": "Discount",
+        "slug": "discount"
+      },
+      {
+        "id": 10303,
+        "category_id": 10,
+        "name": "Hot Deal",
+        "slug": "hot-deal"
+      },
+      { "id": 10304, "category_id": 10, "name": "Buy 1 Get 1", "slug": "bogo" },
+      {
+        "id": 10305,
+        "category_id": 10,
+        "name": "Free Shipping",
+        "slug": "free-shipping"
+      }
+    ],
+    "subcategories": [
+      { "id": 1001, "name": "Bath Bombs", "slug": "bath-bombs" },
+      { "id": 1002, "name": "Shower Gels", "slug": "shower-gels" }
+    ]
+  }
+]

@@ -1,11 +1,15 @@
-import NavbarForLargeDevice from "../components/NavbarForLargeDevice";
-import NavbarForSmallDevice from "../components/NavbarForSmallDevice";
+import { useEffect, useState } from "react";
+import NavbarForLargeDevice from "../components/navbar/NavbarForLargeDevice";
+import NavbarForSmallDevice from "../components/navbar/NavbarForSmallDevice";
 
-const Navbar = () => {
+const Navbar = ({ showMobileMenu, setShowMobileMenu }) => {
   return (
-    <div>
+    <div className="relative">
       <NavbarForLargeDevice />
-      <NavbarForSmallDevice />
+      <NavbarForSmallDevice
+        showMobileMenu={showMobileMenu}
+        setShowMobileMenu={setShowMobileMenu}
+      />
     </div>
   );
 };

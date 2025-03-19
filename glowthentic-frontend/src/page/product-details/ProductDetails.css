@@ -1,0 +1,46 @@
+
+.mySwiper-image{
+  /* height: 50px; */
+}
+
+
+.mySwiper2 {
+  width: 100%;
+  /* height: 400px; */
+}
+
+
+
+
+.slide1{
+  /* margin: 0 !important; */
+  /* height: 80px !important; */
+}
+
+.swiper-slide-thumb-active{
+  border: 2px solid #FA8232 !important;
+}
+
+
+.zoom-image {
+  transition: transform 0.5s ease-in-out;
+  transform-origin: center;
+}
+
+
+.zoom-container {
+  overflow: hidden;
+  position: relative;
+}
+
+
+.zoom-image:hover {
+  transform: scale(2);
+}
+
+
+
+
+.zoom-container:hover .zoom-image {
+  transform-origin: var(--x) var(--y);
+}
