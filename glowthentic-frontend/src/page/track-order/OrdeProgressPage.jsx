@@ -11,12 +11,20 @@ import ProgressProductTitle from "../../components/track-order/order-progress/Pr
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import { useOrderTrackMutation } from "../../redux/features/api/orderApi/orderApi";
+import { useSelector } from "react-redux";
 
 const OrdeProgressPage = () => {
-  const location = useLocation(); // Get the current location (URL)
+  const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const orderId = queryParams.get("orderId");
-  // console.log(orderId);
+  console.log(orderId);
+  const orderData = useSelector((state) => state);
+console.log(orderData);
+  if (!orderData) return <div>No order data available. Please track your order again.</div>;
+
+  const orderItems = orderData?.items || [];
+  const orderSummary = orderData?.summary || {};
   const items = [
     {
       title: "W7 Prime Magic Face Primer",

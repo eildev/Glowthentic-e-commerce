@@ -5,37 +5,35 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOrderTrackMutation } from "../../redux/features/api/orderApi/orderAPI";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setOrderData } from "../../redux/features/slice/orderSlice";
 
 const TrackOrderPage = () => {
+  const dispatch = useDispatch();
   const [orderId, setOrderId] = useState("");
   const navigate = useNavigate();
   const [orderInfo, { isLoading, isError, isSuccess, data }] =
     useOrderTrackMutation();
-
+  console.log(data);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(orderId);
-    const orderIdData = {
-      order_id: orderId,
-    };
+    const orderIdData = { order_id: orderId };
     if (!orderId.trim()) {
       toast.error("Please enter a valid Order ID.");
       return;
     }
 
     try {
-      const payload = { orderId }; // Ensure payload is an object
-      console.log("Sending payload:", payload);
       const result = await orderInfo(orderIdData).unwrap();
-      console.log("Order Info Result:", result);
-      if (result.success || result.message === "Order found") {
+      if (result.status === 200) {
+        console.log(result);
+        dispatch(setOrderData(result)); // Store the data
         toast.success("Order found! Redirecting...");
         navigate(`/order-progress?orderId=${orderId}`);
       } else {
         toast.error("Order not found. Please check your Order ID.");
       }
     } catch (error) {
-      console.error("Error fetching order info:", error);
       toast.error(
         error?.data?.message || "An error occurred. Please try again."
       );
