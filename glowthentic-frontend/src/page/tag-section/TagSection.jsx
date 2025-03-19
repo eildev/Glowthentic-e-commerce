@@ -5,6 +5,7 @@ import defaultTag from "../../assets/img/tags/11.png";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setFilteredTags } from "../../redux/features/slice/filterSlice";
+import { imagePath } from "../../utils/imagePath";
 
 const TagSection = () => {
   const { data, tagsIsLoading, tagsError } = useGetTagsQuery();
@@ -30,7 +31,7 @@ const TagSection = () => {
               onClick={() => handleTagClick(tags.id)}
             >
               <img
-                src={tags?.images ?? defaultTag}
+                src={imagePath(tags.image)}
                 alt={tags?.tagName ?? ""}
                 className="w-full object-cover rounded"
               />
