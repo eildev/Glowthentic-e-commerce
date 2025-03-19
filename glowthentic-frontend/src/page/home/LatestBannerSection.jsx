@@ -31,15 +31,25 @@ const data = [
 
 import DynamicBanner from "../../components/banner/DynamicBanner";
 import { useGetOfferBannerQuery } from "../../redux/features/api/offerBanner/offerBanner";
+import { useGetFeaturesQuery } from "../../redux/features/api/featuresApi/featuresApi";
+import { imagePath } from "../../utils/imagePath";
 const LatestBannerSection = () => {
-  const { data: offerData } = useGetOfferBannerQuery();
-  // console.log(offerData);
+  const { data: offerData } = useGetFeaturesQuery();
+  console.log(offerData);
+  const bannerData = [
+    { image: offerData?.features[0]?.image, badgeColor: "#FAE3F9", colSpan: "lg:col-span-2" }, // Large banner
+    { image: offerData?.features[1]?.image, badgeColor: "#E3F0FA" },
+    { image: offerData?.features[2]?.image, badgeColor: "#E8FAE3" },
+    { image: offerData?.features[2]?.image, badgeColor: "#FAE3F9" },
+    { image: offerData?.features[1]?.image, badgeColor: "#E8FAE3" },
+    { image: offerData?.features[0]?.image, badgeColor: "#E3F0FA", colSpan: "lg:col-span-2" }, // Large banner
+  ];
   return (
     <div className="px-5 py-5">
       <HeadTitle className="text-center mb-5 lg:text-3xl">
         Discover the Latest <br /> Beauty Trends
       </HeadTitle>
-      <div className="py-5  flex flex-wrap justify-center gap-2 ">
+      {/* <div className="py-5  flex flex-wrap justify-center gap-2 ">
         {data.map((element, index) => (
           <div key={index} className="flex basis-[100%] lg:basis-[32.9%]">
             <DynamicBanner
@@ -48,45 +58,60 @@ const LatestBannerSection = () => {
             ></DynamicBanner>
           </div>
         ))}
-      </div>
+      </div> */}
       {/* <div className="grid lg:grid-cols-4 gap-5 ">
                 <div className="lg:col-span-2 relative">
-                    <img src={image1} alt="Latest Banner" />
+                    <img src={imagePath(offerData?.features[0]?.image)} alt="Latest Banner" />
                     <div className="absolute top-5 left-5 z-10">
-                        <Badge className="rounded-3xl bg-primary px-5 py-2 font-medium">New</Badge>
+                        <div className="rounded-3xl bg-[#FAE3F9] px-5 py-2 font-medium">New</div>
                     </div>
                 </div>
                 <div className="relative">
-                    <img src={image2} alt="Latest Banner" />
+                    <img src={imagePath(offerData?.features[1]?.image)} alt="Latest Banner" />
                     <div className="absolute top-5 left-5 z-10">
-                        <Badge className="rounded-3xl bg-primary px-5 py-2 font-medium shadow-md">New</Badge>
+                        <div className="rounded-3xl bg-[#E3F0FA] px-5 py-2 font-medium shadow-md">New</div>
                     </div>
                 </div>
                 <div className="relative">
-                    <img src={image3} alt="Latest Banner" />
+                    <img src={imagePath(offerData?.features[2]?.image)} alt="Latest Banner" />
                     <div className="absolute top-5 left-5 z-10">
-                        <Badge className="rounded-3xl bg-primary px-5 py-2 font-medium">New</Badge>
+                        <div className="rounded-3xl bg-[#E8FAE3] px-5 py-2 font-medium">New</div>
                     </div>
                 </div>
                 <div className="relative">
-                    <img src={image2} alt="Latest Banner" />
+                    <img src={imagePath(offerData?.features[2]?.image)} alt="Latest Banner" />
                     <div className="absolute top-5 left-5 z-10">
-                        <Badge className="rounded-3xl bg-primary px-5 py-2 font-medium">New</Badge>
+                        <div className="rounded-3xl bg-[#FAE3F9] px-5 py-2 font-medium">New</div>
                     </div>
                 </div>
-                <div className="relative">
-                    <img src={image3} alt="Latest Banner" />
+                <div className="relative ">
+                    <img src={imagePath(offerData?.features[1]?.image)} alt="Latest Banner" />
                     <div className="absolute top-5 left-5 z-10">
-                        <Badge className="rounded-3xl bg-primary px-5 py-2 font-medium">New</Badge>
+                        <div className="rounded-3xl bg-[#E8FAE3] px-5 py-2 font-medium">New</div>
                     </div>
                 </div>
-                <div className="lg:col-span-2 relative">
-                    <img src={image1} alt="Latest Banner" />
+                <div className="lg:col-span-2 relative ">
+                    <img src={imagePath(offerData?.features[0]?.image)} alt="Latest Banner" />
                     <div className="absolute top-5 left-5 z-10">
-                        <Badge className="rounded-3xl bg-primary px-5 py-2 font-medium">New</Badge>
+                        <div className="rounded-3xl bg-[#E3F0FA] px-5 py-2 font-medium">New</div>
                     </div>
                 </div>
             </div> */}
+            <div className="grid lg:grid-cols-4 gap-5">
+        {bannerData.slice(0, 6).map((banner, index) => (
+          <div key={index} className={`relative ${banner.colSpan || ""}`}>
+            <img src={imagePath(banner.image)} alt="Latest Banner" className="w-full h-auto" />
+            <div className="absolute top-5 left-5 z-10">
+              <div
+                className="rounded-3xl px-5 py-2 font-medium"
+                style={{ backgroundColor: banner.badgeColor }}
+              >
+                New
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

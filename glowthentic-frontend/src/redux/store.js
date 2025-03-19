@@ -20,6 +20,7 @@ import homeBannerApi from "./features/api/homeBannerApi/homeBannerApi";
 import orderAPI from "./features/api/orderApi/orderApi";
 import orderGetApi from "./features/api/orderApi/orderGetApi";
 import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
+import featuresApi from "./features/api/featuresApi/featuresApi";
 // import orderGetApi from "./features/api/orderApi/orderGetApi";
 // import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
 const store = configureStore({
@@ -46,6 +47,7 @@ const store = configureStore({
         [registerApi.reducerPath]: registerApi.reducer,
         [orderAPI.reducerPath]: orderAPI.reducer,
         [homeBannerApi.reducerPath]: homeBannerApi.reducer,
+        [featuresApi.reducerPath]: featuresApi.reducer,
         [orderGetApi.reducerPath]: orderGetApi.reducer,
         [orderHistoryApi.reducerPath]: orderGetApi.reducer,
 
@@ -65,6 +67,7 @@ const store = configureStore({
             .concat(registerApi.middleware)
             .concat(orderAPI.middleware)
             .concat(homeBannerApi.middleware)
+            .concat(featuresApi.middleware)
             .concat(orderGetApi.middleware)
             .concat(orderHistoryApi.middleware)
 

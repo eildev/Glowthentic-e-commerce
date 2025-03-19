@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Link, NavLink } from "react-router-dom";
-import avatar from "../../assets/img/user-profile/avatar.jpeg";
+import avatar from "../../assets/img/user-profile/user.jpg";
 import Logout from "../../components/logout/Logout";
 import { useSelector } from "react-redux";
 
