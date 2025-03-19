@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useOrderTrackMutation } from "../../redux/features/api/orderApi/orderApi";
 import { useSelector } from "react-redux";
+import { imagePath } from "../../utils/imagePath";
 
 const OrdeProgressPage = () => {
   const location = useLocation();
@@ -219,7 +220,7 @@ console.log(orderData?.order_tracking_status);
                     >
                       <div className="flex  gap-4 lg:gap-0">
                         <img
-                          src={item?.variant?.variant_image[0].image}
+                          src={imagePath(item.variant?.variant_image[0].image)}
                           alt={item.title}
                           className="w-16 h-16 object-cover rounded"
                         />
