@@ -16,7 +16,7 @@ import wishListApi from "./features/api/wishListApi/wishListApi";
 import registerApi from "./features/api/registerApi/registerApi";
 import wishlistByUserAPI from "./features/api/wishlistByUserAPI/wishlistByUserAPI";
 import homeBannerApi from "./features/api/homeBannerApi/homeBannerApi";
-import orderApi from "./features/api/orderApi/orderApi";
+import orderAPI from "./features/api/orderApi/orderApi";
 import orderGetApi from "./features/api/orderApi/orderGetApi";
 import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
 const store = configureStore({
@@ -40,11 +40,11 @@ const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [checkoutApi.reducerPath]: checkoutApi.reducer,
         [registerApi.reducerPath]: registerApi.reducer,
-        [orderApi.reducerPath]: orderApi.reducer,
+        [orderAPI.reducerPath]: orderAPI.reducer,
         [homeBannerApi.reducerPath]: homeBannerApi.reducer,
         [orderGetApi.reducerPath]: orderGetApi.reducer,
         [orderHistoryApi.reducerPath]: orderGetApi.reducer,
-     
+
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -59,7 +59,7 @@ const store = configureStore({
             .concat(authApi.middleware)
             .concat(checkoutApi.middleware)
             .concat(registerApi.middleware)
-            .concat(orderApi.middleware)
+            .concat(orderAPI.middleware)
             .concat(homeBannerApi.middleware)
             .concat(orderGetApi.middleware)
             .concat(orderHistoryApi.middleware)
