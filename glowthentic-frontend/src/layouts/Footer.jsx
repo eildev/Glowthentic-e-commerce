@@ -40,8 +40,6 @@ const Footer = () => {
           >
             <nav>
               <CardTitle>How can we Help?</CardTitle>
-              <a className="link link-hover">Glowthentic branches</a>
-
               <Link to="/contact-us" className="link link-hover">
                 Contact Us
               </Link>
@@ -57,6 +55,9 @@ const Footer = () => {
               </Link>
               <Link to="/track-order" className="link link-hover">
                 Order Tracking
+              </Link>
+              <Link to="/faqs" className="link link-hover">
+                FAQs
               </Link>
             </nav>
             <nav>
