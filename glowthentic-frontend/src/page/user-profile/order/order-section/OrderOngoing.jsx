@@ -11,7 +11,6 @@ const OrderOngoing = () => {
 
   const { data: order, isLoading, error } = useGetOrderInfoQuery(userID);
 
-  console.log("data",order);
 
   return (
     <div>

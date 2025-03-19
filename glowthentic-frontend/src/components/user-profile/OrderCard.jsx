@@ -3,7 +3,7 @@ import { useState } from "react";
 import OrderReviewModal from "./OrderReviewModal";
 
 
-const OrderCard = ({ status }) => {
+const OrderCard = ({ status, order, history }) => {
 
 
   const [active, setActive] = useState(false);
@@ -13,7 +13,8 @@ const OrderCard = ({ status }) => {
   };
 
 
-
+  console.log("order",order);
+  console.log("history",history);
 
   
 
