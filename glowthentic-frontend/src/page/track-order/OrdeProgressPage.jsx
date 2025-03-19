@@ -9,7 +9,7 @@ import HeadTitle from "../../components/typography/HeadTitle";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ProgressProductTitle from "../../components/track-order/order-progress/ProgressProductTitle";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useOrderTrackMutation } from "../../redux/features/api/orderApi/orderApi";
 import { useSelector } from "react-redux";
@@ -19,12 +19,13 @@ const OrdeProgressPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const orderId = queryParams.get("orderId");
   console.log(orderId);
-  const orderData = useSelector((state) => state);
+  const orderData = useSelector((state) => state.order?.orderData);
 console.log(orderData);
   if (!orderData) return <div>No order data available. Please track your order again.</div>;
 
-  const orderItems = orderData?.items || [];
-  const orderSummary = orderData?.summary || {};
+  const orderItems = orderData?.orderDetails || [];
+  console.log(orderItems);
+  const subtotal = orderItems.reduce((acc, item) => acc + parseFloat(item.total_price || 0), 0).toFixed(2);
   const items = [
     {
       title: "W7 Prime Magic Face Primer",
@@ -158,7 +159,7 @@ console.log(orderData);
                   </div>
 
                   {/* Cart Items */}
-                  {items.map((item, index) => (
+                  {orderItems.map((item, index) => (
                     <div
                       key={index}
                       className="lg:flex  flex-col lg:flex-row items-center gap-2 lg:gap-4 border-b py-4"
@@ -171,7 +172,7 @@ console.log(orderData);
                         />
                         <div className="lg:hidden">
                           <ProgressProductTitle
-                            title={item.title}
+                            title={item.product.product_name}
                           ></ProgressProductTitle>
                         </div>
                       </div>
@@ -180,7 +181,7 @@ console.log(orderData);
                         <div className="hidden lg:block">
                           {" "}
                           <ProgressProductTitle
-                            title={item.title}
+                            title={item.product.product_name}
                           ></ProgressProductTitle>
                         </div>
 
@@ -193,7 +194,7 @@ console.log(orderData);
                           <p className="font-medium lg:text-md text-sm text-gray-800">
                             Price: <br />{" "}
                             <span className="font-bold lg:text-md text-xs">
-                              ${item.price.toFixed(2)}
+                              ${item.unit_price}
                             </span>
                           </p>
                           <p className=" font-medium  lg:text-md text-sm text-gray-500">
@@ -205,7 +206,7 @@ console.log(orderData);
                           <p className="font-medium lg:text-md text-sm text-gray-800">
                             Subtotal: <br />{" "}
                             <span className="font-bold lg:text-md text-xs">
-                              ${item.subtotal.toFixed(2)}
+                              ${item.total_price}
                             </span>
                           </p>
                           <RegularButton className="py-0 lg:h-11  bg-secondary  border h-8  hover:border-secondary text-white lg:bg-secondary  lg:text-md text-xs rounded-xl">
@@ -234,8 +235,8 @@ console.log(orderData);
                       Your order is now confirmed!
                     </p>
                     <div className="flex justify-between text-sm text-gray-700">
-                      <p className="lg:text-lg text-sm">Subtotal:</p>
-                      <p className="lg:text-lg text-sm">$1,300.00 USD</p>
+                      <p className="lg:text-lg text-sm">Subtotal Price:</p>
+                      <p className="lg:text-lg text-sm">${subtotal} USD</p>
                     </div>
                     <div className="flex justify-between text-sm text-gray-700">
                       <p className="lg:text-lg text-sm">Shipping & Handling:</p>
