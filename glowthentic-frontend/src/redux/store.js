@@ -17,6 +17,8 @@ import registerApi from "./features/api/registerApi/registerApi";
 import wishlistByUserAPI from "./features/api/wishlistByUserAPI/wishlistByUserAPI";
 import homeBannerApi from "./features/api/homeBannerApi/homeBannerApi";
 import orderApi from "./features/api/orderApi/orderApi";
+import orderGetApi from "./features/api/orderApi/orderGetApi";
+import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
 const store = configureStore({
     reducer: {
         // all slice 
@@ -40,6 +42,8 @@ const store = configureStore({
         [registerApi.reducerPath]: registerApi.reducer,
         [orderApi.reducerPath]: orderApi.reducer,
         [homeBannerApi.reducerPath]: homeBannerApi.reducer,
+        [orderGetApi.reducerPath]: orderGetApi.reducer,
+        [orderHistoryApi.reducerPath]: orderGetApi.reducer,
      
     },
     middleware: (getDefaultMiddleware) =>
@@ -57,6 +61,8 @@ const store = configureStore({
             .concat(registerApi.middleware)
             .concat(orderApi.middleware)
             .concat(homeBannerApi.middleware)
+            .concat(orderGetApi.middleware)
+            .concat(orderHistoryApi.middleware)
 
 });
 
