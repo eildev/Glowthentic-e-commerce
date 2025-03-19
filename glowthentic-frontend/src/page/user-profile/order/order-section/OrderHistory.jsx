@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import OrderCard from "../../../../components/user-profile/OrderCard";
-import { useGetOrderInfoQuery } from "../../../../redux/features/api/orderApi/orderGetApi";
+import { useGetOrderHistoryQuery } from "../../../../redux/features/api/orderApi/orderHistoryApi";
 
 const OrderHistory = () => {
 
@@ -9,9 +9,8 @@ const OrderHistory = () => {
 
   console.log("id", userID);
 
-  const { data: history, isLoading, error } = useGetOrderInfoQuery(userID);
+  const { data: history, isLoading, error } =  useGetOrderHistoryQuery(userID);
 
-  console.log("data", history);
 
 
 
