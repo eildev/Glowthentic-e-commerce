@@ -30,6 +30,21 @@ const ProfileMenu = () => {
         </div>
       </div>
 
+      <div className="mt-7 flex justify-between items-center gap-3">
+        <div className="py-3 px-2 w-full bg-[#FA8232] bg-opacity-5 rounded-lg">
+          <h3 className="text-sm text-[#FA8232] font-bold text-center">39+</h3>
+          <p className="text-[#2C2C2C] text-[10px] text-center">Total Orders</p>
+        </div>
+        <div className="py-3 px-2 w-full bg-[#FA8232] bg-opacity-5 rounded-lg">
+          <h3 className="text-sm text-[#FA8232] font-bold text-center">3</h3>
+          <p className="text-[#2C2C2C] text-[10px] text-center">Active Orders</p>
+        </div>
+        <div className="py-3 px-2 w-full bg-[#FA8232] bg-opacity-5 rounded-lg">
+          <h3 className="text-sm text-[#FA8232] font-bold text-center">3</h3>
+          <p className="text-[#2C2C2C] text-[10px] text-center">Cancel Orders</p>
+        </div>
+      </div>
+
       {/* Menus */}
       <div className="mt-6">
         <div className="bg-secondary bg-opacity-5 lg:bg-transparent rounded-lg">
@@ -37,14 +52,13 @@ const ProfileMenu = () => {
             to="/user-profile"
             end
             className={({ isActive }) =>
-              `group block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] hover:rounded-t-lg lg:hover:rounded-t-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
-                isActive
-                  ? "bg-secondary-gradient-1 text-secondary lg:px-4 rounded-b-lg"
-                  : ""
+              `group block px-2 lg:px-0 py-3 rounded-sm lg:rounded-[4px] hover:rounded-t-lg lg:hover:rounded-t-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${isActive
+                ? "bg-secondary-gradient-1 text-secondary lg:px-4 rounded-b-lg"
+                : ""
               }`
             }
           >
-            <p className="flex items-center justify-between text-md lg:text-xl font-bold font-encode">
+            <p className="flex items-center justify-between text-base lg:text-xl lg:font-bold font-encode">
               Edit Account
               <Icon
                 className="w-6 lg:w-8 h-6 lg:h-8 text-gray"
@@ -55,14 +69,13 @@ const ProfileMenu = () => {
           <NavLink
             to="/user-profile/orders"
             className={({ isActive }) =>
-              `group block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-2 transition-all duration-300 ${
-                isActive
-                  ? "bg-secondary-gradient-1 text-secondary   lg:px-4 rounded-b-lg transition-all duration-300 ease-in"
-                  : "px-0"
+              `group block px-2 lg:px-0 py-3 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-2 transition-all duration-300 ${isActive
+                ? "bg-secondary-gradient-1 text-secondary   lg:px-4 rounded-b-lg transition-all duration-300 ease-in"
+                : "px-0"
               }`
             }
           >
-            <p className="flex items-center  justify-between text-md lg:text-xl font-bold font-encode">
+            <p className="flex items-center  justify-between text-base lg:text-xl lg:font-bold font-encode">
               Orders
               <Icon
                 className="w-6 lg:w-8 h-6 lg:h-8 text-gray"
@@ -73,14 +86,13 @@ const ProfileMenu = () => {
           <NavLink
             to="/user-profile/favorites"
             className={({ isActive }) =>
-              `group block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
-                isActive
-                  ? "bg-secondary-gradient-1 text-secondary lg:px-4 rounded-b-lg transition-all duration-300 ease-in"
-                  : ""
+              `group block px-2 lg:px-0 py-3 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${isActive
+                ? "bg-secondary-gradient-1 text-secondary lg:px-4 rounded-b-lg transition-all duration-300 ease-in"
+                : ""
               }`
             }
           >
-            <p className="flex items-center justify-between text-md lg:text-xl font-bold font-encode">
+            <p className="flex items-center justify-between text-base lg:text-xl lg:font-bold font-encode">
               Favorites
               <Icon
                 className="w-6 lg:w-8 h-6 lg:h-8 text-gray"
@@ -91,14 +103,13 @@ const ProfileMenu = () => {
           <NavLink
             to="/user-profile/settings"
             className={({ isActive }) =>
-              `group block px-2 lg:px-0 py-2 rounded-sm lg:rounded-[4px] hover:rounded-b-lg lg:hover:rounded-b-[4px] hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
-                isActive
-                  ? "bg-secondary-gradient-1 text-secondary lg:px-4 rounded-b-lg transition-all duration-300 ease-in"
-                  : ""
+              `group block px-2 lg:px-0 py-3 rounded-sm lg:rounded-[4px] hover:rounded-b-lg lg:hover:rounded-b-[4px] hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${isActive
+                ? "bg-secondary-gradient-1 text-secondary lg:px-4 rounded-b-lg transition-all duration-300 ease-in"
+                : ""
               }`
             }
           >
-            <p className="flex items-center justify-between text-md lg:text-xl font-bold font-encode">
+            <p className="flex items-center justify-between text-base lg:text-xl lg:font-bold font-encode">
               Settings
               <Icon
                 className="w-6 lg:w-8 h-6 lg:h-8 text-gray"

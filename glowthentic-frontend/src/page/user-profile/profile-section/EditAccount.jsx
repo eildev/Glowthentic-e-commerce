@@ -54,6 +54,7 @@ const EditAccount = () => {
         zone: data?.userDetails?.police_station || "",
         postalCode: data?.userDetails?.postal_code || "",
         phone: data?.userDetails?.phone_number || "",
+        // image : 
       };
       reset(userData);
       if (data.user.image) {
@@ -182,7 +183,7 @@ const EditAccount = () => {
         {/* Form Inputs */}
         <div>
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">
+            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Name
             </label>
             <input
@@ -193,7 +194,7 @@ const EditAccount = () => {
                   message: "Name must be at least 2 characters",
                 },
               })}
-              className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
                 errors.name ? "border-red-500" : "border-hr-thin"
               }`}
             />
@@ -205,7 +206,7 @@ const EditAccount = () => {
           </div>
 
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">
+            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Address
             </label>
             <input
@@ -216,7 +217,7 @@ const EditAccount = () => {
                   message: "Address must be at least 5 characters",
                 },
               })}
-              className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
                 errors.address ? "border-red-500" : "border-hr-thin"
               }`}
             />
@@ -230,12 +231,12 @@ const EditAccount = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">
+            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Country
             </label>
             <input
               {...register("country", { required: "Country is required" })}
-              className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
                 errors.country ? "border-red-500" : "border-hr-thin"
               }`}
             />
@@ -247,12 +248,12 @@ const EditAccount = () => {
           </div>
 
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">
+            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Province/Region
             </label>
             <select
               {...register("region", { required: "Region is required" })}
-              className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
                 errors.region ? "border-red-500" : "border-hr-thin"
               }`}
             >
@@ -269,12 +270,12 @@ const EditAccount = () => {
           </div>
 
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">
+            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Zone
             </label>
             <input
               {...register("zone", { required: "Zone is required" })}
-              className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
                 errors.zone ? "border-red-500" : "border-hr-thin"
               }`}
             />
@@ -286,14 +287,14 @@ const EditAccount = () => {
           </div>
 
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">
+            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Postal Code
             </label>
             <input
               {...register("postalCode", {
                 required: "Postal code is required",
               })}
-              className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
                 errors.postalCode ? "border-red-500" : "border-hr-thin"
               }`}
             />
@@ -304,7 +305,7 @@ const EditAccount = () => {
             )}
           </div>
 
-          <div className="flex items-center my-4">
+          {/* <div className="flex items-center my-4">
             <input
               type="checkbox"
               {...register("saveAddress")}
@@ -313,14 +314,14 @@ const EditAccount = () => {
             <label className="block text-xl text-dark font-normal font-encode ml-2">
               Save this address to my profile
             </label>
-          </div>
+          </div> */}
         </div>
 
         {/* Contact Information */}
         <div className="my-8">
           <CommonTitle title="Contact" />
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">
+            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Email
             </label>
             <input
@@ -331,7 +332,7 @@ const EditAccount = () => {
                   message: "Invalid email address",
                 },
               })}
-              className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
                 errors.email ? "border-red-500" : "border-hr-thin"
               }`}
             />
@@ -343,7 +344,7 @@ const EditAccount = () => {
           </div>
 
           <div className="my-4">
-            <label className="block text-xl text-dark font-normal font-encode mb-2">
+            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Phone Number
             </label>
             <input
@@ -354,7 +355,7 @@ const EditAccount = () => {
                   message: "Phone number must be at least 10 digits",
                 },
               })}
-              className={`block w-full text-xl text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
                 errors.phone ? "border-red-500" : "border-hr-thin"
               }`}
             />
