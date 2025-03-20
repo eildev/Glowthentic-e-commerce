@@ -30,19 +30,63 @@ const CheckoutPage = () => {
       (sum, item) => sum + item.regular_price * item.quantity,
       0
     );
-    setSubTotalPrice(total.toFixed(2));
+    setSubTotalPrice(total.toFixed(0));
   }, [cartItems]);
 
-  const subTotal = cartItems.reduce(
+  // const subTotal = cartItems.reduce(
+  //   (sum, cartItem) => sum + cartItem.regular_price * cartItem.quantity,
+  //   0
+  // );
+//   const Shipping = cartItems.reduce(
+//     (sum, cartItem) => sum + cartItem.quantity,
+//     0
+//   );
+
+//   const discountPrice = 0;
+
+//   const shipingCharge = parseFloat(cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20).toFixed(0);
+
+
+//   const tax = parseFloat(
+//     (subTotalPrice + shipingCharge - discountPrice) * (2.5 / 100)
+//   ).toFixed(0);
+
+
+//   const grandTotal =  Number(subTotalPrice) + Number(shipingCharge) - Number(discountPrice) + Number(tax);
+
+
+// console.log(grandTotal);
+
+// console.log(subTotal, shipingCharge, tax, discountPrice);
+
+const subTotal = Number(
+  cartItems.reduce(
     (sum, cartItem) => sum + cartItem.regular_price * cartItem.quantity,
     0
-  );
-  const Shipping = cartItems.reduce(
-    (sum, cartItem) => sum + cartItem.quantity,
-    0
-  );
-  const shipingCharge = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
-  const grandTotal = subTotal + shipingCharge;
+  )
+);
+
+const Shipping = cartItems.reduce(
+  (sum, cartItem) => sum + cartItem.quantity,
+  0
+);
+
+const shippingPrice = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
+
+const discountPrice = 0;
+
+const tax = Math.round(
+  subTotal * (2 / 100)
+);
+
+const grandTotal = Math.round(subTotal + shippingPrice - discountPrice + tax);
+
+console.log(subTotal, shippingPrice, tax, grandTotal);
+
+
+
+
+
 
   const {
     register,
@@ -70,7 +114,7 @@ const CheckoutPage = () => {
       combo: [],
       payment_method: data.paymentMethod,
       shipping_method: "In-House",
-      shipping_charge: shipingCharge,
+      shipping_charge: shippingPrice,
       coupon_code: "",
       order_note: data.orderNotes,
       ...(token ? { user_id: user.id } : { session_id: userSessionId }),
@@ -134,9 +178,11 @@ const CheckoutPage = () => {
                     <OrderSummary
                       carts={cartItems}
                       total={grandTotal}
-                      shipingCharge={shipingCharge}
+                      shipingCharge={shippingPrice}
                       Shipping={Shipping}
                       subTotal={subTotal}
+                      tax={tax}
+                      discountPrice={discountPrice}
                     />
                     <div className="px-6 py-3">
                       <button

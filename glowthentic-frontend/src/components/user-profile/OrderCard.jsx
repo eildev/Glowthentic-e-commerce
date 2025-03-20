@@ -10,6 +10,9 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
     document.getElementById("my_modal_3").showModal();
   };
 
+console.log("history", history);
+console.log("order", order);
+
   return (
     <>
       {status === "On Delivery" ? (
