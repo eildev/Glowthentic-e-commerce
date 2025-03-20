@@ -51,112 +51,115 @@ console.log(orderData?.order_tracking_status);
             <div className="p-6">
   <div className="flex flex-col lg:flex-row gap-5 lg:gap-0 items-start lg:items-center justify-between lg:text-center text-sm text-gray-500">
     {/* Step 1: Ordered */}
-    <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
-      <div
-        className={`w-8 h-8 ৳{
-          orderData?.order_tracking_status === "Ordered" ||
-          orderData?.order_tracking_status === "Shipped" ||
-          orderData?.order_tracking_status === "Completed"
-            ? "bg-orange-500"
-            : "bg-dark"
-        } text-white flex items-center justify-center rounded-full mb-2`}
-      >
-        {orderData?.order_tracking_status === "Ordered" ||
-        orderData?.order_tracking_status === "Shipped" ||
-        orderData?.order_tracking_status === "Completed"
-          ? "✓"
-          : "🔒"}
-      </div>
-      <div className="w-full lg:w-auto">
-        <p className="text-xs text-gray ps-2 lg:ps-0">STEP 1</p>
-        <div className="flex w-full lg:w-auto justify-between lg:flex-col flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
-          <p className="font-semibold text-gray-700">Ordered</p>
-          <p
-            className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ৳{
-              orderData?.order_tracking_status === "Ordered" ||
-              orderData?.order_tracking_status === "Shipped" ||
-              orderData?.order_tracking_status === "Completed"
-                ? "text-orange-500 bg-[#FA82321A]"
-                : "text-purple-500 bg-[#F4F1FF]"
-            }`}
-          >
-            {orderData?.order_tracking_status === "Ordered" ||
-            orderData?.order_tracking_status === "Shipped" ||
-            orderData?.order_tracking_status === "Completed"
-              ? "Completed"
-              : "In Progress"}
-          </p>
-        </div>
-      </div>
-    </div>
+      {/* Step 1: Ordered */}
+      <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
+       <div
+         className={`w-8 h-8 ${
+           orderData?.order_tracking_status === "Ordered" ||
+           orderData?.order_tracking_status === "Shipped" ||
+           orderData?.order_tracking_status === "Completed"
+             ? "bg-orange-500"
+             : "bg-dark"
+         } text-white flex items-center justify-center rounded-full mb-2`}
+       >
+         {orderData?.order_tracking_status === "Ordered" ||
+         orderData?.order_tracking_status === "Shipped" ||
+         orderData?.order_tracking_status === "Completed"
+           ? "✓"
+           : "🔒"}
+       </div>
+       <div className="w-full lg:w-auto">
+         <p className="text-xs text-gray ps-2 lg:ps-0">STEP 1</p>
+         <div className="flex w-full lg:w-auto justify-between lg:flex-col flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
+           <p className="font-semibold text-gray-700">Ordered</p>
+           <p
+             className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
+               orderData?.order_tracking_status === "Ordered" ||
+               orderData?.order_tracking_status === "Shipped" ||
+               orderData?.order_tracking_status === "Completed"
+                 ? "text-orange-500 bg-[#FA82321A]"
+                 : "text-purple-500 bg-[#F4F1FF]"
+             }`}
+           >
+             {orderData?.order_tracking_status === "Ordered" ||
+             orderData?.order_tracking_status === "Shipped" ||
+             orderData?.order_tracking_status === "Completed"
+               ? "Completed"
+               : "In Progress"}
+           </p>
+         </div>
+       </div>
+     </div>
+ 
+     {/* Line */}
+     <div className="h-14 ms-[14px] lg:ms-0 lg:h-1 w-1 lg:w-60 bg-secondary"></div>
 
-    {/* Line */}
-    <div className="h-14 ms-[14px] lg:ms-0 lg:h-1 w-1 lg:w-60 bg-secondary"></div>
+     {/* Step 2: Shipped */}
+     <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
+       <div
+         className={`w-8 h-8 ${
+           orderData?.order_tracking_status === "Shipped" ||
+           orderData?.order_tracking_status === "Completed"
+             ? "bg-orange-500"
+             : "bg-dark"
+         } text-white flex items-center justify-center rounded-full mb-2`}
+       >
+         {orderData?.order_tracking_status === "Shipped" ||
+         orderData?.order_tracking_status === "Completed"
+           ? "✓"
+           : "🔒"}
+       </div>
+       <div className="w-full lg:w-auto">
+         <p className="text-xs text-gray ps-2 lg:ps-0">STEP 2</p>
+         <div className="flex lg:flex-col justify-between w-full lg:w-auto flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
+           <p className="font-semibold text-gray-700">Shipped</p>
+           <p
+             className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
+               orderData?.order_tracking_status === "Shipped" ||
+               orderData?.order_tracking_status === "Completed"
+                 ? "text-orange-500 bg-[#FA82321A]"
+                 : "text-purple-500 bg-[#F4F1FF]"
+             }`}
+           >
+             {orderData?.order_tracking_status === "Shipped" ||
+             orderData?.order_tracking_status === "Completed"
+               ? "Completed"
+               : "In Progress"}
+           </p>
+         </div>
+       </div>
+     </div>
+ 
+     {/* Line */}
+     <div className="h-14 lg:h-1 w-1 ms-[14px] lg:ms-0 lg:w-60 bg-secondary"></div>
 
-    {/* Step 2: Shipped */}
-    <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
-      <div
-        className={`w-8 h-8 ৳{
-          orderData?.order_tracking_status === "Shipped" ||
-          orderData?.order_tracking_status === "Completed"
-            ? "bg-orange-500"
-            : "bg-dark"
-        } text-white flex items-center justify-center rounded-full mb-2`}
-      >
-        {orderData?.order_tracking_status === "Shipped" ||
-        orderData?.order_tracking_status === "Completed"
-          ? "✓"
-          : "🔒"}
-      </div>
-      <div className="w-full lg:w-auto">
-        <p className="text-xs text-gray ps-2 lg:ps-0">STEP 2</p>
-        <div className="flex lg:flex-col justify-between w-full lg:w-auto flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
-          <p className="font-semibold text-gray-700">Shipped</p>
-          <p
-            className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ৳{
-              orderData?.order_tracking_status === "Shipped" ||
-              orderData?.order_tracking_status === "Completed"
-                ? "text-orange-500 bg-[#FA82321A]"
-                : "text-purple-500 bg-[#F4F1FF]"
-            }`}
-          >
-            {orderData?.order_tracking_status === "Shipped" ||
-            orderData?.order_tracking_status === "Completed"
-              ? "Completed"
-              : "In Progress"}
-          </p>
-        </div>
-      </div>
-    </div>
-
-    {/* Line */}
-    <div className="h-14 lg:h-1 w-1 ms-[14px] lg:ms-0 lg:w-60 bg-secondary"></div>
-
-    {/* Step 3: Completed */}
-    <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
-      <div
-        className={`w-8 h-8 ৳{
-          orderData?.order_tracking_status === "Completed" ? "bg-orange-500" : "bg-dark"
-        } text-white flex items-center justify-center rounded-full mb-2`}
-      >
-        {orderData?.order_tracking_status === "Completed" ? "✓" : "🔒"}
-      </div>
-      <div className="w-full lg:w-auto">
-        <p className="text-xs text-gray ps-2 lg:ps-0">STEP 3</p>
-        <div className="flex w-full lg:w-auto lg:flex-col justify-between ps-2 lg:ps-0 gap-3 lg:gap-0">
-          <p className="font-semibold text-gray-700">Completed</p>
-          <p
-            className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ৳{
-              orderData?.order_tracking_status === "Completed"
-                ? "text-orange-500 bg-[#FA82321A]"
-                : "text-purple-500 bg-[#F4F1FF]"
-            }`}
-          >
-            {orderData?.order_tracking_status === "Completed" ? "Completed" : "In Progress"}
-          </p>
-        </div>
-      </div>
-    </div>
+  
+ 
+     {/* Step 3: Completed */}
+     <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
+       <div
+         className={`w-8 h-8 ${
+           orderData?.order_tracking_status === "Completed" ? "bg-orange-500" : "bg-dark"
+         } text-white flex items-center justify-center rounded-full mb-2`}
+       >
+         {orderData?.order_tracking_status === "Completed" ? "✓" : "🔒"}
+       </div>
+       <div className="w-full lg:w-auto">
+         <p className="text-xs text-gray ps-2 lg:ps-0">STEP 3</p>
+         <div className="flex w-full lg:w-auto lg:flex-col justify-between ps-2 lg:ps-0 gap-3 lg:gap-0">
+           <p className="font-semibold text-gray-700">Completed</p>
+           <p
+             className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
+               orderData?.order_tracking_status === "Completed"
+                 ? "text-orange-500 bg-[#FA82321A]"
+                 : "text-purple-500 bg-[#F4F1FF]"
+             }`}
+           >
+             {orderData?.order_tracking_status === "Completed" ? "Completed" : "In Progress"}
+           </p>
+         </div>
+       </div>
+     </div>
   </div>
 
   {/* Track Shipment Button */}
