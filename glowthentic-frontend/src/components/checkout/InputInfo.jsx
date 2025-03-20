@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import Checkbox from "../../components/typography/Checkbox";
 
-const InputInfo = ({ register, errors }) => {
+const InputInfo = ({ register, errors, data, setValue }) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (register) {
+    if (data) {
+      setValue("name", data?.userDetails?.full_name || "");
+      setValue("phone", data?.userDetails?.phone_number || "");
+      setValue("email", data?.user?.email || "");
+      setValue("address", data?.userDetails?.address || "");
       setIsReady(true);
     }
-  }, [register]);
+  }, [data, setValue]);
 
   if (!isReady) {
     return <p>Loading...</p>;
@@ -90,18 +94,6 @@ const InputInfo = ({ register, errors }) => {
       {errors?.address && (
         <p className="text-red-500 text-sm">{errors?.address?.message ?? ""}</p>
       )}
-
-      {/* Checkbox */}
-      {/* <div className="flex items-center mt-2">
-        <Checkbox
-          register={register}
-          id="same-address"
-          className="mr-2 mt-2 h-5 w-5"
-        />
-        <label htmlFor="same-address" className="text-sm text-primary py-2">
-          Ship to a different address
-        </label>
-      </div> */}
     </form>
   );
 };

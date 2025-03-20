@@ -13,12 +13,17 @@ import toast from "react-hot-toast";
 import { clearCart } from "../../redux/features/slice/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { getOrCreateSessionId } from "../../utils/getSessionId";
+import { useGetUserInfoQuery } from "../../redux/features/api/auth/authApi";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.auth);
+ const { data, isLoading :userLoad, isError: userError } = useGetUserInfoQuery(user?.id, {
+    skip: !user?.id,
+  });
 
-  // console.log(user.data.id);
+console.log(data);
+
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -33,31 +38,7 @@ const CheckoutPage = () => {
     setSubTotalPrice(total.toFixed(0));
   }, [cartItems]);
 
-  // const subTotal = cartItems.reduce(
-  //   (sum, cartItem) => sum + cartItem.regular_price * cartItem.quantity,
-  //   0
-  // );
-//   const Shipping = cartItems.reduce(
-//     (sum, cartItem) => sum + cartItem.quantity,
-//     0
-//   );
 
-//   const discountPrice = 0;
-
-//   const shipingCharge = parseFloat(cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20).toFixed(0);
-
-
-//   const tax = parseFloat(
-//     (subTotalPrice + shipingCharge - discountPrice) * (2.5 / 100)
-//   ).toFixed(0);
-
-
-//   const grandTotal =  Number(subTotalPrice) + Number(shipingCharge) - Number(discountPrice) + Number(tax);
-
-
-// console.log(grandTotal);
-
-// console.log(subTotal, shipingCharge, tax, discountPrice);
 
 const subTotal = Number(
   cartItems.reduce(
@@ -94,6 +75,7 @@ console.log(subTotal, shippingPrice, tax, grandTotal);
     watch,
     formState: { errors },
     reset,
+    setValue,
     trigger,
   } = useForm();
 
@@ -170,6 +152,8 @@ console.log(subTotal, shippingPrice, tax, grandTotal);
                     register={register}
                     errors={errors}
                     shipToDifferentAddress={shipToDifferentAddress}
+                    data={data}
+                    setValue={setValue}
                   />
                   <PaymentOption register={register} errors={errors} />
                 </div>
