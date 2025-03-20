@@ -27,36 +27,10 @@ console.log(orderData?.order_tracking_status);
 
   const orderItems = orderData?.orderDetails || [];
   console.log(orderItems);
-  const subtotal = orderItems.reduce((acc, item) => acc + parseFloat(item.total_price || 0), 0).toFixed(2);
-  const items = [
-    {
-      title: "W7 Prime Magic Face Primer",
-      price: 225,
-      quantity: 22,
-      subtotal: 450,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum dolor sit amet consectetur adipisicing elit",
-      image: "https://i.imgur.com/Z1S8X8Z.jpg", // Functional product image
-    },
-    {
-      title: "W7 Prime Magic Face Primer",
-      price: 300,
-      quantity: 2,
-      subtotal: 600,
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-      image: "https://i.imgur.com/8Km9tLL.jpg", // Functional product image
-    },
-    {
-      title: "W7 Prime Magic Face Primer",
-      price: 250,
-      quantity: 1,
-      subtotal: 250,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Turpis in voluptas",
-      image: "https://i.imgur.com/4A5r7bR.jpg", // Functional product image
-    },
-  ];
-
+  const subtotal = orderItems.reduce((acc, item) => acc + parseFloat(item.total_price || 0), 0);
+  const shipping = 100;
+  const tax = Number((subtotal * 2.5 / 100).toFixed(2));
+  const totalEstimated = Number((subtotal + shipping + tax).toFixed(2));
   return (
     <div>
       <div className="bg-primary h-[250px]"></div>
@@ -79,7 +53,7 @@ console.log(orderData?.order_tracking_status);
     {/* Step 1: Ordered */}
     <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
       <div
-        className={`w-8 h-8 ${
+        className={`w-8 h-8 ৳{
           orderData?.order_tracking_status === "Ordered" ||
           orderData?.order_tracking_status === "Shipped" ||
           orderData?.order_tracking_status === "Completed"
@@ -98,7 +72,7 @@ console.log(orderData?.order_tracking_status);
         <div className="flex w-full lg:w-auto justify-between lg:flex-col flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
           <p className="font-semibold text-gray-700">Ordered</p>
           <p
-            className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
+            className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ৳{
               orderData?.order_tracking_status === "Ordered" ||
               orderData?.order_tracking_status === "Shipped" ||
               orderData?.order_tracking_status === "Completed"
@@ -122,7 +96,7 @@ console.log(orderData?.order_tracking_status);
     {/* Step 2: Shipped */}
     <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
       <div
-        className={`w-8 h-8 ${
+        className={`w-8 h-8 ৳{
           orderData?.order_tracking_status === "Shipped" ||
           orderData?.order_tracking_status === "Completed"
             ? "bg-orange-500"
@@ -139,7 +113,7 @@ console.log(orderData?.order_tracking_status);
         <div className="flex lg:flex-col justify-between w-full lg:w-auto flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
           <p className="font-semibold text-gray-700">Shipped</p>
           <p
-            className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
+            className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ৳{
               orderData?.order_tracking_status === "Shipped" ||
               orderData?.order_tracking_status === "Completed"
                 ? "text-orange-500 bg-[#FA82321A]"
@@ -161,7 +135,7 @@ console.log(orderData?.order_tracking_status);
     {/* Step 3: Completed */}
     <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
       <div
-        className={`w-8 h-8 ${
+        className={`w-8 h-8 ৳{
           orderData?.order_tracking_status === "Completed" ? "bg-orange-500" : "bg-dark"
         } text-white flex items-center justify-center rounded-full mb-2`}
       >
@@ -172,7 +146,7 @@ console.log(orderData?.order_tracking_status);
         <div className="flex w-full lg:w-auto lg:flex-col justify-between ps-2 lg:ps-0 gap-3 lg:gap-0">
           <p className="font-semibold text-gray-700">Completed</p>
           <p
-            className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
+            className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ৳{
               orderData?.order_tracking_status === "Completed"
                 ? "text-orange-500 bg-[#FA82321A]"
                 : "text-purple-500 bg-[#F4F1FF]"
@@ -248,19 +222,19 @@ console.log(orderData?.order_tracking_status);
                           <p className="font-medium lg:text-md text-sm text-gray-800">
                             Price: <br />{" "}
                             <span className="font-bold lg:text-md text-xs">
-                              ${item.unit_price}
+                              ৳{item.unit_price}
                             </span>
                           </p>
                           <p className=" font-medium  lg:text-md text-sm text-gray-500">
                             Qty: <br />{" "}
                             <span className="font-bold lg:text-md text-xs">
-                              {item.quantity}
+                              {item.product_quantity}
                             </span>
                           </p>
                           <p className="font-medium lg:text-md text-sm text-gray-800">
                             Subtotal: <br />{" "}
                             <span className="font-bold lg:text-md text-xs">
-                              ${item.total_price}
+                              ৳{item.total_price}
                             </span>
                           </p>
                           <RegularButton className="py-0 lg:h-11  bg-secondary  border h-8  hover:border-secondary text-white lg:bg-secondary  lg:text-md text-xs rounded-xl">
@@ -290,19 +264,19 @@ console.log(orderData?.order_tracking_status);
                     </p>
                     <div className="flex justify-between text-sm text-gray-700">
                       <p className="lg:text-lg text-sm">Subtotal Price:</p>
-                      <p className="lg:text-lg text-sm">${subtotal} USD</p>
+                      <p className="lg:text-lg text-sm">৳{subtotal} tk</p>
                     </div>
                     <div className="flex justify-between text-sm text-gray-700">
                       <p className="lg:text-lg text-sm">Shipping & Handling:</p>
-                      <p className="lg:text-lg text-sm">$5.95 USD</p>
+                      <p className="lg:text-lg text-sm">৳{shipping} tk</p>
                     </div>
                     <div className="flex justify-between text-sm text-gray-700">
                       <p className="lg:text-lg text-sm">Est Sales Tax:</p>
-                      <p className="lg:text-lg text-sm">$0.69 USD</p>
+                      <p className="lg:text-lg text-sm">৳{tax} tk</p>
                     </div>
                     <div className="flex justify-end text-lg mt-4">
                       <p className="px-4">Total(3Item):</p>
-                      <p className="font-bold text-gray-900 ">$1,306.64 USD</p>
+                      <p className="font-bold text-gray-900 ">৳{totalEstimated} tk</p>
                     </div>
                   </div>
 
