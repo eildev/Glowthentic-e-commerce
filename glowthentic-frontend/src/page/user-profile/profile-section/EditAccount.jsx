@@ -14,13 +14,9 @@ const EditAccount = () => {
   const { user } = useSelector((state) => state.auth);
   const userID = user?.id;
 
-  // console.log("login user", user);
-
-  // Skip query if userID is undefined
   const { data, isLoading, isError } = useGetUserInfoQuery(userID, {
     skip: !userID,
   });
-  // console.log("user", data?.userDetails);
   const [
     updateUser,
     {
@@ -42,9 +38,16 @@ const EditAccount = () => {
   const [imagePreview, setImagePreview] = useState(avatarPlaceholder);
   const [imageFile, setImageFile] = useState(null);
 
-  // Update form values when API data is loaded
+  // Update form values when API data is loaded, adding leading zero to phone
   useEffect(() => {
     if (data?.user) {
+      const rawPhone = data?.userDetails?.phone_number || "";
+      const formattedPhone = rawPhone
+        ? String(rawPhone).startsWith("0")
+          ? rawPhone
+          : `0${rawPhone}`
+        : "";
+
       const userData = {
         name: data?.user?.name || "",
         email: data?.user?.email || "",
@@ -53,12 +56,11 @@ const EditAccount = () => {
         region: data?.userDetails?.city || "",
         zone: data?.userDetails?.police_station || "",
         postalCode: data?.userDetails?.postal_code || "",
-        phone: data?.userDetails?.phone_number || "",
-        // image : 
+        phone: formattedPhone,
       };
       reset(userData);
-      if (data.user.image) {
-        setImagePreview(data?.userDetails?.image);
+      if (data.userDetails?.image) {
+        setImagePreview(data.userDetails.image); // Use userDetails.image
       }
     }
   }, [data, reset]);
@@ -83,6 +85,7 @@ const EditAccount = () => {
 
   // Handle form submission
   const onSubmit = async (formData) => {
+    console.log("User ID:", userID);
     if (!userID) {
       toast.error("User ID is not available. Please log in again.");
       return;
@@ -101,42 +104,44 @@ const EditAccount = () => {
         phone_number: formData.phone,
       };
 
-      // If there's an image, we'll need to handle multipart/form-data
+      let response;
       if (imageFile) {
         const formDataToSend = new FormData();
         Object.entries(payload).forEach(([key, value]) => {
           formDataToSend.append(key, value);
         });
         formDataToSend.append("image", imageFile);
-        await updateUser(formDataToSend).unwrap();
+        console.log("Sending FormData:", [...formDataToSend]);
+        response = await updateUser({ id: userID, ...Object.fromEntries(formDataToSend) }).unwrap();
       } else {
-        await updateUser(payload).unwrap();
+        console.log("Sending JSON payload:", payload);
+        response = await updateUser(payload).unwrap();
       }
 
+      console.log("API Response:", response);
       toast.success("User information updated successfully!");
+      if (response.user?.image) {
+        setImagePreview(response.user.image);
+      } else {
+        console.log("No image URL in response");
+      }
     } catch (err) {
+      console.error("Update error:", err);
       const errorMessage = err?.data?.message || "Failed to update user";
       const fieldErrors = err?.data?.errors || {};
-
-      if (err.status === 405) {
-        toast.error("Method not allowed. Please contact support.");
-      } else {
-        toast.error(errorMessage);
-        Object.entries(fieldErrors).forEach(([field, messages]) => {
-          toast.error(`${field}: ${messages.join(", ")}`);
-        });
-      }
+      toast.error(errorMessage);
+      Object.entries(fieldErrors).forEach(([field, messages]) => {
+        toast.error(`${field}: ${messages.join(", ")}`);
+      });
     }
   };
 
-  // Handle success state
   useEffect(() => {
     if (isUpdated) {
       toast.success("Profile updated successfully!");
     }
   }, [isUpdated]);
 
-  // Handle error state
   useEffect(() => {
     if (updateError) {
       toast.error("Failed to update profile. Please try again.");
@@ -162,7 +167,7 @@ const EditAccount = () => {
       <CommonTitle title="Edit Account" />
 
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-        {/* Avatar Upload */}
+        {/* User image Upload */}
         <div className="relative w-24 h-24 lg:w-32 lg:h-32 mx-auto my-4 rounded-full group">
           <img
             className="w-full h-full rounded-full object-cover"
@@ -304,17 +309,6 @@ const EditAccount = () => {
               </span>
             )}
           </div>
-
-          {/* <div className="flex items-center my-4">
-            <input
-              type="checkbox"
-              {...register("saveAddress")}
-              className="w-5 h-5"
-            />
-            <label className="block text-xl text-dark font-normal font-encode ml-2">
-              Save this address to my profile
-            </label>
-          </div> */}
         </div>
 
         {/* Contact Information */}
@@ -351,13 +345,20 @@ const EditAccount = () => {
               {...register("phone", {
                 required: "Phone number is required",
                 pattern: {
-                  value: /^[0-9]{10,}$/,
-                  message: "Phone number must be at least 10 digits",
+                  value: /^0[0-9]{9,}$/,
+                  message: "Phone number must start with 0 and be at least 10 digits",
                 },
               })}
               className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
                 errors.phone ? "border-red-500" : "border-hr-thin"
               }`}
+              onChange={(e) => {
+                let value = e.target.value;
+                if (value && !value.startsWith("0")) {
+                  value = `0${value}`;
+                  setValue("phone", value);
+                }
+              }}
             />
             {errors.phone && (
               <span className="text-red-500 text-sm">

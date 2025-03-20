@@ -1,4 +1,3 @@
-// src/redux/features/api/auth/authApi.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
 
@@ -7,7 +6,7 @@ const authApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "http://127.0.0.1:8000/api",
         credentials: "include",
-        prepareHeaders: (headers, { getState }) => {
+        prepareHeaders: (headers, { getState, endpoint }) => {
             const csrfToken = Cookies.get("XSRF-TOKEN");
             if (csrfToken) {
                 headers.set("X-XSRF-TOKEN", decodeURIComponent(csrfToken));
@@ -16,11 +15,15 @@ const authApi = createApi({
             if (token) {
                 headers.set("Authorization", `Bearer ${token}`);
             }
-            headers.set("Content-Type", "application/json");
+            // Only set Content-Type for non-file upload endpoints
+            if (endpoint !== "updateUser" || !(getState().auth.body instanceof FormData)) {
+                headers.set("Content-Type", "application/json");
+            }
             headers.set("Accept", "application/json");
             return headers;
         },
     }),
+    tagTypes: ["User", "UserDetails"],
     endpoints: (builder) => ({
         getCsrfToken: builder.query({
             query: () => ({
@@ -53,24 +56,34 @@ const authApi = createApi({
                 url: "/user-info",
                 method: "GET",
             }),
+            providesTags: ["User"],
         }),
         getUserInfo: builder.query({
             query: (id) => {
                 // console.log("in api", id);
                 return `/user/details/show/${id}`;
             },
+            providesTags: ["UserDetails"],
         }),
         updateUser: builder.mutation({
             query: ({ id, ...data }) => ({
                 url: `user/details/update/${id}`,
-                method: 'POST', // Changed from PUT to POST to match API spec
-                body: data,
+                method: "POST",
+                body: data, // Can be JSON or FormData
             }),
-            // Add invalidation tags for automatic cache updates
-            invalidatesTags: ['User', 'UserDetails'],
+            invalidatesTags: ["User", "UserDetails"],
         }),
     }),
 });
 
-export const { useGetCsrfTokenQuery, useLoginUserMutation, useRegisterUserMutation, useLogoutUserMutation, useGetUserQuery, useGetUserInfoQuery, useUpdateUserMutation } = authApi;
+export const {
+    useGetCsrfTokenQuery,
+    useLoginUserMutation,
+    useRegisterUserMutation,
+    useLogoutUserMutation,
+    useGetUserQuery,
+    useGetUserInfoQuery,
+    useUpdateUserMutation,
+} = authApi;
+
 export default authApi;
