@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import avatarPlaceholder from "../../../assets/img/user-profile/avatar.jpeg";
+import avatarPlaceholder from "../../../assets/img/user-profile/user.jpg";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
 import { FaCamera } from "react-icons/fa";
 import { useSelector } from "react-redux";

@@ -3,9 +3,6 @@ import MainLayouts from "../layouts/MainLayouts";
 import HomePage from "../page/home/HomePage";
 import AboutPage from "../page/about/AboutPage";
 import Blog from "../page/blog/Blog";
-
-// import Login from "../page/login/Login";
-import MainLogin from "../page/login/MainLogin";
 import SignUp from "../page/sign-up/SignUp";
 import ForgetPassword from "../page/forget-password/ForgetPassword";
 import Page404 from "../page/error/Page404";
@@ -33,6 +30,7 @@ import ProfileMenu from "../page/user-profile/ProfileMenu";
 import PrivateRoute from "./PrivateRoute";
 import Signout from "../page/Signout";
 import Login from "../page/login/Login";
+import TermsAndConditionsPage from "../page/terms-&-conditions/TermsAndConditionsPage";
 
 const ErrorBoundary = ({ error }) => {
   console.error("Error caught:", error);
@@ -43,7 +41,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
-    // errorElement: <ErrorBoundary />, // Error Boundary
+    errorElement: <ErrorBoundary />, // Error Boundary
     children: [
       {
         path: "/",
@@ -90,6 +88,10 @@ const router = createBrowserRouter([
         element: <FaqPage />,
       },
       {
+        path: "/terms-and-conditions",
+        element: <TermsAndConditionsPage />,
+      },
+      {
         path: "/track-order",
         element: <TrackOrderPage />,
       },
@@ -103,7 +105,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile-mobile",
-        element: <ProfileMenu />,
+        element: (
+          <PrivateRoute>
+            <ProfileMenu />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/blog",

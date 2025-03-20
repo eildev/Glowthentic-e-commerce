@@ -3,51 +3,13 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Navbar from "./Navbar";
 import AppBar from "./AppBar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ScrollTop from "../components/ScrollTop";
-import OnlineChatButton from "../components/OnlineChatButton";
-import { useDispatch, useSelector } from "react-redux";
-import { stopLoading } from "../redux/features/slice/loadingSlice";
-import Loading from "../components/spinners/Loading";
 import RedirectTop from "../components/RedirectTop";
-import { useGetUserQuery } from "../redux/features/api/auth/authApi";
-import Cookies from "js-cookie";
-import { loginSuccess, restoreUser } from "../redux/features/slice/authSlice";
+
 
 const MainLayouts = () => {
-  // const dispatch = useDispatch();
-  // const token = useSelector((state) => state.auth.token);
-  // const user = useSelector((state) => state.auth.user);
-  // const {
-  //   data: userData,
-  //   isSuccess,
-  //   isLoading,
-  // } = useGetUserQuery(undefined, {
-  //   skip: !token || !!user,
-  // });
-
-  // useEffect(() => {
-  //   if (isSuccess && userData && !user) {
-  //     dispatch(restoreUser(userData));
-  //   }
-  // }, [isSuccess, userData, dispatch, user]);
-
-  // useEffect(() => {
-  //   const storedToken = Cookies.get("token");
-  //   if (storedToken && !token) {
-  //     dispatch(loginSuccess({ data: { token: storedToken } }));
-  //   }
-  // }, [dispatch, token]);
-
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  // const dispatch = useDispatch();
-  // const isLoading = useSelector((state) => state.app.loading);
-
-  // useEffect(() => {
-  //   // Simulate loading delay or actual data fetching
-  //   const timer = setTimeout(() => dispatch(stopLoading(), 2000));
-  //   return () => clearTimeout(timer);
-  // }, [dispatch]);
   return (
     <div>
       {/* {isLoading && <Loading />} */}
@@ -75,7 +37,7 @@ const MainLayouts = () => {
       <AppBar />
 
       {/*--------- OnlineChatButton  -----------*/}
-      <OnlineChatButton></OnlineChatButton>
+      {/* <OnlineChatButton></OnlineChatButton> */}
       {/*---------  ScrollTop -----------*/}
       <ScrollTop />
     </div>

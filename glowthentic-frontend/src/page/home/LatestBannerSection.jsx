@@ -37,12 +37,12 @@ const LatestBannerSection = () => {
   const { data: offerData } = useGetFeaturesQuery();
   console.log(offerData);
   const bannerData = [
-    { image: offerData?.features[0]?.image, name: offerData?.features[0]?.feature_name, badgeColor: "#FAE3F9", colSpan: "lg:col-span-2" }, // Large banner
-    { image: offerData?.features[1]?.image, name: offerData?.features[1]?.feature_name, badgeColor: "#E3F0FA" },
-    { image: offerData?.features[2]?.image, name: offerData?.features[2]?.feature_name, badgeColor: "#E8FAE3" },
-    { image: offerData?.features[3]?.image, name: offerData?.features[3]?.feature_name, badgeColor: "#FAE3F9" },
-    { image: offerData?.features[4]?.image, name: offerData?.features[4]?.feature_name, badgeColor: "#E8FAE3" },
-    { image: offerData?.features[5]?.image, name: offerData?.features[5]?.feature_name, badgeColor: "#E3F0FA", colSpan: "lg:col-span-2" }, // Large banner
+    { title: offerData?.features[0].feature_name, image: offerData?.features[0]?.image, badgeColor: "#FAE3F9", colSpan: "lg:col-span-2" }, // Large banner
+    { title: offerData?.features[1].feature_name, image: offerData?.features[1]?.image, badgeColor: "#E3F0FA" },
+    { title: offerData?.features[2].feature_name, image: offerData?.features[2]?.image, badgeColor: "#E8FAE3" },
+    { title: offerData?.features[3].feature_name, image: offerData?.features[2]?.image, badgeColor: "#FAE3F9" },
+    { title: offerData?.features[4].feature_name, image: offerData?.features[1]?.image, badgeColor: "#E8FAE3" },
+    { title: offerData?.features[5].feature_name, image: offerData?.features[0]?.image, badgeColor: "#E3F0FA", colSpan: "lg:col-span-2" }, // Large banner
   ];
   return (
     <div className="px-5 py-5">
@@ -97,7 +97,7 @@ const LatestBannerSection = () => {
                     </div>
                 </div>
             </div> */}
-            <div className="grid lg:grid-cols-4 gap-5">
+      <div className="grid lg:grid-cols-4 gap-5">
         {bannerData.slice(0, 6).map((banner, index) => (
           <div key={index} className={`relative ${banner.colSpan || ""}`}>
             <img src={imagePath(banner.image)} alt="Latest Banner" className="w-full h-auto" />
@@ -106,7 +106,7 @@ const LatestBannerSection = () => {
                 className="rounded-3xl px-5 py-2 font-medium"
                 style={{ backgroundColor: banner.badgeColor }}
               >
-               {banner.name}
+                {banner?.title ?? ''}
               </div>
             </div>
           </div>

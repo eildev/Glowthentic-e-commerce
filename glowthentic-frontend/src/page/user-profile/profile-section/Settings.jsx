@@ -4,8 +4,10 @@ const Settings = () => {
   return (
     <div className="px-2 w-full mx-auto">
       <CommonTitle title={"Account Settings"} />
-
-      <div>
+      <h2 className="text-center text-2xl font-bold flex justify-center items-center py-10">
+        Under Development..
+      </h2>
+      {/* <div>
         <div className="my-4">
           <h3 className="flex items-center justify-between text-lg md:text-2xl font-bold font-encode">
             Email Notification
@@ -55,7 +57,7 @@ const Settings = () => {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
