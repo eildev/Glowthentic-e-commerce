@@ -30,7 +30,7 @@ const ProfileMenu = () => {
         </div>
       </div>
 
-      <div className="mt-7 flex justify-between items-center gap-3">
+      <div className="mt-7 flex justify-between items-center gap-3 lg:hidden">
         <div className="py-3 px-2 w-full bg-[#FA8232] bg-opacity-5 rounded-lg">
           <h3 className="text-sm text-[#FA8232] font-bold text-center">39+</h3>
           <p className="text-[#2C2C2C] text-[10px] text-center">Total Orders</p>

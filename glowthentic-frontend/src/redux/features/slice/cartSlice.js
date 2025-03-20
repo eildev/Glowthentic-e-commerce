@@ -1,11 +1,14 @@
 // src/features/cart/cartSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { getCartFromLocalStorage, saveCartToLocalStorage } from '../../../utils/localstorage';
+import { useSelector } from 'react-redux';
 
 // Initial state
 const initialState = {
   cartItems: getCartFromLocalStorage(),
 };
+
+// const { user } = useSelector((state) => state.auth);
 
 const cartSlice = createSlice({
   name: 'cart',
