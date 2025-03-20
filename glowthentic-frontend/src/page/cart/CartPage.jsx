@@ -20,6 +20,7 @@ import {
   toggleAllSelection,
 } from "../../redux/features/slice/selectCartSlice";
 import CartItemForSmallDevice from "../../components/cart/CartItemForSmallDevice";
+import { useCheckCouponMutation } from "../../redux/features/api/couponApi/couponApi";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -31,14 +32,13 @@ const CartPage = () => {
   const [voucherActive, isVoucherActive] = useState(false);
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const [voucher, setVoucher] = useState(false);
-  // New states for modal
+  const [coupon_code, setCoupon_code] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [isRemoveAll, setIsRemoveAll] = useState(false);
-
-
-
-  console.log(voucher);
+  const [discountPrice, setDiscountPrice] = useState(0);
+  const [checkCoupon, { isLoading, isSuccess, isError, error }] =
+    useCheckCouponMutation();
 
 
   useEffect(() => {
@@ -102,7 +102,7 @@ const CartPage = () => {
   const shippingPrice = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
 
 
-  const discountPrice = 0;
+  // let discountPrice = 0;
 
 
   const tax = parseFloat(
@@ -110,10 +110,47 @@ const CartPage = () => {
   ).toFixed(0);
 
   const totalPrice = (
-    Number(subTotalPrice) + Number(shippingPrice) - Number(discountPrice) + Number(tax)
+    Number(subTotalPrice) - Number(discountPrice)
   ).toFixed(0);
 
-  console.log(subTotalPrice, shippingPrice, tax, totalPrice);
+
+
+
+
+
+ 
+
+  const handleApply = async() => {
+    if (coupon_code.trim() === "") {
+      console.log("Please enter a voucher code!");
+      return;
+    }
+
+console.log(coupon_code);
+try {
+  const response = await checkCoupon({ coupon_code }).unwrap();
+  console.log("Server Response:", response);
+
+  const discountValue = Math.round(response?.data?.discount_value);
+  // discountPrice = discountValue
+  setDiscountPrice(discountValue)
+
+  if(response.data){
+    toast.success(
+      `You Got ${discountValue}${response?.data?.discount_type === "percentage" ? "%" : "৳"} Discount`
+    );
+  }
+  else{
+    toast.error("Coupon Not Match")
+  }
+} catch (err) {
+  console.error("Error:", err);
+}
+
+
+    setCoupon_code(""); 
+  };
+  
 
   return (
     <div className="md:py-10">
@@ -194,26 +231,31 @@ const CartPage = () => {
 
           <div className="grid gap-5 h-fit">
           <div className={`card bg-base-100 shadow-sm rounded-[5px] ${voucher ? "" : "hidden"}`}>
-              <div className="card-body">
-                <h2 className="card-title font-medium text-sm text-[#191C1F] border-b border-[#E4E7E9] py-2">
-                  Coupon Code
-                </h2>
-                <div className="py-3">
-                  <input
-                    id="phone"
-                    type="text"
-                    placeholder="Enter Voucher Code"
-                    className="focus:outline-none focus:ring-2 focus:ring-orange-500 border-[0.77px] focus:border-none border-[#E4E7E9] rounded p-2 w-full text-[11px]"
-                  />
-                </div>
-                <div className="card-actions justify-start">
-                  <RegularButton className="text-[10px] px-[18px] font-bold uppercase">
-                    Apply
-                  </RegularButton>
-                </div>
-              </div>
-            </div>
-          <button onClick={()=>setVoucher(!voucher)} className={`text-sm text-[#FA8232] hover:text-[#c4723c] transition-all duration-100 underline text-left pl-2 ${!voucher ? "" : "hidden"}`}>Have Any Voucher</button>
+      <div className="card-body">
+        <h2 className="card-title font-medium text-sm text-[#191C1F] border-b border-[#E4E7E9] py-2">
+          Coupon Code
+        </h2>
+        <div className="py-3">
+          <input
+            id="coupon_code"
+            type="text"
+            placeholder="Enter Voucher Code"
+            value={coupon_code}
+            onChange={(e) => setCoupon_code(e.target.value)}
+            className="focus:outline-none focus:ring-2 focus:ring-orange-500 border-[0.77px] focus:border-none border-[#E4E7E9] rounded p-2 w-full text-[11px]"
+          />
+        </div>
+        <div className="card-actions justify-start">
+          <button
+            onClick={handleApply}
+            className="text-[10px] px-[18px] font-bold uppercase bg-orange-500 text-white rounded p-1 py-2"
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+    </div>
+          <button onClick={()=>setVoucher(!voucher)} className={`text-sm text-[#FA8232] hover:text-[#c4723c] transition-all duration-100 underline text-left pl-2 ${!voucher ? "" : "hidden"}`}>Have Any Voucher?</button>
             <div className="card bg-base-100 shadow-sm rounded-[5px]">
               <div className="card-body">
                 <h2 className="card-title font-medium text-sm text-[#191C1F]">

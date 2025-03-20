@@ -24,7 +24,7 @@ const Product = ({ product, isDark }) => {
   const { token, user } = useSelector((state) => state.auth);
   const [addToWishlist, { isLoading, isError, isSuccess, data }] =
     useAddToWishlistMutation();
-console.log(user);
+// console.log(user);
   const {
     id,
     product_name,

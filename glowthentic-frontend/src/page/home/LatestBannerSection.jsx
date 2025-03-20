@@ -37,12 +37,12 @@ const LatestBannerSection = () => {
   const { data: offerData } = useGetFeaturesQuery();
   console.log(offerData);
   const bannerData = [
-    { title: offerData?.features[0].feature_name, image: offerData?.features[0]?.image, badgeColor: "#FAE3F9", colSpan: "lg:col-span-2" }, // Large banner
-    { title: offerData?.features[1].feature_name, image: offerData?.features[1]?.image, badgeColor: "#E3F0FA" },
-    { title: offerData?.features[2].feature_name, image: offerData?.features[2]?.image, badgeColor: "#E8FAE3" },
-    { title: offerData?.features[3].feature_name, image: offerData?.features[3]?.image, badgeColor: "#FAE3F9" },
-    { title: offerData?.features[4].feature_name, image: offerData?.features[4]?.image, badgeColor: "#E8FAE3" },
-    { title: offerData?.features[5].feature_name, image: offerData?.features[5]?.image, badgeColor: "#E3F0FA", colSpan: "lg:col-span-2" }, // Large banner
+    { title: offerData?.features[0]?.feature_name, image: offerData?.features[0]?.image, badgeColor: "#FAE3F9", colSpan: "lg:col-span-2" }, // Large banner
+    { title: offerData?.features[1]?.feature_name, image: offerData?.features[1]?.image, badgeColor: "#E3F0FA" },
+    { title: offerData?.features[2]?.feature_name, image: offerData?.features[2]?.image, badgeColor: "#E8FAE3" },
+    { title: offerData?.features[3]?.feature_name, image: offerData?.features[3]?.image, badgeColor: "#FAE3F9" },
+    { title: offerData?.features[4]?.feature_name, image: offerData?.features[4]?.image, badgeColor: "#E8FAE3" },
+    { title: offerData?.features[5]?.feature_name, image: offerData?.features[5]?.image, badgeColor: "#E3F0FA", colSpan: "lg:col-span-2" }, // Large banner
   ];
   return (
     <div className="px-5 py-5">
