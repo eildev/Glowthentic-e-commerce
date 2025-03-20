@@ -76,7 +76,7 @@ const shippingPrice = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
 const discountPrice = 0;
 
 const tax = Math.round(
-  (subTotal + shippingPrice - discountPrice) * (2 / 100)
+  subTotal * (2 / 100)
 );
 
 const grandTotal = Math.round(subTotal + shippingPrice - discountPrice + tax);

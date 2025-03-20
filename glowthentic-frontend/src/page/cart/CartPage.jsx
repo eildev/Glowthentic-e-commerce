@@ -100,7 +100,7 @@ const CartPage = () => {
 
 
   const tax = parseFloat(
-    (subTotalPrice + shippingPrice - discountPrice) * (2 / 100)
+    subTotalPrice * (2 / 100)
   ).toFixed(0);
   
   const totalPrice = (
