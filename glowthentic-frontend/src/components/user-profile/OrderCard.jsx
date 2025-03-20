@@ -63,7 +63,7 @@ console.log("order", order);
                       {formattedDate}
                     </p>
                     <p className="text-xl my-2 md:text-2xl text-dark font-semibold font-encode">
-                      ৳ {item.total_amount}
+                      ৳ {item.grand_total}
                     </p>
                   </div>
                 </div>
