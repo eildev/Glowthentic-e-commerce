@@ -30,6 +30,7 @@ import ProfileMenu from "../page/user-profile/ProfileMenu";
 import PrivateRoute from "./PrivateRoute";
 import Signout from "../page/Signout";
 import Login from "../page/login/Login";
+import TermsAndConditionsPage from "../page/terms-&-conditions/TermsAndConditionsPage";
 
 const ErrorBoundary = ({ error }) => {
   console.error("Error caught:", error);
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
         element: <FaqPage />,
       },
       {
+        path: "/terms-and-conditions",
+        element: <TermsAndConditionsPage />,
+      },
+      {
         path: "/track-order",
         element: <TrackOrderPage />,
       },
@@ -100,10 +105,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile-mobile",
-        element:
-          (<PrivateRoute>
+        element: (
+          <PrivateRoute>
             <ProfileMenu />
-          </PrivateRoute>)
+          </PrivateRoute>
+        ),
       },
       {
         path: "/blog",
