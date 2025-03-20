@@ -7,19 +7,19 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://backend.glowthentic.store",
+        target: "http://127.0.0.1:8000",
         changeOrigin: true,
         secure: false,
       },
       "/sanctum": {
-        target: "https://backend.glowthentic.store",
+        target: "http://127.0.0.1:8000",
         changeOrigin: true,
         secure: false,
       },
     },
 
     host: "127.0.0.1", // This allows access from any network interface
-    // host: "https://backend.glowthentic.store", // This allows access from any network interface
+    // host: "http://127.0.0.1:8000", // This allows access from any network interface
     // host: "0.0.0.0",
     port: 5173, // Optional: Specify the port if you want to use a specific one
   },

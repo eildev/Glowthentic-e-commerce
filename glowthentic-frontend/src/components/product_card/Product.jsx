@@ -24,7 +24,7 @@ const Product = ({ product, isDark }) => {
   const { token, user } = useSelector((state) => state.auth);
   const [addToWishlist, { isLoading, isError, isSuccess, data }] =
     useAddToWishlistMutation();
-
+console.log(user);
   const {
     id,
     product_name,
@@ -72,10 +72,11 @@ const Product = ({ product, isDark }) => {
     try {
       const wishlistData = {
         product_id: productItem.id,
-        user_id: user?.data?.id,
+        user_id: user?.id,
         variant_id: variantId,
       };
       const result = await addToWishlist(wishlistData).unwrap();
+      console.log(result);
       if (result.status === 200) {
         setIsFav(true);
         toast.success(`${product_name} added to your wishlist!`);
@@ -84,8 +85,10 @@ const Product = ({ product, isDark }) => {
         toast.error(`Failed to add ${product_name} to wishlist.`);
       }
     } catch (error) {
+      console.log(error);
       toast.error(
         error?.data?.message || "An error occurred. Please try again."
+        
       );
     }
   };
