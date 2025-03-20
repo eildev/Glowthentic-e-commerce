@@ -88,14 +88,26 @@ const CartPage = () => {
     dispatch(toggleAllSelection(allItemIds));
   };
 
-  const shippingPrice = 100;
-  const discountPrice = 1000;
+  const Shipping = cartItems.reduce(
+    (sum, cartItem) => sum + cartItem.quantity,
+    0
+  );
+
+  const shippingPrice = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
+
+
+  const discountPrice = 0;
+
+
   const tax = parseFloat(
-    (subTotalPrice + shippingPrice - discountPrice) * (2.5 / 100)
-  ).toFixed(2);
-  const totalPrice = parseFloat(
-    subTotalPrice + shippingPrice + discountPrice + tax
-  ).toFixed(2);
+    (subTotalPrice + shippingPrice - discountPrice) * (2 / 100)
+  ).toFixed(0);
+  
+  const totalPrice = (
+    Number(subTotalPrice) + Number(shippingPrice) - Number(discountPrice) + Number(tax)
+  ).toFixed(0);
+
+  console.log(subTotalPrice, shippingPrice, tax, totalPrice);
 
   return (
     <div className="md:py-10">
@@ -183,25 +195,25 @@ const CartPage = () => {
                   <ul className="flex justify-between">
                     <li className="text-[11px] text-[#5F6C72]">Sub-total</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
-                      {subTotalPrice} <span>$</span>
+                    {(Number(subTotalPrice) || 0).toFixed(0)} <span>৳</span>
                     </li>
                   </ul>
                   <ul className="flex justify-between text-[11px] text-[#5F6C72]">
                     <li className="text-[11px] text-[#5F6C72]">Shipping</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
-                      {shippingPrice} <span>$</span>
+                      {shippingPrice} <span>৳</span>
                     </li>
                   </ul>
                   <ul className="flex justify-between text-[11px] text-[#5F6C72]">
                     <li className="text-[11px] text-[#5F6C72]">Discount</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
-                      {discountPrice} <span>$</span>
+                      {discountPrice} <span>৳</span>
                     </li>
                   </ul>
                   <ul className="flex justify-between text-[11px] text-[#5F6C72]">
                     <li className="text-[11px] text-[#5F6C72]">Tax</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
-                      {tax} <span>$</span>
+                      {tax} <span>৳</span>
                     </li>
                   </ul>
                 </div>
@@ -211,7 +223,7 @@ const CartPage = () => {
                       Product Total
                     </li>
                     <li className="font-bold text-[13px] text-[#191C1F]">
-                      <span>{totalPrice}$</span>
+                      <span>{totalPrice} ৳</span>
                     </li>
                   </ul>
                 </div>
