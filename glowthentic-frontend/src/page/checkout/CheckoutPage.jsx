@@ -173,7 +173,7 @@ const CheckoutPage = () => {
       <DynamicHelmet title="Checkout Page" />
       <Container>
         {/* Small Device */}
-        {/* <div className="md:hidden">
+        <div className="md:hidden">
           <CheckoutWizard
             register={register}
             errors={errors}
@@ -181,14 +181,16 @@ const CheckoutPage = () => {
             onSubmit={onSubmit}
             cartItems={cartItems}
             subTotal={subTotal}
-            shipingCharge={shipingCharge}
+            shipingCharge={10}
             Shipping={Shipping}
             trigger={trigger}
             watch={watch}
+            data={data}
+            setValue={setValue}
           />
-        </div> */}
+        </div>
         {/* Large Device */}
-        {/* <div className="container hidden md:block mx-auto px-4 py-8"> */}
+        <div className="container hidden md:block mx-auto px-4 py-8">
         <div className="container mx-auto px-4 py-8">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
@@ -238,6 +240,7 @@ const CheckoutPage = () => {
               </div>
             </div>
           </form>
+        </div>
         </div>
       </Container>
     </div>

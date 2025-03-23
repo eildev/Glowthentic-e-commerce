@@ -19,6 +19,8 @@ const CheckoutWizard = ({
   Shipping,
   trigger,
   watch,
+  data,
+  setValue
 }) => {
   const formWizardRef = React.createRef();
 
