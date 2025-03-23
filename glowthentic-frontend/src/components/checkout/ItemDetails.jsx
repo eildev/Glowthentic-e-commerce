@@ -41,7 +41,7 @@ const value = couponData.discount_type == "fixed" ? "৳" : "%"
       </div>
       <hr className="my-2 text-hr-thin" />
       <div className="flex justify-between font-bold">
-        <span className="text-sm text-gray font-bold">Total</span>
+        <span className="text-sm text-gray font-bold">Grand Total</span>
         <span className="text-lg font-medium">{total} ৳</span>
       </div>
     </div>

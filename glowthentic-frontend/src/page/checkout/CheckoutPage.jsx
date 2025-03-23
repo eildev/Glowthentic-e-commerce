@@ -131,7 +131,7 @@ const CheckoutPage = () => {
   const shipToDifferentAddress = watch("shipToDifferentAddress");
 
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log(`${data.phone}`);
     const orderData = {
       products: cartItems.map((item) => ({
         variant_id: item.id,
@@ -144,6 +144,7 @@ const CheckoutPage = () => {
       payment_method: data.paymentMethod,
       shipping_method: "In-House",
       shipping_charge: shippingPrice,
+      phone_number : `${data.phone}`,
       coupon_code: coupon_code,
       order_note: data.orderNotes,
       ...(token ? { user_id: user.id } : { session_id: userSessionId }),

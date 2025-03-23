@@ -50,7 +50,7 @@ const store = configureStore({
         [homeBannerApi.reducerPath]: homeBannerApi.reducer,
         [featuresApi.reducerPath]: featuresApi.reducer,
         [orderGetApi.reducerPath]: orderGetApi.reducer,
-        [orderHistoryApi.reducerPath]: orderGetApi.reducer,
+        [orderHistoryApi.reducerPath]: orderHistoryApi.reducer,
         [couponApi.reducerPath]: couponApi.reducer,
 
     },

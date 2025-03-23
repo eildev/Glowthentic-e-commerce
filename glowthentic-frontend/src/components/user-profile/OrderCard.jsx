@@ -79,7 +79,8 @@ console.log("order", order);
           আপনার কোনো অর্ডার ইতিহাস নেই।
         </p>
       ) : (
-        [...history] // Create a copy before sorting
+        [...history.order
+        ] // Create a copy before sorting
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
           .map((item, i) => {
             const formattedDate = new Date(item.created_at).toLocaleString(
@@ -101,7 +102,7 @@ console.log("order", order);
                     No Order : #{item.invoice_number}
                   </h3>
                   <p className="flex capitalize justify-between items-center text-md md:text-lg text-dark font-semibold font-encode bg-hr-thin py-2 px-4 my-2">
-                    {status}
+                    {item.status}
                     <Icon
                       className="w-4 h-4 md:w-6 md:h-6"
                       icon="mdi-light:clock"
@@ -119,7 +120,7 @@ console.log("order", order);
                     {formattedDate}
                   </p>
                   <p className="text-xl my-2 md:text-2xl text-dark font-semibold font-encode">
-                    ৳ {item.total_amount}
+                    ৳ {item.grand_total}
                   </p>
 
                   {status === "done" && (
@@ -134,13 +135,14 @@ console.log("order", order);
                       Give Review
                     </button>
                   )}
+                  
+      <OrderReviewModal item={item}/>
                 </div>
               </div>
             );
           })
       )}
 
-      <OrderReviewModal />
     </>
   );
 };
