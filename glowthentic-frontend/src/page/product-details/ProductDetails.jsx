@@ -225,6 +225,12 @@ const ProductDetails = () => {
               >
                 Add To Cart
               </RegularButton>
+              <RegularButton
+                className="me-4 my-1 px-6 text-sm"
+                // onClick={() => handleAddToCart()}
+              >
+                Buy Now
+              </RegularButton>
               {/* <RegularButton className="px-6 text-sm">Buy Now</RegularButton> */}
             </div>
             {/* //Button End// */}

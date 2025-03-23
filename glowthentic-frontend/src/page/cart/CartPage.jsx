@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Container from "../../components/Container";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import PreviousPage from "../../components/previous-page/PreviousPage";
@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import CartItem from "../../components/cart/CartItem";
 import { useDispatch, useSelector } from "react-redux";
-import { IoCloseSharp } from "react-icons/io5";
-import IncrementDecrement from "../../components/typography/IncrementDecrement";
+// import { IoCloseSharp } from "react-icons/io5";
+// import IncrementDecrement from "../../components/typography/IncrementDecrement";
 import {
   clearCart,
   removeFromCart,
@@ -40,7 +40,37 @@ const CartPage = () => {
   const [checkCoupon, { isLoading, isSuccess, isError, error }] =
     useCheckCouponMutation();
   const [couponData, setCouponData] = useState({})
+  const location = useLocation(); // Get current URL
+  const queryString = location.search; // Extract query parameters
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  // console.log(coupon_code);
+
+  useEffect(() => {
+    const urlCoupon = searchParams.get("coupon");
+    if (urlCoupon) {
+      setCoupon_code(urlCoupon);
+      const fetchCoupon = async () => {
+        try {
+          const response = await checkCoupon({ coupon_code: urlCoupon }).unwrap();
+          // console.log("API Response:", response);
+          const discountValue = Math.round(response?.data?.discount_value);
+          setDiscountPrice(discountValue)
+          setCouponData(response.data)
+        } catch (error) {
+          console.error("Error fetching coupon:", error);
+        }
+      };
+      fetchCoupon();
+    }
+  }, [searchParams]);
+
+
+
+
+  // console.log(couponData);
+
+  // console.log(coupon_code);
 
   useEffect(() => {
     const total = cartItems.reduce(
@@ -117,7 +147,8 @@ const CartPage = () => {
 
 
 
-  console.log(couponData);
+
+
 
 
 
@@ -126,15 +157,15 @@ const CartPage = () => {
       toast.error("Please enter a valid voucher code!");
       return;
     }
-
+    setSearchParams({ coupon: coupon_code });
     // console.log(coupon_code);
     try {
+
       const response = await checkCoupon({ coupon_code }).unwrap();
       console.log("Server Response:", response);
-
+      console.log(coupon_code);
 
       const discountValue = Math.round(response?.data?.discount_value);
-      // discountPrice = discountValue
       setDiscountPrice(discountValue)
 
       if (response.data) {
@@ -146,6 +177,7 @@ const CartPage = () => {
           setCouponData(response.data)
           setCoupon_code("");
           setVoucher(false)
+
         }
         else {
           toast.error("This coupon has expired");
@@ -162,6 +194,11 @@ const CartPage = () => {
     }
 
   };
+
+  // if (isLoading) {
+  //   return <p>Loading...</p>;
+  // }
+  
 
 
   return (
@@ -285,15 +322,15 @@ const CartPage = () => {
                       {shippingPrice} <span>৳</span>
                     </li>
                   </ul> */}
-                 {
-                  couponData.discount_value &&  <ul className="flex justify-between text-[11px] text-green-600">
-                  <li className="text-[11px]">Discount ({couponData ? (couponData.cupon_code): ""})</li>
-                  <li className="text-[11px]font-bold">
-                    {discountPrice ? discountPrice : 0} <span>{discountPrice ? (couponData.discount_type =="fixed" ? "৳" : "%") : "৳"}</span>
-                  </li>
-                </ul>
+                  {
+                   isLoading ? <p className="text-[11px] my-1">Loading...</p> : ( couponData?.discount_value && <ul className="flex justify-between text-[11px] text-green-600">
+                    <li className="text-[11px]">Discount ({couponData ? (couponData?.cupon_code) : ""})</li>
+                    <li className="text-[11px] font-bold">
+                      {discountPrice ? discountPrice : 0} <span>{discountPrice ? (couponData?.discount_type == "fixed" ? "৳" : "%") : "৳"}</span>
+                    </li>
+                  </ul>)
 
-                 }
+                  }
                   {/* <ul className="flex justify-between text-[11px] text-[#5F6C72]">
                     <li className="text-[11px] text-[#5F6C72]">Tax</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
@@ -312,7 +349,7 @@ const CartPage = () => {
                   </ul>
                 </div>
                 <div className="card-actions justify-center">
-                  <Link to="/checkout">
+                  <Link to={`/checkout${queryString}`}>
                     <RegularButton className="btn-wide">Checkout</RegularButton>
                   </Link>
                 </div>
