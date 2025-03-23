@@ -35,24 +35,24 @@ const SearchBar = ({ className }) => {
     return () => debouncedSearch.cancel();
   }, [query, debouncedSearch, dispatch]);
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     console.log("Clicked element:", event.target);
-  //     console.log(
-  //       "searchRef contains target:",
-  //       searchRef.current && searchRef.current.contains(event.target)
-  //     );
-  //     if (searchRef.current && !searchRef.current.contains(event.target)) {
-  //       console.log("Hiding suggestions");
-  //       dispatch(setSuggestionsVisible(false));
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     console.log("Removing event listener");
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [dispatch]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      console.log("Clicked element:", event.target);
+      console.log(
+        "searchRef contains target:",
+        searchRef.current && searchRef.current.contains(event.target)
+      );
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        console.log("Hiding suggestions");
+        dispatch(setSuggestionsVisible(false));
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      console.log("Removing event listener");
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dispatch]);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && query.trim()) {

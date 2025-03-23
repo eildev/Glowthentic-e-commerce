@@ -16,7 +16,9 @@ const Favorites = () => {
     data: wishlist,
     error,
     isLoading,
-  } = useGetWishlistByUserIdQuery(user?.data?.id);
+  } = useGetWishlistByUserIdQuery(user?.id, {
+    skip: !user?.id,
+  });
   return (
     <div className="px-2 w-full mx-auto">
       <CommonTitle title={"Favorites Product"} />
