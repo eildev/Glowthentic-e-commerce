@@ -172,8 +172,8 @@ const Footer = () => {
               </aside>
               <nav className="md:place-self-center md:justify-self-end">
                 <div className="grid grid-flow-col gap-4">
-                  <Link to="#">Terms & Conditions</Link>
-                  <Link to="#">Privacy Policy</Link>
+                  <Link to="/terms-and-conditions">Terms & Conditions</Link>
+                  <Link to="/privacy-policy">Privacy Policy</Link>
                 </div>
               </nav>
             </footer>
