@@ -12,7 +12,7 @@ import {
   addToCart,
   removeFromCart,
 } from "../../redux/features/slice/cartSlice";
-import { useAddToWishlistMutation } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI"; // Updated import
+import { useAddToWishlistMutation } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import { imagePath } from "../../utils/imagePath";
 
 const Product = ({ product, isDark }) => {
@@ -24,11 +24,10 @@ const Product = ({ product, isDark }) => {
   const { token, user } = useSelector((state) => state.auth);
   const [addToWishlist, { isLoading, isError, isSuccess, data }] =
     useAddToWishlistMutation();
-// console.log(user);
+
   const {
     id,
     product_name,
-    discountPercentage,
     productdetails,
     variants,
     price,
@@ -37,14 +36,29 @@ const Product = ({ product, isDark }) => {
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
-  // console.log(product);
+  
+ // Find the variant with promotion
+const variantWithPromotion = variants.find(
+  (variant) => variant?.product_variant_promotion?.[0]?.coupon?.discount_type === "percentage"
+);
+const promotion = variantWithPromotion?.product_variant_promotion?.[0];
+console.log(variantWithPromotion);
+let discountPercentage = 0;
+let finalPrice = variants[0]?.regular_price; // Default price
+let stockStatus = "In Stock"; // Default stock status
+
+if (promotion) {
+  discountPercentage = Math.round(promotion.coupon.discount_value); // Get discount percentage
+  const discountAmount = (discountPercentage * variants[0].regular_price) / 100;
+  finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
+  stockStatus = `${discountPercentage}% Off`; // Show discount percentage instead of "In Stock"
+}
+
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
     setIsFav(favourite.some((item) => item.id === id));
     setIsInCart(cartItems.some((item) => item.id === defaultVariant.id));
-  }, [id, cartItems]);
-
-  const discount = 50;
+  }, [id, cartItems, defaultVariant]);
 
   const productImage = imagePath(variants[0]?.variant_image[0]?.image);
 
@@ -76,29 +90,33 @@ const Product = ({ product, isDark }) => {
         variant_id: variantId,
       };
       const result = await addToWishlist(wishlistData).unwrap();
-      console.log(result);
       if (result.status === 200) {
         setIsFav(true);
         toast.success(`${product_name} added to your wishlist!`);
-        // The invalidatesTags in the API slice will trigger a refetch in WishlistPage
       } else {
         toast.error(`Failed to add ${product_name} to wishlist.`);
       }
     } catch (error) {
-      console.log(error);
       toast.error(
         error?.data?.message || "An error occurred. Please try again."
-        
       );
     }
   };
 
-  const discountAmount = discountPercentage
-    ? Math.ceil((discountPercentage * price) / 100)
-    : 0;
-  const finalPrice = discountPercentage
-    ? (price - discountAmount).toFixed(2)
-    : price;
+  // Calculate discount and final price based on promotion
+  // let discountPercentage = 0;
+  // let finalPrice = variants[0].regular_price; // Default to first variant's price
+  // let stockStatus = "In Stock";
+
+  // if (promotion && promotion.cupon) {
+  //   if (promotion.cupon.discount_type === "percentage") {
+  //     discountPercentage = promotion.cupon.discount_value;
+  //     const discountAmount = (discountPercentage * variants[0].regular_price) / 100;
+  //     finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
+  //     stockStatus = `${discountPercentage}%`;
+  //   }
+  // }
+
   const productName = product_name + " " + variants?.[0].variant_name;
 
   return (
@@ -115,15 +133,13 @@ const Product = ({ product, isDark }) => {
             alt={product_name ?? "product image"}
           />
         </Link>
-        {discount && (
-          <span
-            className={`bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold transition-opacity duration-300 ${
-              stock <= 0 ? "opacity-100" : "hover:opacity-75"
-            }`}
-          >
-            {stock <= 0 ? "Stock Out" : `${discount}%`}
-          </span>
-        )}
+        <span
+          className={`bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold transition-opacity duration-300 ${
+            stock <= 0 ? "opacity-100" : "hover:opacity-75"
+          }`}
+        >
+          {stock <= 0 ? "Stock Out" : stockStatus}
+        </span>
 
         <ProductIcon
           image={heartIcon}
@@ -181,11 +197,11 @@ const Product = ({ product, isDark }) => {
           }`}
         >
           <Paragraph className="lg:text-xl text-lg text-secondary transition-transform duration-200 hover:scale-105">
-            <span>৳ {variants[0].regular_price}</span>
+            <span>৳ {finalPrice}</span>
           </Paragraph>
           {discountPercentage > 0 && (
             <Paragraph className="lg:text-sm text-xs text-gray-thin transition-opacity duration-200 hover:opacity-60">
-              <del>{variants[0].regular_price}</del>
+              <del>৳ {variants[0].regular_price}</del>
             </Paragraph>
           )}
         </div>
