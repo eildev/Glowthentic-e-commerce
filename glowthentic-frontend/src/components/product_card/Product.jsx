@@ -44,14 +44,14 @@ const variantWithPromotion = variants.find(
 const promotion = variantWithPromotion?.product_variant_promotion?.[0];
 console.log(variantWithPromotion);
 let discountPercentage = 0;
-let finalPrice = variants[0]?.regular_price; // Default price
-let stockStatus = "In Stock"; // Default stock status
+let finalPrice = variants[0]?.regular_price; 
+let stockStatus = "In Stock"; 
 
 if (promotion) {
-  discountPercentage = Math.round(promotion.coupon.discount_value); // Get discount percentage
+  discountPercentage = Math.round(promotion.coupon.discount_value); 
   const discountAmount = (discountPercentage * variants[0].regular_price) / 100;
   finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
-  stockStatus = `${discountPercentage}% Off`; // Show discount percentage instead of "In Stock"
+  stockStatus = `${discountPercentage}% Off`; 
 }
 
   useEffect(() => {

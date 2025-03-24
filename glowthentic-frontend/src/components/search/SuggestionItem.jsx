@@ -5,10 +5,10 @@ import { useDispatch } from "react-redux";
 import { setSuggestionsVisible } from "../../redux/features/slice/searchSlice";
 
 const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
-  const { product_name, thumbnail, variants, slug } = item;
+  const { product_name, thumbnail, variants, slug, variant_image } = item;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+const product_image = variant_image[0].image 
   const handleItemClick = (e) => {
     e.stopPropagation(); // Prevent click from bubbling up to document
     navigate(`/product/${slug}`);
@@ -22,7 +22,7 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
         className="px-4 py-2 hover:bg-gray-100 hover:rounded-b-3xl cursor-pointer flex items-center gap-4"
       >
         <img
-          src={thumbnail || defaultImage}
+          src={product_image || defaultImage}
           alt={product_name || "Product"}
           className="w-10 h-10 object-cover rounded"
         />
