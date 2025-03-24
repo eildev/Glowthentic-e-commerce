@@ -25,7 +25,7 @@ const PrivacyPolicy = () => {
       <div className="space-y-6">
         <section className="mb-5">
           <h2 className="text-lg font-bold text-primary mb-2">1. Introduction</h2>
-          <p className="my-2">Welcome to sobrokom.store ("we," "us," or "our"). This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you visit our website and use our services.</p>
+          <p className="my-2">Welcome to glowthentic.store ("we," "us," or "our"). This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you visit our website and use our services.</p>
         </section>
 
         <section className="pb-5">
@@ -74,7 +74,8 @@ const PrivacyPolicy = () => {
 
         <section className="pb-5">
           <h2 className="text-lg font-bold text-primary mb-4">10. Contact Us</h2>
-          <p>If you have any questions about this Privacy Policy, please contact us at [Your Contact Information].</p>
+          <p>If you have any questions about this Privacy Policy, please contact us at <span className='text-secondary'>
+          glowthenticbd@gmail.com</span>.</p>
         </section>
       </div>
           </Container>

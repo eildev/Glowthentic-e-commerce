@@ -136,26 +136,27 @@ const Footer = () => {
                 </p>
               </div>
               <span className="hidden lg:block text-xl">|</span>
-              <div className="flex justify-between gap-1">
-                <Icon icon="mdi-light:phone" width="24" height="24" />
-                <p>1-802-526-2463</p>
-              </div>
+                <div className="flex justify-between gap-1 cursor-pointer hover:underline">
+                  <Icon icon="mdi-light:phone" width="24" height="24" />
+                  <p>+880 1715-443884</p>
+                </div>
+
             </aside>
             <div className="hidden lg:block"></div>
             <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-              <Link to="#">
+              <Link target="_blank" to="https://www.facebook.com/glowthentics">
                 <Icon icon="ri:facebook-fill" width="24" height="24" />
               </Link>
-              <Link to="#">
+              <Link target="_blank" to="https://www.instagram.com/glowthenticbd">
                 <Icon icon="mdi:instagram" width="24" height="24" />
               </Link>
-              <Link to="#">
-                <Icon icon="prime:twitter" width="24" height="24" />
+              <Link target="_blank" to="https://wa.me/8801715443884">
+                <Icon icon="mdi:whatsapp" width="24" height="24" />
               </Link>
-              <Link to="#">
-                <Icon icon="mdi:pinterest" width="24" height="24" />
+              <Link target="_blank" to="https://www.youtube.com/@Glowthenticbd">
+                <Icon icon="mdi:youtube" width="24" height="24" />
               </Link>
-              <Link to="#">
+              <Link target="_blank" to="https://www.tiktok.com/@glowthenticbd">
                 <Icon icon="ic:baseline-tiktok" width="24" height="24" />
               </Link>
             </nav>

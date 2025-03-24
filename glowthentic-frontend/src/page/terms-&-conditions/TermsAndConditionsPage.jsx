@@ -22,7 +22,7 @@ const TermsAndConditionsPage = () => {
       <div className="space-y-6">
         <section className="mb-5">
           <h2 className="text-lg font-bold text-primary mb-2">1. ACCEPTANCE OF TERMS</h2>
-          <p className="my-2">By accessing and using <span className="text-secondary">sobrokom.store</span>, you agree to comply with and be bound by these Terms and Conditions. If you do not agree to these terms, please refrain from using the website.</p>
+          <p className="my-2">By accessing and using <span className="text-secondary">glowthentic.store</span>, you agree to comply with and be bound by these Terms and Conditions. If you do not agree to these terms, please refrain from using the website.</p>
         </section>
 
         <section className="pb-5">
@@ -57,7 +57,7 @@ const TermsAndConditionsPage = () => {
 
         <section className="pb-5">
           <h2 className="text-lg font-bold text-primary mb-4">7. INTELLECTUAL PROPERTY</h2>
-          <p className="my-2"><strong>7.1 Ownership:</strong> All content on this website, including text, graphics, logos, images, and software, is the property of sobrokom.store and is protected by intellectual property laws.</p>
+          <p className="my-2"><strong>7.1 Ownership:</strong> All content on this website, including text, graphics, logos, images, and software, is the property of glowthentic.store and is protected by intellectual property laws.</p>
           <p className="my-2"><strong>7.2 Use of Content:</strong> You may not reproduce, distribute, display, or create derivative works from any content without our express written permission.</p>
         </section>
 
@@ -80,7 +80,8 @@ const TermsAndConditionsPage = () => {
       {/* Contact Info */}
       <div className="">
       <h2 className="text-lg font-bold text-primary mb-4">Contact Information</h2>
-        <p className="my-2">For any questions regarding these Terms and Conditions, please contact us at <a href="mailto:sobrokom.store@gmail.com" className="text-secondary hover:underline">sobrokom.store@gmail.com</a></p>
+        <p className="my-2">For any questions regarding these Terms and Conditions, please contact us at <a href="mailto:glowthentic.store@gmail.com" className="text-secondary hover:underline">
+        glowthenticbd@gmail.com</a></p>
       </div>
           </Container>
         </div>
