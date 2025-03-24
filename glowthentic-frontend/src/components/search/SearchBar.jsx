@@ -37,19 +37,18 @@ const SearchBar = ({ className }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      console.log("Clicked element:", event.target);
-      console.log(
-        "searchRef contains target:",
-        searchRef.current && searchRef.current.contains(event.target)
-      );
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        console.log("Hiding suggestions");
+      // Check if the clicked element is part of the search results/suggestions
+      const suggestionsContainer = document.querySelector('.suggestions-container');
+      const isClickInsideSuggestions = suggestionsContainer && suggestionsContainer.contains(event.target);
+      
+      // Only close if the click is outside both the search input and suggestions
+      if (searchRef.current && !searchRef.current.contains(event.target) && !isClickInsideSuggestions) {
         dispatch(setSuggestionsVisible(false));
       }
     };
+    
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      console.log("Removing event listener");
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dispatch]);
@@ -106,10 +105,10 @@ const SearchBar = ({ className }) => {
         />
       </div>
       {isSuggestionsVisible && (
-        <div className="absolute left-0 right-0 pt-5 -mt-[14px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30">
-          {renderedSuggestions}
-        </div>
-      )}
+  <div className="absolute left-0 right-0 pt-5 -mt-[14px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30 suggestions-container">
+    {renderedSuggestions}
+  </div>
+)}
     </div>
   );
 };

@@ -14,9 +14,9 @@ const InputInfo = ({ register, errors, data, setValue }) => {
     }
   }, [data, setValue]);
 
-  if (!isReady) {
-    return <p>Loading...</p>;
-  }
+  // if (!isReady) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
     <form className="text-left">
