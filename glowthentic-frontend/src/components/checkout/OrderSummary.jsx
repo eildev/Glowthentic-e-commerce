@@ -15,8 +15,8 @@ const OrderSummary = ({ carts, total, shipingCharge, location, setLocation, Ship
       <h4 className="text-lg font-medium  mb-4">Order Summary</h4>
 
       <Item carts={carts}></Item>
-
-      <div className="mt-4 flex justify-between items-center gap-4">
+      <h3 className="text-xs text-secondary mt-4">Select Your Shipping Address</h3>
+      <div className="mt-2 flex justify-between items-center gap-4 xl:flex-nowrap flex-wrap">
         <div className="flex justify-start items-center">
           <input
             type="radio"
@@ -24,13 +24,13 @@ const OrderSummary = ({ carts, total, shipingCharge, location, setLocation, Ship
             value="inside"
             style={checkColor}
              id="insideDhaka"
-            className="mr-1 checkbox  checkbox-warning w-4 h-4"
-            checked={location === "inside"}
-            onChange={() => setLocation("inside")}
+            className="mr-1 checkbox checkbox-warning w-4 h-4"
+            onChange={() => setLocation(80)}
+          
           />
-          <label htmlFor="insideDhaka" className="">
+          <label htmlFor="insideDhaka" className="cursor-pointer text-sm text-nowrap">
 
-            Inside Dhaka
+            Inside Dhaka (80)
           </label>
         </div>
 
@@ -40,18 +40,18 @@ const OrderSummary = ({ carts, total, shipingCharge, location, setLocation, Ship
              id="outsideDhaka"
              style={checkColor}
             name="shipping"
-            className="mr-1 checkbox  checkbox-warning w-4 h-4"
+            className="mr-1 checkbox checkbox-warning w-4 h-4"
             value="outside"
-            checked={location === "outside"}
-            onChange={() => setLocation("outside")}
+    
+            onChange={() => setLocation(120)}
           />
-        <label htmlFor="outsideDhaka">
-          Outside Dhaka
+        <label htmlFor="outsideDhaka" className="cursor-pointer text-sm text-nowrap">
+          Outside Dhaka (120)
         </label>
         </div>
       </div>
 
-     {!location && <h3 className="text-red-300 text-xs mt-3">Select Your Shipping Address</h3>}
+     {/* {!location && <h3 className="text-red-400 text-xs mt-3">Select Your Shipping Address</h3>} */}
 
 
       <ItemDetails carts={carts} total={total} isLoading={isLoading} shipingCharge={shipingCharge} Shipping={Shipping} subTotal={subTotal} tax={tax} discountPrice={discountPrice} couponData={couponData}></ItemDetails>

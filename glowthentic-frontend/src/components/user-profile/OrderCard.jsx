@@ -122,19 +122,15 @@ console.log("order", order);
                   <p className="text-xl my-2 md:text-2xl text-dark font-semibold font-encode">
                     ৳ {item.grand_total}
                   </p>
-
-                  {status === "done" && (
                     <button
-                      className={`${
-                        active
-                          ? "text-white bg-secondary"
-                          : "text-dark bg-white border border-gray-light"
-                      } w-full uppercase rounded-md md:rounded-none py-3 text-sm md:text-md`}
+                      className={`
+                          text-white bg-secondary
+                      w-full uppercase rounded-md md:rounded-none py-3 text-sm md:text-md`}
                       onClick={clickHandle}
                     >
                       Give Review
                     </button>
-                  )}
+
                   
       <OrderReviewModal item={item}/>
                 </div>

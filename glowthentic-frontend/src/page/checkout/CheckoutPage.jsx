@@ -33,7 +33,7 @@ const CheckoutPage = () => {
   const [placeOrder, { isLoading: couponLoad, isSuccess: couponIsSucces, isError: couponIsError, error: couponError }] =
     usePlaceOrderMutation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(0);
 
   console.log(location);
 
@@ -87,7 +87,7 @@ const CheckoutPage = () => {
 
 
 
-  const baseShipping = location === "inside" ? 80 : 120;
+  const baseShipping = location;
   const extraCharge = (Shipping - 1) * 20;
   const shippingPrice = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
 
