@@ -2,7 +2,7 @@
 import Item from "./Item";
 import ItemDetails from "./ItemDetails";
 
-const OrderSummary = ({ carts, total, shipingCharge, location, setLocation, Shipping, subTotal, tax, discountPrice, couponData, isLoading }) => {
+const OrderSummary = ({ carts, total, shipingCharge, setLocation, Shipping, subTotal, tax, discountPrice, couponData, isLoading }) => {
 
   const checkColor = {
     "--chkfg": "#fff", // CSS variable dynamically set

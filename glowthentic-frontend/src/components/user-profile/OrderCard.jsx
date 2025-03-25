@@ -1,17 +1,14 @@
 import { Icon } from "@iconify/react";
-import { useState } from "react";
 import OrderReviewModal from "./OrderReviewModal";
 
 const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
-  const [active, setActive] = useState(false);
 
-  const clickHandle = () => {
-    setActive(true);
+
+  const clickHandle = (item) => {
     document.getElementById("my_modal_3").showModal();
+    console.log(item);
   };
-
-console.log("history", history);
-console.log("order", order);
+console.log(history);
 
   return (
     <>
@@ -23,7 +20,7 @@ console.log("order", order);
             আপনি এখনও কোনো অর্ডার করেননি।
           </p>
         ) : order?.order ? (
-          [...order.order] // Create a copy before sorting
+          [...order.order] 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((item, i) => {
               const formattedDate = new Date(item.created_at).toLocaleString(
@@ -122,17 +119,17 @@ console.log("order", order);
                   <p className="text-xl my-2 md:text-2xl text-dark font-semibold font-encode">
                     ৳ {item.grand_total}
                   </p>
-                    <button
-                      className={`
+                  <button
+                    className={`
                           text-white bg-secondary
                       w-full uppercase rounded-md md:rounded-none py-3 text-sm md:text-md`}
-                      onClick={clickHandle}
-                    >
-                      Give Review
-                    </button>
+                    onClick={()=>clickHandle(item)}
+                  >
+                    Give Review
+                  </button>
 
-                  
-      <OrderReviewModal item={item}/>
+
+                  <OrderReviewModal item={item} />
                 </div>
               </div>
             );
