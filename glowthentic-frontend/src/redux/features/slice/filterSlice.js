@@ -20,6 +20,7 @@ const filterSlice = createSlice({
         },
         setFilteredCategories(state, action) {
             state.filteredCategories = action.payload;
+            console.log(action);
         },
         setFilteredTags(state, action) {
             state.filteredTags = action.payload;
@@ -45,6 +46,7 @@ const filterSlice = createSlice({
         setFilteredProducts(state, action) {
             const products = action.payload;
             let filtered = products;
+            console.log("filterd", filtered);
 
             if (
                 state.filteredCategories.length > 0 ||

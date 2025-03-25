@@ -18,7 +18,7 @@ const CheckoutItem = ({ item }) => {
           {item?.quantity ?? 0} x{" "}
           <span className="text-secondary font-bold">
             {" "}
-            ${item?.regular_price ?? 0}
+            ৳ {item?.regular_price ?? 0}
           </span>
         </span>
       </span>

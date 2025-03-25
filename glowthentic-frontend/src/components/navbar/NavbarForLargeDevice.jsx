@@ -15,7 +15,7 @@ const NavbarForLargeDevice = () => {
   };
 
   return (
-    <div className="hidden lg:block h-[72px] bg-primary text-white py-5">
+    <div className="hidden lg:block h-[54px] bg-primary text-white py-4">
       <Container>
         <div className="flex justify-between items-center gap-2">
           {categories?.categories.map((data, index) => (
@@ -28,7 +28,7 @@ const NavbarForLargeDevice = () => {
                 to="/products"
                 state={{ categoryId: data.id }} // Category ID পাঠানো
                 onClick={handleHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
-                className={`flex items-center gap-1 hover:text-secondary ${
+                className={`flex items-center gap-1 text-xs xl:text-sm  hover:text-secondary ${
                   data?.isButton
                     ? "bg-white px-4 py-1 text-black rounded-2xl font-medium"
                     : ""

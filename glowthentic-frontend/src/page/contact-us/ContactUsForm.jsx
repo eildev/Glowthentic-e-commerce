@@ -17,7 +17,9 @@ const ContactUsForm = () => {
   const [agreePolicy, setAgreePolicy] = useState(false);
 
   const handleChange = (e) => {
+    console.log(e.target.value );
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(formData);
   };
 
   const handleSubmit = async (e) => {
@@ -124,7 +126,7 @@ const ContactUsForm = () => {
             className="outline-none border-b border-b-gray w-full h-[48px] lg:h-[56px] text-md lg:text-xl text-gray font-encode px-4 mb-4"
             type="text"
             name="subject"
-            value={formData.subject}
+            value={formData.category}
             onChange={handleChange}
             placeholder="Subject"
           />

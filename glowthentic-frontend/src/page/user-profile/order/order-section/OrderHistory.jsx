@@ -14,6 +14,9 @@ const OrderHistory = () => {
     error,
   } = useGetOrderHistoryQuery(userID);
 
+  console.log(error);
+  console.log(historyLoad);
+
   return (
     <div>
       <OrderCard history={history} historyLoad={historyLoad} status="done" />

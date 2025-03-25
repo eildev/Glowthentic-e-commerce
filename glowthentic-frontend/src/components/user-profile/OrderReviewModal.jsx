@@ -21,7 +21,7 @@ function getRating(rating) {
   }
 }
 
-const OrderReviewModal = () => {
+const OrderReviewModal = ({item}) => {
   const [rating, setRating] = useState(3);
 
   const customStyles = {
@@ -54,7 +54,7 @@ const OrderReviewModal = () => {
             {/* text */}
             <div className="pl-4 md:pl-0 md:mt-4">
               <h5 className="text-sm md:text-lg text-dark font-bold font-encode">
-                Absolute New York Flawless Face Foundation Primer Clear NF080
+                {item.id}
               </h5>
               <div className="flex justify-between items-center">
                 <p className="text-sm md:text-md text-gray font-normal font-encode">
