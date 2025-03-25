@@ -22,6 +22,7 @@ import orderGetApi from "./features/api/orderApi/orderGetApi";
 import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
 import featuresApi from "./features/api/featuresApi/featuresApi";
 import couponApi from "./features/api/couponApi/couponApi";
+import reviewApi from "./features/api/review/reviewApi";
 // import orderGetApi from "./features/api/orderApi/orderGetApi";
 // import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
 const store = configureStore({
@@ -52,6 +53,7 @@ const store = configureStore({
         [orderGetApi.reducerPath]: orderGetApi.reducer,
         [orderHistoryApi.reducerPath]: orderHistoryApi.reducer,
         [couponApi.reducerPath]: couponApi.reducer,
+        [reviewApi.reducerPath]: reviewApi.reducer,
 
     },
     middleware: (getDefaultMiddleware) =>
@@ -73,6 +75,7 @@ const store = configureStore({
             .concat(orderGetApi.middleware)
             .concat(orderHistoryApi.middleware)
             .concat(couponApi.middleware)
+            .concat(reviewApi.middleware)
 
 });
 
