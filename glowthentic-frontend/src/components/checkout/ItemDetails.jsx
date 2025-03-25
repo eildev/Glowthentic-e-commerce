@@ -16,7 +16,7 @@ const ItemDetails = ({ carts, total, shipingCharge, Shipping, subTotal, tax, dis
   // const shipingCharge = carts.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
 
 
-const value = couponData.discount_type == "fixed" ? "৳" : "%"
+const value = couponData?.discount_type == "fixed" ? "৳" : "%"
 
 
   return (
