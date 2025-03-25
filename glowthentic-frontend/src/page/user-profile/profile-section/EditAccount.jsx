@@ -112,7 +112,10 @@ const EditAccount = () => {
         });
         formDataToSend.append("image", imageFile);
         console.log("Sending FormData:", [...formDataToSend]);
-        response = await updateUser({ id: userID, ...Object.fromEntries(formDataToSend) }).unwrap();
+        response = await updateUser({
+          id: userID,
+          ...Object.fromEntries(formDataToSend),
+        }).unwrap();
       } else {
         console.log("Sending JSON payload:", payload);
         response = await updateUser(payload).unwrap();
@@ -346,7 +349,8 @@ const EditAccount = () => {
                 required: "Phone number is required",
                 pattern: {
                   value: /^0[0-9]{9,}$/,
-                  message: "Phone number must start with 0 and be at least 10 digits",
+                  message:
+                    "Phone number must start with 0 and be at least 10 digits",
                 },
               })}
               className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
