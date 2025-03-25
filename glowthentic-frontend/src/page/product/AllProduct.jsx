@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Product from "../../components/product_card/Product";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import cn from "../../utils/cn";
@@ -16,67 +16,40 @@ const AllProduct = () => {
     filteredProducts,
     sortOption,
   } = useSelector((state) => state.filters);
-  const [visibleProducts, setVisibleProducts] = useState([]);
-
+console.log(filteredProducts.length);
+  // Update filtered products when filters or API data change
   useEffect(() => {
     if (data?.data) {
       dispatch(setFilteredProducts(data.data));
     }
-  }, [
-    data,
-    filteredCategories,
-    filteredTags,
-    filteredPrices,
-    sortOption,
-    dispatch,
-  ]);
-
-  useEffect(() => {
-    setVisibleProducts((prev) => {
-      return filteredProducts.map((product) => ({
-        ...product,
-        isExiting: false,
-      }));
-    });
-  }, [filteredProducts]);
+  }, [data, filteredCategories, filteredTags, filteredPrices, sortOption, dispatch]);
 
   if (isLoading) {
     return (
-      <div
-        className={cn(
-          `grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5 w-full`
-        )}
-      >
-        {Array(9)
-          .fill(0)
-          .map((_, index) => (
-            <ProductSkeleton key={index} />
-          ))}
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5 w-full">
+        {Array.from({ length: 9 }).map((_, index) => (
+          <ProductSkeleton key={index} />
+        ))}
       </div>
     );
   }
-  if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
+  if (error) {
+    return <p className="text-red-500 text-center my-5">Error: {error.message || "Failed to load products"}</p>;
+  }
+console.log(filteredProducts.length > 0 );
   return (
-    <div
-      className={cn(
-        `grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5 w-full`
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5 w-full">
+      {filteredProducts.length > 0 ? (
+   
+        filteredProducts.map((product) => (
+          <div key={product.id} className="transition-all duration-500 ease-in-out animate-fadeIn">
+            <Product product={product} />
+          </div>
+        ))
+      ) : (
+        <div className="col-span-full text-center text-gray-500 my-10">No products found</div>
       )}
-    >
-      {visibleProducts.length > 0
-        ? visibleProducts.map((product) => (
-            <div
-              key={product.id}
-              className={`transition-all duration-500 ease-in-out ${
-                product.isExiting ? "animate-fadeOut" : "animate-fadeIn"
-              }`}
-            >
-              <Product product={product} />
-            </div>
-          ))
-        : Array(9)
-            .fill(0)
-            .map((_, index) => <ProductSkeleton key={index} />)}
     </div>
   );
 };

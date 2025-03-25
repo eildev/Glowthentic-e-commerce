@@ -66,6 +66,7 @@ console.log("order", order);
                       ৳ {item.grand_total}
                     </p>
                   </div>
+                  <button className="bg-red-400 text-white">Order Details</button>
                 </div>
               );
             })
@@ -123,7 +124,7 @@ console.log("order", order);
                     ৳ {item.grand_total}
                   </p>
 
-                  {status === "done" && (
+              
                     <button
                       className={`${
                         active
@@ -134,7 +135,7 @@ console.log("order", order);
                     >
                       Give Review
                     </button>
-                  )}
+                  
                   
       <OrderReviewModal item={item}/>
                 </div>

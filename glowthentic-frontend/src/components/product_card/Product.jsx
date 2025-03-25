@@ -42,7 +42,7 @@ const variantWithPromotion = variants.find(
   (variant) => variant?.product_variant_promotion?.[0]?.coupon?.discount_type === "percentage"
 );
 const promotion = variantWithPromotion?.product_variant_promotion?.[0];
-console.log(variantWithPromotion);
+// console.log(variantWithPromotion);
 let discountPercentage = 0;
 let finalPrice = variants[0]?.regular_price; 
 let stockStatus = "In Stock"; 
