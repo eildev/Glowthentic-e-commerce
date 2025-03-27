@@ -25,13 +25,17 @@ function getRating(rating) {
   }
 }
 
-const OrderReviewModal = ({ item}) => {
+const OrderReviewModal = ({ item }) => {
+  console.log(item.order_details[0]);
+
   const { user } = useSelector((state) => state.auth);
   const userID = user?.id;
   const [rating, setRating] = useState(3);
   const [images, setImages] = useState([]);
   const [imagesFile, setImagesFile] = useState([]);
   const [reviewText, setReviewText] = useState("");
+  const [review, setReview] = useState(false);
+
   const [postReview, { isLoading, isError, isSuccess }] = useReviewInfoMutation();
 
   const customStyles = {
@@ -57,11 +61,11 @@ const OrderReviewModal = ({ item}) => {
 
     // Validation to check if the review text is empty
     if (!reviewText.trim()) {
-
+      setReview(true)
       return; // Prevent form submission
     }
 
-console.log(item.order_details[0].variant.variant_image[0].image);
+    console.log(item.order_details);
 
     const reviewData = {
       user_id: userID,
@@ -74,11 +78,11 @@ console.log(item.order_details[0].variant.variant_image[0].image);
 
     try {
       await postReview(reviewData).unwrap();
-      toast.success("Review submitted successfully!"); 
+      toast.success("Review submitted successfully!");
       setReviewText("");
       setImages([]);
       setRating(3);
-      // setActive(false)
+      setReview(false)
       document.getElementById("my_modal_3").close();
     } catch (error) {
       console.error("Failed to submit review:", error);
@@ -96,10 +100,10 @@ console.log(item.order_details[0].variant.variant_image[0].image);
           <button className="cursor-pointer">✕</button>
         </form>
 
-        <div className="flex flex-col md:flex-row">
-          <div className="flex flex-row md:flex-col w-full md:w-3/12">
-            <div className="w-full">
-              <img className="object-cover" src={item.order_details[0].variant.variant_image[0].image} alt="" />
+        <div className="flex flex-col items-center md:flex-row">
+          <div className="flex flex-row md:flex-col w-[280px]">
+            <div className="w-[280px]">
+              <img className="object-cover h-[350px] w-[280px]" src={`http://127.0.0.1:8000/` + item.order_details[0].variant.variant_image[0].image} alt="" />
             </div>
             <div className="pl-4 md:pl-0 md:mt-4">
               <h5 className="text-sm md:text-lg text-dark font-bold font-encode">
@@ -107,7 +111,7 @@ console.log(item.order_details[0].variant.variant_image[0].image);
               </h5>
               <div className="flex justify-between items-center">
                 <p className="text-sm md:text-md text-gray font-normal font-encode">
-                  Makeup
+                  {item.order_details[0].product.category.categoryName}
                 </p>
                 <p className="flex items-center text-sm md:text-md text-dark font-semibold font-encode">
                   <Icon className="w-4 h-4 md:w-6 md:h-6 text-secondary" icon={"mdi:star"} />
@@ -115,7 +119,7 @@ console.log(item.order_details[0].variant.variant_image[0].image);
                 </p>
               </div>
               <p className="text-sm md:text-xl text-dark font-semibold font-encode">
-                $59,66
+                ৳ {item.order_details[0].variant.regular_price}
               </p>
             </div>
           </div>
@@ -144,9 +148,9 @@ console.log(item.order_details[0].variant.variant_image[0].image);
                 <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} />
               </label>
               {images.length > 0 && (
-                <div className="flex flex-wrap gap-3 mt-4">
+                <div className="flex flex-wrap gap-3 mt-4 justify-center">
                   {images.map((img, index) => (
-                    <div key={index} className="relative w-20 h-20 rounded-md overflow-hidden border shadow-md">
+                    <div key={index} className="relative w-20 h-20 rounded-md overflow-hidden shadow-md">
                       <img src={img} alt={`Uploaded Preview ${index}`} className="w-full h-full object-cover" />
                       <button
                         onClick={() => handleImageDelete(index)}
@@ -178,8 +182,8 @@ console.log(item.order_details[0].variant.variant_image[0].image);
               </button>
 
               <div>
-              {isError && <p className="text-red-500 mt-2">Failed to submit review.</p>}
-              {!reviewText && <p className="text-red-500 mt-2">Please write a review!</p>}
+                {isError && <p className="text-red-500 mt-2">Failed to submit review.</p>}
+                {review && <p className="text-red-500 mt-2">Please write a review!</p>}
               </div>
             </form>
           </div>
