@@ -3,6 +3,10 @@ import { useState } from "react";
 import { Rating, Star } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import f4 from "../../assets/img/user-profile/f4.jpeg";
+import { useReviewInfoMutation } from "../../redux/features/api/review/reviewApi";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
 
 function getRating(rating) {
   switch (rating) {
@@ -21,24 +25,71 @@ function getRating(rating) {
   }
 }
 
-const OrderReviewModal = ({item}) => {
+const OrderReviewModal = ({ item}) => {
+  const { user } = useSelector((state) => state.auth);
+  const userID = user?.id;
   const [rating, setRating] = useState(3);
+  const [images, setImages] = useState([]);
+  const [imagesFile, setImagesFile] = useState([]);
+  const [reviewText, setReviewText] = useState("");
+  const [postReview, { isLoading, isError, isSuccess }] = useReviewInfoMutation();
 
   const customStyles = {
     itemShapes: Star,
     boxBorderWidth: 0,
-
     activeFillColor: "#FA8232",
-
     inactiveFillColor: "#AFAFAF",
   };
+
+  const handleImageUpload = (event) => {
+    const files = Array.from(event.target.files);
+    setImagesFile(files)
+    const newImages = files.map((file) => URL.createObjectURL(file));
+    setImages([...images, ...newImages]);
+  };
+
+  const handleImageDelete = (index) => {
+    setImages(images.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validation to check if the review text is empty
+    if (!reviewText.trim()) {
+
+      return; // Prevent form submission
+    }
+
+console.log(imagesFile);
+
+    const reviewData = {
+      user_id: userID,
+      product_id: item.id,
+      rating: rating,
+      review: reviewText,
+      images: imagesFile,
+      status: 1,
+    };
+
+    try {
+      await postReview(reviewData).unwrap();
+      toast.success("Review submitted successfully!"); 
+      setReviewText("");
+      setImages([]);
+      setRating(3);
+      // setActive(false)
+      document.getElementById("my_modal_3").close();
+    } catch (error) {
+      console.error("Failed to submit review:", error);
+      // toast.error("Failed to submit review.");
+    }
+  };
+
   return (
-    <dialog id="my_modal_3" className="modal">
+    <dialog id="my_modal_3" className="modal ">
       <div className="modal-box rounded-lg md:min-w-[700px] p-8">
-        <form
-          className="flex items-center justify-between mb-4"
-          method="dialog"
-        >
+        <form className="flex items-center justify-between mb-4" method="dialog">
           <h3 className="text-md md:text-lg font-bold font-encode text-secondary">
             Give Review
           </h3>
@@ -47,11 +98,9 @@ const OrderReviewModal = ({item}) => {
 
         <div className="flex flex-col md:flex-row">
           <div className="flex flex-row md:flex-col w-full md:w-3/12">
-            {/* image */}
             <div className="w-full">
-              <img className="object-cover" src={f4} alt="" />
+              <img className="object-cover" src={item.order_details[0].variant.variant_image[0].image} alt="" />
             </div>
-            {/* text */}
             <div className="pl-4 md:pl-0 md:mt-4">
               <h5 className="text-sm md:text-lg text-dark font-bold font-encode">
                 {item.id}
@@ -61,10 +110,7 @@ const OrderReviewModal = ({item}) => {
                   Makeup
                 </p>
                 <p className="flex items-center text-sm md:text-md text-dark font-semibold font-encode">
-                  <Icon
-                    className="w-4 h-4 md:w-6 md:h-6 text-secondary"
-                    icon={"mdi:star"}
-                  />
+                  <Icon className="w-4 h-4 md:w-6 md:h-6 text-secondary" icon={"mdi:star"} />
                   4.5
                 </p>
               </div>
@@ -73,48 +119,68 @@ const OrderReviewModal = ({item}) => {
               </p>
             </div>
           </div>
-          {/* ratings */}
+
           <div className="md:w-9/12 md:pl-8 mt-4 md:mt-0">
-            <form>
+            <form onSubmit={handleSubmit}>
               <p className="text-sm md:text-md text-dark font-medium font-encode mb-2">
                 Star
               </p>
 
-              {/* rating star  */}
-              <div
-                style={{
-                  // maxWidth: 300,
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+              <div className="flex items-center">
                 <Rating
                   value={rating}
                   itemStyles={customStyles}
                   style={{ maxWidth: 150 }}
                   onChange={setRating}
                 />
-                <p className="text-md md:text-lg text-gray-thin font-medium font-encode pl-2 pt-1">{`${getRating(
-                  rating
-                )}!`}</p>
+                <p className="text-md md:text-lg text-gray-thin font-medium font-encode pl-2 pt-1">
+                  {`${getRating(rating)}!`}
+                </p>
               </div>
 
-              <p className="text-sm md:text-md text-dark font-medium font-encode mt-6 mb-2">
-                Review
-              </p>
-              <input
+              <p className="text-sm text-dark font-medium mt-6 mb-2">Upload Images</p>
+              <label className="block w-full p-4 border border-gray-300 rounded-md cursor-pointer text-center text-gray-500 hover:bg-gray-100 transition duration-200 ease-in-out">
+                Click to Upload Images
+                <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} />
+              </label>
+              {images.length > 0 && (
+                <div className="flex flex-wrap gap-3 mt-4">
+                  {images.map((img, index) => (
+                    <div key={index} className="relative w-20 h-20 rounded-md overflow-hidden border shadow-md">
+                      <img src={img} alt={`Uploaded Preview ${index}`} className="w-full h-full object-cover" />
+                      <button
+                        onClick={() => handleImageDelete(index)}
+                        className="absolute top-1 right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full shadow-lg flex items-center justify-center"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <p className="text-sm md:text-md text-dark font-medium font-encode mt-6 mb-2">Review</p>
+              <textarea
                 type="text"
-                className="w-full p-2 text-dark font-encode border border-gray-light rounded-sm outline-none"
-                placeholder="review"
-              />
+                rows={3}
+                className="w-full p-3 text-dark font-encode border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-secondary"
+                placeholder="Write your review..."
+                value={reviewText}
+                onChange={(e) => setReviewText(e.target.value)}
+              ></textarea>
 
               <button
                 type="submit"
-                className="py-4 w-full text-white bg-secondary rounded mt-6 uppercase"
+                className="py-4 w-full text-white bg-secondary rounded-md mt-6 uppercase hover:bg-secondary-dark transition duration-200"
+                disabled={isLoading}
               >
-                Submit
+                {isLoading ? "Submitting..." : "Submit"}
               </button>
+
+              <div>
+              {isError && <p className="text-red-500 mt-2">Failed to submit review.</p>}
+              {!reviewText && <p className="text-red-500 mt-2">Please write a review!</p>}
+              </div>
             </form>
           </div>
         </div>

@@ -33,31 +33,31 @@ const CheckoutPage = () => {
   const [placeOrder, { isLoading: couponLoad, isSuccess: couponIsSucces, isError: couponIsError, error: couponError }] =
     usePlaceOrderMutation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [location, setLocation] = useState(0);
 
-
-  // console.log(couponData);
+  console.log(location);
 
 
 
   useEffect(() => {
-    if(cartItems){
+    if (cartItems) {
       const urlCoupon = searchParams.get("coupon");
-    if (urlCoupon) {
-      setCoupon_code(urlCoupon);
-      const fetchCoupon = async () => {
-        try {
-          const response = await checkCoupon({ coupon_code: urlCoupon }).unwrap();
-          console.log("API Response:", response);
-          const discountValue = Math.round(response?.data?.discount_value);
-          setDiscountPrice(discountValue)
-          setCouponData(response.data)
+      if (urlCoupon) {
+        setCoupon_code(urlCoupon);
+        const fetchCoupon = async () => {
+          try {
+            const response = await checkCoupon({ coupon_code: urlCoupon }).unwrap();
+            console.log("API Response:", response);
+            const discountValue = Math.round(response?.data?.discount_value);
+            setDiscountPrice(discountValue)
+            setCouponData(response.data)
 
-        } catch (error) {
-          console.error("Error fetching coupon:", error);
-        }
-      };
-      fetchCoupon();
-    }
+          } catch (error) {
+            console.error("Error fetching coupon:", error);
+          }
+        };
+        fetchCoupon();
+      }
     }
   }, [searchParams]);
 
@@ -85,13 +85,20 @@ const CheckoutPage = () => {
     0
   );
 
-  const shippingPrice = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
+
+
+  const baseShipping = location;
+  const extraCharge = (Shipping - 1) * 20;
+  const shippingPrice = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
+
 
   // const discountPrice = 0;
 
-  const tax = Math.round(
-    subTotal * (2 / 100)
-  );
+  // const tax = Math.round(
+  //   subTotal * (2 / 100)
+  // );
+
+  const tax = 0;
 
   const discountedSubTotal = subTotal - Number(
     discountPrice
@@ -144,7 +151,7 @@ const CheckoutPage = () => {
       payment_method: data.paymentMethod,
       shipping_method: "In-House",
       shipping_charge: shippingPrice,
-      phone_number : `${data.phone}`,
+      phone_number: `${data.phone}`,
       coupon_code: coupon_code,
       order_note: data.orderNotes,
       ...(token ? { user_id: user.id } : { session_id: userSessionId }),
@@ -192,56 +199,56 @@ const CheckoutPage = () => {
         </div>
         {/* Large Device */}
         <div className="container hidden md:block mx-auto px-4 py-8">
-        <div className="container mx-auto px-4 py-8">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <h4 className="text-lg font-normal mb-4">Billing Information</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
-                <div className="space-y-4 col-span-5 md:col-span-7 p-6 shadow rounded-lg">
-                  <InputInfo
-                    register={register}
-                    errors={errors}
-                    shipToDifferentAddress={shipToDifferentAddress}
-                    data={data}
-                    setValue={setValue}
-                  />
-                  <PaymentOption register={register} errors={errors} />
-                </div>
-                <div className="col-span-5 md:col-span-3">
-                  <div className="bg-white shadow rounded-lg">
-
-                    <OrderSummary
-                      couponData={couponData}
-                      carts={cartItems}
-                      total={grandTotal}
-                      shipingCharge={shippingPrice}
-                      Shipping={Shipping}
-                      subTotal={subTotal}
-                      tax={tax}
-                      isLoading={isLoading}
-                      discountPrice={discountPrice}
+          <div className="container mx-auto px-4 py-8">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <h4 className="text-lg font-normal mb-4">Billing Information</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
+                  <div className="space-y-4 col-span-5 md:col-span-7 p-6 shadow rounded-lg">
+                    <InputInfo
+                      register={register}
+                      errors={errors}
+                      shipToDifferentAddress={shipToDifferentAddress}
+                      data={data}
+                      setValue={setValue}
                     />
-                    <div className="px-6 py-3">
-                      <button
-                        type="submit"
-                        className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center"
-                        disabled={isLoading}
-                      >
-                        {isLoading ? "Laonding..." : "PLACE ORDER"}
-                        <Icon
-                          icon="mdi:arrow-right"
-                          width="1.5em"
-                          height="1.5em"
-                        />
-                      </button>
-                      {isError && <p>Error placing order: {error.message}</p>}
+                    <PaymentOption register={register} errors={errors} />
+                  </div>
+                  <div className="col-span-5 md:col-span-3">
+                    <div className="bg-white shadow rounded-lg">
+
+
+                      <OrderSummary
+                        couponData={couponData}
+                        setLocation={setLocation}
+                        location={location}
+                        carts={cartItems}
+                        total={grandTotal}
+                        shipingCharge={shippingPrice}
+                        Shipping={Shipping}
+                        subTotal={subTotal}
+                        tax={tax}
+                        isLoading={isLoading}
+                        discountPrice={discountPrice}
+                      />
+                      <div className="px-6 py-3">
+                        <button
+                          type="submit"
+                          className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+                          disabled={isLoading || !location} // Location না থাকলে button disable হবে
+                        >
+                          {isLoading ? "Loading..." : "PLACE ORDER"}
+                          <Icon icon="mdi:arrow-right" width="1.5em" height="1.5em" />
+                        </button>
+                        {isError && <p>Error placing order: {error.message}</p>}
+                      </div>
+
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
         </div>
       </Container>
     </div>
