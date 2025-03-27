@@ -8,15 +8,19 @@ import { setFilteredTags } from "../../redux/features/slice/filterSlice";
 import { imagePath } from "../../utils/imagePath";
 
 const TagSection = () => {
-  const { data, tagsIsLoading, tagsError } = useGetTagsQuery();
+  const { data, isLoading, error } = useGetTagsQuery();
   const dispatch = useDispatch();
 
-  console.log(data);
-
   const handleTagClick = (tagId) => {
-    // Dispatch selected tag ID to Redux store
     dispatch(setFilteredTags([tagId])); // Assuming single tag selection
   };
+
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+  if (error) {
+    return <span>Error</span>;
+  }
 
   return (
     <div>

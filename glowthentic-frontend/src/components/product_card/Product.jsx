@@ -25,34 +25,30 @@ const Product = ({ product, isDark }) => {
   const [addToWishlist, { isLoading, isError, isSuccess, data }] =
     useAddToWishlistMutation();
 
-  const {
-    id,
-    product_name,
-    productdetails,
-    variants,
-    price,
-    stock,
-  } = product;
+  const { id, product_name, productdetails, variants, price, stock } = product;
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
-  
- // Find the variant with promotion
-const variantWithPromotion = variants.find(
-  (variant) => variant?.product_variant_promotion?.[0]?.coupon?.discount_type === "percentage"
-);
-const promotion = variantWithPromotion?.product_variant_promotion?.[0];
-console.log(variantWithPromotion);
-let discountPercentage = 0;
-let finalPrice = variants[0]?.regular_price; 
-let stockStatus = "In Stock"; 
 
-if (promotion) {
-  discountPercentage = Math.round(promotion.coupon.discount_value); 
-  const discountAmount = (discountPercentage * variants[0].regular_price) / 100;
-  finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
-  stockStatus = `${discountPercentage}% Off`; 
-}
+  // Find the variant with promotion
+  const variantWithPromotion = variants.find(
+    (variant) =>
+      variant?.product_variant_promotion?.[0]?.coupon?.discount_type ===
+      "percentage"
+  );
+  const promotion = variantWithPromotion?.product_variant_promotion?.[0];
+  // console.log(variantWithPromotion);
+  let discountPercentage = 0;
+  let finalPrice = variants[0]?.regular_price;
+  let stockStatus = "In Stock";
+
+  if (promotion) {
+    discountPercentage = Math.round(promotion.coupon.discount_value);
+    const discountAmount =
+      (discountPercentage * variants[0].regular_price) / 100;
+    finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
+    stockStatus = `${discountPercentage}% Off`;
+  }
 
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];

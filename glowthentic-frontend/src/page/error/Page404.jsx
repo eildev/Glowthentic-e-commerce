@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import Container from "../../components/Container";
 const Page404 = () => {
   return (
-    <Container>
+    <div className="min-h-screen w-full">
       <DynamicHelmet title="404 Not Fount" />
       <Link to="/">
         <img className="w-full h-full object-contain" src={image} alt="" />
       </Link>
-    </Container>
+    </div>
   );
 };
 

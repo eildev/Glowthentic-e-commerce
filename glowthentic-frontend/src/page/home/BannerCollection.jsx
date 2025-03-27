@@ -16,7 +16,7 @@ const bannerImages = [
   bannerImg4,
   bannerImg5,
 ];
-const baseURL = "http://127.0.0.1:8000/";
+const baseURL = "https://backend.glowthentic.store/";
 
 const sliderSettings = {
   dots: true,
@@ -29,7 +29,13 @@ const sliderSettings = {
 };
 
 const BannerCollection = () => {
-  const { data, isLoading, isError } = useGetOfferBannerQuery();
+  const { data, isLoading, error } = useGetOfferBannerQuery();
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+  if (error) {
+    return <span>Error</span>;
+  }
 
   const cart1 =
     data?.offerbanners?.find((item) => item.status == "cart1") || {};

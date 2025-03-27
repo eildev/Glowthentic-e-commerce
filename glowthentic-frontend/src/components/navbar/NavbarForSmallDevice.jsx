@@ -9,6 +9,12 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
   const [menu, setMenu] = useState(null);
   const [item, setItem] = useState(null);
   const { data: categories, error, isLoading } = useGetNavbarCategoryQuery();
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+  if (error) {
+    return <span>Error</span>;
+  }
 
   const handleHideNavbar = () => {
     setShowMobileMenu(false);
@@ -46,7 +52,9 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
                         height="24"
                       />
                     </div>
-                  ) : null}
+                  ) : (
+                    "No Category Found"
+                  )}
                 </div>
               </li>
             </div>

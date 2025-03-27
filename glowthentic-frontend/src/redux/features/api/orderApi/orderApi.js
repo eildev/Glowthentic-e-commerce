@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const orderAPI = createApi({
   reducerPath: "orderAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://127.0.0.1:8000/api",
+    baseUrl: "https://backend.glowthentic.store/api",
     credentials: "include", // Include cookies in requests (needed for CSRF)
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token; // Bearer token for authentication

@@ -8,8 +8,12 @@ import { useGetNavbarCategoryQuery } from "../../redux/features/api/category/cat
 const NavbarForLargeDevice = () => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const { data: categories, error, isLoading } = useGetNavbarCategoryQuery();
-
-  // MegaMenu hide করার জন্য handler
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+  if (error) {
+    return <span>Error</span>;
+  }
   const handleHideMegaMenu = () => {
     setHoveredCategory(null);
   };
@@ -26,8 +30,8 @@ const NavbarForLargeDevice = () => {
             >
               <Link
                 to="/products"
-                state={{ categoryId: data.id }} // Category ID পাঠানো
-                onClick={handleHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
+                state={{ categoryId: data.id }}
+                onClick={handleHideMegaMenu}
                 className={`flex items-center gap-1 text-xs xl:text-sm  hover:text-secondary ${
                   data?.isButton
                     ? "bg-white px-4 py-1 text-black rounded-2xl font-medium"

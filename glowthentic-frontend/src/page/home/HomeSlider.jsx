@@ -12,7 +12,13 @@ import { Autoplay, Pagination } from "swiper/modules";
 import { useGetBannersQuery } from "../../redux/features/api/homeBannerApi/homeBannerApi";
 import HomeBannerImage from "../../components/HomeBannerImage";
 const HomeSlider = () => {
-  const { data } = useGetBannersQuery();
+  const { data, error, isLoading } = useGetBannersQuery();
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+  if (error) {
+    return <span>Error</span>;
+  }
   // console.log(data);
   return (
     <div className="relative w-full h-fit">
