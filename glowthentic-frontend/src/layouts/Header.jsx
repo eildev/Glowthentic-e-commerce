@@ -23,7 +23,7 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
     skip: !user?.id,
   });
   const wishListCount = wishlist?.wishlist.length;
-  console.log(wishlist);
+  // console.log(wishlist);
   const userRoute = token ? "/user-profile" : "/login";
 
   const cartLength = useSelector((state) => state.cart.cartItems.length);

@@ -13,6 +13,13 @@ const CategorySection = () => {
   const { data, isLoading, error } = useGetCategoryQuery();
   const dispatch = useDispatch();
 
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+  if (error) {
+    return <span>Error</span>;
+  }
+
   const handleCategoryClick = (categoryName, categoryId) => {
     // Dispatch selected category name and ID to Redux store
     dispatch(setSelectedCategories([categoryName])); // Assuming single selection
@@ -53,5 +60,3 @@ const CategorySection = () => {
 };
 
 export default CategorySection;
-
-

@@ -18,7 +18,7 @@ const DynamicHelmet = ({ title, content, keywords, url }) => {
         content={`${keywords}, Glowthentic, sustainable skincare, clean beauty, personalized makeup, biotech beauty, natural ingredients, eco-friendly beauty, anti-aging products, K-beauty trends, fragrance layering, minimalist beauty, vegan beauty, hydrating serums, blue light protection, adaptogenic beauty, microbiome skincare, solid beauty products, inclusive beauty, glow enhancing, AI-powered beauty, probiotic skincare, crystal-infused beauty, overnight treatments, barrier repair, scalp care, mood-boosting makeup`}
       />
       <meta name="author" content="Glowthentic Store" />
-      <link rel="canonical" href={`http://127.0.0.1:8000/${url}`} />
+      <link rel="canonical" href={`https://backend.glowthentic.store/${url}`} />
     </Helmet>
   );
 };

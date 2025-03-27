@@ -10,7 +10,7 @@ import BannerCollection from "./BannerCollection";
 import { useSelector } from "react-redux";
 const HomePage = () => {
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
+  // console.log(user);
 
   return (
     <div>
