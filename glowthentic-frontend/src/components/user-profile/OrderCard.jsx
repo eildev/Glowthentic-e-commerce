@@ -69,7 +69,8 @@ console.log(history);
         ) : (
           <p className="text-center text-gray-500">No data Available</p>
         )
-      ) : historyLoad ? (
+      ) 
+      : historyLoad ? (
         <p className="text-center text-gray-500">Loading history...</p>
       ) : history?.length === 0 ? (
         <p className="text-center text-gray-500">

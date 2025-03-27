@@ -61,7 +61,7 @@ const OrderReviewModal = ({ item}) => {
       return; // Prevent form submission
     }
 
-console.log(imagesFile);
+console.log(item.order_details[0].variant.variant_image[0].image);
 
     const reviewData = {
       user_id: userID,
@@ -103,7 +103,7 @@ console.log(imagesFile);
             </div>
             <div className="pl-4 md:pl-0 md:mt-4">
               <h5 className="text-sm md:text-lg text-dark font-bold font-encode">
-                {item.id}
+                {item.order_details[0].product.product_name}
               </h5>
               <div className="flex justify-between items-center">
                 <p className="text-sm md:text-md text-gray font-normal font-encode">
