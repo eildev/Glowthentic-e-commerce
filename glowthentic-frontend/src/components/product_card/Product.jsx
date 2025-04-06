@@ -30,12 +30,16 @@ const Product = ({ product, isDark }) => {
     (variant) => variant.status === "Default"
   );
 
+  console.log('product',product);
+
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
     (variant) =>
       variant?.product_variant_promotion?.[0]?.coupon?.discount_type ===
       "percentage"
   );
+
+  console.log('variantWithPromotion',variantWithPromotion);
   const promotion = variantWithPromotion?.product_variant_promotion?.[0];
   // console.log(variantWithPromotion);
   let discountPercentage = 0;
@@ -48,6 +52,8 @@ const Product = ({ product, isDark }) => {
       (discountPercentage * variants[0].regular_price) / 100;
     finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
     stockStatus = `${discountPercentage}% Off`;
+
+    console.log("discount",finalPrice, stockStatus);
   }
 
   useEffect(() => {

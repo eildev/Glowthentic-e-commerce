@@ -360,7 +360,7 @@ const ProductDetails = () => {
         </div>
         {/* //-------------------------Review Section Start----------------------// */}
         <div>
-          <ProductReviews images={images}></ProductReviews>
+          <ProductReviews images={images} data={data}></ProductReviews>
         </div>
         {/* //---------------------------Review Section End---------------------------// */}
         {/* //Banner section  big Screen// */}

@@ -1,14 +1,25 @@
 import { Icon } from "@iconify/react";
 import OrderReviewModal from "./OrderReviewModal";
+import { useEffect, useState } from "react";
+import { useGetReviewInfoQuery } from "../../redux/features/api/review/reviewGetApi";
+import { useSelector } from "react-redux";
 
 const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
+const [reviewItem, setReviewItem] = useState(null)
+const { user, token } = useSelector((state) => state.auth);
+// const { data, isLoading, isError, error } = useGetReviewInfoQuery();
 
+// console.log(data);
 
-  const clickHandle = (item) => {
-    document.getElementById("my_modal_3").showModal();
-    console.log(item.order_details[0])
-  };
-// console.log(history);
+const clickHandle = (item) => {
+  setReviewItem(item); 
+};
+
+  useEffect(() => {
+    if (reviewItem) {
+      document.getElementById("my_modal_3").showModal();
+    }
+  }, [reviewItem]);
 
   return (
     <>
@@ -130,7 +141,7 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
                   </button>
 
 
-                  <OrderReviewModal item={item} />
+                  <OrderReviewModal item={reviewItem} setReviewItem={setReviewItem}/>
                 </div>
               </div>
             );
