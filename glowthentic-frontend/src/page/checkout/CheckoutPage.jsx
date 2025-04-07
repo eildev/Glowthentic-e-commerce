@@ -79,9 +79,6 @@ const CheckoutPage = () => {
   const extraCharge = (Shipping - 1) * 20;
   const shippingPrice = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
 
-<<<<<<< HEAD
-  const tax = 0;
-=======
 
   // const discountPrice = 0;
 
@@ -90,7 +87,6 @@ const CheckoutPage = () => {
   );
 
   // const tax = 0;
->>>>>>> 4ef82a77232fcc55441075b8e3644d49282b4922
 
   const discountedSubTotal = subTotal - Number(
     discountPrice
@@ -164,7 +160,7 @@ const CheckoutPage = () => {
             onSubmit={onSubmit}
             cartItems={cartItems}
             subTotal={subTotal}
-            shipingCharge={10} // Note: Typo "shipingCharge" should be "shippingCharge"
+            shippingCharge={10} 
             Shipping={Shipping}
             trigger={trigger}
             watch={watch}

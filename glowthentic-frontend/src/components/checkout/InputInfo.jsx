@@ -109,6 +109,7 @@ const InputInfo = ({ register, errors, data, setValue, setSelectedDistrict }) =>
             {...register("upazila", { required: "Upazila is required" })}
             className="focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-thin rounded p-2 w-full"
             disabled={!selectedDistrictId}
+            
           >
             <option value="">Select Upazila</option>
             {upazilas.map((upazila) => (

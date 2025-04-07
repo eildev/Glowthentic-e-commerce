@@ -15,7 +15,7 @@ const CheckoutWizard = ({
   onSubmit,
   cartItems,
   subTotal,
-  shipingCharge, // Typo: should be "shippingCharge"
+  shippingCharge, 
   Shipping,
   trigger,
   watch,
@@ -173,7 +173,7 @@ const CheckoutWizard = ({
           <ItemDetails
             carts={cartItems}
             subTotal={subTotal}
-            shipingCharge={shipingCharge} // Typo: should be "shippingCharge"
+            shippingCharge={shippingCharge} 
             Shipping={Shipping}
           />
         </FormWizard.TabContent>
