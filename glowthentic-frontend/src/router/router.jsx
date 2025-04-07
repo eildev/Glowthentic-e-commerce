@@ -32,6 +32,7 @@ import Signout from "../page/Signout";
 import Login from "../page/login/Login";
 import TermsAndConditionsPage from "../page/terms-&-conditions/TermsAndConditionsPage";
 import PrivacyPolicy from "../page/privacy-policy/PrivacyPolicy";
+import ProtectCheckout from "./ProtectCheckout";
 
 const ErrorBoundary = ({ error }) => {
   console.error("Error caught:", error);
@@ -70,7 +71,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        element: <CheckoutPage />,
+        element: <ProtectCheckout><CheckoutPage /></ProtectCheckout>,
       },
       {
         path: "/order-confirmation",

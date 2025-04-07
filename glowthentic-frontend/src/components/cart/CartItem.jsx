@@ -6,6 +6,23 @@ import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice"
 import { useState } from "react";
 
 const CartItem = ({ item, handleDelete }) => {
+
+
+    const regularPrice = item?.regular_price;
+    const discountValue = item?.product_variant_promotion[0]?.coupon?.discount_value;
+    const discountType = item?.product_variant_promotion[0]?.coupon?.discount_type;
+
+    let finalPrice = regularPrice;
+
+    if (discountType === "fixed") {
+        finalPrice = regularPrice - discountValue;
+    } else if (discountType === "percentage") {
+        finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+    }
+
+    console.log("Main Price:", finalPrice);
+
+
     const [itemCount, setItemCount] = useState(item?.quantity || 1);
     const dispatch = useDispatch();
     const selectedItems = useSelector((state) => state.selectCart.selectedItems);
@@ -15,7 +32,7 @@ const CartItem = ({ item, handleDelete }) => {
         dispatch(toggleItemSelection(item.id));
     };
 
-    console.log(item.regular_price);
+    // console.log(item.regular_price);
 
 
     return (
@@ -60,11 +77,16 @@ const CartItem = ({ item, handleDelete }) => {
                     </div>
                 </div>
             </td>
+            {
+                finalPrice === item.regular_price ? <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
+                    ৳{item.regular_price ?? 0}
+                </td> : <td className="text-[#191818] font-semibold h-fit text-center pb-8">
+                    <span className="block text-2xl">৳{finalPrice ?? 0}</span>
+                    <del className="block text-sm text-gray-thin mt-2">৳{item.regular_price ?? 0}</del>
+                </td>
+            }
             <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
-                <span>$</span>{item.regular_price ?? 0}
-            </td>
-            <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
-                <span>$</span>{item.regular_price * itemCount}
+                ৳{finalPrice * itemCount}
             </td>
 
         </tr>

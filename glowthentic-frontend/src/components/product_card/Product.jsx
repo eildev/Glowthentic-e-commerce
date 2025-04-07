@@ -30,7 +30,7 @@ const Product = ({ product, isDark }) => {
     (variant) => variant.status === "Default"
   );
 
-  console.log('product',product);
+  // console.log('product',product);
 
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
@@ -39,7 +39,7 @@ const Product = ({ product, isDark }) => {
       "percentage"
   );
 
-  console.log('variantWithPromotion',variantWithPromotion);
+  // console.log('variantWithPromotion',variantWithPromotion);
   const promotion = variantWithPromotion?.product_variant_promotion?.[0];
   // console.log(variantWithPromotion);
   let discountPercentage = 0;

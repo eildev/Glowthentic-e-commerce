@@ -2,6 +2,20 @@ import React from "react";
 import { imagePath } from "../../utils/imagePath";
 
 const CheckoutItem = ({ item }) => {
+
+
+  const regularPrice = item?.regular_price;
+  const discountValue = item?.product_variant_promotion[0]?.coupon?.discount_value;
+  const discountType = item?.product_variant_promotion[0]?.coupon?.discount_type;
+
+  let finalPrice = regularPrice;
+
+  if (discountType === "fixed") {
+      finalPrice = regularPrice - discountValue;
+  } else if (discountType === "percentage") {
+      finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+  }
+
   const image = imagePath(item?.variant_image[0].image);
   return (
     <div className="flex ">
@@ -18,7 +32,7 @@ const CheckoutItem = ({ item }) => {
           {item?.quantity ?? 0} x{" "}
           <span className="text-secondary font-bold">
             {" "}
-            ৳ {item?.regular_price ?? 0}
+            ৳ {finalPrice}
           </span>
         </span>
       </span>
