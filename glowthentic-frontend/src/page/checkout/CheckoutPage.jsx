@@ -79,7 +79,18 @@ const CheckoutPage = () => {
   const extraCharge = (Shipping - 1) * 20;
   const shippingPrice = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
 
+<<<<<<< HEAD
   const tax = 0;
+=======
+
+  // const discountPrice = 0;
+
+  const tax = Math.round(
+    subTotal * (2 / 100)
+  );
+
+  // const tax = 0;
+>>>>>>> 4ef82a77232fcc55441075b8e3644d49282b4922
 
   const discountedSubTotal = subTotal - Number(
     discountPrice
