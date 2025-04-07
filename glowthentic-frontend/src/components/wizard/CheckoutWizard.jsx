@@ -15,12 +15,13 @@ const CheckoutWizard = ({
   onSubmit,
   cartItems,
   subTotal,
-  shipingCharge,
+  shipingCharge, // Typo: should be "shippingCharge"
   Shipping,
   trigger,
   watch,
   data,
-  setValue
+  setValue,
+  setSelectedDistrict, // Add this prop
 }) => {
   const formWizardRef = React.createRef();
 
@@ -34,8 +35,8 @@ const CheckoutWizard = ({
 
   const validateStep = async (step) => {
     if (step === 0) {
-      // Validate InputInfo
-      const result = await trigger(["name", "phone", "email", "address"]);
+      // Validate InputInfo (updated to include district and upazila)
+      const result = await trigger(["name", "phone", "email", "district", "upazila", "address"]);
       return result;
     }
     if (step === 1) {
@@ -115,6 +116,9 @@ const CheckoutWizard = ({
             register={register}
             errors={errors}
             shipToDifferentAddress={watch("shipToDifferentAddress")}
+            data={data} // Pass data for pre-filling
+            setValue={setValue} // Pass setValue for form updates
+            setSelectedDistrict={setSelectedDistrict} // Pass setSelectedDistrict
           />
         </FormWizard.TabContent>
 
@@ -129,7 +133,7 @@ const CheckoutWizard = ({
               Items
             </div>
             <div className="collapse-content peer-checked:block text-left">
-              <Item />
+              <Item carts={cartItems} /> {/* Pass cartItems */}
             </div>
           </div>
           <hr className="text-gray-thin" />
@@ -149,6 +153,14 @@ const CheckoutWizard = ({
                 <span>{watch("email") || "JohnDoe@gmail.com"}</span>
               </div>
               <div className="flex justify-between text-sm text-gray font-normal">
+                <span>District:</span>
+                <span>{watch("district") || "N/A"}</span>
+              </div>
+              <div className="flex justify-between text-sm text-gray font-normal">
+                <span>Upazila:</span>
+                <span>{watch("upazila") || "N/A"}</span>
+              </div>
+              <div className="flex justify-between text-sm text-gray font-normal">
                 <span>Address:</span>
                 <span className="ps-14">
                   {watch("address") || "Banasree, Dhaka, Bangladesh"}
@@ -161,7 +173,7 @@ const CheckoutWizard = ({
           <ItemDetails
             carts={cartItems}
             subTotal={subTotal}
-            shipingCharge={shipingCharge}
+            shipingCharge={shipingCharge} // Typo: should be "shippingCharge"
             Shipping={Shipping}
           />
         </FormWizard.TabContent>
@@ -171,7 +183,6 @@ const CheckoutWizard = ({
 };
 
 export default CheckoutWizard;
-
 // import React from "react";
 // import FormWizard from "react-form-wizard-component";
 // import "react-form-wizard-component/dist/style.css";
