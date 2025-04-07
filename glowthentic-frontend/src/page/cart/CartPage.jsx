@@ -40,11 +40,11 @@ const CartPage = () => {
   const [checkCoupon, { isLoading, isSuccess, isError, error }] =
     useCheckCouponMutation();
   const [couponData, setCouponData] = useState({})
-  const location = useLocation(); // Get current URL
-  const queryString = location.search; // Extract query parameters
+  const location = useLocation(); 
+  const queryString = location.search; 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // console.log(coupon_code);
+  
 
   useEffect(() => {
     const urlCoupon = searchParams.get("coupon");
@@ -68,32 +68,46 @@ const CartPage = () => {
 
 
 
-  // console.log(couponData);
-
-  // console.log(coupon_code);
-
   useEffect(() => {
-    const total = cartItems.reduce(
-      (sum, item) => sum + item.regular_price * item.quantity,
-      0
-    );
-    setSubTotalPrice(total.toFixed(2));
+    const total = cartItems.reduce((sum, item) => {
+      const regularPrice = item?.regular_price;
+      const quantity = item?.quantity || 1;
+  
+      const discountValue = item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
+      const discountType = item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+  
+      let finalPrice = regularPrice;
+  
+      if (discountType === "fixed") {
+        finalPrice = regularPrice - discountValue;
+      } else if (discountType === "percentage") {
+        finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+      }
+  
+      // Ensure finalPrice is not negative
+      finalPrice = Math.max(finalPrice, 0);
+  
+      return sum + finalPrice * quantity;
+    }, 0);
+  
+    setSubTotalPrice(total);
   }, [cartItems]);
+  
 
-  // Modified handleDelete to show modal
+
   const handleDelete = (id) => {
     setItemToDelete(id);
     setIsRemoveAll(false);
     setShowModal(true);
   };
 
-  // Modified handleRemoveAll to show modal
+
   const handleRemoveAll = () => {
     setIsRemoveAll(true);
     setShowModal(true);
   };
 
-  // New function to confirm deletion
+
   const confirmDelete = () => {
     if (isRemoveAll) {
       if (selectedItems.length === 0) {
@@ -113,7 +127,7 @@ const CartPage = () => {
     setIsRemoveAll(false);
   };
 
-  // Function to cancel deletion
+
   const cancelDelete = () => {
     setShowModal(false);
     setItemToDelete(null);
@@ -142,7 +156,7 @@ const CartPage = () => {
 
   const totalPrice = (
     Number(subTotalPrice) - Number(discountPrice ? (couponData.discount_type == "fixed" ? discountPrice : (discountPrice * subTotalPrice / 100)) : 0)
-  ).toFixed(0);
+  );
 
 
 
@@ -314,7 +328,7 @@ const CartPage = () => {
                   <ul className="flex justify-between">
                     <li className="text-[11px] text-[#5F6C72]">Sub-total</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
-                      {(Number(subTotalPrice) || 0).toFixed(0)} <span>৳</span>
+                      {(Number(subTotalPrice) || 0)} <span>৳</span>
                     </li>
                   </ul>
                   {/* <ul className="flex justify-between text-[11px] text-[#5F6C72]">

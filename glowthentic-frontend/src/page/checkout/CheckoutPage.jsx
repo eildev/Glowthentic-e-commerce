@@ -25,7 +25,7 @@ const CheckoutPage = () => {
     skip: !user?.id,
   });
   const [coupon_code, setCoupon_code] = useState("");
-  const [subTotalPrice, setSubTotalPrice] = useState(0);
+  // const [subTotalPrice, setSubTotalPrice] = useState(0);
   const [discountPrice, setDiscountPrice] = useState(0);
   const [couponData, setCouponData] = useState({})
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const CheckoutPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [location, setLocation] = useState(0);
 
-  console.log(location);
+  // console.log(location);
 
 
 
@@ -63,22 +63,33 @@ const CheckoutPage = () => {
 
 
 
-  useEffect(() => {
-    const total = cartItems.reduce(
-      (sum, item) => sum + item.regular_price * item.quantity,
-      0
-    );
-    setSubTotalPrice(total.toFixed(0));
-  }, [cartItems]);
-
-
 
   const subTotal = Number(
-    cartItems.reduce(
-      (sum, cartItem) => sum + cartItem.regular_price * cartItem.quantity,
-      0
-    )
+    cartItems.reduce((sum, cartItem) => {
+      const regularPrice = cartItem?.regular_price;
+      const quantity = cartItem?.quantity || 1;
+
+      const discountValue =
+        cartItem?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
+      const discountType =
+        cartItem?.product_variant_promotion?.[0]?.coupon?.discount_type;
+
+      let finalPrice = regularPrice;
+
+      if (discountType === "fixed") {
+        finalPrice = regularPrice - discountValue;
+      } else if (discountType === "percentage") {
+        finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+      }
+
+      finalPrice = Math.max(finalPrice, 0);
+
+      return sum + finalPrice * quantity;
+    }, 0)
   );
+
+
+
 
   const Shipping = cartItems.reduce(
     (sum, cartItem) => sum + cartItem.quantity,
@@ -140,13 +151,33 @@ const CheckoutPage = () => {
   const onSubmit = async (data) => {
     console.log(`${data.phone}`);
     const orderData = {
-      products: cartItems.map((item) => ({
-        variant_id: item.id,
-        product_id: item.product_id,
-        variant_price: item.regular_price,
-        variant_quantity: item.quantity,
-        coupon_code: item?.coupon_code || "",
-      })),
+      products: cartItems.map((item) => {
+        const regularPrice = item.regular_price;
+
+        const discountValue =
+          item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
+        const discountType =
+          item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+
+        let finalPrice = regularPrice;
+
+        if (discountType === "fixed") {
+          finalPrice = regularPrice - discountValue;
+        } else if (discountType === "percentage") {
+          finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+        }
+
+        console.log(finalPrice, finalPrice * item.quantity);
+
+        return {
+          variant_id: item.id,
+          product_id: item.product_id,
+          variant_price: parseFloat(finalPrice.toFixed(2)),
+          discount_cut_total_price: parseFloat((finalPrice * item.quantity).toFixed(2)),          
+          variant_quantity: item.quantity,
+          coupon_code: item?.coupon_code || "",
+        };
+      }),
       combo: [],
       payment_method: data.paymentMethod,
       shipping_method: "In-House",
@@ -157,10 +188,13 @@ const CheckoutPage = () => {
       ...(token ? { user_id: user.id } : { session_id: userSessionId }),
     };
 
+    console.log(orderData);
+
+
     try {
       const response = await placeOrder(orderData).unwrap();
       console.log(response);
-      if (response.status === 200) {
+      if (response) {
         toast.success("Order placed successfully!");
         // console.log(response.status);
         dispatch(clearCart());
