@@ -94,11 +94,11 @@ const CheckoutPage = () => {
 
   // const discountPrice = 0;
 
-  // const tax = Math.round(
-  //   subTotal * (2 / 100)
-  // );
+  const tax = Math.round(
+    subTotal * (2 / 100)
+  );
 
-  const tax = 0;
+  // const tax = 0;
 
   const discountedSubTotal = subTotal - Number(
     discountPrice

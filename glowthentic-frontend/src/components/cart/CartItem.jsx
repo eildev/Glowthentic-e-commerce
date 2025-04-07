@@ -3,8 +3,10 @@ import defaultImage from "../../assets/img/Product/20.png";
 import IncrementDecrement from "../typography/IncrementDecrement";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice";
+import { useState } from "react";
 
 const CartItem = ({ item, handleDelete }) => {
+    const [itemCount, setItemCount] = useState(item?.quantity || 1);
     const dispatch = useDispatch();
     const selectedItems = useSelector((state) => state.selectCart.selectedItems);
     const isSelected = selectedItems.includes(item.id);
@@ -12,6 +14,9 @@ const CartItem = ({ item, handleDelete }) => {
     const handleCheckboxChange = () => {
         dispatch(toggleItemSelection(item.id));
     };
+
+    console.log(item.regular_price);
+
 
     return (
         <tr className="border-none">
@@ -42,7 +47,7 @@ const CartItem = ({ item, handleDelete }) => {
             <td className="mx-auto">
                 <div className="flex flex-col justify-center items-center">
                     <div>
-                        <IncrementDecrement item={item} />
+                        <IncrementDecrement setItemCount={setItemCount} item={item} />
                     </div>
                     <div onClick={() => handleDelete(item?.id)} className="flex items-center gap-2 pt-2 cursor-pointer">
                         <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,10 +60,13 @@ const CartItem = ({ item, handleDelete }) => {
                     </div>
                 </div>
             </td>
-            <td className="text-[#191818] flex justify-end font-semibold text-2xl md:absolute mt-2">
+            <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
                 <span>$</span>{item.regular_price ?? 0}
             </td>
-            <td></td>
+            <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
+                <span>$</span>{item.regular_price * itemCount}
+            </td>
+
         </tr>
     );
 };
