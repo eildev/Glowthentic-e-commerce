@@ -19,7 +19,7 @@ const AllProduct = () => {
     sortOption,
   } = useSelector((state) => state.filters);
 
-  // Determine if any filter is applied
+
   const isAnyFilterApplied = 
     filteredCategories.length > 0 || 
     filteredTags.length > 0 || 
@@ -28,7 +28,7 @@ const AllProduct = () => {
     filteredFeatures.length > 0 || 
     filteredSearchQuery !== "";
 
-  // Update filtered products when filters or API data change
+
   useEffect(() => {
     if (data?.data) {
       dispatch(setFilteredProducts(data.data));
