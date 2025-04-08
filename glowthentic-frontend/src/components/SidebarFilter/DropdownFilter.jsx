@@ -35,24 +35,27 @@ const DropdownFilter = () => {
   ];
 
   const handleCategoriesCheckboxChange = (item, categoryId) => {
+    // Update selected categories list
     const newSelected = selectedCategories.includes(item)
       ? selectedCategories.filter((i) => i !== item)
       : [...selectedCategories, item];
     dispatch(setSelectedCategories(newSelected));
-console.log("checking category", selectedCategories);
+    
+    // Update filtered categories list
     const newFiltered = filteredCategories.includes(categoryId)
       ? filteredCategories.filter((id) => id !== categoryId)
       : [...filteredCategories, categoryId];
     dispatch(setFilteredCategories(newFiltered));
-    console.log("filterd checking", filteredCategories);
   };
 
   const handleTagsCheckboxChange = (item, tagId) => {
+    // Update selected categories list
     const newSelected = selectedCategories.includes(item)
       ? selectedCategories.filter((i) => i !== item)
       : [...selectedCategories, item];
     dispatch(setSelectedCategories(newSelected));
 
+    // Update filtered tags list
     const newFiltered = filteredTags.includes(tagId)
       ? filteredTags.filter((id) => id !== tagId)
       : [...filteredTags, tagId];
@@ -60,19 +63,27 @@ console.log("checking category", selectedCategories);
   };
 
   const handlePriceCheckboxChange = (priceRange) => {
+    // Update selected categories list for UI display
     const newSelected = selectedCategories.includes(priceRange.label)
       ? selectedCategories.filter((item) => item !== priceRange.label)
       : [...selectedCategories, priceRange.label];
     dispatch(setSelectedCategories(newSelected));
 
-    const newFiltered = filteredPrices.find(
+    // Update filtered prices list for actual filtering
+    const priceRangeExists = filteredPrices.some(
       (p) => p.min === priceRange.min && p.max === priceRange.max
-    )
-      ? filteredPrices.filter(
-          (p) => !(p.min === priceRange.min && p.max === priceRange.max)
-        )
-      : [...filteredPrices, priceRange];
-    dispatch(setFilteredPrices(newFiltered));
+    );
+    
+    let newFilteredPrices;
+    if (priceRangeExists) {
+      newFilteredPrices = filteredPrices.filter(
+        (p) => !(p.min === priceRange.min && p.max === priceRange.max)
+      );
+    } else {
+      newFilteredPrices = [...filteredPrices, { min: priceRange.min, max: priceRange.max }];
+    }
+    
+    dispatch(setFilteredPrices(newFilteredPrices));
   };
 
   return (
@@ -87,7 +98,7 @@ console.log("checking category", selectedCategories);
         </div>
         <div className="collapse-content">
           {categoryData?.categories?.slice(0, 10).map((category) => (
-            <div key={category.categoryName} className="flex items-center py-2">
+            <div key={category.id || category.categoryName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
                 checked={selectedCategories.includes(category.categoryName)}
@@ -124,7 +135,7 @@ console.log("checking category", selectedCategories);
         </div>
         <div className="collapse-content">
           {tagsData?.categories?.map((tag) => (
-            <div key={tag.tagName} className="flex items-center py-2">
+            <div key={tag.id || tag.tagName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
                 checked={selectedCategories.includes(tag.tagName)}

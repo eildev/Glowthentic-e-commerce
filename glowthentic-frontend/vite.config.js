@@ -18,9 +18,9 @@ export default defineConfig({
       },
     },
 
-    host: "127.0.0.1", // This allows access from any network interface
+    // host: "127.0.0.1", // This allows access from any network interface
     // host: "https://backend.glowthentic.store", // This allows access from any network interface
-    // host: "0.0.0.0",
+    host: "0.0.0.0",
     port: 5173, // Optional: Specify the port if you want to use a specific one
   },
   optimizeDeps: {
