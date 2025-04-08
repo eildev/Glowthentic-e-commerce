@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import "./CheckoutWizard.css";
 import Item from "../checkout/Item";
 import ItemDetails from "../checkout/ItemDetails";
+import districtsData from "../../components/checkout/DistrictUpozila.json";
 
 const CheckoutWizard = ({
   register,
@@ -20,6 +21,10 @@ const CheckoutWizard = ({
   data,
   setValue,
   setSelectedDistrict,
+  districtId,
+  setDistrictId,
+  upazilaId,
+  setUpazilaId
 }) => {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -64,13 +69,17 @@ const CheckoutWizard = ({
       case 0:
         return (
           <InputInfo
-            register={register}
-            errors={errors}
-            data={data}
-            setValue={setValue}
-            setSelectedDistrict={setSelectedDistrict}
-            watch={watch}
-          />
+          register={register}
+          errors={errors}
+          data={data}
+          setValue={setValue}
+          setSelectedDistrict={setSelectedDistrict}
+          watch={watch}
+          districtId={districtId}
+          setDistrictId={setDistrictId}
+          upazilaId={upazilaId}
+          setUpazilaId={setUpazilaId}
+        />
         );
       case 1:
         return <PaymentOption register={register} errors={errors} />;

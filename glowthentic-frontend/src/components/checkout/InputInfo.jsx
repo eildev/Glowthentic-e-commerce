@@ -1,10 +1,32 @@
 import { useEffect, useState } from "react";
 import districtsData from "./DistrictUpozila.json";
 
-const InputInfo = ({ register, errors, data, setValue, setSelectedDistrict, watch }) => {
+const InputInfo = ({ 
+  register, 
+  errors, 
+  data, 
+  setValue, 
+  setSelectedDistrict, 
+  watch,
+  districtId,
+  setDistrictId,
+  upazilaId,
+  setUpazilaId
+})  => {
   const [selectedDistrictId, setSelectedDistrictId] = useState("");
   const [upazilas, setUpazilas] = useState([]);
-
+  useEffect(() => {
+    if (districtId) {
+      const district = districtsData.districts.find((d) => d.id === districtId);
+      if (district) {
+        setUpazilas(district.upazilas);
+        setSelectedDistrict(district.name);
+        
+        // Set form values directly from parent state
+        setValue("district", districtId);
+      }
+    }
+  }, [districtId, setValue, setSelectedDistrict]);
   useEffect(() => {
     if (data) {
       setValue("name", data?.userDetails?.full_name || "");
@@ -25,7 +47,20 @@ const InputInfo = ({ register, errors, data, setValue, setSelectedDistrict, watc
       setSelectedDistrict("");
     }
   }, [selectedDistrictId, setSelectedDistrict]);
-
+  useEffect(() => {
+    if (upazilaId) {
+      setValue("upazila", upazilaId);
+    }
+  }, [upazilaId, setValue]);
+  const handleDistrictChange = (e) => {
+    const value = e.target.value;
+    setDistrictId(value);      // Update parent state
+    setValue("district", value); // Update form state
+    
+    // Reset upazila when district changes
+    setUpazilaId(""); 
+    setValue("upazila", "");
+  };
   return (
     <form className="text-left space-y-4">
       {/* Full Name */}
@@ -80,16 +115,11 @@ const InputInfo = ({ register, errors, data, setValue, setSelectedDistrict, watc
             District
           </label>
           <select
-            {...register("district", { required: "District is required" })}
-            value={selectedDistrictId}
-            onChange={(e) => {
-              const value = e.target.value;
-              setSelectedDistrictId(value);
-              setValue("district", value);
-              setValue("upazila", ""); // Reset upazila when district changes
-            }}
-            className="w-full p-2 border border-gray-thin rounded focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none"
-          >
+        {...register("district", { required: "District is required" })}
+        value={districtId}
+        onChange={handleDistrictChange}
+        className="w-full p-2 border border-gray-thin rounded focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none"
+      >
             <option value="">Select District</option>
             {districtsData.districts.map((district) => (
               <option key={district.id} value={district.id}>
@@ -104,11 +134,16 @@ const InputInfo = ({ register, errors, data, setValue, setSelectedDistrict, watc
             Upazila
           </label>
           <select
-            {...register("upazila", { required: "Upazila is required" })}
-            onChange={(e) => setValue("upazila", e.target.value)}
-            className="w-full p-2 border border-gray-thin rounded focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none"
-            disabled={!selectedDistrictId}
-          >
+        {...register("upazila", { required: "Upazila is required" })}
+        value={upazilaId}
+        onChange={(e) => {
+          const value = e.target.value;
+          setUpazilaId(value);    // Update parent state
+          setValue("upazila", value); // Update form state
+        }}
+        className="w-full p-2 border border-gray-thin rounded focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none"
+        disabled={!districtId}
+      >
             <option value="">Select Upazila</option>
             {upazilas.map((upazila) => (
               <option key={upazila.id} value={upazila.id}>

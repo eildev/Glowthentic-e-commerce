@@ -32,7 +32,8 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
   const [placeOrder, { isLoading: orderLoading, isSuccess: orderSuccess }] = usePlaceOrderMutation();
   const [searchParams] = useSearchParams();
   const [location, setLocation] = useState(0);
-
+  const [districtId, setDistrictId] = useState("");
+  const [upazilaId, setUpazilaId] = useState("");
   useEffect(() => {
     if (cartItems && searchParams.get("coupon")) {
       const urlCoupon = searchParams.get("coupon");
@@ -168,21 +169,26 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
       <Container>
         {/* Small Device */}
         <div className="md:hidden">
-          <CheckoutWizard
-            register={register}
-            errors={errors}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            cartItems={cartItems}
-            subTotal={subTotal}
-            shippingCharge={shippingPrice} // Fixed typo
-            Shipping={Shipping}
-            trigger={trigger}
-            watch={watch}
-            data={data}
-            setValue={setValue}
-            setSelectedDistrict={setSelectedDistrict}
-          />
+        <CheckoutWizard
+  register={register}
+  errors={errors}
+  handleSubmit={handleSubmit}
+  onSubmit={onSubmit}
+  cartItems={cartItems}
+  subTotal={subTotal}
+  shippingCharge={shippingPrice}
+  Shipping={Shipping}
+  trigger={trigger}
+  watch={watch}
+  data={data}
+  setValue={setValue}
+  setSelectedDistrict={setSelectedDistrict}
+
+  districtId={districtId}
+  setDistrictId={setDistrictId}
+  upazilaId={upazilaId}
+  setUpazilaId={setUpazilaId}
+/>
         </div>
         {/* Large Device */}
         <div className="container hidden md:block mx-auto px-4 py-8">
@@ -191,14 +197,19 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
               <h4 className="text-lg font-normal mb-4">Billing Information</h4>
               <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
                 <div className="space-y-4 col-span-5 md:col-span-7 p-6 shadow rounded-lg">
-                  <InputInfo
-                    register={register}
-                    errors={errors}
-                    data={data}
-                    setValue={setValue}
-                    setSelectedDistrict={setSelectedDistrict}
-                    watch={watch}
-                  />
+                <InputInfo
+  register={register}
+  errors={errors}
+  data={data}
+  setValue={setValue}
+  setSelectedDistrict={setSelectedDistrict}
+  watch={watch}
+
+  districtId={districtId}
+  setDistrictId={setDistrictId}
+  upazilaId={upazilaId}
+  setUpazilaId={setUpazilaId}
+/>
                   <PaymentOption register={register} errors={errors} />
                 </div>
                 <div className="col-span-5 md:col-span-3">
@@ -209,8 +220,7 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
                       location={location}
                       carts={cartItems}
                       total={grandTotal}
-                      shippingCharge={shippingPrice} // Fixed typo
-                      Shipping={Shipping}
+                      shippingCharge={shippingPrice} 
                       subTotal={subTotal}
                       tax={tax}
                       discountPrice={discountPrice}
