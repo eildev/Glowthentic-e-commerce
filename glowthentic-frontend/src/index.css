@@ -116,3 +116,8 @@
 .custom-html-content strong {
   font-weight: bold;
 }
+
+
+.clip-shape {
+  border-radius: 33% 67% 66% 34% / 30% 35% 65% 70%  ;
+}

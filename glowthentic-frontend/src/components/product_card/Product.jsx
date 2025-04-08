@@ -71,7 +71,7 @@ const Product = ({ product, isDark }) => {
         `${productItem?.product?.product_name ?? ""} removed from Cart!`
       );
     } else {
-      const newProduct = { ...productItem, quantity: 1 };
+      const newProduct = { ...productItem, quantity: 1, user_id: user?.id || null};
       dispatch(addToCart(newProduct));
       toast.success(
         `${productItem?.product?.product_name ?? ""} added to Cart!`

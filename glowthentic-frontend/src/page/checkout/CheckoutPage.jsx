@@ -35,8 +35,19 @@ const CheckoutPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [location, setLocation] = useState(0);
 
+
+  const filteredCartItems = cartItems.filter(item => {
+    if (user?.id) {
+      return item.user_id == user.id;
+    } else {
+      return item.user_id == null;
+    }
+  });
+
+
+
   useEffect(() => {
-    if (cartItems) {
+    if (filteredCartItems) {
       const urlCoupon = searchParams.get("coupon");
       if (urlCoupon) {
         setCoupon_code(urlCoupon);
@@ -57,7 +68,7 @@ const CheckoutPage = () => {
 
 
   const subTotal = Number(
-    cartItems.reduce((sum, cartItem) => {
+    filteredCartItems.reduce((sum, cartItem) => {
       const regularPrice = cartItem?.regular_price;
       const quantity = cartItem?.quantity || 1;
 
@@ -83,15 +94,15 @@ const CheckoutPage = () => {
 
 
 
-  const Shipping = cartItems.reduce(
+  const Shipping = filteredCartItems.reduce(
     (sum, cartItem) => sum + cartItem.quantity,
     0
   );
 
   const baseShipping = location;
   const extraCharge = (Shipping - 1) * 20;
-  const shippingPrice = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
-
+  const shippingPrice = filteredCartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
+console.log(shippingPrice);
 
   // const discountPrice = 0;
 
@@ -127,7 +138,7 @@ const CheckoutPage = () => {
 
   const onSubmit = async (data) => {
     const orderData = {
-      products: cartItems.map((item) => {
+      products: filteredCartItems.map((item) => {
         const regularPrice = item.regular_price;
 
         const discountValue =
@@ -229,7 +240,7 @@ const CheckoutPage = () => {
                         couponData={couponData}
                         setLocation={setLocation}
                         location={location}
-                        carts={cartItems}
+                        carts={filteredCartItems}
                         total={grandTotal}
                         shipingCharge={shippingPrice} // Typo fixed
                         Shipping={Shipping}

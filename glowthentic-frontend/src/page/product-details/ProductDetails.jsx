@@ -14,7 +14,7 @@ import RecommendedSlider from "./RecommendedSlider";
 import ProductQueryNevigation from "./ProductQueryNevigation";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetProductByDetailsQuery } from "../../redux/features/api/product-api/productApi.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/features/slice/cartSlice";
 import toast from "react-hot-toast";
 
@@ -22,7 +22,9 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams(); // Extracts the product ID from the URL
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
-  console.log(data?.data);
+  const { token, user } = useSelector((state) => state.auth);
+
+  console.log(user?.id);
   const navigate = useNavigate();
   const images = [
     "https://picsum.photos/200/300",
@@ -101,7 +103,7 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     // alert("Add to cart");
-    const newProduct = { ...selectedVariantData, quantity: 1 };
+    const newProduct = { ...selectedVariantData, quantity: 1, user_id: user?.id || null };
     dispatch(addToCart(newProduct));
     toast.success(`${data?.data?.product_name ?? ""} added to Cart!`);
   };
@@ -127,7 +129,7 @@ const ProductDetails = () => {
     isExpanded ? text : `${text.substring(0, limit)}...`;
 
   const handleCheckOut = () => {
-    const newProduct = { ...selectedVariantData, quantity: 1 };
+    const newProduct = { ...selectedVariantData, quantity: 1, user_id: user?.id || null };
     dispatch(addToCart(newProduct));
     
  
