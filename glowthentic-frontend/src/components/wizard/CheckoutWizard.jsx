@@ -169,10 +169,10 @@ const CheckoutWizard = ({
 
       <div>{renderStepContent()}</div>
 
-      <div className="flex justify-between mt-6">
+      <div className="flex justify-between mt-6 mb-4">
         {activeStep > 0 && (
           <button
-            className="font-medium text-sm bg-gray-300 text-black py-3 px-6 rounded hover:bg-gray-400"
+            className="font-medium text-sm bg-gray-300 text-black py-3 px-6 rounded hover:bg-gray-400 mb-4"
             onClick={handlePrev}
           >
             Previous
@@ -180,7 +180,7 @@ const CheckoutWizard = ({
         )}
         {activeStep < 2 ? (
           <button
-            className="w-full max-w-xs font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center ml-auto"
+            className="w-full max-w-xs font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center ml-auto mb-4"
             onClick={handleNext}
           >
             Next
@@ -188,7 +188,7 @@ const CheckoutWizard = ({
           </button>
         ) : (
           <button
-            className="w-full max-w-xs font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center ml-auto"
+            className="w-full max-w-xs font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center ml-auto mb-4"
             onClick={handleComplete}
           >
             PLACE ORDER
