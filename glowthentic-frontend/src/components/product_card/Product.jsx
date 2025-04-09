@@ -39,6 +39,19 @@ const Product = ({ product, isDark }) => {
       "percentage"
   );
 
+
+  
+  const filteredCartItems = cartItems.filter(item => {
+    if (user?.id) {
+      return item.user_id == user.id;
+    } else {
+      return item.user_id == null;
+    }
+  });
+  
+
+
+
   // console.log('variantWithPromotion',variantWithPromotion);
   const promotion = variantWithPromotion?.product_variant_promotion?.[0];
   // console.log(variantWithPromotion);
@@ -59,8 +72,8 @@ const Product = ({ product, isDark }) => {
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
     setIsFav(favourite.some((item) => item.id === id));
-    setIsInCart(cartItems.some((item) => item.id === defaultVariant.id));
-  }, [id, cartItems, defaultVariant]);
+    setIsInCart(filteredCartItems.some((item) => item.id === defaultVariant.id));
+  }, [id, filteredCartItems, defaultVariant]);
 
   const productImage = imagePath(variants[0]?.variant_image[0]?.image);
 
