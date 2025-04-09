@@ -18,11 +18,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/features/slice/cartSlice";
 import toast from "react-hot-toast";
 
+
+const TagElement = ({ value }) => {
+  console.log("myValue", value);
+  return <p>{value?.tagName ?? "No Value"}</p>
+}
+
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams(); // Extracts the product ID from the URL
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   const { token, user } = useSelector((state) => state.auth);
+
+  console.log("my Products", data);
 
   console.log(user?.id);
   const navigate = useNavigate();
@@ -131,8 +139,8 @@ const ProductDetails = () => {
   const handleCheckOut = () => {
     const newProduct = { ...selectedVariantData, quantity: 1, user_id: user?.id || null };
     dispatch(addToCart(newProduct));
-    
- 
+
+
     navigate('/checkout');
   }
 
@@ -142,19 +150,20 @@ const ProductDetails = () => {
         <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 ">
           {/* <---Small Device Right Section Start ----> */}
           <div className="sm:hidden block mt-4 p-2">
-            <HeadTitle>
-              Pierre Cardin Matte Rouge Lipstick Fushion Pink 745
+            <HeadTitle className="mb-2">
+              {data?.data?.product_name ?? ""}
             </HeadTitle>
-            <br />
-            <h4 className="font-bold">Anti-aging face serum</h4>
+            <h4 className="font-bold">{data?.data?.productdetails[0]?.description ?? ""}</h4>
             <p>
               <span className="font-thin text-sm text-gray">
-                All Types of Skin | Am or Pm | Brightening
+                {data?.data?.product_tags.map((tagData, index) => (
+                  `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""}`
+                ))}
               </span>
             </p>
-            <h4 className=" text-sm font-semibold text-gray mt-1">
+            {/* <h4 className=" text-sm font-semibold text-gray mt-1">
               Formulated with 92% natural-origin ingredients
-            </h4>
+            </h4> */}
           </div>
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
@@ -171,17 +180,18 @@ const ProductDetails = () => {
           <div className="sm:col-span-3 md:pt-7 md:pl-4 ">
             {/* //show big device small device hidden Start// */}
             <div className="hidden sm:block w-full">
-              <HeadTitle>{data?.data?.product_name ?? ""}</HeadTitle>
-              <br />
-              <h4 className="font-bold">Anti-aging face serum</h4>
+              <HeadTitle className="mb-2">{data?.data?.product_name ?? ""}</HeadTitle>
+              <h4 className="font-bold">{data?.data?.productdetails[0]?.description ?? ""}</h4>
               <p>
                 <span className="font-thin text-sm text-gray">
-                  All Types of Skin | Am or Pm | Brightening
+                  {data?.data?.product_tags.map((tagData, index) => (
+                    `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""}`
+                  ))}
                 </span>
               </p>
-              <h4 className=" text-sm font-semibold text-gray">
+              {/* <h4 className=" text-sm font-semibold text-gray">
                 Formulated with 92% natural-origin ingredients
-              </h4>
+              </h4> */}
             </div>
             {/* //show big device small device hidden End/ / */}
             <div className=" lg:mt-4 flex flex-wrap items-center">
@@ -421,8 +431,8 @@ const ProductDetails = () => {
                     </h2>
                     <span
                       className={`transition-transform transform rounded-full p-1 ${openIndex === index
-                          ? "text-[#0C0C0C] "
-                          : "text-[#0C0C0C]"
+                        ? "text-[#0C0C0C] "
+                        : "text-[#0C0C0C]"
                         }`}
                     >
                       {openIndex === index ? (
