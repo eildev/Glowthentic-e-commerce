@@ -17,10 +17,11 @@ import { useGetProductByDetailsQuery } from "../../redux/features/api/product-ap
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/features/slice/cartSlice";
 import toast from "react-hot-toast";
+import ShowPrice from "./ShowPrice.jsx";
 
 
 const TagElement = ({ value }) => {
-  console.log("myValue", value);
+  // console.log("myValue", value);
   return <p>{value?.tagName ?? "No Value"}</p>
 }
 
@@ -30,9 +31,9 @@ const ProductDetails = () => {
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   const { token, user } = useSelector((state) => state.auth);
 
-  console.log("my Products", data);
+  // console.log("my Products", data);
 
-  console.log(user?.id);
+  // console.log(user?.id);
   const navigate = useNavigate();
   const images = [
     "https://picsum.photos/200/300",
@@ -101,14 +102,15 @@ const ProductDetails = () => {
 
     setSelectedVariant(selected);
   };
+  console
 
-  // console.log("Selected Variants" + selectedVariant);
+  // console.log("Selected Variants", selectedVariant);
 
   const selectedVariantData = data?.data?.variants?.find(
     (variant) => variant.id === selectedVariant?.id
   );
 
-  console.log("Selected Variants", selectedVariantData);
+  // console.log("Selected Variants", selectedVariantData);
 
   const handleAddToCart = () => {
     // alert("Add to cart");
@@ -195,25 +197,9 @@ const ProductDetails = () => {
               </h4> */}
             </div>
             {/* //show big device small device hidden End/ / */}
-            <div className=" lg:mt-4 flex flex-wrap items-center">
-              <span className="text-secondary  font-bold text-xl  pe-4">
-                {data?.data?.variants?.regular_price}
-              </span>
-              <span className="text-gray  text-xs md:text-sm font-thin  pe-2 ">
-                <del>$1040.00 |</del>
-              </span>
-              <span className="text-black text-nowrap text-xs md:text-sm pe-2 font-normal">
-                Save ৳651.00
-              </span>
-              {
-                data?.data?.promotionproduct?.length > 0 ? <span className="bg-secondary rounded-tl-[20px]  rounded-br-[20px] text-white  text-nowrap  text-xs p-1 px-2">
-                  {" "}
-                  50% OFF
-                </span> : ""
-              }
-            </div>
+            <ShowPrice selectedVariant={selectedVariant}/>
             {/* //Select price// */}
-            <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center justify-between mt-2">
               <div>
                 <select
                   className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
@@ -235,7 +221,7 @@ const ProductDetails = () => {
               <span className="text-lg font-semibold text-gray">
                 {" "}
                 {selectedVariant
-                  ? `৳${selectedVariant.regular_price}`
+                  ? `৳${selectedVariant?.product_variant_promotion?.coupon ? (selectedVariant?.product_variant_promotion?.coupon.discount_type === "fixed" ? selectedVariant?.regular_price - selectedVariant?.product_variant_promotion?.coupon.discount_value : selectedVariant?.regular_price - (selectedVariant?.regular_price * selectedVariant?.product_variant_promotion?.coupon.discount_value) / 100) : selectedVariant?.regular_price}`
                   : "Loading..."}
               </span>
             </div>

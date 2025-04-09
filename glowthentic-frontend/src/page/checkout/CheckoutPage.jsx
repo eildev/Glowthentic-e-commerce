@@ -67,8 +67,8 @@ const CheckoutPage = () => {
     filteredCartItems.reduce((sum, cartItem) => {
       const regularPrice = cartItem?.regular_price;
       const quantity = cartItem?.quantity || 1;
-      const discountValue = cartItem?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
-      const discountType = cartItem?.product_variant_promotion?.[0]?.coupon?.discount_type;
+      const discountValue = cartItem?.product_variant_promotion?.coupon?.discount_value || 0;
+      const discountType = cartItem?.product_variant_promotion?.coupon?.discount_type;
 
       let finalPrice = regularPrice;
       if (discountType === "fixed") {
@@ -140,8 +140,8 @@ const CheckoutPage = () => {
     const orderData = {
       products: filteredCartItems.map((item) => {
         const regularPrice = item.regular_price;
-        const discountValue = item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
-        const discountType = item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+        const discountValue = item?.product_variant_promotion?.coupon?.discount_value || 0;
+        const discountType = item?.product_variant_promotion?.coupon?.discount_type;
 
         let finalPrice = regularPrice;
         if (discountType === "fixed") {

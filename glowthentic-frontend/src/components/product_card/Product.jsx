@@ -35,8 +35,8 @@ const Product = ({ product, isDark }) => {
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
     (variant) =>
-      variant?.product_variant_promotion?.[0]?.coupon?.discount_type ===
-      "percentage" || variant?.product_variant_promotion?.[0]?.coupon?.discount_type ===
+      variant?.product_variant_promotion?.coupon?.discount_type ===
+      "percentage" || variant?.product_variant_promotion?.coupon?.discount_type ===
       "fixed"
   );
 
@@ -54,24 +54,24 @@ const Product = ({ product, isDark }) => {
 
 
   // console.log('variantWithPromotion',variantWithPromotion);
-  const promotion = variantWithPromotion?.product_variant_promotion?.[0];
-  console.log("My Promotion", promotion);
+  const promotion = variantWithPromotion?.product_variant_promotion?.coupon;
+  // console.log("My Promotion", promotion);
   let discountPercentage = 0;
   let finalPrice = variants[0]?.regular_price;
   let stockStatus = product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock";
 
   if (promotion) {
-    if (promotion.coupon.discount_type === 'percentage') {
-      discountPercentage = Math.round(promotion.coupon.discount_value);
+    if (promotion.discount_type === 'percentage') {
+      discountPercentage = Math.round(promotion.discount_value);
       const discountAmount =
         (discountPercentage * variants[0].regular_price) / 100;
       finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
       stockStatus = product?.product_stock?.length > 0 ? `${discountPercentage}% Off` : "Out Of Stock";
 
-      console.log("discount", finalPrice, stockStatus);
+      // console.log("discount", finalPrice, stockStatus);
     } else {
-      discountPercentage = promotion.coupon.discount_value;
-      finalPrice = variants[0].regular_price - promotion.coupon.discount_value;
+      discountPercentage = promotion.discount_value;
+      finalPrice = variants[0].regular_price - promotion.discount_value;
       stockStatus = product?.product_stock?.length > 0 ? "Flat Discount" : "Out Of Stock";
     }
   }

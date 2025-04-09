@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const ItemDetails = ({ carts, total, shippingCharge, Shipping, subTotal, tax, discountPrice, couponData, isLoading, location }) => {
   // Use the passed location value for shipping display
   const displayShipping = location || 0;
-  console.log('total', total);
+  // console.log('total', total);
   // Show correct discount indicator (fixed or percentage)
   const value = couponData?.discount_type === "fixed" ? "৳" : "%";
 

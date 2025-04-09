@@ -5,8 +5,8 @@ const CheckoutItem = ({ item }) => {
 
 
   const regularPrice = item?.regular_price;
-  const discountValue = item?.product_variant_promotion[0]?.coupon?.discount_value;
-  const discountType = item?.product_variant_promotion[0]?.coupon?.discount_type;
+  const discountValue = item?.product_variant_promotion?.coupon?.discount_value;
+  const discountType = item?.product_variant_promotion?.coupon?.discount_type;
 
   let finalPrice = regularPrice;
 

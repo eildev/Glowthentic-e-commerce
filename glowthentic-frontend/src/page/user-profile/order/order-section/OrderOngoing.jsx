@@ -6,7 +6,7 @@ const OrderOngoing = () => {
   const { user } = useSelector((state) => state.auth);
   const userID = user?.id;
 
-  console.log("id", userID);
+  // console.log("id", userID);
 
   const { data: order, isLoading : orderLoad, error } = useGetOrderInfoQuery(userID);
 
