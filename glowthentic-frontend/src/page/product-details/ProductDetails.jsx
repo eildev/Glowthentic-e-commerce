@@ -98,6 +98,7 @@ const ProductDetails = () => {
     const selected = data?.data?.variants?.find(
       (v) => v.id === parseInt(variantId)
     );
+
     setSelectedVariant(selected);
   };
 
@@ -204,10 +205,12 @@ const ProductDetails = () => {
               <span className="text-black text-nowrap text-xs md:text-sm pe-2 font-normal">
                 Save ৳651.00
               </span>
-              <span className="bg-secondary rounded-tl-[20px]  rounded-br-[20px] text-white  text-nowrap  text-xs p-1 px-2">
-                {" "}
-                50% OFF
-              </span>
+              {
+                data?.data?.promotionproduct?.length > 0 ? <span className="bg-secondary rounded-tl-[20px]  rounded-br-[20px] text-white  text-nowrap  text-xs p-1 px-2">
+                  {" "}
+                  50% OFF
+                </span> : ""
+              }
             </div>
             {/* //Select price// */}
             <div className="flex items-center justify-between mt-4">

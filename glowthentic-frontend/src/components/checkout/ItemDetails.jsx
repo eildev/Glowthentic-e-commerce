@@ -22,7 +22,7 @@ const ItemDetails = ({ carts, total, shippingCharge, Shipping, subTotal, tax, di
       ) : (
         <div className={`flex justify-between ${discountPrice ? "text-green-600" : "text-gray"}`}>
           <span className="text-sm font-normal">
-            Discount ({couponData ? couponData.cupon_code : ""})
+            Discount {couponData ? `(${couponData.cupon_code})` : ""}
           </span>
           <span className="text-sm font-medium">
             {discountPrice ? discountPrice : 0} <span>{discountPrice ? value : "৳"}</span>

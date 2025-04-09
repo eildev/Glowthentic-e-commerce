@@ -88,9 +88,8 @@ const CheckoutPage = () => {
 
   // Calculate shipping charge is now handled in OrderSummary and passed back via setShippingCharge
 
-  const tax = Math.round(
-    subTotal * (2 / 100)
-  );
+  // const tax = Math.round(subTotal * (2 / 100));
+  const tax = 0;
 
   // Calculate discount amount based on type
   const discountAmount = Number(
@@ -100,7 +99,7 @@ const CheckoutPage = () => {
   );
 
   const discountedSubTotal = subTotal - discountAmount;
-  
+
   // Use the state-managed shipping charge for total calculation
   const grandTotal = Math.round(discountedSubTotal + shippingCharge + tax);
   console.log('grand', grandTotal);

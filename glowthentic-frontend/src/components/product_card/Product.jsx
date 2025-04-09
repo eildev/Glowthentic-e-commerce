@@ -36,11 +36,12 @@ const Product = ({ product, isDark }) => {
   const variantWithPromotion = variants.find(
     (variant) =>
       variant?.product_variant_promotion?.[0]?.coupon?.discount_type ===
-      "percentage"
+      "percentage" || variant?.product_variant_promotion?.[0]?.coupon?.discount_type ===
+      "fixed"
   );
 
 
-  
+
   const filteredCartItems = cartItems.filter(item => {
     if (user?.id) {
       return item.user_id == user.id;
@@ -48,25 +49,31 @@ const Product = ({ product, isDark }) => {
       return item.user_id == null;
     }
   });
-  
+
 
 
 
   // console.log('variantWithPromotion',variantWithPromotion);
   const promotion = variantWithPromotion?.product_variant_promotion?.[0];
-  // console.log(variantWithPromotion);
+  console.log("My Promotion", promotion);
   let discountPercentage = 0;
   let finalPrice = variants[0]?.regular_price;
-  let stockStatus = "In Stock";
+  let stockStatus = product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock";
 
   if (promotion) {
-    discountPercentage = Math.round(promotion.coupon.discount_value);
-    const discountAmount =
-      (discountPercentage * variants[0].regular_price) / 100;
-    finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
-    stockStatus = `${discountPercentage}% Off`;
+    if (promotion.coupon.discount_type === 'percentage') {
+      discountPercentage = Math.round(promotion.coupon.discount_value);
+      const discountAmount =
+        (discountPercentage * variants[0].regular_price) / 100;
+      finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
+      stockStatus = product?.product_stock?.length > 0 ? `${discountPercentage}% Off` : "Out Of Stock";
 
-    console.log("discount",finalPrice, stockStatus);
+      console.log("discount", finalPrice, stockStatus);
+    } else {
+      discountPercentage = promotion.coupon.discount_value;
+      finalPrice = variants[0].regular_price - promotion.coupon.discount_value;
+      stockStatus = product?.product_stock?.length > 0 ? "Flat Discount" : "Out Of Stock";
+    }
   }
 
   useEffect(() => {
@@ -84,7 +91,7 @@ const Product = ({ product, isDark }) => {
         `${productItem?.product?.product_name ?? ""} removed from Cart!`
       );
     } else {
-      const newProduct = { ...productItem, quantity: 1, user_id: user?.id || null};
+      const newProduct = { ...productItem, quantity: 1, user_id: user?.id || null };
       dispatch(addToCart(newProduct));
       toast.success(
         `${productItem?.product?.product_name ?? ""} added to Cart!`
@@ -136,9 +143,8 @@ const Product = ({ product, isDark }) => {
 
   return (
     <div
-      className={`card w-auto bg-light rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out ${
-        isDark ? "h-[320px] lg:h-[500px]" : ""
-      }`}
+      className={`card w-auto bg-light rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out ${isDark ? "h-[320px] lg:h-[500px]" : ""
+        }`}
     >
       <figure className="relative overflow-hidden">
         <Link to={`/product/${product.slug}`}>
@@ -149,18 +155,16 @@ const Product = ({ product, isDark }) => {
           />
         </Link>
         <span
-          className={`bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold transition-opacity duration-300 ${
-            stock <= 0 ? "opacity-100" : "hover:opacity-75"
-          }`}
+          className={`bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold transition-opacity duration-300 ${stock <= 0 ? "opacity-100" : "hover:opacity-75"
+            }`}
         >
           {stock <= 0 ? "Stock Out" : stockStatus}
         </span>
 
         <ProductIcon
           image={heartIcon}
-          className={`top-[15px] lg:top-[25px] hover:bg-secondary hover:text-white transition-all duration-200 ease-in-out transform hover:scale-110 ${
-            isFav ? "bg-secondary text-white" : ""
-          }`}
+          className={`top-[15px] lg:top-[25px] hover:bg-secondary hover:text-white transition-all duration-200 ease-in-out transform hover:scale-110 ${isFav ? "bg-secondary text-white" : ""
+            }`}
           imgClassName="h-4 w-4"
           product={product}
           handleFav={handleFav}
@@ -168,9 +172,8 @@ const Product = ({ product, isDark }) => {
         />
         <ProductIcon
           image={cartIcon}
-          className={`bottom-[15px] lg:bottom-[25px] transition-all duration-200 ease-in-out transform hover:scale-110 ${
-            isInCart ? "bg-secondary text-white" : "bg-primary text-white"
-          } hover:bg-secondary`}
+          className={`bottom-[15px] lg:bottom-[25px] transition-all duration-200 ease-in-out transform hover:scale-110 ${isInCart ? "bg-secondary text-white" : "bg-primary text-white"
+            } hover:bg-secondary`}
           imgClassName=""
           product={product}
           handleAddToCart={handleAddToCart}
@@ -180,17 +183,15 @@ const Product = ({ product, isDark }) => {
       </figure>
 
       <div
-        className={`card-body px-3 lg:px-5 rounded-b-2xl transition-colors duration-300 ${
-          isDark
-            ? "bg-primary text-white text-center"
-            : "bg-white text-primary text-left"
-        }`}
+        className={`card-body px-3 lg:px-5 rounded-b-2xl transition-colors duration-300 ${isDark
+          ? "bg-primary text-white text-center"
+          : "bg-white text-primary text-left"
+          }`}
       >
         <Link to={`/product/${product.slug}`}>
           <HeadTitle
-            className={`text-sm lg:text-lg transition-colors duration-200 hover:text-secondary ${
-              isDark ? "text-white" : "text-primary"
-            }`}
+            className={`text-sm lg:text-lg transition-colors duration-200 hover:text-secondary ${isDark ? "text-white" : "text-primary"
+              }`}
           >
             {productName ?? "Beautya Capture Total Dreamskin Care & Perfect"}
           </HeadTitle>
@@ -207,9 +208,8 @@ const Product = ({ product, isDark }) => {
           />
         </Paragraph>
         <div
-          className={`flex gap-3 items-center ${
-            isDark ? "justify-center" : ""
-          }`}
+          className={`flex gap-3 items-center ${isDark ? "justify-center" : ""
+            }`}
         >
           <Paragraph className="lg:text-xl text-lg text-secondary transition-transform duration-200 hover:scale-105">
             <span>৳ {finalPrice}</span>
