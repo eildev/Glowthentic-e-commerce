@@ -103,6 +103,7 @@ const CheckoutPage = () => {
   
   // Use the state-managed shipping charge for total calculation
   const grandTotal = Math.round(discountedSubTotal + shippingCharge + tax);
+  console.log('grand', grandTotal);
 
   const {
     register,
@@ -197,6 +198,7 @@ const CheckoutPage = () => {
             onSubmit={onSubmit}
             cartItems={filteredCartItems}
             subTotal={subTotal}
+            total={grandTotal}
             shippingCharge={shippingCharge}
             Shipping={Shipping}
             trigger={trigger}
