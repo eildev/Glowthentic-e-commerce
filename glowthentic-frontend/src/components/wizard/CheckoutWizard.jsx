@@ -24,7 +24,8 @@ const CheckoutWizard = ({
   districtId,
   setDistrictId,
   upazilaId,
-  setUpazilaId
+  setUpazilaId,
+  setSelectedUpazila,
 }) => {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -79,6 +80,7 @@ const CheckoutWizard = ({
           setDistrictId={setDistrictId}
           upazilaId={upazilaId}
           setUpazilaId={setUpazilaId}
+          setSelectedUpazila={setSelectedUpazila}
         />
         );
       case 1:

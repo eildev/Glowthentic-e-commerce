@@ -27,6 +27,7 @@ const CheckoutPage = () => {
   const [discountPrice, setDiscountPrice] = useState(0);
   const [couponData, setCouponData] = useState({});
 const [selectedDistrict, setSelectedDistrict] = useState("");
+const [selectedUpazila, setSelectedUpazila] = useState("");
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [placeOrder, { isLoading: orderLoading, isSuccess: orderSuccess }] = usePlaceOrderMutation();
@@ -199,25 +200,25 @@ console.log(shippingPrice);
         {/* Small Device */}
         <div className="md:hidden">
         <CheckoutWizard
-  register={register}
-  errors={errors}
-  handleSubmit={handleSubmit}
-  onSubmit={onSubmit}
-  cartItems={filteredCartItems}
-  subTotal={subTotal}
-  shippingCharge={shippingPrice}
-  Shipping={Shipping}
-  trigger={trigger}
-  watch={watch}
-  data={data}
-  setValue={setValue}
-  setSelectedDistrict={setSelectedDistrict}
-
-  districtId={districtId}
-  setDistrictId={setDistrictId}
-  upazilaId={upazilaId}
-  setUpazilaId={setUpazilaId}
-/>
+            register={register}
+            errors={errors}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            cartItems={filteredCartItems}
+            subTotal={subTotal}
+            shippingCharge={shippingPrice}
+            Shipping={Shipping}
+            trigger={trigger}
+            watch={watch}
+            data={data}
+            setValue={setValue}
+            setSelectedDistrict={setSelectedDistrict}
+            setSelectedUpazila={setSelectedUpazila} // Pass the new setter
+            districtId={districtId}
+            setDistrictId={setDistrictId}
+            upazilaId={upazilaId}
+            setUpazilaId={setUpazilaId}
+          />
         </div>
         {/* Large Device */}
         <div className="container hidden md:block mx-auto px-4 py-8">
@@ -233,7 +234,7 @@ console.log(shippingPrice);
   setValue={setValue}
   setSelectedDistrict={setSelectedDistrict}
   watch={watch}
-
+  setSelectedUpazila={setSelectedUpazila}
   districtId={districtId}
   setDistrictId={setDistrictId}
   upazilaId={upazilaId}
@@ -254,6 +255,7 @@ console.log(shippingPrice);
                       tax={tax}
                       discountPrice={discountPrice}
                       selectedDistrict={selectedDistrict}
+                      selectedUpazila={selectedUpazila}
                     />
                     <div className="px-6 py-3">
                       <button

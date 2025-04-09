@@ -13,23 +13,29 @@ const OrderSummary = ({
   discountPrice,
   couponData,
   isLoading,
-  selectedDistrict, // New prop
+  selectedDistrict,
   location,
+  selectedUpazila, // Add new prop for upazila
 }) => {
   const checkColor = {
     "--chkfg": "#fff",
   };
 
-  // Auto-select shipping based on district
+  // Auto-select shipping based on district and upazila
   useEffect(() => {
     if (selectedDistrict) {
-      if (selectedDistrict.toLowerCase() === "dhaka") {
+      // Check if district is Dhaka AND upazila is Dhaka Sadar
+      if (
+        selectedDistrict.toLowerCase() === "dhaka" && 
+        selectedUpazila && 
+        selectedUpazila.toLowerCase() === "dhaka sadar"
+      ) {
         setLocation(80); // Inside Dhaka
       } else {
         setLocation(120); // Outside Dhaka
       }
     }
-  }, [selectedDistrict, setLocation]);
+  }, [selectedDistrict, selectedUpazila, setLocation]);
 
   return (
     <div className="p-6 text-left rounded-lg">
