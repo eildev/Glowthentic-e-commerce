@@ -7,7 +7,6 @@ import { useReviewInfoMutation } from "../../redux/features/api/review/reviewApi
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
-
 function getRating(rating) {
   switch (rating) {
     case 1:
@@ -25,14 +24,15 @@ function getRating(rating) {
   }
 }
 
-const OrderReviewModal = ({ item}) => {
+const OrderReviewModal = ({ item }) => {
   const { user } = useSelector((state) => state.auth);
   const userID = user?.id;
   const [rating, setRating] = useState(3);
   const [images, setImages] = useState([]);
   const [imagesFile, setImagesFile] = useState([]);
   const [reviewText, setReviewText] = useState("");
-  const [postReview, { isLoading, isError, isSuccess }] = useReviewInfoMutation();
+  const [postReview, { isLoading, isError, isSuccess }] =
+    useReviewInfoMutation();
 
   const customStyles = {
     itemShapes: Star,
@@ -43,7 +43,7 @@ const OrderReviewModal = ({ item}) => {
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
-    setImagesFile(files)
+    setImagesFile(files);
     const newImages = files.map((file) => URL.createObjectURL(file));
     setImages([...images, ...newImages]);
   };
@@ -57,11 +57,10 @@ const OrderReviewModal = ({ item}) => {
 
     // Validation to check if the review text is empty
     if (!reviewText.trim()) {
-
       return; // Prevent form submission
     }
 
-console.log(imagesFile);
+    // console.log(imagesFile);
 
     const reviewData = {
       user_id: userID,
@@ -74,7 +73,7 @@ console.log(imagesFile);
 
     try {
       await postReview(reviewData).unwrap();
-      toast.success("Review submitted successfully!"); 
+      toast.success("Review submitted successfully!");
       setReviewText("");
       setImages([]);
       setRating(3);
@@ -89,7 +88,10 @@ console.log(imagesFile);
   return (
     <dialog id="my_modal_3" className="modal ">
       <div className="modal-box rounded-lg md:min-w-[700px] p-8">
-        <form className="flex items-center justify-between mb-4" method="dialog">
+        <form
+          className="flex items-center justify-between mb-4"
+          method="dialog"
+        >
           <h3 className="text-md md:text-lg font-bold font-encode text-secondary">
             Give Review
           </h3>
@@ -99,7 +101,11 @@ console.log(imagesFile);
         <div className="flex flex-col md:flex-row">
           <div className="flex flex-row md:flex-col w-full md:w-3/12">
             <div className="w-full">
-              <img className="object-cover" src={item.order_details[0].variant.variant_image[0].image} alt="" />
+              <img
+                className="object-cover"
+                src={item.order_details[0].variant.variant_image[0].image}
+                alt=""
+              />
             </div>
             <div className="pl-4 md:pl-0 md:mt-4">
               <h5 className="text-sm md:text-lg text-dark font-bold font-encode">
@@ -110,7 +116,10 @@ console.log(imagesFile);
                   Makeup
                 </p>
                 <p className="flex items-center text-sm md:text-md text-dark font-semibold font-encode">
-                  <Icon className="w-4 h-4 md:w-6 md:h-6 text-secondary" icon={"mdi:star"} />
+                  <Icon
+                    className="w-4 h-4 md:w-6 md:h-6 text-secondary"
+                    icon={"mdi:star"}
+                  />
                   4.5
                 </p>
               </div>
@@ -138,16 +147,31 @@ console.log(imagesFile);
                 </p>
               </div>
 
-              <p className="text-sm text-dark font-medium mt-6 mb-2">Upload Images</p>
+              <p className="text-sm text-dark font-medium mt-6 mb-2">
+                Upload Images
+              </p>
               <label className="block w-full p-4 border border-gray-300 rounded-md cursor-pointer text-center text-gray-500 hover:bg-gray-100 transition duration-200 ease-in-out">
                 Click to Upload Images
-                <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} />
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
               </label>
               {images.length > 0 && (
                 <div className="flex flex-wrap gap-3 mt-4">
                   {images.map((img, index) => (
-                    <div key={index} className="relative w-20 h-20 rounded-md overflow-hidden border shadow-md">
-                      <img src={img} alt={`Uploaded Preview ${index}`} className="w-full h-full object-cover" />
+                    <div
+                      key={index}
+                      className="relative w-20 h-20 rounded-md overflow-hidden border shadow-md"
+                    >
+                      <img
+                        src={img}
+                        alt={`Uploaded Preview ${index}`}
+                        className="w-full h-full object-cover"
+                      />
                       <button
                         onClick={() => handleImageDelete(index)}
                         className="absolute top-1 right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full shadow-lg flex items-center justify-center"
@@ -159,7 +183,9 @@ console.log(imagesFile);
                 </div>
               )}
 
-              <p className="text-sm md:text-md text-dark font-medium font-encode mt-6 mb-2">Review</p>
+              <p className="text-sm md:text-md text-dark font-medium font-encode mt-6 mb-2">
+                Review
+              </p>
               <textarea
                 type="text"
                 rows={3}
@@ -178,8 +204,12 @@ console.log(imagesFile);
               </button>
 
               <div>
-              {isError && <p className="text-red-500 mt-2">Failed to submit review.</p>}
-              {!reviewText && <p className="text-red-500 mt-2">Please write a review!</p>}
+                {isError && (
+                  <p className="text-red-500 mt-2">Failed to submit review.</p>
+                )}
+                {!reviewText && (
+                  <p className="text-red-500 mt-2">Please write a review!</p>
+                )}
               </div>
             </form>
           </div>

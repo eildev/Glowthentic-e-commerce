@@ -39,12 +39,12 @@ const DropdownFilter = () => {
       ? selectedCategories.filter((i) => i !== item)
       : [...selectedCategories, item];
     dispatch(setSelectedCategories(newSelected));
-console.log("checking category", selectedCategories);
+    // console.log("checking category", selectedCategories);
     const newFiltered = filteredCategories.includes(categoryId)
       ? filteredCategories.filter((id) => id !== categoryId)
       : [...filteredCategories, categoryId];
     dispatch(setFilteredCategories(newFiltered));
-    console.log("filterd checking", filteredCategories);
+    // console.log("filterd checking", filteredCategories);
   };
 
   const handleTagsCheckboxChange = (item, tagId) => {

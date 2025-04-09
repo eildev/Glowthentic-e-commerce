@@ -21,23 +21,32 @@ const CheckoutPage = () => {
   const [checkCoupon, { isLoading, isSuccess, isError, error }] =
     useCheckCouponMutation();
   const { user, token } = useSelector((state) => state.auth);
-  const { data, isLoading: userLoad, isError: userError } = useGetUserInfoQuery(user?.id, {
+  const {
+    data,
+    isLoading: userLoad,
+    isError: userError,
+  } = useGetUserInfoQuery(user?.id, {
     skip: !user?.id,
   });
   const [coupon_code, setCoupon_code] = useState("");
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const [discountPrice, setDiscountPrice] = useState(0);
-  const [couponData, setCouponData] = useState({})
+  const [couponData, setCouponData] = useState({});
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const [placeOrder, { isLoading: couponLoad, isSuccess: couponIsSucces, isError: couponIsError, error: couponError }] =
-    usePlaceOrderMutation();
+  const [
+    placeOrder,
+    {
+      isLoading: couponLoad,
+      isSuccess: couponIsSucces,
+      isError: couponIsError,
+      error: couponError,
+    },
+  ] = usePlaceOrderMutation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [location, setLocation] = useState(0);
 
-  console.log(location);
-
-
+  // console.log(location);
 
   useEffect(() => {
     if (cartItems) {
@@ -46,12 +55,13 @@ const CheckoutPage = () => {
         setCoupon_code(urlCoupon);
         const fetchCoupon = async () => {
           try {
-            const response = await checkCoupon({ coupon_code: urlCoupon }).unwrap();
-            console.log("API Response:", response);
+            const response = await checkCoupon({
+              coupon_code: urlCoupon,
+            }).unwrap();
+            // console.log("API Response:", response);
             const discountValue = Math.round(response?.data?.discount_value);
-            setDiscountPrice(discountValue)
-            setCouponData(response.data)
-
+            setDiscountPrice(discountValue);
+            setCouponData(response.data);
           } catch (error) {
             console.error("Error fetching coupon:", error);
           }
@@ -61,8 +71,6 @@ const CheckoutPage = () => {
     }
   }, [searchParams]);
 
-
-
   useEffect(() => {
     const total = cartItems.reduce(
       (sum, item) => sum + item.regular_price * item.quantity,
@@ -70,8 +78,6 @@ const CheckoutPage = () => {
     );
     setSubTotalPrice(total.toFixed(0));
   }, [cartItems]);
-
-
 
   const subTotal = Number(
     cartItems.reduce(
@@ -85,12 +91,10 @@ const CheckoutPage = () => {
     0
   );
 
-
-
   const baseShipping = location;
   const extraCharge = (Shipping - 1) * 20;
-  const shippingPrice = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
-
+  const shippingPrice =
+    cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
 
   // const discountPrice = 0;
 
@@ -100,13 +104,15 @@ const CheckoutPage = () => {
 
   const tax = 0;
 
-  const discountedSubTotal = subTotal - Number(
-    discountPrice
-      ? (couponData.discount_type === "fixed"
-        ? discountPrice
-        : (discountPrice * subTotal / 100))
-      : 0
-  );
+  const discountedSubTotal =
+    subTotal -
+    Number(
+      discountPrice
+        ? couponData.discount_type === "fixed"
+          ? discountPrice
+          : (discountPrice * subTotal) / 100
+        : 0
+    );
 
   // console.log(discountedSubTotal);
 
@@ -114,14 +120,7 @@ const CheckoutPage = () => {
 
   const grandTotal = Math.round(discountedSubTotal + shippingPrice + tax);
 
-
-
   // console.log(subTotal, shippingPrice, tax, grandTotal);
-
-
-
-
-
 
   const {
     register,
@@ -138,7 +137,7 @@ const CheckoutPage = () => {
   const shipToDifferentAddress = watch("shipToDifferentAddress");
 
   const onSubmit = async (data) => {
-    console.log(`${data.phone}`);
+    // console.log(`${data.phone}`);
     const orderData = {
       products: cartItems.map((item) => ({
         variant_id: item.id,
@@ -159,7 +158,7 @@ const CheckoutPage = () => {
 
     try {
       const response = await placeOrder(orderData).unwrap();
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         toast.success("Order placed successfully!");
         // console.log(response.status);
@@ -170,9 +169,9 @@ const CheckoutPage = () => {
         toast.error("Order placed Unsuccessful!");
       }
     } catch (err) {
-      console.log(err);
-      console.error("Error placing order:", err);
-      toast.error("Failed to place order.", err);
+      // console.log(err);
+      // console.error("Error placing order:", err);
+      toast.error("Failed to place order.");
     }
   };
 
@@ -181,7 +180,7 @@ const CheckoutPage = () => {
       <DynamicHelmet title="Checkout Page" />
       <Container>
         {/* Small Device */}
-        <div className="md:hidden">
+        {/* <div className="md:hidden">
           <CheckoutWizard
             register={register}
             errors={errors}
@@ -196,13 +195,15 @@ const CheckoutPage = () => {
             data={data}
             setValue={setValue}
           />
-        </div>
+        </div> */}
         {/* Large Device */}
-        <div className="container hidden md:block mx-auto px-4 py-8">
+        <div className="container  mx-auto px-4 py-8">
           <div className="container mx-auto px-4 py-8">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
-                <h4 className="text-lg font-normal mb-4">Billing Information</h4>
+                <h4 className="text-lg font-normal mb-4">
+                  Billing Information
+                </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
                   <div className="space-y-4 col-span-5 md:col-span-7 p-6 shadow rounded-lg">
                     <InputInfo
@@ -216,8 +217,6 @@ const CheckoutPage = () => {
                   </div>
                   <div className="col-span-5 md:col-span-3">
                     <div className="bg-white shadow rounded-lg">
-
-
                       <OrderSummary
                         couponData={couponData}
                         setLocation={setLocation}
@@ -235,14 +234,17 @@ const CheckoutPage = () => {
                         <button
                           type="submit"
                           className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center disabled:bg-gray-400 disabled:cursor-not-allowed"
-                          disabled={isLoading || !location} // Location না থাকলে button disable হবে
+                          disabled={isLoading || !location}
                         >
                           {isLoading ? "Loading..." : "PLACE ORDER"}
-                          <Icon icon="mdi:arrow-right" width="1.5em" height="1.5em" />
+                          <Icon
+                            icon="mdi:arrow-right"
+                            width="1.5em"
+                            height="1.5em"
+                          />
                         </button>
                         {isError && <p>Error placing order: {error.message}</p>}
                       </div>
-
                     </div>
                   </div>
                 </div>

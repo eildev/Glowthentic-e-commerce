@@ -22,7 +22,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams(); // Extracts the product ID from the URL
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
-  console.log(data?.data);
+  // console.log(data?.data);
   const navigate = useNavigate();
   const images = [
     "https://picsum.photos/200/300",
@@ -97,7 +97,7 @@ const ProductDetails = () => {
     (variant) => variant.id === selectedVariant?.id
   );
 
-  console.log("Selected Variants", selectedVariantData);
+  // console.log("Selected Variants", selectedVariantData);
 
   const handleAddToCart = () => {
     // alert("Add to cart");
@@ -129,10 +129,9 @@ const ProductDetails = () => {
   const handleCheckOut = () => {
     const newProduct = { ...selectedVariantData, quantity: 1 };
     dispatch(addToCart(newProduct));
-    
- 
-    navigate('/checkout');
-  }
+
+    navigate("/checkout");
+  };
 
   return (
     <div>
@@ -228,13 +227,15 @@ const ProductDetails = () => {
             {/* //Select price end// */}
             {/* //Button// */}
             <div className="mt-4">
-              <RegularButton isLoading={isLoading}
+              <RegularButton
+                isLoading={isLoading}
                 className="me-4 my-1 px-6 text-sm"
                 onClick={() => handleAddToCart()}
               >
                 Add To Cart
               </RegularButton>
-              <RegularButton isLoading={isLoading}
+              <RegularButton
+                isLoading={isLoading}
                 className="me-4 my-1 px-6 text-sm"
                 onClick={() => handleCheckOut()}
               >
@@ -418,10 +419,11 @@ const ProductDetails = () => {
                       {faq.question}
                     </h2>
                     <span
-                      className={`transition-transform transform rounded-full p-1 ${openIndex === index
+                      className={`transition-transform transform rounded-full p-1 ${
+                        openIndex === index
                           ? "text-[#0C0C0C] "
                           : "text-[#0C0C0C]"
-                        }`}
+                      }`}
                     >
                       {openIndex === index ? (
                         <FiMinus className="text-xl"></FiMinus>
@@ -432,8 +434,9 @@ const ProductDetails = () => {
                   </button>
 
                   <div
-                    className={`transition-max-height duration-300 ease-in-out overflow-hidden ${openIndex === index ? "max-h-screen" : "max-h-0"
-                      }`}
+                    className={`transition-max-height duration-300 ease-in-out overflow-hidden ${
+                      openIndex === index ? "max-h-screen" : "max-h-0"
+                    }`}
                   >
                     {faq.answer && (
                       <div>

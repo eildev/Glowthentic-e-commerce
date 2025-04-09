@@ -26,5 +26,8 @@ export default defineConfig({
   optimizeDeps: {
     include: ["dompurify"],
   },
+  build: {
+    sourcemap: true, // Source map generate korbe
+  },
 });
 
