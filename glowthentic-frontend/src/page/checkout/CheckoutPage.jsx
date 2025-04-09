@@ -34,8 +34,22 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
   const [location, setLocation] = useState(0);
   const [districtId, setDistrictId] = useState("");
   const [upazilaId, setUpazilaId] = useState("");
+
+
+
+  const filteredCartItems = cartItems.filter(item => {
+    if (user?.id) {
+      return item.user_id == user.id;
+    } else {
+      return item.user_id == null;
+    }
+  });
+
+
+
   useEffect(() => {
-    if (cartItems && searchParams.get("coupon")) {
+    if (filteredCartItems) {
+
       const urlCoupon = searchParams.get("coupon");
       setCoupon_code(urlCoupon);
       const fetchCoupon = async () => {
@@ -53,7 +67,7 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
   }, [searchParams, checkCoupon, cartItems]);
 
   const subTotal = Number(
-    cartItems.reduce((sum, cartItem) => {
+    filteredCartItems.reduce((sum, cartItem) => {
       const regularPrice = cartItem?.regular_price;
       const quantity = cartItem?.quantity || 1;
       const discountValue = cartItem?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
@@ -70,12 +84,27 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
     }, 0)
   );
 
-  const Shipping = cartItems.reduce((sum, cartItem) => sum + cartItem.quantity, 0);
+
+
+
+  const Shipping = filteredCartItems.reduce(
+    (sum, cartItem) => sum + cartItem.quantity,
+    0
+  );
+
   const baseShipping = location;
   const extraCharge = (Shipping - 1) * 20;
-  const shippingPrice = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
+  const shippingPrice = filteredCartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
+console.log(shippingPrice);
 
-  const tax = Math.round(subTotal * (2 / 100));
+  // const discountPrice = 0;
+
+  const tax = Math.round(
+    subTotal * (2 / 100)
+  );
+
+  // const tax = 0;
+
   const discountedSubTotal = subTotal - Number(
     discountPrice
       ? (couponData.discount_type === "fixed" ? discountPrice : (discountPrice * subTotal) / 100)
@@ -117,7 +146,7 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
 
   const onSubmit = async (formData) => {
     const orderData = {
-      products: cartItems.map((item) => {
+      products: filteredCartItems.map((item) => {
         const regularPrice = item.regular_price;
         const discountValue = item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
         const discountType = item?.product_variant_promotion?.[0]?.coupon?.discount_type;
@@ -174,7 +203,7 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
   errors={errors}
   handleSubmit={handleSubmit}
   onSubmit={onSubmit}
-  cartItems={cartItems}
+  cartItems={filteredCartItems}
   subTotal={subTotal}
   shippingCharge={shippingPrice}
   Shipping={Shipping}
@@ -218,7 +247,7 @@ const [selectedDistrict, setSelectedDistrict] = useState("");
                       couponData={couponData}
                       setLocation={setLocation}
                       location={location}
-                      carts={cartItems}
+                      carts={filteredCartItems}
                       total={grandTotal}
                       shippingCharge={shippingPrice} 
                       subTotal={subTotal}

@@ -25,6 +25,7 @@ import { useCheckCouponMutation } from "../../redux/features/api/couponApi/coupo
 const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useSelector(state => state.auth);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const { selectedItems, allSelected } = useSelector(
     (state) => state.selectCart
@@ -40,10 +41,19 @@ const CartPage = () => {
   const [checkCoupon, { isLoading, isSuccess, isError, error }] =
     useCheckCouponMutation();
   const [couponData, setCouponData] = useState({})
-  const location = useLocation(); 
-  const queryString = location.search; 
+  const location = useLocation();
+  const queryString = location.search;
   const [searchParams, setSearchParams] = useSearchParams();
 
+
+  const filteredCartItems = cartItems.filter(item => {
+    if (user?.id) {
+      return item.user_id == user.id;
+    } else {
+      return item.user_id == null;
+    }
+  });
+  
   
 
   useEffect(() => {
@@ -68,31 +78,33 @@ const CartPage = () => {
 
 
 
+
+
   useEffect(() => {
-    const total = cartItems.reduce((sum, item) => {
+    const total = filteredCartItems.reduce((sum, item) => {
       const regularPrice = item?.regular_price;
       const quantity = item?.quantity || 1;
-  
+
       const discountValue = item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
       const discountType = item?.product_variant_promotion?.[0]?.coupon?.discount_type;
-  
+
       let finalPrice = regularPrice;
-  
+
       if (discountType === "fixed") {
         finalPrice = regularPrice - discountValue;
       } else if (discountType === "percentage") {
         finalPrice = regularPrice - (regularPrice * discountValue) / 100;
       }
-  
+
       // Ensure finalPrice is not negative
       finalPrice = Math.max(finalPrice, 0);
-  
+
       return sum + finalPrice * quantity;
     }, 0);
-  
+
     setSubTotalPrice(total);
-  }, [cartItems]);
-  
+  }, [filteredCartItems]);
+
 
 
   const handleDelete = (id) => {
@@ -135,16 +147,16 @@ const CartPage = () => {
   };
 
   const handleToggleAll = () => {
-    const allItemIds = cartItems.map((item) => item.id);
+    const allItemIds = filteredCartItems.map((item) => item.id);
     dispatch(toggleAllSelection(allItemIds));
   };
 
-  const Shipping = cartItems.reduce(
+  const Shipping = filteredCartItems.reduce(
     (sum, cartItem) => sum + cartItem.quantity,
     0
   );
 
-  const shippingPrice = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
+  const shippingPrice = filteredCartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
 
 
   // let discountPrice = 0;
@@ -212,8 +224,10 @@ const CartPage = () => {
   // if (isLoading) {
   //   return <p>Loading...</p>;
   // }
-  
 
+  
+  const cartCount = filteredCartItems.length;
+  console.log(cartCount);
 
   return (
     <div className="md:py-10">
@@ -230,7 +244,7 @@ const CartPage = () => {
 
         <div
 
-          className={`lg:grid-cols-3 gap-4 ${cartItems.length === 0 ? "hidden" : "grid"
+          className={`lg:grid-cols-3 gap-4 ${cartCount.length == 0 ? "hidden" : "grid"
             }`}
 
         >
@@ -266,13 +280,22 @@ const CartPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {cartItems.map((item, index) => (
+                  {cartItems
+                    .filter(item => {
+                      if (user?.id) {
+                        return item.user_id == user.id; // user login thakle
+                      } else {
+                        return item.user_id == null; // user login na thakle
+                      }
+                    })
+                    .map((item, index) => (
                       <CartItem
                         key={index}
                         item={item}
                         handleDelete={handleDelete}
                       />
                     ))}
+
                   </tbody>
                 </table>
               </div>
@@ -280,13 +303,22 @@ const CartPage = () => {
               {/* For small device */}
               <table className="table border-t border-[#D7D7D7] block md:hidden">
                 <tbody>
-                  {cartItems.map((item, index) => (
-                    <CartItemForSmallDevice
-                      key={index}
-                      item={item}
-                      handleDelete={handleDelete}
-                    />
-                  ))}
+                  {cartItems
+                    .filter(item => {
+                      if (user?.id) {
+                        return item.user_id == user.id; // user login thakle
+                      } else {
+                        return item.user_id == null; // user login na thakle
+                      }
+                    })
+                    .map((item, index) => (
+                      <CartItemForSmallDevice
+                        key={index}
+                        item={item}
+                        handleDelete={handleDelete}
+                      />
+                    ))}
+
                 </tbody>
               </table>
             </div>
@@ -338,12 +370,12 @@ const CartPage = () => {
                     </li>
                   </ul> */}
                   {
-                   isLoading ? <p className="text-[11px] my-1">Loading...</p> : ( couponData?.discount_value && <ul className="flex justify-between text-[11px] text-green-600">
-                    <li className="text-[11px]">Discount ({couponData ? (couponData?.cupon_code) : ""})</li>
-                    <li className="text-[11px] font-bold">
-                      {discountPrice ? discountPrice : 0} <span>{discountPrice ? (couponData?.discount_type == "fixed" ? "৳" : "%") : "৳"}</span>
-                    </li>
-                  </ul>)
+                    isLoading ? <p className="text-[11px] my-1">Loading...</p> : (couponData?.discount_value && <ul className="flex justify-between text-[11px] text-green-600">
+                      <li className="text-[11px]">Discount ({couponData ? (couponData?.cupon_code) : ""})</li>
+                      <li className="text-[11px] font-bold">
+                        {discountPrice ? discountPrice : 0} <span>{discountPrice ? (couponData?.discount_type == "fixed" ? "৳" : "%") : "৳"}</span>
+                      </li>
+                    </ul>)
 
                   }
                   {/* <ul className="flex justify-between text-[11px] text-[#5F6C72]">
@@ -375,7 +407,7 @@ const CartPage = () => {
           </div>
         </div>
         <div
-          className={`${cartItems.length === 0
+          className={`${cartCount.length === 0
             ? "block text-center text-lg font-semibold"
             : "hidden"
             }`}

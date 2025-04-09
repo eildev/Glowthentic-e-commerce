@@ -15,7 +15,7 @@ const Signout = () => {
       try {
         await logoutUser().unwrap(); // API কল করে লগআউট
         dispatch(logout()); // Redux স্টেট ক্লিয়ার
-        navigate("/login"); // লগআউটের পর লগইন পেজে রিডাইরেক্ট
+        navigate("/login"); 
       } catch (err) {
         console.error("Logout failed:", err);
       }
