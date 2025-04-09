@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputInfo from "../checkout/InputInfo";
 import PaymentOption from "../checkout/PaymentOption";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -21,13 +21,33 @@ const CheckoutWizard = ({
   data,
   setValue,
   setSelectedDistrict,
+  setSelectedUpazila,
   districtId,
   setDistrictId,
   upazilaId,
   setUpazilaId,
-  setSelectedUpazila,
+  setShippingCharge // Add shipping charge setter
 }) => {
   const [activeStep, setActiveStep] = useState(0);
+
+  // Shipping calculation effect
+  useEffect(() => {
+    // This calculates shipping for the review step
+    if (activeStep === 2) {
+      const baseShipping = districtId && 
+                           districtsData.districts.find(d => d.id === districtId)?.name?.toLowerCase() === "dhaka" &&
+                           upazilaId && 
+                           districtsData.districts.find(d => d.id === districtId)?.upazilas.find(u => u.id === upazilaId)?.name?.toLowerCase() === "dhaka sadar" 
+                           ? 80 : 120;
+      
+      const extraCharge = (Shipping - 1) * 20;
+      const totalShippingCharge = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
+      
+      if (setShippingCharge) {
+        setShippingCharge(totalShippingCharge);
+      }
+    }
+  }, [activeStep, districtId, upazilaId, Shipping, cartItems.length, setShippingCharge]);
 
   const validateStep = async (step) => {
     if (step === 0) {
@@ -46,8 +66,6 @@ const CheckoutWizard = ({
     }
   };
 
-
-
   const handlePrev = () => {
     if (activeStep > 0) {
       setActiveStep(activeStep - 1);
@@ -58,30 +76,30 @@ const CheckoutWizard = ({
     handleSubmit(onSubmit)();
   };
 
-
   const steps = [
     { title: "Shipping", icon: "mingcute:box-3-fill" },
     { title: "Payment", icon: "mdi:credit-card-check" },
     { title: "Review", icon: "majesticons:clipboard-check-line" },
   ];
+  
   const renderStepContent = () => {
     console.log("Current form state:", watch());
     switch (activeStep) {
       case 0:
         return (
           <InputInfo
-          register={register}
-          errors={errors}
-          data={data}
-          setValue={setValue}
-          setSelectedDistrict={setSelectedDistrict}
-          watch={watch}
-          districtId={districtId}
-          setDistrictId={setDistrictId}
-          upazilaId={upazilaId}
-          setUpazilaId={setUpazilaId}
-          setSelectedUpazila={setSelectedUpazila}
-        />
+            register={register}
+            errors={errors}
+            data={data}
+            setValue={setValue}
+            setSelectedDistrict={setSelectedDistrict}
+            setSelectedUpazila={setSelectedUpazila}
+            watch={watch}
+            districtId={districtId}
+            setDistrictId={setDistrictId}
+            upazilaId={upazilaId}
+            setUpazilaId={setUpazilaId}
+          />
         );
       case 1:
         return <PaymentOption register={register} errors={errors} />;
@@ -115,11 +133,11 @@ const CheckoutWizard = ({
                 </div>
                 <div className="flex justify-between text-sm text-gray font-normal">
                   <span>District:</span>
-                  <span>{watch("district") || "N/A"}</span>
+                  <span>{districtsData.districts.find(d => d.id === districtId)?.name || "N/A"}</span>
                 </div>
                 <div className="flex justify-between text-sm text-gray font-normal">
                   <span>Upazila:</span>
-                  <span>{watch("upazila") || "N/A"}</span>
+                  <span>{districtsData.districts.find(d => d.id === districtId)?.upazilas.find(u => u.id === upazilaId)?.name || "N/A"}</span>
                 </div>
                 <div className="flex justify-between text-sm text-gray font-normal">
                   <span>Address:</span>
@@ -132,7 +150,7 @@ const CheckoutWizard = ({
             <ItemDetails
               carts={cartItems}
               subTotal={subTotal}
-              shippingCharge={shippingCharge}
+              shipingCharge={shippingCharge}
               Shipping={Shipping}
             />
           </>

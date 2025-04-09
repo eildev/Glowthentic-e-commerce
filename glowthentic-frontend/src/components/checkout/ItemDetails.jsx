@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const ItemDetails = ({ carts, total, shippingCharge, Shipping, subTotal, tax, discountPrice,couponData, isLoading}) => {
+const ItemDetails = ({ carts, total, shippingCharge, Shipping, subTotal, tax, discountPrice,couponData, isLoading, location}) => {
 
   
 // const [isReady, setIsReady] =useState(false)
@@ -17,7 +17,7 @@ const ItemDetails = ({ carts, total, shippingCharge, Shipping, subTotal, tax, di
 
 
 const value = couponData?.discount_type == "fixed" ? "৳" : "%"
-
+console.log("sdf", shippingCharge);
 
   return (
     <div className="space-y-4">
@@ -27,7 +27,7 @@ const value = couponData?.discount_type == "fixed" ? "৳" : "%"
       </div>
       <div className="flex justify-between ">
         <span className="text-sm text-gray font-normal">Shipping</span>
-        <span className="text-sm font-medium">{shippingCharge} ৳</span>
+        <span className="text-sm font-medium">{location} ৳</span>
       </div>
       {
         isLoading ? <p className="text-sm text-gray">Loading...</p> : <div className={`flex justify-between ${discountPrice ? "text-green-600" : "text-gray"}`}>

@@ -26,8 +26,8 @@ const CheckoutPage = () => {
   const [coupon_code, setCoupon_code] = useState("");
   const [discountPrice, setDiscountPrice] = useState(0);
   const [couponData, setCouponData] = useState({});
-const [selectedDistrict, setSelectedDistrict] = useState("");
-const [selectedUpazila, setSelectedUpazila] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedUpazila, setSelectedUpazila] = useState("");
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [placeOrder, { isLoading: orderLoading, isSuccess: orderSuccess }] = usePlaceOrderMutation();
@@ -35,8 +35,7 @@ const [selectedUpazila, setSelectedUpazila] = useState("");
   const [location, setLocation] = useState(0);
   const [districtId, setDistrictId] = useState("");
   const [upazilaId, setUpazilaId] = useState("");
-
-
+  const [shippingCharge, setShippingCharge] = useState(0); // Add state for shipping charge
 
   const filteredCartItems = cartItems.filter(item => {
     if (user?.id) {
@@ -46,11 +45,8 @@ const [selectedUpazila, setSelectedUpazila] = useState("");
     }
   });
 
-
-
   useEffect(() => {
     if (filteredCartItems) {
-
       const urlCoupon = searchParams.get("coupon");
       setCoupon_code(urlCoupon);
       const fetchCoupon = async () => {
@@ -85,33 +81,28 @@ const [selectedUpazila, setSelectedUpazila] = useState("");
     }, 0)
   );
 
-
-
-
   const Shipping = filteredCartItems.reduce(
     (sum, cartItem) => sum + cartItem.quantity,
     0
   );
 
-  const baseShipping = location;
-  const extraCharge = (Shipping - 1) * 20;
-  const shippingPrice = filteredCartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
-console.log(shippingPrice);
-
-  // const discountPrice = 0;
+  // Calculate shipping charge is now handled in OrderSummary and passed back via setShippingCharge
 
   const tax = Math.round(
     subTotal * (2 / 100)
   );
 
-  // const tax = 0;
-
-  const discountedSubTotal = subTotal - Number(
+  // Calculate discount amount based on type
+  const discountAmount = Number(
     discountPrice
       ? (couponData.discount_type === "fixed" ? discountPrice : (discountPrice * subTotal) / 100)
       : 0
   );
-  const grandTotal = Math.round(discountedSubTotal + shippingPrice + tax);
+
+  const discountedSubTotal = subTotal - discountAmount;
+  
+  // Use the state-managed shipping charge for total calculation
+  const grandTotal = Math.round(discountedSubTotal + shippingCharge + tax);
 
   const {
     register,
@@ -171,7 +162,7 @@ console.log(shippingPrice);
       combo: [],
       payment_method: formData.paymentMethod,
       shipping_method: "In-House",
-      shipping_charge: shippingPrice,
+      shipping_charge: shippingCharge, // Use the updated shipping charge
       phone_number: `${formData.phone}`,
       coupon_code: coupon_code,
       order_note: formData.orderNotes,
@@ -199,25 +190,26 @@ console.log(shippingPrice);
       <Container>
         {/* Small Device */}
         <div className="md:hidden">
-        <CheckoutWizard
+          <CheckoutWizard
             register={register}
             errors={errors}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
             cartItems={filteredCartItems}
             subTotal={subTotal}
-            shippingCharge={shippingPrice}
+            shippingCharge={shippingCharge}
             Shipping={Shipping}
             trigger={trigger}
             watch={watch}
             data={data}
             setValue={setValue}
             setSelectedDistrict={setSelectedDistrict}
-            setSelectedUpazila={setSelectedUpazila} // Pass the new setter
+            setSelectedUpazila={setSelectedUpazila}
             districtId={districtId}
             setDistrictId={setDistrictId}
             upazilaId={upazilaId}
             setUpazilaId={setUpazilaId}
+            setShippingCharge={setShippingCharge} // Pass setter
           />
         </div>
         {/* Large Device */}
@@ -227,19 +219,19 @@ console.log(shippingPrice);
               <h4 className="text-lg font-normal mb-4">Billing Information</h4>
               <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
                 <div className="space-y-4 col-span-5 md:col-span-7 p-6 shadow rounded-lg">
-                <InputInfo
-  register={register}
-  errors={errors}
-  data={data}
-  setValue={setValue}
-  setSelectedDistrict={setSelectedDistrict}
-  watch={watch}
-  setSelectedUpazila={setSelectedUpazila}
-  districtId={districtId}
-  setDistrictId={setDistrictId}
-  upazilaId={upazilaId}
-  setUpazilaId={setUpazilaId}
-/>
+                  <InputInfo
+                    register={register}
+                    errors={errors}
+                    data={data}
+                    setValue={setValue}
+                    setSelectedDistrict={setSelectedDistrict}
+                    setSelectedUpazila={setSelectedUpazila}
+                    watch={watch}
+                    districtId={districtId}
+                    setDistrictId={setDistrictId}
+                    upazilaId={upazilaId}
+                    setUpazilaId={setUpazilaId}
+                  />
                   <PaymentOption register={register} errors={errors} />
                 </div>
                 <div className="col-span-5 md:col-span-3">
@@ -250,7 +242,8 @@ console.log(shippingPrice);
                       location={location}
                       carts={filteredCartItems}
                       total={grandTotal}
-                      shippingCharge={shippingPrice} 
+                      setShipingCharge={setShippingCharge} // Pass setter instead of value
+                      Shipping={Shipping}
                       subTotal={subTotal}
                       tax={tax}
                       discountPrice={discountPrice}
