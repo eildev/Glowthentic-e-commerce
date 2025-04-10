@@ -171,7 +171,7 @@ const CheckoutPage = () => {
 
     try {
       const response = await placeOrder(orderData).unwrap();
-      console.log('Order response:', response); /
+      console.log('Order response:', response); 
       
    
       if (response?.status === 200 || response?.success) {
