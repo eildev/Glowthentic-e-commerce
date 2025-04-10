@@ -2,6 +2,7 @@
 import { Icon } from "@iconify/react";
 import loginImage from "../../assets/img/login/Left Content.gif";
 import smallimage from "../../assets/img/login/small-logo.gif";
+import { Link } from "react-router-dom";
 
 const DynamicForm = ({ title, handleForm, children = " " }) => {
   const handleSubmit = (e) => {
@@ -24,13 +25,13 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
         {/* Left Section */}
         <div className="w-full md:w-1/2 text-white flex flex-col justify-center items-center">
           {/* Image for Small Devices */}
-          <div className="md:hidden w-full h-44">
+          <Link to="/" className="md:hidden w-full h-44">
             <img src={smallimage} alt="Small Device Image" className="w-full" />
-          </div>
+          </Link>
           {/* Image for Medium and Larger Devices */}
-          <div className="hidden md:flex mt-auto w-full h-full">
+          <Link to="/" className="hidden md:flex mt-auto w-full h-full">
             <img src={loginImage} alt="Login Image" />
-          </div>
+          </Link>
         </div>
         {/* Right Section */}
         <div className="w-full md:w-1/2 bg-white flex flex-col justify-center items-center px-6 md:px-12 rounded-t-[30px]">
@@ -38,8 +39,8 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
           <form onSubmit={handleSubmit} className="w-full max-w-sm">
             {children}
           </form>
-          {/* <div className="my-6 text-gray-500 text-center">or</div> */}
-          {/* <div className="flex gap-4 md:flex-row">
+          {/* <div className="my-6 text-gray-500 text-center">or</div>
+          <div className="flex gap-4 md:flex-row">
             <button className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded">
               <Icon
                 icon="flat-color-icons:google"
@@ -62,13 +63,13 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
           </div> */}
           <p className="text-xs text-gray-400 mt-6 text-center">
             Protected by reCAPTCHA and subject to the Rhombus{" "}
-            <a href="#" className="text-secondary">
+            <Link to="/" className="text-secondary">
               Privacy Policy
-            </a>{" "}
+            </Link>{" "}
             and{" "}
-            <a href="#" className="text-secondary">
+            <Link to="/" className="text-secondary">
               Terms of Service
-            </a>
+            </Link>
             .
           </p>
         </div>

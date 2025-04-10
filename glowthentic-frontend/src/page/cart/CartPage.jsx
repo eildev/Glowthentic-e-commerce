@@ -87,9 +87,9 @@ const CartPage = () => {
       const quantity = item?.quantity || 1;
 
       const discountValue =
-        item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
+        item?.product_variant_promotion?.coupon?.discount_value || 0;
       const discountType =
-        item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+        item?.product_variant_promotion?.coupon?.discount_type;
 
       let finalPrice = regularPrice;
 
@@ -213,7 +213,7 @@ const CartPage = () => {
   // }
 
   const cartCount = filteredCartItems.length;
-  console.log(cartCount);
+  // console.log(cartCount);
 
   return (
     <div className="md:py-10">
@@ -338,7 +338,7 @@ const CartPage = () => {
             </div>
             <button
               onClick={() => setVoucher(!voucher)}
-              className={`text-sm text-[#FA8232] hover:text-[#c4723c] transition-all duration-100 underline text-left pl-2 ${
+              className={`text-sm text-[#FA8232] hover:text-[#c4723c] transition-all duration-100 underline text-left pl-2 hidden lg:block ${
                 !voucher ? "" : "hidden"
               }`}
             >

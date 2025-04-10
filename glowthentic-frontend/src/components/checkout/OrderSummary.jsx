@@ -6,6 +6,7 @@ const OrderSummary = ({
   carts,
   total,
   shipingCharge,
+  setShipingCharge,
   setLocation,
   Shipping,
   subTotal,
@@ -13,23 +14,43 @@ const OrderSummary = ({
   discountPrice,
   couponData,
   isLoading,
-  selectedDistrict, // New prop
+  selectedDistrict,
   location,
+  selectedUpazila, // Add new prop for upazila
 }) => {
   const checkColor = {
     "--chkfg": "#fff",
   };
 
-  // Auto-select shipping based on district
+  // Auto-select shipping based on district and upazila
   useEffect(() => {
     if (selectedDistrict) {
-      if (selectedDistrict.toLowerCase() === "dhaka") {
+      // Check if district is Dhaka AND upazila is Dhaka Sadar
+      if (
+        selectedDistrict.toLowerCase() === "dhaka" && 
+        selectedUpazila && 
+        selectedUpazila.toLowerCase() === "dhaka sadar"
+      ) {
         setLocation(80); // Inside Dhaka
       } else {
         setLocation(120); // Outside Dhaka
       }
     }
-  }, [selectedDistrict, setLocation]);
+  }, [selectedDistrict, selectedUpazila, setLocation]);
+
+    // Calculate shipping charge based on location and quantity
+    useEffect(() => {
+      if (location) {
+        const baseShipping = location; // 80 or 120 based on location
+        const extraCharge = (Shipping - 1) * 20; // Extra charge for additional items
+        const totalShippingCharge = carts.length <= 1 ? baseShipping : baseShipping + extraCharge;
+        
+        // Update the shipping charge in parent component
+        if (setShipingCharge) {
+          setShipingCharge(totalShippingCharge);
+        }
+      }
+    }, [location, Shipping, carts.length, setShipingCharge]);
 
   return (
     <div className="p-6 text-left rounded-lg">
@@ -81,6 +102,7 @@ const OrderSummary = ({
         tax={tax}
         discountPrice={discountPrice}
         couponData={couponData}
+        location={location}
       />
     </div>
   );

@@ -10,18 +10,13 @@ const ItemDetails = ({
   discountPrice,
   couponData,
   isLoading,
+  location,
 }) => {
-  // const numericTotal = Number(total) || 0;
-
-  // const subTotal = carts.reduce((sum, cartItem) => {
-  //   return sum + (cartItem.regular_price * cartItem.quantity);
-  // }, 0);
-  // const Shipping = carts.reduce((sum, cartItem) => {
-  //   return sum + cartItem.quantity;
-  // }, 0);
-  // const shippingCharge = carts.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
-
-  const value = couponData?.discount_type == "fixed" ? "৳" : "%";
+  // Use the passed location value for shipping display
+  const displayShipping = location || 0;
+  // console.log('total', total);
+  // Show correct discount indicator (fixed or percentage)
+  const value = couponData?.discount_type === "fixed" ? "৳" : "%";
 
   return (
     <div className="space-y-4">
@@ -29,9 +24,9 @@ const ItemDetails = ({
         <span className="text-sm text-gray font-normal">Sub-total</span>
         <span className="text-sm font-medium">{subTotal} ৳</span>
       </div>
-      <div className="flex justify-between ">
+      <div className="flex justify-between">
         <span className="text-sm text-gray font-normal">Shipping</span>
-        <span className="text-sm font-medium">{shippingCharge} ৳</span>
+        <span className="text-sm font-medium">{displayShipping} ৳</span>
       </div>
       {isLoading ? (
         <p className="text-sm text-gray">Loading...</p>
@@ -42,7 +37,7 @@ const ItemDetails = ({
           }`}
         >
           <span className="text-sm font-normal">
-            Discount ({couponData ? couponData.cupon_code : ""})
+            Discount {couponData ? `(${couponData.cupon_code})` : ""}
           </span>
           <span className="text-sm font-medium">
             {discountPrice ? discountPrice : 0}{" "}

@@ -6,7 +6,7 @@ import Container from "../../components/Container";
 const Page404 = () => {
   return (
     <div className="min-h-screen w-full">
-      <DynamicHelmet title="404 Not Fount" />
+      <DynamicHelmet title="404 Not Found" />
       <Link to="/">
         <img className="w-full h-full object-contain" src={image} alt="" />
       </Link>

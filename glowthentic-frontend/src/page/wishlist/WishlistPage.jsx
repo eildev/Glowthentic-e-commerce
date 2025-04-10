@@ -13,6 +13,7 @@ import {
   useDeleteWishlistItemMutation,
   useGetWishlistByUserIdQuery,
 } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
+import { imagePath } from "../../utils/imagePath";
 
 const WishlistPage = () => {
   const { token, user } = useSelector((state) => state.auth);
@@ -25,7 +26,7 @@ const WishlistPage = () => {
   } = useGetWishlistByUserIdQuery(user?.id, {
     skip: !user?.id,
   });
-console.log(wishlist);
+  // console.log(wishlist);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [isInCart, setIsInCart] = useState([]);
@@ -116,7 +117,9 @@ console.log(wishlist);
                             <div className="avatar">
                               <div className="mask mask-squircle h-12 w-12">
                                 <img
-                                  src={item?.variant.variant_image[0].image}
+                                  src={imagePath(
+                                    item?.variant.variant_image[0].image
+                                  )}
                                   alt="Avatar Tailwind CSS Component"
                                 />
                               </div>
@@ -171,7 +174,9 @@ console.log(wishlist);
                             <div className="avatar">
                               <div className="rounded-xl h-[120px] w-[120px]">
                                 <img
-                                  src={item?.variant.variant_image[0].image}
+                                  src={imagePath(
+                                    item?.variant.variant_image[0].image
+                                  )}
                                   alt="Avatar Tailwind CSS Component"
                                 />
                               </div>

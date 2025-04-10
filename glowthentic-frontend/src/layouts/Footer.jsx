@@ -46,10 +46,6 @@ const Footer = () => {
               <Link to="/about" className="link link-hover">
                 About Us
               </Link>
-
-              <Link to="#" className="link link-hover">
-                Our Brand
-              </Link>
               <Link to="#" className="link link-hover">
                 Blog
               </Link>
@@ -61,15 +57,21 @@ const Footer = () => {
               </Link>
             </nav>
             <nav>
-              <CardTitle>Products</CardTitle>
+              <CardTitle>Our Brands</CardTitle>
               <Link to="#" className="link link-hover">
-                Women Make up
+                Miyora
               </Link>
               <Link to="#" className="link link-hover">
-                Women Skincare
+                Floraya
               </Link>
               <Link to="#" className="link link-hover">
-                Gifts & Sets
+                Khas
+              </Link>
+              <Link to="#" className="link link-hover">
+                Eves
+              </Link>
+              <Link to="#" className="link link-hover">
+                Boots
               </Link>
             </nav>
             <form className="lg:col-span-2" onSubmit={handleSubscribe}>
@@ -136,18 +138,20 @@ const Footer = () => {
                 </p>
               </div>
               <span className="hidden lg:block text-xl">|</span>
-                <div className="flex justify-between gap-1 cursor-pointer hover:underline">
-                  <Icon icon="mdi-light:phone" width="24" height="24" />
-                  <p>+880 1715-443884</p>
-                </div>
-
+              <div className="flex justify-between gap-1 cursor-pointer hover:underline">
+                <Icon icon="mdi-light:phone" width="24" height="24" />
+                <p>+880 1715-443884</p>
+              </div>
             </aside>
             <div className="hidden lg:block"></div>
             <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
               <Link target="_blank" to="https://www.facebook.com/glowthentics">
                 <Icon icon="ri:facebook-fill" width="24" height="24" />
               </Link>
-              <Link target="_blank" to="https://www.instagram.com/glowthenticbd">
+              <Link
+                target="_blank"
+                to="https://www.instagram.com/glowthenticbd"
+              >
                 <Icon icon="mdi:instagram" width="24" height="24" />
               </Link>
               <Link target="_blank" to="https://wa.me/8801715443884">

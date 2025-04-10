@@ -9,16 +9,15 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
     <div
       className={`bg-white w-full text-black absolute top-[100%] left-0 z-20 shadow-lg 
       transition-all duration-300 ease-in-out transform 
-      ${
-        showMegaMenu
+      ${showMegaMenu
           ? "opacity-100 visible translate-y-0"
           : "opacity-0 invisible -translate-y-5"
-      }`}
+        }`}
     >
       <Container>
         <div className="grid grid-cols-5 gap-5 py-10">
           <div>
-            <ul className="font-semibold text-lg grid gap-2">
+            <ul className="font-semibold text-sm xxl:text-lg grid gap-2">
               {product_feature.slice(0, 10).map((feature) => (
                 <li
                   key={feature?.slug}
@@ -37,8 +36,8 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-2">By Subcategory</h2>
-            <ul className="grid gap-2">
+            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">By Subcategory</h2>
+            <ul className="grid gap-2 text-sm xxl:text-lg">
               {subcategories.slice(0, 10).map((subcategory) => (
                 <li
                   className="font-normal hover:text-secondary"
@@ -56,8 +55,8 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-2">By Brands</h2>
-            <ul className="grid gap-2">
+            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">By Brands</h2>
+            <ul className="grid gap-2 text-sm xxl:text-lg">
               {brands.slice(0, 10).map((brand) => (
                 <li
                   className="font-normal hover:text-secondary"
@@ -75,8 +74,8 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-2">By Skin Condition</h2>
-            <ul className="grid gap-2">
+            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">By Skin Condition</h2>
+            <ul className="grid gap-2 text-sm xxl:text-lg">
               {tags.slice(0, 10).map((tag) => (
                 <li className="font-normal hover:text-secondary" key={tag.id}>
                   <Link
@@ -90,7 +89,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
               ))}
             </ul>
           </div>
-          <div className="grid">
+          <div>
             <img src={image} alt="navbar Image" />
             <h4 className="font-semibold capitalize text-sm my-2">
               capture totale super potent rich cream

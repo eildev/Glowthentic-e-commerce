@@ -27,6 +27,7 @@ const CheckoutPage = () => {
   const [discountPrice, setDiscountPrice] = useState(0);
   const [couponData, setCouponData] = useState({});
   const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedUpazila, setSelectedUpazila] = useState("");
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [placeOrder, { isLoading: orderLoading, isSuccess: orderSuccess }] =
@@ -35,6 +36,7 @@ const CheckoutPage = () => {
   const [location, setLocation] = useState(0);
   const [districtId, setDistrictId] = useState("");
   const [upazilaId, setUpazilaId] = useState("");
+  const [shippingCharge, setShippingCharge] = useState(0); // Add state for shipping charge
 
   const filteredCartItems = cartItems.filter((item) => {
     if (user?.id) {
@@ -69,9 +71,9 @@ const CheckoutPage = () => {
       const regularPrice = cartItem?.regular_price;
       const quantity = cartItem?.quantity || 1;
       const discountValue =
-        cartItem?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
+        cartItem?.product_variant_promotion?.coupon?.discount_value || 0;
       const discountType =
-        cartItem?.product_variant_promotion?.[0]?.coupon?.discount_type;
+        cartItem?.product_variant_promotion?.coupon?.discount_type;
 
       let finalPrice = regularPrice;
       if (discountType === "fixed") {
@@ -89,28 +91,25 @@ const CheckoutPage = () => {
     0
   );
 
-  const baseShipping = location;
-  const extraCharge = (Shipping - 1) * 20;
-  const shippingPrice =
-    filteredCartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
-  // console.log(shippingPrice);
+  // Calculate shipping charge is now handled in OrderSummary and passed back via setShippingCharge
 
-  // const discountPrice = 0;
+  // const tax = Math.round(subTotal * (2 / 100));
+  const tax = 0;
 
-  const tax = Math.round(subTotal * (2 / 100));
+  // Calculate discount amount based on type
+  const discountAmount = Number(
+    discountPrice
+      ? couponData.discount_type === "fixed"
+        ? discountPrice
+        : (discountPrice * subTotal) / 100
+      : 0
+  );
 
-  // const tax = 0;
+  const discountedSubTotal = subTotal - discountAmount;
 
-  const discountedSubTotal =
-    subTotal -
-    Number(
-      discountPrice
-        ? couponData.discount_type === "fixed"
-          ? discountPrice
-          : (discountPrice * subTotal) / 100
-        : 0
-    );
-  const grandTotal = Math.round(discountedSubTotal + shippingPrice + tax);
+  // Use the state-managed shipping charge for total calculation
+  const grandTotal = Math.round(discountedSubTotal + shippingCharge + tax);
+  console.log("grand", grandTotal);
 
   const {
     register,
@@ -149,9 +148,9 @@ const CheckoutPage = () => {
       products: filteredCartItems.map((item) => {
         const regularPrice = item.regular_price;
         const discountValue =
-          item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
+          item?.product_variant_promotion?.coupon?.discount_value || 0;
         const discountType =
-          item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+          item?.product_variant_promotion?.coupon?.discount_type;
 
         let finalPrice = regularPrice;
         if (discountType === "fixed") {
@@ -174,7 +173,7 @@ const CheckoutPage = () => {
       combo: [],
       payment_method: formData.paymentMethod,
       shipping_method: "In-House",
-      shipping_charge: shippingPrice,
+      shipping_charge: shippingCharge, // Use the updated shipping charge
       phone_number: `${formData.phone}`,
       coupon_code: coupon_code,
       order_note: formData.orderNotes,
@@ -209,17 +208,20 @@ const CheckoutPage = () => {
             onSubmit={onSubmit}
             cartItems={filteredCartItems}
             subTotal={subTotal}
-            shippingCharge={shippingPrice}
+            total={grandTotal}
+            shippingCharge={shippingCharge}
             Shipping={Shipping}
             trigger={trigger}
             watch={watch}
             data={data}
             setValue={setValue}
             setSelectedDistrict={setSelectedDistrict}
+            setSelectedUpazila={setSelectedUpazila}
             districtId={districtId}
             setDistrictId={setDistrictId}
             upazilaId={upazilaId}
             setUpazilaId={setUpazilaId}
+            setShippingCharge={setShippingCharge} // Pass setter
           />
         </div>
         {/* Large Device */}
@@ -235,6 +237,7 @@ const CheckoutPage = () => {
                     data={data}
                     setValue={setValue}
                     setSelectedDistrict={setSelectedDistrict}
+                    setSelectedUpazila={setSelectedUpazila}
                     watch={watch}
                     districtId={districtId}
                     setDistrictId={setDistrictId}
@@ -251,11 +254,13 @@ const CheckoutPage = () => {
                       location={location}
                       carts={filteredCartItems}
                       total={grandTotal}
-                      shippingCharge={shippingPrice}
+                      setShipingCharge={setShippingCharge} // Pass setter instead of value
+                      Shipping={Shipping}
                       subTotal={subTotal}
                       tax={tax}
                       discountPrice={discountPrice}
                       selectedDistrict={selectedDistrict}
+                      selectedUpazila={selectedUpazila}
                     />
                     <div className="px-6 py-3">
                       <button

@@ -9,6 +9,7 @@ import bannerImg5 from "../../assets/img/banner/banner-5.jpg";
 import { useGetOfferBannerQuery } from "../../redux/features/api/offerBanner/offerBanner";
 import { Link } from "react-router-dom";
 import cn from "../../utils/cn";
+import { imagePath } from "../../utils/imagePath";
 
 const bannerImages = [
   bannerImg1,
@@ -32,31 +33,28 @@ const sliderSettings = {
 const BannerCollection = () => {
   const { data, isLoading, error } = useGetOfferBannerQuery();
   if (isLoading) {
-    return <div className="my-10">
-      <div className="lg:flex hidden gap-9 max-h-[543px] ">
-        <div
-          className={`card w-[765px] bg-light rounded-t-lg rounded-b-lg transition-all duration-300 ease-in-out animate-pulse`}
-        >
-
-          <figure className="relative overflow-hidden">
-            <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
-          </figure>
+    return (
+      <div className="my-10">
+        <div className="lg:flex hidden gap-9 max-h-[543px] ">
+          <div
+            className={`card w-[765px] bg-light rounded-t-lg rounded-b-lg transition-all duration-300 ease-in-out animate-pulse`}
+          >
+            <figure className="relative overflow-hidden">
+              <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
+            </figure>
+          </div>
+          <div
+            className={`card w-[420px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse`}
+          >
+            <figure className="relative overflow-hidden">
+              <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
+            </figure>
+          </div>
         </div>
-        <div
-          className={`card w-[420px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse`}
-        >
-
-          <figure className="relative overflow-hidden">
-            <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
-          </figure>
-        </div>
-
-      </div>
         <div className="lg:flex hidden justify-between max-h-[277px] mt-8 gap-9">
           <div
             className={`card w-[676px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse`}
           >
-
             <figure className="relative overflow-hidden">
               <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
             </figure>
@@ -64,7 +62,6 @@ const BannerCollection = () => {
           <div
             className={`card w-[238px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse`}
           >
-
             <figure className="relative overflow-hidden">
               <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
             </figure>
@@ -72,21 +69,20 @@ const BannerCollection = () => {
           <div
             className={`card w-[238px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse`}
           >
-
             <figure className="relative overflow-hidden">
               <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
             </figure>
           </div>
         </div>
         <div
-            className={`card lg:hidden w-full h-[200px] md:max-h-[500px] md:min-h-[500px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse border`}
-          >
-
-            <figure className="relative overflow-hidden">
-              <div className="skeleton h-[200px] md:max-h-[500px] md:min-h-[500px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
-            </figure>
-          </div>
-    </div>;
+          className={`card lg:hidden w-full h-[200px] md:max-h-[500px] md:min-h-[500px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse border`}
+        >
+          <figure className="relative overflow-hidden">
+            <div className="skeleton h-[200px] md:max-h-[500px] md:min-h-[500px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
+          </figure>
+        </div>
+      </div>
+    );
   }
   if (error) {
     return <span>Error</span>;
@@ -115,7 +111,8 @@ const BannerCollection = () => {
           {cart1.images?.map((image, index) => (
             <div key={index} className="relative w-full">
               <img
-                src={`${baseURL + image?.image}`}
+                // src={`${baseURL + image?.image}`}
+                src={imagePath(image?.image)}
                 alt={`Banner ${index + 1}`}
                 className="w-full h-[200px] md:h-[400px] object-cover"
               />
@@ -146,7 +143,8 @@ const BannerCollection = () => {
               {cart1?.images?.map((image, index) => (
                 <div key={index} className="relative w-full">
                   <img
-                    src={`${baseURL + image?.image}`}
+                    // src={`${baseURL + image?.image}`}
+                    src={imagePath(image?.image)}
                     alt={`Banner ${index + 1}`}
                     className="w-full h-[543px] object-cover"
                   />
@@ -171,7 +169,8 @@ const BannerCollection = () => {
           {/* Right: Beauty & Care Section */}
           <div className="relative bg-[#0F1228] p-8 rounded-lg flex flex-col justify-between items-center w-[420px] h-[543px]">
             <img
-              src={`${baseURL + cart2.image}`}
+              // src={`${baseURL + cart2.image}`}
+              src={imagePath(cart2.image)}
               alt="Beauty & Care"
               className="absolute inset-0 w-full h-full object-cover opacity-60 rounded-lg"
             />
@@ -188,7 +187,8 @@ const BannerCollection = () => {
         <div className="flex gap-8">
           <div className="relative bg-[#0F1228] text-white p-4 rounded-lg w-[676px] h-[277px] flex flex-col justify-center items-start">
             <img
-              src={`${baseURL + cart3.image}`}
+              // src={`${baseURL + cart3.image}`}
+              src={imagePath(cart3.image)}
               alt="Discount"
               className="absolute inset-0 transform scale-x-[-1] w-full h-full object-cover opacity-50 rounded-lg"
             />
@@ -205,7 +205,8 @@ const BannerCollection = () => {
 
           <div className="relative bg-[#0F1228] text-white p-4 rounded-lg w-[238px] h-[277px] flex flex-col justify-center items-start">
             <img
-              src={`${baseURL + cart4.image}`}
+              // src={`${baseURL + cart4.image}`}
+              src={imagePath(cart4.image)}
               alt="Check This Out"
               className="absolute inset-0 w-full h-full object-cover opacity-30 rounded-lg"
             />
@@ -220,7 +221,8 @@ const BannerCollection = () => {
 
           <div className="relative bg-[#0F1228] text-white p-4 rounded-lg w-[238px] h-[277px] flex flex-col justify-center items-start">
             <img
-              src={`${baseURL + cart5.image}`}
+              // src={`${baseURL + cart5.image}`}
+              src={imagePath(cart5.image)}
               alt="Body Lotion"
               className="absolute inset-0 w-full h-full object-cover opacity-50 rounded-lg"
             />
