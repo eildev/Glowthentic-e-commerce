@@ -60,7 +60,8 @@ const filterSlice = createSlice({
             if (state.filteredCategories.length > 0) {
                 anyFilterApplied = true;
                 filtered = filtered.filter(product => 
-                    state.filteredCategories.includes(product.category_id)
+                    (product.category_id && state.filteredCategories.includes(product.category_id)) || 
+                    (product.subcategory_id && state.filteredCategories.includes(product.subcategory_id))
                 );
             }
 
