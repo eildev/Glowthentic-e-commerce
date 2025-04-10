@@ -26,6 +26,7 @@ const Product = ({ product, isDark }) => {
     useAddToWishlistMutation();
 
   const { id, product_name, productdetails, variants, price, stock } = product;
+  console.log(product);
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );

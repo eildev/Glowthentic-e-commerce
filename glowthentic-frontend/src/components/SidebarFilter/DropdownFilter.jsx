@@ -158,6 +158,43 @@ const DropdownFilter = () => {
         </div>
       </div>
       <hr className="text-hr-thin" />
+      <div className="collapse collapse-arrow bg-white">
+        <input type="checkbox" className="peer" id="category" defaultChecked />
+        <div
+          className="collapse-title text-secondary font-bold"
+          htmlFor="category"
+        >
+          Category
+        </div>
+        <div className="collapse-content">
+          {categoryData?.categories?.slice(0, 10).map((category) => (
+            <div key={category.id || category.categoryName} className="flex items-center py-2">
+              <Checkbox
+                className="checkbox-sm"
+                checked={selectedCategories.includes(category.categoryName)}
+                onChange={() =>
+                  handleCategoriesCheckboxChange(
+                    category.categoryName,
+                    category.id
+                  )
+                }
+              />
+              <span
+                className="ml-3 font-normal mb-1 cursor-pointer"
+                onClick={() =>
+                  handleCategoriesCheckboxChange(
+                    category.categoryName,
+                    category.id
+                  )
+                }
+              >
+                {category.categoryName}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <hr className="text-hr-thin" />
       <div className="collapse collapse-arrow">
         <input type="checkbox" className="peer" id="price" />
         <div

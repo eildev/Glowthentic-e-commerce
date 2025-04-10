@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { usePlaceOrderMutation } from "../../redux/features/api/checkoutApi/checkoutApi";
 import toast from "react-hot-toast";
 import { clearCart } from "../../redux/features/slice/cartSlice";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {  useNavigate, useSearchParams } from "react-router-dom";
 import { getOrCreateSessionId } from "../../utils/getSessionId";
 import { useGetUserInfoQuery } from "../../redux/features/api/auth/authApi";
 import { useCheckCouponMutation } from "../../redux/features/api/couponApi/couponApi";
@@ -182,18 +182,26 @@ const CheckoutPage = () => {
 
     try {
       const response = await placeOrder(orderData).unwrap();
-      if (response.status === 200) {
+      console.log('Order response:', response); 
+      
+   
+      if (response?.status === 200 || response?.success) {
         toast.success("Order placed successfully!");
         dispatch(clearCart());
-        navigate("/order-confirmation");
+        // Added this small delay before navigation to ensure state updates
+        setTimeout(() => {
+          navigate("/order-confirmation", { replace: true });
+        }, 100);
       } else {
         toast.error("Order placement unsuccessful!");
+        console.log('Unsuccessful response:', response);
       }
     } catch (err) {
       console.error("Error placing order:", err);
       toast.error("Failed to place order.");
     }
   };
+  
 
   return (
     <div>
