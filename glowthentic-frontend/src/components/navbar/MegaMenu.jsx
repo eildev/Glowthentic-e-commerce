@@ -26,7 +26,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
                 >
                   <Link
                     to="/products"
-                    state={{ featureSlug: feature?.slug }}
+                    // state={{ featureSlug: feature?.slug }}
                     onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
                     className="capitalize"
                   >
