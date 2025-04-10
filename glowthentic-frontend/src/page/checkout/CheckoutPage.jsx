@@ -18,75 +18,73 @@ import { useCheckCouponMutation } from "../../redux/features/api/couponApi/coupo
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
-  const [checkCoupon, { isLoading, isSuccess, isError, error }] =
-    useCheckCouponMutation();
+  const [checkCoupon] = useCheckCouponMutation();
   const { user, token } = useSelector((state) => state.auth);
-  const {
-    data,
-    isLoading: userLoad,
-    isError: userError,
-  } = useGetUserInfoQuery(user?.id, {
+  const { data, isLoading: userLoad } = useGetUserInfoQuery(user?.id, {
     skip: !user?.id,
   });
   const [coupon_code, setCoupon_code] = useState("");
-  const [subTotalPrice, setSubTotalPrice] = useState(0);
   const [discountPrice, setDiscountPrice] = useState(0);
   const [couponData, setCouponData] = useState({});
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const [
-    placeOrder,
-    {
-      isLoading: couponLoad,
-      isSuccess: couponIsSucces,
-      isError: couponIsError,
-      error: couponError,
-    },
-  ] = usePlaceOrderMutation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [placeOrder, { isLoading: orderLoading, isSuccess: orderSuccess }] =
+    usePlaceOrderMutation();
+  const [searchParams] = useSearchParams();
   const [location, setLocation] = useState(0);
+  const [districtId, setDistrictId] = useState("");
+  const [upazilaId, setUpazilaId] = useState("");
 
-  // console.log(location);
-
-  useEffect(() => {
-    if (cartItems) {
-      const urlCoupon = searchParams.get("coupon");
-      if (urlCoupon) {
-        setCoupon_code(urlCoupon);
-        const fetchCoupon = async () => {
-          try {
-            const response = await checkCoupon({
-              coupon_code: urlCoupon,
-            }).unwrap();
-            // console.log("API Response:", response);
-            const discountValue = Math.round(response?.data?.discount_value);
-            setDiscountPrice(discountValue);
-            setCouponData(response.data);
-          } catch (error) {
-            console.error("Error fetching coupon:", error);
-          }
-        };
-        fetchCoupon();
-      }
+  const filteredCartItems = cartItems.filter((item) => {
+    if (user?.id) {
+      return item.user_id == user.id;
+    } else {
+      return item.user_id == null;
     }
-  }, [searchParams]);
+  });
 
   useEffect(() => {
-    const total = cartItems.reduce(
-      (sum, item) => sum + item.regular_price * item.quantity,
-      0
-    );
-    setSubTotalPrice(total.toFixed(0));
-  }, [cartItems]);
+    if (filteredCartItems) {
+      const urlCoupon = searchParams.get("coupon");
+      setCoupon_code(urlCoupon);
+      const fetchCoupon = async () => {
+        try {
+          const response = await checkCoupon({
+            coupon_code: urlCoupon,
+          }).unwrap();
+          const discountValue = Math.round(response?.data?.discount_value);
+          setDiscountPrice(discountValue);
+          setCouponData(response.data);
+        } catch (error) {
+          console.error("Error fetching coupon:", error);
+        }
+      };
+      fetchCoupon();
+    }
+  }, [searchParams, checkCoupon, cartItems]);
 
   const subTotal = Number(
-    cartItems.reduce(
-      (sum, cartItem) => sum + cartItem.regular_price * cartItem.quantity,
-      0
-    )
+    filteredCartItems.reduce((sum, cartItem) => {
+      const regularPrice = cartItem?.regular_price;
+      const quantity = cartItem?.quantity || 1;
+      const discountValue =
+        cartItem?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
+      const discountType =
+        cartItem?.product_variant_promotion?.[0]?.coupon?.discount_type;
+
+      let finalPrice = regularPrice;
+      if (discountType === "fixed") {
+        finalPrice = regularPrice - discountValue;
+      } else if (discountType === "percentage") {
+        finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+      }
+      finalPrice = Math.max(finalPrice, 0);
+      return sum + finalPrice * quantity;
+    }, 0)
   );
 
-  const Shipping = cartItems.reduce(
+  const Shipping = filteredCartItems.reduce(
     (sum, cartItem) => sum + cartItem.quantity,
     0
   );
@@ -94,15 +92,14 @@ const CheckoutPage = () => {
   const baseShipping = location;
   const extraCharge = (Shipping - 1) * 20;
   const shippingPrice =
-    cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
+    filteredCartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
+  // console.log(shippingPrice);
 
   // const discountPrice = 0;
 
-  // const tax = Math.round(
-  //   subTotal * (2 / 100)
-  // );
+  const tax = Math.round(subTotal * (2 / 100));
 
-  const tax = 0;
+  // const tax = 0;
 
   const discountedSubTotal =
     subTotal -
@@ -113,64 +110,88 @@ const CheckoutPage = () => {
           : (discountPrice * subTotal) / 100
         : 0
     );
-
-  // console.log(discountedSubTotal);
-
-  // console.log(discountPrice);
-
   const grandTotal = Math.round(discountedSubTotal + shippingPrice + tax);
-
-  // console.log(subTotal, shippingPrice, tax, grandTotal);
 
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-    reset,
     setValue,
     trigger,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: "",
+      phone: "",
+      email: "",
+      district: "",
+      upazila: "",
+      address: "",
+      paymentMethod: "",
+      orderNotes: "",
+    },
+  });
+
+  // Initialize form with user data
+  useEffect(() => {
+    if (data) {
+      setValue("name", data?.userDetails?.full_name || "");
+      setValue("phone", data?.userDetails?.phone_number || "");
+      setValue("email", data?.user?.email || "");
+      setValue("address", data?.userDetails?.address || "");
+    }
+  }, [data, setValue]);
 
   const userSessionId = getOrCreateSessionId();
 
-  const shipToDifferentAddress = watch("shipToDifferentAddress");
-
-  const onSubmit = async (data) => {
-    // console.log(`${data.phone}`);
+  const onSubmit = async (formData) => {
     const orderData = {
-      products: cartItems.map((item) => ({
-        variant_id: item.id,
-        product_id: item.product_id,
-        variant_price: item.regular_price,
-        variant_quantity: item.quantity,
-        coupon_code: item?.coupon_code || "",
-      })),
+      products: filteredCartItems.map((item) => {
+        const regularPrice = item.regular_price;
+        const discountValue =
+          item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
+        const discountType =
+          item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+
+        let finalPrice = regularPrice;
+        if (discountType === "fixed") {
+          finalPrice = regularPrice - discountValue;
+        } else if (discountType === "percentage") {
+          finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+        }
+
+        return {
+          variant_id: item.id,
+          product_id: item.product_id,
+          variant_price: parseFloat(finalPrice.toFixed(2)),
+          discount_cut_total_price: parseFloat(
+            (finalPrice * item.quantity).toFixed(2)
+          ),
+          variant_quantity: item.quantity,
+          coupon_code: item?.coupon_code || "",
+        };
+      }),
       combo: [],
-      payment_method: data.paymentMethod,
+      payment_method: formData.paymentMethod,
       shipping_method: "In-House",
       shipping_charge: shippingPrice,
-      phone_number: `${data.phone}`,
+      phone_number: `${formData.phone}`,
       coupon_code: coupon_code,
-      order_note: data.orderNotes,
+      order_note: formData.orderNotes,
       ...(token ? { user_id: user.id } : { session_id: userSessionId }),
     };
 
     try {
       const response = await placeOrder(orderData).unwrap();
-      // console.log(response);
       if (response.status === 200) {
         toast.success("Order placed successfully!");
-        // console.log(response.status);
         dispatch(clearCart());
-        reset();
         navigate("/order-confirmation");
       } else {
-        toast.error("Order placed Unsuccessful!");
+        toast.error("Order placement unsuccessful!");
       }
     } catch (err) {
-      // console.log(err);
-      // console.error("Error placing order:", err);
+      console.error("Error placing order:", err);
       toast.error("Failed to place order.");
     }
   };
@@ -180,77 +201,81 @@ const CheckoutPage = () => {
       <DynamicHelmet title="Checkout Page" />
       <Container>
         {/* Small Device */}
-        {/* <div className="md:hidden">
+        <div className="md:hidden">
           <CheckoutWizard
             register={register}
             errors={errors}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
-            cartItems={cartItems}
+            cartItems={filteredCartItems}
             subTotal={subTotal}
-            shipingCharge={10}
+            shippingCharge={shippingPrice}
             Shipping={Shipping}
             trigger={trigger}
             watch={watch}
             data={data}
             setValue={setValue}
+            setSelectedDistrict={setSelectedDistrict}
+            districtId={districtId}
+            setDistrictId={setDistrictId}
+            upazilaId={upazilaId}
+            setUpazilaId={setUpazilaId}
           />
-        </div> */}
+        </div>
         {/* Large Device */}
-        <div className="container  mx-auto px-4 py-8">
-          <div className="container mx-auto px-4 py-8">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <h4 className="text-lg font-normal mb-4">
-                  Billing Information
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
-                  <div className="space-y-4 col-span-5 md:col-span-7 p-6 shadow rounded-lg">
-                    <InputInfo
-                      register={register}
-                      errors={errors}
-                      shipToDifferentAddress={shipToDifferentAddress}
-                      data={data}
-                      setValue={setValue}
+        <div className="container hidden md:block mx-auto px-4 py-8">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <h4 className="text-lg font-normal mb-4">Billing Information</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
+                <div className="space-y-4 col-span-5 md:col-span-7 p-6 shadow rounded-lg">
+                  <InputInfo
+                    register={register}
+                    errors={errors}
+                    data={data}
+                    setValue={setValue}
+                    setSelectedDistrict={setSelectedDistrict}
+                    watch={watch}
+                    districtId={districtId}
+                    setDistrictId={setDistrictId}
+                    upazilaId={upazilaId}
+                    setUpazilaId={setUpazilaId}
+                  />
+                  <PaymentOption register={register} errors={errors} />
+                </div>
+                <div className="col-span-5 md:col-span-3">
+                  <div className="bg-white shadow rounded-lg">
+                    <OrderSummary
+                      couponData={couponData}
+                      setLocation={setLocation}
+                      location={location}
+                      carts={filteredCartItems}
+                      total={grandTotal}
+                      shippingCharge={shippingPrice}
+                      subTotal={subTotal}
+                      tax={tax}
+                      discountPrice={discountPrice}
+                      selectedDistrict={selectedDistrict}
                     />
-                    <PaymentOption register={register} errors={errors} />
-                  </div>
-                  <div className="col-span-5 md:col-span-3">
-                    <div className="bg-white shadow rounded-lg">
-                      <OrderSummary
-                        couponData={couponData}
-                        setLocation={setLocation}
-                        location={location}
-                        carts={cartItems}
-                        total={grandTotal}
-                        shipingCharge={shippingPrice}
-                        Shipping={Shipping}
-                        subTotal={subTotal}
-                        tax={tax}
-                        isLoading={isLoading}
-                        discountPrice={discountPrice}
-                      />
-                      <div className="px-6 py-3">
-                        <button
-                          type="submit"
-                          className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center disabled:bg-gray-400 disabled:cursor-not-allowed"
-                          disabled={isLoading || !location}
-                        >
-                          {isLoading ? "Loading..." : "PLACE ORDER"}
-                          <Icon
-                            icon="mdi:arrow-right"
-                            width="1.5em"
-                            height="1.5em"
-                          />
-                        </button>
-                        {isError && <p>Error placing order: {error.message}</p>}
-                      </div>
+                    <div className="px-6 py-3">
+                      <button
+                        type="submit"
+                        className="w-full font-medium text-sm bg-orange-500 text-white py-3 rounded hover:bg-orange-600 flex justify-center items-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        disabled={orderLoading || !location}
+                      >
+                        {orderLoading ? "Loading..." : "PLACE ORDER"}
+                        <Icon
+                          icon="mdi:arrow-right"
+                          width="1.5em"
+                          height="1.5em"
+                        />
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </Container>
     </div>

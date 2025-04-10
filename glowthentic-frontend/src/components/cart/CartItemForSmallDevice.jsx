@@ -4,8 +4,10 @@ import IncrementDecrement from "../typography/IncrementDecrement";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice";
 import { imagePath } from "../../utils/imagePath";
+import { useState } from "react";
 
 const CartItemForSmallDevice = ({ item, handleDelete }) => {
+    const [itemCount, setItemCount] = useState(item?.quantity || 1);
   const dispatch = useDispatch();
   const selectedItems = useSelector((state) => state.selectCart.selectedItems);
   const isSelected = selectedItems.includes(item.id);
@@ -75,7 +77,7 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
         <td>
           <div className="flex flex-col justify-center items-center">
             <div className="w-20 h-8">
-              <IncrementDecrement item={item} />
+              <IncrementDecrement setItemCount={setItemCount} item={item} />
             </div>
             <div
               onClick={() => handleDelete(item?.id)}
@@ -130,6 +132,10 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
         <td className="text-[#191818] flex items-center font-semibold text-xl">
           <span>$</span>
           {item.regular_price ?? 0}
+        </td>
+        <td className="text-[#191818] flex items-center font-semibold text-xl">
+          <span>$</span>
+          {item.regular_price * itemCount}
         </td>
       </div>
     </tr>

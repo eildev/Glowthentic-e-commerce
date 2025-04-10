@@ -20,14 +20,14 @@ const PasswordVarification = () => {
         </p>
         <div className="mb-4">
           {/* <------code input ----> */}
-          {Array(4)
+          {Array(6)
             .fill("")
             .map((_, index) => (
               <input
                 key={index}
                 type="text"
                 maxLength={1}
-                className="w-12 h-12 me-5 text-center border border-gray-thin rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none"
+                className="w-12 h-12 me-3 text-center border border-gray-thin rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none"
                 onChange={(e) => {
                   const value = e.target.value;
                   if (value.length === 1 && e.target.nextSibling) {

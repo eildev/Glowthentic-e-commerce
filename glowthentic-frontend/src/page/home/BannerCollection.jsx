@@ -8,6 +8,7 @@ import bannerImg4 from "../../assets/img/banner/banner-4.jpg";
 import bannerImg5 from "../../assets/img/banner/banner-5.jpg";
 import { useGetOfferBannerQuery } from "../../redux/features/api/offerBanner/offerBanner";
 import { Link } from "react-router-dom";
+import cn from "../../utils/cn";
 
 const bannerImages = [
   bannerImg1,
@@ -16,7 +17,7 @@ const bannerImages = [
   bannerImg4,
   bannerImg5,
 ];
-const baseURL = "https://backend.glowthentic.store/";
+const baseURL = "http://127.0.0.1:8000/";
 
 const sliderSettings = {
   dots: true,
@@ -31,7 +32,61 @@ const sliderSettings = {
 const BannerCollection = () => {
   const { data, isLoading, error } = useGetOfferBannerQuery();
   if (isLoading) {
-    return <span>Loading...</span>;
+    return <div className="my-10">
+      <div className="lg:flex hidden gap-9 max-h-[543px] ">
+        <div
+          className={`card w-[765px] bg-light rounded-t-lg rounded-b-lg transition-all duration-300 ease-in-out animate-pulse`}
+        >
+
+          <figure className="relative overflow-hidden">
+            <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
+          </figure>
+        </div>
+        <div
+          className={`card w-[420px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse`}
+        >
+
+          <figure className="relative overflow-hidden">
+            <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
+          </figure>
+        </div>
+
+      </div>
+        <div className="lg:flex hidden justify-between max-h-[277px] mt-8 gap-9">
+          <div
+            className={`card w-[676px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse`}
+          >
+
+            <figure className="relative overflow-hidden">
+              <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
+            </figure>
+          </div>
+          <div
+            className={`card w-[238px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse`}
+          >
+
+            <figure className="relative overflow-hidden">
+              <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
+            </figure>
+          </div>
+          <div
+            className={`card w-[238px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse`}
+          >
+
+            <figure className="relative overflow-hidden">
+              <div className="skeleton lg:h-[380px] min-h-[180px] md:min-h-[380px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
+            </figure>
+          </div>
+        </div>
+        <div
+            className={`card lg:hidden w-full h-[200px] md:max-h-[500px] md:min-h-[500px] bg-light rounded-lg transition-all duration-300 ease-in-out animate-pulse border`}
+          >
+
+            <figure className="relative overflow-hidden">
+              <div className="skeleton h-[200px] md:max-h-[500px] md:min-h-[500px] lg:py-5 py-2 w-full bg-slate-200 rounded-b-none"></div>
+            </figure>
+          </div>
+    </div>;
   }
   if (error) {
     return <span>Error</span>;

@@ -1,23 +1,23 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const orderGetApi = createApi({
-    reducerPath: 'orderGetApi',
+const reviewGetApi = createApi({
+    reducerPath: 'reviewGetApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://127.0.0.1:8000/api'
         // baseUrl: 'http://127.0.0.1:8000/api'
 
     }),
     endpoints: builder => ({
-        getOrderInfo: builder.query({
+        getReviewInfo: builder.query({
             query: (id) => {
                 // console.log("in api", id);
-                return `/order/get/${id}`;
+                return `/review/${id}`;
             },
         }),
     })
 })
 
 
-export const { useGetOrderInfoQuery } = orderGetApi;
+export const { useGetReviewInfoQuery } = reviewGetApi;
 
-export default orderGetApi;
+export default reviewGetApi;

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const ItemDetails = ({
   carts,
   total,
-  shipingCharge,
+  shippingCharge,
   Shipping,
   subTotal,
   tax,
@@ -11,8 +11,6 @@ const ItemDetails = ({
   couponData,
   isLoading,
 }) => {
-  // const [isReady, setIsReady] =useState(false)
-
   // const numericTotal = Number(total) || 0;
 
   // const subTotal = carts.reduce((sum, cartItem) => {
@@ -21,7 +19,7 @@ const ItemDetails = ({
   // const Shipping = carts.reduce((sum, cartItem) => {
   //   return sum + cartItem.quantity;
   // }, 0);
-  // const shipingCharge = carts.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
+  // const shippingCharge = carts.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
 
   const value = couponData?.discount_type == "fixed" ? "৳" : "%";
 
@@ -33,7 +31,7 @@ const ItemDetails = ({
       </div>
       <div className="flex justify-between ">
         <span className="text-sm text-gray font-normal">Shipping</span>
-        <span className="text-sm font-medium">{shipingCharge} ৳</span>
+        <span className="text-sm font-medium">{shippingCharge} ৳</span>
       </div>
       {isLoading ? (
         <p className="text-sm text-gray">Loading...</p>

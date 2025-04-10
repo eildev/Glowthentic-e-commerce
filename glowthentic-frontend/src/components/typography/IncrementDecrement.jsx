@@ -7,9 +7,11 @@ import {
 } from "../../redux/features/slice/cartSlice";
 // import { incrementQuantity, decrementQuantity } from "../../features/cart/cartSlice";
 
-const IncrementDecrement = ({ item }) => {
+const IncrementDecrement = ({ setItemCount, item }) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState(item?.quantity);
+
+  // console.log(count);
 
   useEffect(() => {
     setCount(item?.quantity); // Sync local state with Redux state
@@ -18,12 +20,14 @@ const IncrementDecrement = ({ item }) => {
   const handleIncrement = () => {
     dispatch(incrementQuantity(item.id));
     setCount(count + 1);
+    setItemCount(count + 1)
   };
 
   const handleDecrement = () => {
     if (count > 1) {
       dispatch(decrementQuantity(item.id));
       setCount(count - 1);
+      setItemCount(count - 1)
     }
   };
 

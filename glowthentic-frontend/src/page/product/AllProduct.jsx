@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import Product from "../../components/product_card/Product";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
-import cn from "../../utils/cn";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilteredProducts } from "../../redux/features/slice/filterSlice";
 import ProductSkeleton from "../../components/product_card/ProductSkeleton";
@@ -13,22 +12,35 @@ const AllProduct = () => {
     filteredCategories,
     filteredTags,
     filteredPrices,
+    filteredBrands,
+    filteredFeatures,
+    filteredSearchQuery,
     filteredProducts,
     sortOption,
   } = useSelector((state) => state.filters);
-  // console.log(filteredProducts.length);
-  // Update filtered products when filters or API data change
+
+  const isAnyFilterApplied =
+    filteredCategories.length > 0 ||
+    filteredTags.length > 0 ||
+    filteredPrices.length > 0 ||
+    filteredBrands.length > 0 ||
+    filteredFeatures.length > 0 ||
+    filteredSearchQuery !== "";
+
   useEffect(() => {
     if (data?.data) {
       dispatch(setFilteredProducts(data.data));
     }
   }, [
     data,
+    dispatch,
     filteredCategories,
     filteredTags,
     filteredPrices,
+    filteredBrands,
+    filteredFeatures,
+    filteredSearchQuery,
     sortOption,
-    dispatch,
   ]);
 
   if (isLoading) {
@@ -48,7 +60,6 @@ const AllProduct = () => {
       </p>
     );
   }
-  // console.log(filteredProducts.length > 0 );
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5 w-full">
       {filteredProducts.length > 0 ? (
@@ -62,7 +73,9 @@ const AllProduct = () => {
         ))
       ) : (
         <div className="col-span-full text-center text-gray-500 my-10">
-          No products found
+          {isAnyFilterApplied
+            ? "No products matched your filters"
+            : "No products found"}
         </div>
       )}
     </div>

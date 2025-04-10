@@ -3,8 +3,27 @@ import defaultImage from "../../assets/img/Product/20.png";
 import IncrementDecrement from "../typography/IncrementDecrement";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice";
+import { useState } from "react";
 
 const CartItem = ({ item, handleDelete }) => {
+
+
+    const regularPrice = item?.regular_price;
+    const discountValue = item?.product_variant_promotion[0]?.coupon?.discount_value;
+    const discountType = item?.product_variant_promotion[0]?.coupon?.discount_type;
+
+    let finalPrice = regularPrice;
+
+    if (discountType === "fixed") {
+        finalPrice = regularPrice - discountValue;
+    } else if (discountType === "percentage") {
+        finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+    }
+
+    console.log("Main Price:", finalPrice);
+
+
+    const [itemCount, setItemCount] = useState(item?.quantity || 1);
     const dispatch = useDispatch();
     const selectedItems = useSelector((state) => state.selectCart.selectedItems);
     const isSelected = selectedItems.includes(item.id);
@@ -12,6 +31,9 @@ const CartItem = ({ item, handleDelete }) => {
     const handleCheckboxChange = () => {
         dispatch(toggleItemSelection(item.id));
     };
+
+    // console.log(item.regular_price);
+
 
     return (
         <tr className="border-none">
@@ -42,7 +64,7 @@ const CartItem = ({ item, handleDelete }) => {
             <td className="mx-auto">
                 <div className="flex flex-col justify-center items-center">
                     <div>
-                        <IncrementDecrement item={item} />
+                        <IncrementDecrement setItemCount={setItemCount} item={item} />
                     </div>
                     <div onClick={() => handleDelete(item?.id)} className="flex items-center gap-2 pt-2 cursor-pointer">
                         <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,10 +77,18 @@ const CartItem = ({ item, handleDelete }) => {
                     </div>
                 </div>
             </td>
-            <td className="text-[#191818] flex justify-end font-semibold text-2xl md:absolute mt-2">
-                <span>$</span>{item.regular_price ?? 0}
+            {
+                finalPrice === item.regular_price ? <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
+                    ৳{item.regular_price ?? 0}
+                </td> : <td className="text-[#191818] font-semibold h-fit text-center pb-8">
+                    <span className="block text-2xl">৳{finalPrice ?? 0}</span>
+                    <del className="block text-sm text-gray-thin mt-2">৳{item.regular_price ?? 0}</del>
+                </td>
+            }
+            <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
+                ৳{finalPrice * itemCount}
             </td>
-            <td></td>
+
         </tr>
     );
 };

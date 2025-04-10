@@ -30,6 +30,7 @@ import { useCheckCouponMutation } from "../../redux/features/api/couponApi/coupo
 const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const { selectedItems, allSelected } = useSelector(
     (state) => state.selectCart
@@ -45,11 +46,17 @@ const CartPage = () => {
   const [checkCoupon, { isLoading, isSuccess, isError, error }] =
     useCheckCouponMutation();
   const [couponData, setCouponData] = useState({});
-  const location = useLocation(); // Get current URL
-  const queryString = location.search; // Extract query parameters
+  const location = useLocation();
+  const queryString = location.search;
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // console.log(coupon_code);
+  const filteredCartItems = cartItems.filter((item) => {
+    if (user?.id) {
+      return item.user_id == user.id;
+    } else {
+      return item.user_id == null;
+    }
+  });
 
   useEffect(() => {
     const urlCoupon = searchParams.get("coupon");
@@ -74,30 +81,44 @@ const CartPage = () => {
 
   // console.log(couponData);
 
-  // console.log(coupon_code);
-
   useEffect(() => {
-    const total = cartItems.reduce(
-      (sum, item) => sum + item.regular_price * item.quantity,
-      0
-    );
-    setSubTotalPrice(total.toFixed(2));
-  }, [cartItems]);
+    const total = filteredCartItems.reduce((sum, item) => {
+      const regularPrice = item?.regular_price;
+      const quantity = item?.quantity || 1;
 
-  // Modified handleDelete to show modal
+      const discountValue =
+        item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
+      const discountType =
+        item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+
+      let finalPrice = regularPrice;
+
+      if (discountType === "fixed") {
+        finalPrice = regularPrice - discountValue;
+      } else if (discountType === "percentage") {
+        finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+      }
+
+      // Ensure finalPrice is not negative
+      finalPrice = Math.max(finalPrice, 0);
+
+      return sum + finalPrice * quantity;
+    }, 0);
+
+    setSubTotalPrice(total);
+  }, [filteredCartItems]);
+
   const handleDelete = (id) => {
     setItemToDelete(id);
     setIsRemoveAll(false);
     setShowModal(true);
   };
 
-  // Modified handleRemoveAll to show modal
   const handleRemoveAll = () => {
     setIsRemoveAll(true);
     setShowModal(true);
   };
 
-  // New function to confirm deletion
   const confirmDelete = () => {
     if (isRemoveAll) {
       if (selectedItems.length === 0) {
@@ -117,7 +138,6 @@ const CartPage = () => {
     setIsRemoveAll(false);
   };
 
-  // Function to cancel deletion
   const cancelDelete = () => {
     setShowModal(false);
     setItemToDelete(null);
@@ -125,22 +145,23 @@ const CartPage = () => {
   };
 
   const handleToggleAll = () => {
-    const allItemIds = cartItems.map((item) => item.id);
+    const allItemIds = filteredCartItems.map((item) => item.id);
     dispatch(toggleAllSelection(allItemIds));
   };
 
-  const Shipping = cartItems.reduce(
+  const Shipping = filteredCartItems.reduce(
     (sum, cartItem) => sum + cartItem.quantity,
     0
   );
 
-  const shippingPrice = cartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
+  const shippingPrice =
+    filteredCartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
 
   // let discountPrice = 0;
 
   const tax = parseFloat(subTotalPrice * (2 / 100)).toFixed(0);
 
-  const totalPrice = (
+  const totalPrice =
     Number(subTotalPrice) -
     Number(
       discountPrice
@@ -148,8 +169,7 @@ const CartPage = () => {
           ? discountPrice
           : (discountPrice * subTotalPrice) / 100
         : 0
-    )
-  ).toFixed(0);
+    );
 
   const handleApply = async () => {
     if (coupon_code.trim() === "") {
@@ -192,6 +212,9 @@ const CartPage = () => {
   //   return <p>Loading...</p>;
   // }
 
+  const cartCount = filteredCartItems.length;
+  console.log(cartCount);
+
   return (
     <div className="md:py-10">
       <DynamicHelmet title="Cart Page" />
@@ -206,7 +229,7 @@ const CartPage = () => {
       <Container>
         <div
           className={`lg:grid-cols-3 gap-4 ${
-            cartItems.length === 0 ? "hidden" : "grid"
+            cartCount.length == 0 ? "hidden" : "grid"
           }`}
         >
           <div className="md:bg-white p-5 lg:col-span-2">
@@ -236,17 +259,26 @@ const CartPage = () => {
                       </th>
                       <th>Product</th>
                       <th className="text-center">Quantity</th>
-                      <th className="">Price</th>
+                      <th className="text-center">Price</th>
+                      <th className="text-center">Products Total</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {cartItems.map((item, index) => (
-                      <CartItem
-                        key={index}
-                        item={item}
-                        handleDelete={handleDelete}
-                      />
-                    ))}
+                    {cartItems
+                      .filter((item) => {
+                        if (user?.id) {
+                          return item.user_id == user.id; // user login thakle
+                        } else {
+                          return item.user_id == null; // user login na thakle
+                        }
+                      })
+                      .map((item, index) => (
+                        <CartItem
+                          key={index}
+                          item={item}
+                          handleDelete={handleDelete}
+                        />
+                      ))}
                   </tbody>
                 </table>
               </div>
@@ -254,13 +286,21 @@ const CartPage = () => {
               {/* For small device */}
               <table className="table border-t border-[#D7D7D7] block md:hidden">
                 <tbody>
-                  {cartItems.map((item, index) => (
-                    <CartItemForSmallDevice
-                      key={index}
-                      item={item}
-                      handleDelete={handleDelete}
-                    />
-                  ))}
+                  {cartItems
+                    .filter((item) => {
+                      if (user?.id) {
+                        return item.user_id == user.id; // user login thakle
+                      } else {
+                        return item.user_id == null; // user login na thakle
+                      }
+                    })
+                    .map((item, index) => (
+                      <CartItemForSmallDevice
+                        key={index}
+                        item={item}
+                        handleDelete={handleDelete}
+                      />
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -313,7 +353,7 @@ const CartPage = () => {
                   <ul className="flex justify-between">
                     <li className="text-[11px] text-[#5F6C72]">Sub-total</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
-                      {(Number(subTotalPrice) || 0).toFixed(0)} <span>৳</span>
+                      {Number(subTotalPrice) || 0} <span>৳</span>
                     </li>
                   </ul>
                   {/* <ul className="flex justify-between text-[11px] text-[#5F6C72]">
@@ -371,7 +411,7 @@ const CartPage = () => {
         </div>
         <div
           className={`${
-            cartItems.length === 0
+            cartCount.length === 0
               ? "block text-center text-lg font-semibold"
               : "hidden"
           }`}

@@ -8,14 +8,13 @@ import {
   setSelectedCategories,
   setFilteredCategories,
 } from "../../redux/features/slice/filterSlice";
+import CategorySkeleton from "./CategorySkeleton";
 
 const CategorySection = () => {
   const { data, isLoading, error } = useGetCategoryQuery();
   const dispatch = useDispatch();
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+  
   if (error) {
     return <span>Error</span>;
   }
@@ -28,32 +27,38 @@ const CategorySection = () => {
 
   return (
     <div>
-      <HeadTitle className="text-center mt-8">SHOP BY CONCERN</HeadTitle>
+      <HeadTitle className="text-center mt-8 text-[42px]">SHOP BY CONCERN</HeadTitle>
       <Container>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-6">
-          {data?.categories
-            ?.filter((category) => category?.parent_id === null)
-            .slice(0, 12)
-            .map((category, index) => (
-              <Link
-                to="/products"
-                key={index}
-                className="lg:px-16 px-5 md:px-10 items-center justify-center"
-                onClick={() =>
-                  handleCategoryClick(category.categoryName, category.id)
-                }
-              >
-                <img
-                  src={category?.image ?? catImages}
-                  alt={category?.categoryName}
-                  className="w-full object-cover rounded"
-                />
-                <h3 className="text-sm text-gray-600 mt-2 text-center">
-                  {category?.categoryName}
-                </h3>
-              </Link>
-            ))}
-        </div>
+       {
+        isLoading ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[44px]">
+        {[...Array(4)].map((_, index) => (
+          <CategorySkeleton key={index} />
+        ))}
+      </div>:  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-6">
+        {data?.categories
+          ?.filter((category) => category?.parent_id === null)
+          .slice(0, 12)
+          .map((category, index) => (
+            <Link
+              to="/products"
+              key={index}
+              className="lg:px-16 px-5 md:px-10 items-center justify-center"
+              onClick={() =>
+                handleCategoryClick(category.categoryName, category.id)
+              }
+            >
+              <img
+                src={category?.image ?? catImages}
+                alt={category?.categoryName}
+                className="w-full object-cover rounded"
+              />
+              <h3 className="text-sm text-gray-600 mt-2 text-center">
+                {category?.categoryName}
+              </h3>
+            </Link>
+          ))}
+      </div>
+       }
       </Container>
     </div>
   );

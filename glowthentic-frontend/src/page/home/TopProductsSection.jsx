@@ -5,17 +5,23 @@ import { useGetProductsQuery } from "../../redux/features/api/product-api/produc
 import Loading from "../../components/spinners/Loading";
 import HeadTitle from "../../components/typography/HeadTitle";
 import { Autoplay, FreeMode, Navigation } from "swiper/modules";
+import ProductSkeleton from "../../components/product_card/ProductSkeleton";
 const TopProductsSection = () => {
   const { data, isLoading, error } = useGetProductsQuery();
   // console.log(data);
-  if (isLoading) return <Loading />;
+
   if (error) return <p>Error: {error}</p>;
   return (
     <>
       <HeadTitle className="text-center mb-10 lg:text-3xl">
         Our Top Product
       </HeadTitle>
-      <div className="relative">
+      {
+        isLoading ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[44px]">
+                {[...Array(4)].map((_, index) => (
+                  <ProductSkeleton key={index} />
+                ))}
+              </div>: <div className="relative">
         <Swiper
           slidesPerView={2}
           spaceBetween={20}
@@ -82,6 +88,7 @@ const TopProductsSection = () => {
           </svg>
         </div>
       </div>
+      }
     </>
   );
 };

@@ -30,12 +30,29 @@ const Product = ({ product, isDark }) => {
     (variant) => variant.status === "Default"
   );
 
+  // console.log('product',product);
+
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
     (variant) =>
       variant?.product_variant_promotion?.[0]?.coupon?.discount_type ===
       "percentage"
   );
+
+
+  
+  const filteredCartItems = cartItems.filter(item => {
+    if (user?.id) {
+      return item.user_id == user.id;
+    } else {
+      return item.user_id == null;
+    }
+  });
+  
+
+
+
+  // console.log('variantWithPromotion',variantWithPromotion);
   const promotion = variantWithPromotion?.product_variant_promotion?.[0];
   // console.log(variantWithPromotion);
   let discountPercentage = 0;
@@ -48,13 +65,15 @@ const Product = ({ product, isDark }) => {
       (discountPercentage * variants[0].regular_price) / 100;
     finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
     stockStatus = `${discountPercentage}% Off`;
+
+    console.log("discount",finalPrice, stockStatus);
   }
 
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
     setIsFav(favourite.some((item) => item.id === id));
-    setIsInCart(cartItems.some((item) => item.id === defaultVariant.id));
-  }, [id, cartItems, defaultVariant]);
+    setIsInCart(filteredCartItems.some((item) => item.id === defaultVariant.id));
+  }, [id, filteredCartItems, defaultVariant]);
 
   const productImage = imagePath(variants[0]?.variant_image[0]?.image);
 
@@ -65,7 +84,7 @@ const Product = ({ product, isDark }) => {
         `${productItem?.product?.product_name ?? ""} removed from Cart!`
       );
     } else {
-      const newProduct = { ...productItem, quantity: 1 };
+      const newProduct = { ...productItem, quantity: 1, user_id: user?.id || null};
       dispatch(addToCart(newProduct));
       toast.success(
         `${productItem?.product?.product_name ?? ""} added to Cart!`

@@ -38,8 +38,8 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
           <form onSubmit={handleSubmit} className="w-full max-w-sm">
             {children}
           </form>
-          <div className="my-6 text-gray-500 text-center">or</div>
-          <div className="flex gap-4 md:flex-row">
+          {/* <div className="my-6 text-gray-500 text-center">or</div> */}
+          {/* <div className="flex gap-4 md:flex-row">
             <button className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded">
               <Icon
                 icon="flat-color-icons:google"
@@ -59,7 +59,7 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
               />
               Facebook
             </button>
-          </div>
+          </div> */}
           <p className="text-xs text-gray-400 mt-6 text-center">
             Protected by reCAPTCHA and subject to the Rhombus{" "}
             <a href="#" className="text-secondary">

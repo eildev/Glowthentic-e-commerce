@@ -1,11 +1,11 @@
 // src/pages/Login.js
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import RegularButton from "../../components/typography/RegularButton";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import DynamicForm from "../../components/dynamic-form/DynamicForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useGetCsrfTokenQuery,
   useLoginUserMutation,
@@ -17,12 +17,22 @@ import {
 } from "../../redux/features/slice/authSlice";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { updateCartUserId } from "../../redux/features/slice/cartSlice";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(updateCartUserId(user.id));
+    }
+  }, [user?.id, dispatch, refresh]);
 
   const from = location.state?.from || "/";
 
@@ -51,6 +61,7 @@ const Login = () => {
       if (result.status === 200) {
         // console.log(result);
         dispatch(loginSuccess(result));
+        setRefresh(!refresh);
         navigate(from);
         toast.success(result.message);
       } else {
@@ -148,7 +159,7 @@ const Login = () => {
           )}
         </div>
         <div className="mb-4 text-right">
-          <Link to="/forgot-password" className="text-secondary">
+          <Link to="/forget-password" className="text-secondary">
             Forgot password?
           </Link>
         </div>

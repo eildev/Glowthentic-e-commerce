@@ -24,13 +24,27 @@ function getRating(rating) {
   }
 }
 
-const OrderReviewModal = ({ item }) => {
+const OrderReviewModal = ({ item, setReviewItem }) => {
+  // console.log(item);
+
   const { user } = useSelector((state) => state.auth);
+  const [selectedIndex, setSelectedIndex] = useState("all");
+  // const [selectedItem, setSelectedItem] = useState(null);
+  const hasMultipleProducts = item?.order_details?.length > 1;
+  const selectedProduct =
+    hasMultipleProducts && selectedIndex !== "all"
+      ? item?.order_details[selectedIndex]
+      : item?.order_details[0];
+
+  console.log(selectedProduct);
+
   const userID = user?.id;
   const [rating, setRating] = useState(3);
   const [images, setImages] = useState([]);
   const [imagesFile, setImagesFile] = useState([]);
   const [reviewText, setReviewText] = useState("");
+  const [review, setReview] = useState(false);
+
   const [postReview, { isLoading, isError, isSuccess }] =
     useReviewInfoMutation();
 
@@ -64,7 +78,8 @@ const OrderReviewModal = ({ item }) => {
 
     const reviewData = {
       user_id: userID,
-      product_id: item.id,
+      product_id: selectedIndex == "all" ? null : selectedProduct?.product.id,
+      order_id: item?.id,
       rating: rating,
       review: reviewText,
       images: imagesFile,
@@ -77,8 +92,10 @@ const OrderReviewModal = ({ item }) => {
       setReviewText("");
       setImages([]);
       setRating(3);
-      // setActive(false)
+      setReview(false);
       document.getElementById("my_modal_3").close();
+      setReviewItem(null);
+      setSelectedIndex("all");
     } catch (error) {
       console.error("Failed to submit review:", error);
       // toast.error("Failed to submit review.");
@@ -95,47 +112,77 @@ const OrderReviewModal = ({ item }) => {
           <h3 className="text-md md:text-lg font-bold font-encode text-secondary">
             Give Review
           </h3>
-          <button className="cursor-pointer">✕</button>
+          <button
+            className="cursor-pointer"
+            onClick={() => {
+              setReviewItem(null);
+              setSelectedIndex("all");
+            }}
+          >
+            ✕
+          </button>
         </form>
 
-        <div className="flex flex-col md:flex-row">
-          <div className="flex flex-row md:flex-col w-full md:w-3/12">
-            <div className="w-full">
-              <img
-                className="object-cover"
-                src={item.order_details[0].variant.variant_image[0].image}
-                alt=""
-              />
-            </div>
-            <div className="pl-4 md:pl-0 md:mt-4">
-              <h5 className="text-sm md:text-lg text-dark font-bold font-encode">
-                {item.id}
-              </h5>
-              <div className="flex justify-between items-center">
-                <p className="text-sm md:text-md text-gray font-normal font-encode">
-                  Makeup
-                </p>
-                <p className="flex items-center text-sm md:text-md text-dark font-semibold font-encode">
-                  <Icon
-                    className="w-4 h-4 md:w-6 md:h-6 text-secondary"
-                    icon={"mdi:star"}
-                  />
-                  4.5
+        <div className="flex flex-col items-center md:flex-row">
+          {selectedIndex !== "all" || !hasMultipleProducts ? (
+            <div className="flex flex-row md:flex-col w-[280px]">
+              <div className="w-[280px]">
+                <img
+                  className="object-cover h-[350px] w-[280px]"
+                  src={`http://127.0.0.1:8000/${selectedProduct?.variant?.variant_image[0]?.image}`}
+                  alt=""
+                />
+              </div>
+              <div className="pl-4 md:pl-0 md:mt-4">
+                <h5 className="text-sm md:text-lg text-dark font-bold font-encode">
+                  {selectedProduct?.product?.product_name}
+                </h5>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm md:text-md text-gray font-normal font-encode">
+                    {selectedProduct?.product?.category?.categoryName}
+                  </p>
+                  <p className="flex items-center text-sm md:text-md text-dark font-semibold font-encode">
+                    <Icon
+                      className="w-4 h-4 md:w-6 md:h-6 text-secondary"
+                      icon={"mdi:star"}
+                    />
+                    4.5
+                  </p>
+                </div>
+                <p className="text-sm md:text-xl text-dark font-semibold font-encode">
+                  ৳ {selectedProduct?.variant?.regular_price}
                 </p>
               </div>
-              <p className="text-sm md:text-xl text-dark font-semibold font-encode">
-                $59,66
-              </p>
             </div>
-          </div>
+          ) : null}
 
-          <div className="md:w-9/12 md:pl-8 mt-4 md:mt-0">
+          <div
+            className={`w-full ${
+              selectedIndex !== "all" || !hasMultipleProducts ? "md:pl-8" : ""
+            } mt-4 md:mt-0`}
+          >
             <form onSubmit={handleSubmit}>
-              <p className="text-sm md:text-md text-dark font-medium font-encode mb-2">
-                Star
-              </p>
+              <div className="flex justify-between items-center">
+                {/* products select */}
+                {hasMultipleProducts && (
+                  <select
+                    className="mb-2 py-1 px-2 w-full rounded-md text-center text-gray-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary hover:border-secondary"
+                    onChange={(e) => setSelectedIndex(e.target.value)}
+                  >
+                    <option value="all">All Products</option>
+                    {item?.order_details.map((detail, index) => (
+                      <option key={index} value={index}>
+                        {detail.product.product_name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
 
-              <div className="flex items-center">
+              <div className="flex items-center mt-2">
+                <p className="text-sm md:text-md text-dark font-medium font-encode mr-5">
+                  Star
+                </p>
                 <Rating
                   value={rating}
                   itemStyles={customStyles}
@@ -161,11 +208,11 @@ const OrderReviewModal = ({ item }) => {
                 />
               </label>
               {images.length > 0 && (
-                <div className="flex flex-wrap gap-3 mt-4">
+                <div className="flex flex-wrap gap-3 mt-4 justify-center">
                   {images.map((img, index) => (
                     <div
                       key={index}
-                      className="relative w-20 h-20 rounded-md overflow-hidden border shadow-md"
+                      className="relative w-20 h-20 rounded-md overflow-hidden shadow-md"
                     >
                       <img
                         src={img}
@@ -207,7 +254,7 @@ const OrderReviewModal = ({ item }) => {
                 {isError && (
                   <p className="text-red-500 mt-2">Failed to submit review.</p>
                 )}
-                {!reviewText && (
+                {review && (
                   <p className="text-red-500 mt-2">Please write a review!</p>
                 )}
               </div>
