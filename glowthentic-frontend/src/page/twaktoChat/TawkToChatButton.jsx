@@ -14,7 +14,7 @@ const TawkToChatButton = () => {
     document.body.appendChild(script);
 
     script.onload = () => {
-      console.log("Tawk.to script loaded");
+      // console.log("Tawk.to script loaded");
     };
 
     return () => {

@@ -17,6 +17,13 @@ import { useGetProductByDetailsQuery } from "../../redux/features/api/product-ap
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/features/slice/cartSlice";
 import toast from "react-hot-toast";
+import ShowPrice from "./ShowPrice.jsx";
+
+
+const TagElement = ({ value }) => {
+  // console.log("myValue", value);
+  return <p>{value?.tagName ?? "No Value"}</p>
+}
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
@@ -24,7 +31,9 @@ const ProductDetails = () => {
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   const { token, user } = useSelector((state) => state.auth);
 
-  console.log(user?.id);
+  // console.log("my Products", data);
+
+  // console.log(user?.id);
   const navigate = useNavigate();
   const images = [
     "https://picsum.photos/200/300",
@@ -90,16 +99,18 @@ const ProductDetails = () => {
     const selected = data?.data?.variants?.find(
       (v) => v.id === parseInt(variantId)
     );
+
     setSelectedVariant(selected);
   };
+  console
 
-  // console.log("Selected Variants" + selectedVariant);
+  // console.log("Selected Variants", selectedVariant);
 
   const selectedVariantData = data?.data?.variants?.find(
     (variant) => variant.id === selectedVariant?.id
   );
 
-  console.log("Selected Variants", selectedVariantData);
+  // console.log("Selected Variants", selectedVariantData);
 
   const handleAddToCart = () => {
     // alert("Add to cart");
@@ -131,8 +142,8 @@ const ProductDetails = () => {
   const handleCheckOut = () => {
     const newProduct = { ...selectedVariantData, quantity: 1, user_id: user?.id || null };
     dispatch(addToCart(newProduct));
-    
- 
+
+
     navigate('/checkout');
   }
 
@@ -142,19 +153,20 @@ const ProductDetails = () => {
         <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 ">
           {/* <---Small Device Right Section Start ----> */}
           <div className="sm:hidden block mt-4 p-2">
-            <HeadTitle>
-              Pierre Cardin Matte Rouge Lipstick Fushion Pink 745
+            <HeadTitle className="mb-2">
+              {data?.data?.product_name ?? ""}
             </HeadTitle>
-            <br />
-            <h4 className="font-bold">Anti-aging face serum</h4>
+            <h4 className="font-bold">{data?.data?.productdetails[0]?.description ?? ""}</h4>
             <p>
               <span className="font-thin text-sm text-gray">
-                All Types of Skin | Am or Pm | Brightening
+                {data?.data?.product_tags.map((tagData, index) => (
+                  `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""}`
+                ))}
               </span>
             </p>
-            <h4 className=" text-sm font-semibold text-gray mt-1">
+            {/* <h4 className=" text-sm font-semibold text-gray mt-1">
               Formulated with 92% natural-origin ingredients
-            </h4>
+            </h4> */}
           </div>
           {/* <---Small Device Right Section End ----> */}
           {/* -----------------------Slide Start----------------------------- */}
@@ -171,36 +183,23 @@ const ProductDetails = () => {
           <div className="sm:col-span-3 md:pt-7 md:pl-4 ">
             {/* //show big device small device hidden Start// */}
             <div className="hidden sm:block w-full">
-              <HeadTitle>{data?.data?.product_name ?? ""}</HeadTitle>
-              <br />
-              <h4 className="font-bold">Anti-aging face serum</h4>
+              <HeadTitle className="mb-2">{data?.data?.product_name ?? ""}</HeadTitle>
+              <h4 className="font-bold">{data?.data?.productdetails[0]?.description ?? ""}</h4>
               <p>
                 <span className="font-thin text-sm text-gray">
-                  All Types of Skin | Am or Pm | Brightening
+                  {data?.data?.product_tags.map((tagData, index) => (
+                    `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""}`
+                  ))}
                 </span>
               </p>
-              <h4 className=" text-sm font-semibold text-gray">
+              {/* <h4 className=" text-sm font-semibold text-gray">
                 Formulated with 92% natural-origin ingredients
-              </h4>
+              </h4> */}
             </div>
             {/* //show big device small device hidden End/ / */}
-            <div className=" lg:mt-4 flex flex-wrap items-center">
-              <span className="text-secondary  font-bold text-xl  pe-4">
-                {data?.data?.variants?.regular_price}
-              </span>
-              <span className="text-gray  text-xs md:text-sm font-thin  pe-2 ">
-                <del>$1040.00 |</del>
-              </span>
-              <span className="text-black text-nowrap text-xs md:text-sm pe-2 font-normal">
-                Save ৳651.00
-              </span>
-              <span className="bg-secondary rounded-tl-[20px]  rounded-br-[20px] text-white  text-nowrap  text-xs p-1 px-2">
-                {" "}
-                50% OFF
-              </span>
-            </div>
+            <ShowPrice selectedVariant={selectedVariant}/>
             {/* //Select price// */}
-            <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center justify-between mt-2">
               <div>
                 <select
                   className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
@@ -222,7 +221,7 @@ const ProductDetails = () => {
               <span className="text-lg font-semibold text-gray">
                 {" "}
                 {selectedVariant
-                  ? `৳${selectedVariant.regular_price}`
+                  ? `৳${selectedVariant?.product_variant_promotion?.coupon ? (selectedVariant?.product_variant_promotion?.coupon.discount_type === "fixed" ? selectedVariant?.regular_price - selectedVariant?.product_variant_promotion?.coupon.discount_value : selectedVariant?.regular_price - (selectedVariant?.regular_price * selectedVariant?.product_variant_promotion?.coupon.discount_value) / 100) : selectedVariant?.regular_price}`
                   : "Loading..."}
               </span>
             </div>
@@ -421,8 +420,8 @@ const ProductDetails = () => {
                     </h2>
                     <span
                       className={`transition-transform transform rounded-full p-1 ${openIndex === index
-                          ? "text-[#0C0C0C] "
-                          : "text-[#0C0C0C]"
+                        ? "text-[#0C0C0C] "
+                        : "text-[#0C0C0C]"
                         }`}
                     >
                       {openIndex === index ? (

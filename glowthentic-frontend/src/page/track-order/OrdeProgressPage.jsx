@@ -19,14 +19,14 @@ const OrdeProgressPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const orderId = queryParams.get("orderId");
-  console.log(orderId);
+  // console.log(orderId);
   const orderData = useSelector((state) => state.order?.orderData);
-console.log(orderData);
-console.log(orderData?.order_tracking_status);
+// console.log(orderData);
+// console.log(orderData?.order_tracking_status);
   if (!orderData) return <div>No order data available. Please track your order again.</div>;
 
   const orderItems = orderData?.orderDetails || [];
-  console.log(orderItems);
+  // console.log(orderItems);
   const subtotal = orderItems.reduce((acc, item) => acc + parseFloat(item.total_price || 0), 0);
   const shipping = 100;
   const tax = Number((subtotal * 2.5 / 100).toFixed(2));

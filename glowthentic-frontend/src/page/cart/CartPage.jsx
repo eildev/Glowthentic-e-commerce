@@ -85,8 +85,8 @@ const CartPage = () => {
       const regularPrice = item?.regular_price;
       const quantity = item?.quantity || 1;
 
-      const discountValue = item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
-      const discountType = item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+      const discountValue = item?.product_variant_promotion?.coupon?.discount_value || 0;
+      const discountType = item?.product_variant_promotion?.coupon?.discount_type;
 
       let finalPrice = regularPrice;
 
@@ -188,8 +188,8 @@ const CartPage = () => {
     try {
 
       const response = await checkCoupon({ coupon_code }).unwrap();
-      console.log("Server Response:", response);
-      console.log(coupon_code);
+      // console.log("Server Response:", response);
+      // console.log(coupon_code);
 
       const discountValue = Math.round(response?.data?.discount_value);
       setDiscountPrice(discountValue)
@@ -227,7 +227,7 @@ const CartPage = () => {
 
   
   const cartCount = filteredCartItems.length;
-  console.log(cartCount);
+  // console.log(cartCount);
 
   return (
     <div className="md:py-10">

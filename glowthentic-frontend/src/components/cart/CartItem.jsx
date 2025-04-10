@@ -9,8 +9,8 @@ const CartItem = ({ item, handleDelete }) => {
 
 
     const regularPrice = item?.regular_price;
-    const discountValue = item?.product_variant_promotion[0]?.coupon?.discount_value;
-    const discountType = item?.product_variant_promotion[0]?.coupon?.discount_type;
+    const discountValue = item?.product_variant_promotion?.coupon?.discount_value;
+    const discountType = item?.product_variant_promotion?.coupon?.discount_type;
 
     let finalPrice = regularPrice;
 
@@ -20,7 +20,7 @@ const CartItem = ({ item, handleDelete }) => {
         finalPrice = regularPrice - (regularPrice * discountValue) / 100;
     }
 
-    console.log("Main Price:", finalPrice);
+    // console.log("Main Price:", finalPrice);
 
 
     const [itemCount, setItemCount] = useState(item?.quantity || 1);

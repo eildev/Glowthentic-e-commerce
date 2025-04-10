@@ -67,8 +67,8 @@ const CheckoutPage = () => {
     filteredCartItems.reduce((sum, cartItem) => {
       const regularPrice = cartItem?.regular_price;
       const quantity = cartItem?.quantity || 1;
-      const discountValue = cartItem?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
-      const discountType = cartItem?.product_variant_promotion?.[0]?.coupon?.discount_type;
+      const discountValue = cartItem?.product_variant_promotion?.coupon?.discount_value || 0;
+      const discountType = cartItem?.product_variant_promotion?.coupon?.discount_type;
 
       let finalPrice = regularPrice;
       if (discountType === "fixed") {
@@ -88,9 +88,8 @@ const CheckoutPage = () => {
 
   // Calculate shipping charge is now handled in OrderSummary and passed back via setShippingCharge
 
-  const tax = Math.round(
-    subTotal * (2 / 100)
-  );
+  // const tax = Math.round(subTotal * (2 / 100));
+  const tax = 0;
 
   // Calculate discount amount based on type
   const discountAmount = Number(
@@ -100,7 +99,7 @@ const CheckoutPage = () => {
   );
 
   const discountedSubTotal = subTotal - discountAmount;
-  
+
   // Use the state-managed shipping charge for total calculation
   const grandTotal = Math.round(discountedSubTotal + shippingCharge + tax);
   console.log('grand', grandTotal);
@@ -141,8 +140,8 @@ const CheckoutPage = () => {
     const orderData = {
       products: filteredCartItems.map((item) => {
         const regularPrice = item.regular_price;
-        const discountValue = item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
-        const discountType = item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+        const discountValue = item?.product_variant_promotion?.coupon?.discount_value || 0;
+        const discountType = item?.product_variant_promotion?.coupon?.discount_type;
 
         let finalPrice = regularPrice;
         if (discountType === "fixed") {

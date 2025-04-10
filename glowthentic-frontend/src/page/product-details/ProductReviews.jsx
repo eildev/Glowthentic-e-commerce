@@ -6,7 +6,7 @@ const ProductReviews = ({ images, data }) => {
 
     const { data: reviews, isLoading, isError, error } = useGetReviewInfoQuery(data?.data.id);
 
-    console.log("data", data?.data.id, "review", reviews);
+    // console.log("data", data?.data.id, "review", reviews);
 
 
 
