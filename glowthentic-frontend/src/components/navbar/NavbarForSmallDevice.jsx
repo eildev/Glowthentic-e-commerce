@@ -9,9 +9,9 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
   const [menu, setMenu] = useState(null);
   const [item, setItem] = useState(null);
   const { data: categories, error, isLoading } = useGetNavbarCategoryQuery();
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+  // if (isLoading) {
+  //   return <span>Loading...</span>;
+  // }
   if (error) {
     return <span>Error</span>;
   }

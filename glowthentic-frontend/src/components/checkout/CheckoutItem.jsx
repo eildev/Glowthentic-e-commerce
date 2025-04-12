@@ -11,17 +11,17 @@ const CheckoutItem = ({ item }) => {
   let finalPrice = regularPrice;
 
   if (discountType === "fixed") {
-      finalPrice = regularPrice - discountValue;
+    finalPrice = regularPrice - discountValue;
   } else if (discountType === "percentage") {
-      finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+    finalPrice = regularPrice - (regularPrice * discountValue) / 100;
   }
 
-  const image = imagePath(item?.variant_image[0].image);
+  const image = imagePath(item?.variant_image[0]?.image);
   return (
     <div className="flex ">
       <img
         src={image}
-        alt={item?.product_name}
+        alt={item?.product_name ?? ""}
         className="w-12 h-12 object-cover rounded"
       />
       <span className="flex-1 ml-4 text-xs">

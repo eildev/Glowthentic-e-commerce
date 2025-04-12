@@ -8,9 +8,7 @@ import { useGetNavbarCategoryQuery } from "../../redux/features/api/category/cat
 const NavbarForLargeDevice = () => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const { data: categories, error, isLoading } = useGetNavbarCategoryQuery();
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+
   if (error) {
     return <span>Error</span>;
   }

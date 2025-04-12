@@ -35,9 +35,9 @@ import { useGetFeaturesQuery } from "../../redux/features/api/featuresApi/featur
 import { imagePath } from "../../utils/imagePath";
 const LatestBannerSection = () => {
   const { data: offerData, error, isLoading } = useGetFeaturesQuery();
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+  // if (isLoading) {
+  //   return <span>Loading...</span>;
+  // }
   if (error) {
     return <span>Error</span>;
   }

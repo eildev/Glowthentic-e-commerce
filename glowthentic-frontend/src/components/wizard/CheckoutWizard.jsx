@@ -101,7 +101,7 @@ const CheckoutWizard = ({
   const tax = Math.round(subTotal * (2 / 100));
   
   const renderStepContent = () => {
-    console.log("Current form state:", watch());
+    // console.log("Current form state:", watch());
     switch (activeStep) {
       case 0:
         return (

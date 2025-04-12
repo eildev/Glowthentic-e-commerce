@@ -3,9 +3,21 @@ import { Link, NavLink } from "react-router-dom";
 import avatar from "../../assets/img/user-profile/user.jpg";
 import Logout from "../../components/logout/Logout";
 import { useSelector } from "react-redux";
+import { useGetOrderInfoQuery } from "../../redux/features/api/orderApi/orderGetApi";
 
 const ProfileMenu = () => {
   const { user } = useSelector((state) => state.auth);
+  const {
+    data,
+    isLoading: orderLoad,
+    error,
+  } = useGetOrderInfoQuery(user?.id);
+
+  const totalOrder = data?.order.length ?? 0;
+  const completedOrder = data?.order.filter(order =>
+    order.status === "Delivering" || order.status === "completed"
+  ).length ?? 0;
+  const activeOrder = totalOrder - completedOrder;
   return (
     <div className="lg:w-[350px] lg:mt-0 p-4 mt-4">
       {/* Avatar */}
@@ -32,16 +44,16 @@ const ProfileMenu = () => {
 
       <div className="mt-7 flex justify-between items-center gap-3 lg:hidden">
         <div className="py-3 px-2 w-full bg-[#FA8232] bg-opacity-5 rounded-lg">
-          <h3 className="text-sm text-[#FA8232] font-bold text-center">39+</h3>
+          <h3 className="text-sm text-[#FA8232] font-bold text-center">{totalOrder}</h3>
           <p className="text-[#2C2C2C] text-[10px] text-center">Total Orders</p>
         </div>
         <div className="py-3 px-2 w-full bg-[#FA8232] bg-opacity-5 rounded-lg">
-          <h3 className="text-sm text-[#FA8232] font-bold text-center">3</h3>
+          <h3 className="text-sm text-[#FA8232] font-bold text-center">{activeOrder}</h3>
           <p className="text-[#2C2C2C] text-[10px] text-center">Active Orders</p>
         </div>
         <div className="py-3 px-2 w-full bg-[#FA8232] bg-opacity-5 rounded-lg">
-          <h3 className="text-sm text-[#FA8232] font-bold text-center">3</h3>
-          <p className="text-[#2C2C2C] text-[10px] text-center">Cancel Orders</p>
+          <h3 className="text-sm text-[#FA8232] font-bold text-center">{completedOrder}</h3>
+          <p className="text-[#2C2C2C] text-[10px] text-center">Completed Orders</p>
         </div>
       </div>
 

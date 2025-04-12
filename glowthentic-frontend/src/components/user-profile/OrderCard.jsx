@@ -28,7 +28,7 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
           <p className="text-center text-gray-500">Loading orders...</p>
         ) : order?.order?.length === 0 ? (
           <p className="text-center text-gray-500">
-            আপনি এখনও কোনো অর্ডার করেননি।
+            You haven`t placed any order yet.
           </p>
         ) : order?.order ? (
           [...order.order]

@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { usePlaceOrderMutation } from "../../redux/features/api/checkoutApi/checkoutApi";
 import toast from "react-hot-toast";
 import { clearCart } from "../../redux/features/slice/cartSlice";
-import {  useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getOrCreateSessionId } from "../../utils/getSessionId";
 import { useGetUserInfoQuery } from "../../redux/features/api/auth/authApi";
 import { useCheckCouponMutation } from "../../redux/features/api/couponApi/couponApi";
@@ -109,7 +109,7 @@ const CheckoutPage = () => {
 
   // Use the state-managed shipping charge for total calculation
   const grandTotal = Math.round(discountedSubTotal + shippingCharge + tax);
-  console.log("grand", grandTotal);
+  // console.log("grand", grandTotal);
 
   const {
     register,
@@ -171,6 +171,11 @@ const CheckoutPage = () => {
         };
       }),
       combo: [],
+      full_name: `${formData.name}`,
+      address: `${formData.address}`,
+      district: `${formData.district}`,
+      police_station: `${formData.upazila}`,
+      postal_code: 1000,
       payment_method: formData.paymentMethod,
       shipping_method: "In-House",
       shipping_charge: shippingCharge, // Use the updated shipping charge
@@ -180,11 +185,12 @@ const CheckoutPage = () => {
       ...(token ? { user_id: user.id } : { session_id: userSessionId }),
     };
 
+    // console.log(orderData);
     try {
       const response = await placeOrder(orderData).unwrap();
-      console.log('Order response:', response); 
-      
-   
+      // console.log('Order response:', response);
+
+
       if (response?.status === 200 || response?.success) {
         toast.success("Order placed successfully!");
         dispatch(clearCart());
@@ -194,14 +200,14 @@ const CheckoutPage = () => {
         }, 100);
       } else {
         toast.error("Order placement unsuccessful!");
-        console.log('Unsuccessful response:', response);
+        // console.log('Unsuccessful response:', response);
       }
     } catch (err) {
       console.error("Error placing order:", err);
       toast.error("Failed to place order.");
     }
   };
-  
+
 
   return (
     <div>

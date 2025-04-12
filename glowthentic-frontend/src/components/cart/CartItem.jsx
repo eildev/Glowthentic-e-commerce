@@ -43,7 +43,7 @@ const CartItem = ({ item, handleDelete }) => {
           <div className="avatar">
             <div className="mask rounded-xl h-[64px] w-[62px]">
               <img
-                src={imagePath(item?.variant_image[0].image)}
+                src={imagePath(item?.variant_image[0]?.image)}
                 alt="Avatar Tailwind CSS Component"
               />
             </div>
@@ -52,7 +52,7 @@ const CartItem = ({ item, handleDelete }) => {
             <div className="font-bold mb-1">
               {item?.product?.product_name ?? ""}
             </div>
-            <div className="text-sm opacity-50 mb-1">United States</div>
+            <div className="text-sm opacity-50 mb-1">{item?.variant_name ?? ""}</div>
             <div className="text-[#FA8232] flex items-center gap-2 cursor-pointer">
               <svg
                 width="25"

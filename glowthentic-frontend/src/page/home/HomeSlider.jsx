@@ -13,9 +13,9 @@ import { useGetBannersQuery } from "../../redux/features/api/homeBannerApi/homeB
 import HomeBannerImage from "../../components/HomeBannerImage";
 const HomeSlider = () => {
   const { data, error, isLoading } = useGetBannersQuery();
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+  // if (isLoading) {
+  //   return <span>Loading...</span>;
+  // }
   if (error) {
     return <span>Error</span>;
   }

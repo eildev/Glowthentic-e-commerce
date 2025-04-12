@@ -26,12 +26,10 @@ const Product = ({ product, isDark }) => {
     useAddToWishlistMutation();
 
   const { id, product_name, productdetails, variants, price, stock } = product;
-  console.log(product);
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
 
-  // console.log('product',product);
 
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
@@ -49,9 +47,8 @@ const Product = ({ product, isDark }) => {
     }
   });
 
-  // console.log('variantWithPromotion',variantWithPromotion);
   const promotion = variantWithPromotion?.product_variant_promotion?.coupon;
-  // console.log("My Promotion", promotion);
+
   let discountPercentage = 0;
   let finalPrice = variants[0]?.regular_price;
   let stockStatus =
@@ -67,8 +64,6 @@ const Product = ({ product, isDark }) => {
         product?.product_stock?.length > 0
           ? `${discountPercentage}% Off`
           : "Out Of Stock";
-
-      // console.log("discount", finalPrice, stockStatus);
     } else {
       discountPercentage = promotion.discount_value;
       finalPrice = variants[0].regular_price - promotion.discount_value;
