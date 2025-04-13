@@ -30,7 +30,7 @@ const ProductDetails = () => {
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   const { token, user } = useSelector((state) => state.auth);
 
-  // console.log("my Products", data);
+  console.log("my Products", data?.data?.productdetails?.short_description);
 
   // console.log(user?.id);
   const navigate = useNavigate();
@@ -196,7 +196,9 @@ const ProductDetails = () => {
               {data?.data?.product_name ?? ""}
             </HeadTitle>
             <h4 className="font-bold">
-              {data?.data?.productdetails[0]?.description ?? ""}
+            {/* dangerouslySetInnerHTML={{
+    __html: data?.data?.productdetails?.short_description ?? "",
+  }} */}
             </h4>
             <p>
               <span className="font-thin text-sm text-gray">
@@ -233,7 +235,7 @@ const ProductDetails = () => {
               <h4
   className="font-bold"
   dangerouslySetInnerHTML={{
-    __html: data?.data?.productdetails[0]?.description ?? "",
+    __html: data?.data?.productdetails?.short_description ?? "",
   }}
 ></h4>
               <p>

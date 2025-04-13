@@ -30,7 +30,7 @@ const Product = ({ product, isDark }) => {
     (variant) => variant.status === "Default"
   );
 
-
+console.log("product", product);
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
     (variant) =>
@@ -208,10 +208,10 @@ const Product = ({ product, isDark }) => {
         <Paragraph className="text-xs lg:text-sm transition-opacity duration-200 hover:opacity-80">
           <span
             dangerouslySetInnerHTML={{
-              __html: productdetails[0].description
+              __html: productdetails[0]?.description
                 ? window.innerWidth >= 1000
-                  ? productdetails[0].description.slice(0, 80)
-                  : productdetails[0].description.slice(0, 40) + "..."
+                  ? productdetails[0]?.description?.slice(0, 80)
+                  : productdetails[0]?.description?.slice(0, 40) + "..."
                 : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
             }}
           />
