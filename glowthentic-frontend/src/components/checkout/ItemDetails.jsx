@@ -50,10 +50,10 @@ const ItemDetails = ({
         <span className="text-sm font-medium">{tax} ৳</span>
       </div>
       <hr className="my-2 text-hr-thin" />
-      {/* <div className="flex justify-between font-bold">
+      <div className="flex justify-between font-bold">
         <span className="text-sm text-gray font-bold">Grand Total</span>
         <span className="text-lg font-medium">{total} ৳</span>
-      </div> */}
+      </div>
     </div>
   );
 };
