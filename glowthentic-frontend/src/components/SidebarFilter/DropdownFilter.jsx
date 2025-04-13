@@ -12,6 +12,7 @@ import {
 import { useGetBrandQuery } from "../../redux/features/api/brand/brandApi";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css"; // Import default rc-slider styles
+import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 
 // Add custom CSS for the slider
 const sliderStyles = `
@@ -45,17 +46,38 @@ const DropdownFilter = () => {
   const { data: categoryData, isLoading, refetch } = useGetCategoryQuery();
   const { data: brandData, isBrandLoading } = useGetBrandQuery();
   const { data: tagsData } = useGetTagsQuery();
+ const { data: productData,  error } = useGetProductsQuery();
 
-  console.log("brandData", brandData);
-
+  console.log("productData", productData?.data);
+  let minPrice = Infinity;
+  let maxPrice = -Infinity;
+  
+  productData?.data?.forEach(product => {
+    console.log("object", product);
+    product.variants.forEach(variant => {
+      console.log("varianst", variant);
+      if (variant.regular_price < minPrice) {
+        minPrice = variant.regular_price;
+      }
+      if (variant.regular_price > maxPrice) {
+        maxPrice = variant.regular_price;
+      }
+    });
+  });
+  console.log("min price", minPrice);
+  console.log("max price", maxPrice);
+  // const UpdatedminPrice = minPrice - 20
+  // const UpdatedmaxPrice = maxPrice + 20
+  minPrice -= 20
+  maxPrice += 20
   useEffect(() => {
     refetch();
   }, [refetch]);
 
   // State for price range slider
   const [priceRange, setPriceRange] = useState([
-    filteredPrices[0]?.min || 0,
-    filteredPrices[0]?.max || 550,
+    filteredPrices[0]?.min || minPrice,
+    filteredPrices[0]?.max || maxPrice,
   ]);
 
   const handleCategoriesCheckboxChange = (item, categoryId) => {
@@ -106,8 +128,8 @@ const DropdownFilter = () => {
             {/* Price Range Slider with custom class */}
             <Slider
               range
-              min={0}
-              max={550}
+              min={minPrice}
+              max={maxPrice}
               value={priceRange}
               onChange={handlePriceRangeChange}
               allowCross={false}
