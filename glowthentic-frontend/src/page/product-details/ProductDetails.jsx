@@ -48,8 +48,6 @@ const ProductDetails = () => {
   //     variant?.product_variant_promotion?.coupon?.discount_type === "fixed"
   // );
 
- 
-
   // const promotion = variantWithPromotion?.product_variant_promotion?.coupon;
 
   // let discountPercentage = 0;
@@ -195,9 +193,9 @@ const ProductDetails = () => {
             <HeadTitle className="mb-2">
               {data?.data?.product_name ?? ""}
             </HeadTitle>
-            <h4 className="font-bold">
+            {/* <h4 className="font-bold">
               {data?.data?.productdetails[0]?.description ?? ""}
-            </h4>
+            </h4> */}
             <p>
               <span className="font-thin text-sm text-gray">
                 {data?.data?.product_tags.map(
@@ -231,11 +229,11 @@ const ProductDetails = () => {
                 {data?.data?.product_name ?? ""}
               </HeadTitle>
               <h4
-  className="font-bold"
-  dangerouslySetInnerHTML={{
-    __html: data?.data?.productdetails[0]?.description ?? "",
-  }}
-></h4>
+                className="font-bold"
+                dangerouslySetInnerHTML={{
+                  __html: data?.data?.productdetails[0]?.description ?? "",
+                }}
+              ></h4>
               <p>
                 <span className="font-thin text-sm text-gray">
                   {data?.data?.product_tags.map(

@@ -116,19 +116,18 @@ const BannerCollection = () => {
                 alt={`Banner ${index + 1}`}
                 className="w-full h-[200px] md:h-[400px] object-cover"
               />
-              <div className="absolute inset-0 pointer-events-none"></div>
             </div>
           ))}
         </Slider>
 
-        <div className="absolute inset-0 flex flex-col justify-center items-start text-white px-3 sm:translate-y-[-10%] py-1 w-[82px] md:w-[217px] pointer-events-none ">
+        {/* <div className="absolute inset-0 flex flex-col justify-center items-start text-white px-3 sm:translate-y-[-10%] py-1 w-[82px] md:w-[217px] pointer-events-none ">
           <Link
             to={cart1?.link}
             className="font-normal text-[7px] md:text-xl leading-3 md:leading-7 px-2 md:pxz-4 py-1 md:py-2 bg-white text-black rounded-full pointer-events-auto"
           >
             {cart1?.link_button}
           </Link>
-        </div>
+        </div> */}
       </div>
 
       {/* Large Screens View */}
@@ -145,12 +144,11 @@ const BannerCollection = () => {
                     alt={`Banner ${index + 1}`}
                     className="w-full h-[543px] object-cover"
                   />
-                  <div className="absolute inset-0 bg-[#0F1228] opacity-50 pointer-events-none"></div>
                 </div>
               ))}
             </Slider>
 
-            <div className="absolute inset-0 flex flex-col justify-center items-start text-white p-8 w-[217px] pointer-events-none">
+            {/* <div className="absolute inset-0 flex flex-col justify-center items-start text-white p-8 w-[217px] pointer-events-none">
               <h2 className="custome-font leading-[46px] text-5xl font-bold mb-32">
                 {cart1?.head}
               </h2>
@@ -160,7 +158,7 @@ const BannerCollection = () => {
               >
                 {cart1?.link_button}
               </Link>
-            </div>
+            </div> */}
           </div>
 
           {/* Right: Beauty & Care Section */}
@@ -171,12 +169,6 @@ const BannerCollection = () => {
               alt="Beauty & Care"
               className="absolute inset-0 w-full h-full object-cover rounded-lg"
             />
-            <h2 className="custome-font text-white text-5xl font-bold relative z-10">
-              {cart2?.head}
-            </h2>
-            <button className="px-4 py-2 bg-white text-black rounded-full relative z-10">
-              {cart1?.link_button}
-            </button>
           </div>
         </div>
 

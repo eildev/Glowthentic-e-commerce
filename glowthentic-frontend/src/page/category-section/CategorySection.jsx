@@ -27,7 +27,7 @@ const CategorySection = () => {
 
   return (
     <div>
-      <HeadTitle className="text-center mt-8 text-[42px]">
+      <HeadTitle className="text-center mt-8 lg:text-2xl text-lg">
         SHOP BY CONCERN
       </HeadTitle>
       <Container>
@@ -38,7 +38,7 @@ const CategorySection = () => {
             ))}
           </div>
         ) : (
-          <div className="p-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-6">
+          <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-6">
             {data?.categories
               ?.filter((category) => category?.parent_id === null)
               .slice(0, 12)
@@ -46,7 +46,7 @@ const CategorySection = () => {
                 <Link
                   to="/products"
                   key={index}
-                  className="px-5 items-center justify-center"
+                  className="items-center justify-center"
                   onClick={() =>
                     handleCategoryClick(category.categoryName, category.id)
                   }

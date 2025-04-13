@@ -10,7 +10,7 @@ const SpecialOffers = () => {
     <div>
       {/* <DynamicHelmet title="Special Offers" /> */}
 
-      <div className="flex flex-wrap mt-3 mb-14">
+      <div className="flex flex-wrap mt-3">
         <div className="w-full">
           <picture>
             {/* Large Devices (1024px and up) */}
