@@ -30,7 +30,7 @@ const ProductDetails = () => {
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   const { token, user } = useSelector((state) => state.auth);
 
-  console.log("my Products", data?.data?.productdetails?.short_description);
+  console.log("my Products", data?.data);
 
   // console.log(user?.id);
   const navigate = useNavigate();
