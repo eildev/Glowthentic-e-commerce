@@ -40,7 +40,40 @@ const ProductDetails = () => {
     "https://picsum.photos/300/200",
     "https://picsum.photos/400/300",
   ];
+  // Find the variant with promotion
+  // const variantWithPromotion = data.variants.find(
+  //   (variant) =>
+  //     variant?.product_variant_promotion?.coupon?.discount_type ===
+  //       "percentage" ||
+  //     variant?.product_variant_promotion?.coupon?.discount_type === "fixed"
+  // );
 
+ 
+
+  // const promotion = variantWithPromotion?.product_variant_promotion?.coupon;
+
+  // let discountPercentage = 0;
+  // let finalPrice = data.variants[0]?.regular_price;
+  // let stockStatus =
+  //   data?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock";
+
+  // if (promotion) {
+  //   if (promotion.discount_type === "percentage") {
+  //     discountPercentage = Math.round(promotion.discount_value);
+  //     const discountAmount =
+  //       (discountPercentage * data.variants[0].regular_price) / 100;
+  //     finalPrice = (data.variants[0].regular_price - discountAmount).toFixed(2);
+  //     stockStatus =
+  //       data?.product_stock?.length > 0
+  //         ? `${discountPercentage}% Off`
+  //         : "Out Of Stock";
+  //   } else {
+  //     discountPercentage = promotion.discount_value;
+  //     finalPrice = data.variants[0].regular_price - promotion.discount_value;
+  //     stockStatus =
+  //       data?.product_stock?.length > 0 ? "Flat Discount" : "Out Of Stock";
+  //   }
+  // }
   const faqs = [
     {
       question: "What is the best way to use this product?",
@@ -197,9 +230,12 @@ const ProductDetails = () => {
               <HeadTitle className="mb-2">
                 {data?.data?.product_name ?? ""}
               </HeadTitle>
-              <h4 className="font-bold">
-                {data?.data?.productdetails[0]?.description ?? ""}
-              </h4>
+              <h4
+  className="font-bold"
+  dangerouslySetInnerHTML={{
+    __html: data?.data?.productdetails[0]?.description ?? "",
+  }}
+></h4>
               <p>
                 <span className="font-thin text-sm text-gray">
                   {data?.data?.product_tags.map(
@@ -230,7 +266,7 @@ const ProductDetails = () => {
                       className="py-3"
                       value={variant.id}
                     >
-                      {variant.weight}
+                      {variant.weight} ML
                     </option>
                   ))}
                 </select>
@@ -398,7 +434,7 @@ const ProductDetails = () => {
         </div>
         {/* //---------------------------Review Section End---------------------------// */}
         {/* //Banner section  big Screen// */}
-        <div className="bg-primary my-6 hidden sm:block">
+        {/* <div className="bg-primary my-6 hidden sm:block">
           <div className="grid grid-cols-4 gap-4 p-6 mx-10   text-center">
             {images.map((image, index) => (
               <img
@@ -431,9 +467,9 @@ const ProductDetails = () => {
               </span>{" "}
             </p>
           </div>
-        </div>
+        </div> */}
 
-        <section className=" py-10 px-">
+        {/* <section className=" py-10 px-">
           <div className="text-center pt-4 pb-1">
             <HeadTitle className="text-2xl font-semibold text-center text-[#0C0C0C] lg:text-3xl">
               Prestige lA micro-huile serum frequently asked questions
@@ -484,7 +520,7 @@ const ProductDetails = () => {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
         {/*  //Bottom Accordian  End*/}
 
         {/* recommended products slider */}
