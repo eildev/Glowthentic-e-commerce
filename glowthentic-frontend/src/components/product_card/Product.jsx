@@ -30,7 +30,10 @@ const Product = ({ product, isDark }) => {
     (variant) => variant.status === "Default"
   );
 
+<<<<<<< HEAD
 console.log("product", product);
+=======
+>>>>>>> 1998888878d89874fb5de462ea0259218b64f694
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
     (variant) =>
@@ -201,7 +204,7 @@ console.log("product", product);
               isDark ? "text-white" : "text-primary"
             }`}
           >
-            {`${product_name.slice(0, 50)} (${variants?.[0].variant_name})` ??
+            {`${product_name.slice(0, 30)} (${variants?.[0].variant_name})` ??
               "Beautya Capture Total Dreamskin Care & Perfect"}
           </HeadTitle>
         </Link>

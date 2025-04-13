@@ -23,7 +23,7 @@ const HomePage = () => {
         <BannerCollection></BannerCollection>
         {/*--------- Banner Section -----------*/}
         <CategorySection />
-        <LatestBannerSection />
+        {/* <LatestBannerSection /> */}
         <TagSection />
         <div className="my-10 lg:my-20">
           <TopProductsSection></TopProductsSection>

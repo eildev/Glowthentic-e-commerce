@@ -9,10 +9,11 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
     <div
       className={`bg-white w-full text-black absolute top-[100%] left-0 z-20 shadow-lg 
       transition-all duration-300 ease-in-out transform 
-      ${showMegaMenu
+      ${
+        showMegaMenu
           ? "opacity-100 visible translate-y-0"
           : "opacity-0 invisible -translate-y-5"
-        }`}
+      }`}
     >
       <Container>
         <div className="grid grid-cols-5 gap-5 py-10">
@@ -21,7 +22,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
               {product_feature.slice(0, 10).map((feature) => (
                 <li
                   key={feature?.slug}
-                  className="cursor-pointer hover:text-secondary"
+                  className="cursor-pointer hover:text-secondary capitalize"
                 >
                   <Link
                     to="/products"
@@ -36,11 +37,13 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">By Subcategory</h2>
+            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">
+              By Subcategory
+            </h2>
             <ul className="grid gap-2 text-sm xxl:text-lg">
               {subcategories.slice(0, 10).map((subcategory) => (
                 <li
-                  className="font-normal hover:text-secondary"
+                  className="font-normal hover:text-secondary capitalize"
                   key={subcategory.slug}
                 >
                   <Link
@@ -55,11 +58,13 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">By Brands</h2>
+            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">
+              By Brands
+            </h2>
             <ul className="grid gap-2 text-sm xxl:text-lg">
               {brands.slice(0, 10).map((brand) => (
                 <li
-                  className="font-normal hover:text-secondary"
+                  className="font-normal hover:text-secondary capitalize"
                   key={brand?.slug}
                 >
                   <Link
@@ -74,10 +79,15 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">By Skin Condition</h2>
+            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">
+              By Skin Condition
+            </h2>
             <ul className="grid gap-2 text-sm xxl:text-lg">
               {tags.slice(0, 10).map((tag) => (
-                <li className="font-normal hover:text-secondary" key={tag.id}>
+                <li
+                  className="font-normal hover:text-secondary capitalize"
+                  key={tag.id}
+                >
                   <Link
                     to="/products"
                     state={{ tagId: tag.id }}

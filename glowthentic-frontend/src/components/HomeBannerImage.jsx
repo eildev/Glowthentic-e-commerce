@@ -2,7 +2,7 @@ import { imagePath } from "../utils/imagePath";
 
 const HomeBannerImage = ({ banner }) => {
   return (
-    <picture>
+    <picture className="w-full">
       {/* Extra Large Devices (1920px and up) */}
       <source
         media="(min-width: 1440px)"
@@ -21,7 +21,7 @@ const HomeBannerImage = ({ banner }) => {
       {/* Small Devices (default) */}
       <img
         src={imagePath(banner.small_image)}
-        className="w-full object-center object-cover lg:h-[537px] h-[350px]"
+        className="w-full lg:h-[737px] h-[550px]"
         alt="Slider Image"
       />
     </picture>

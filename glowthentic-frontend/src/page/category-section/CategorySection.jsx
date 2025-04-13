@@ -27,7 +27,7 @@ const CategorySection = () => {
 
   return (
     <div>
-      <HeadTitle className="text-center mt-8 text-[42px]">
+      <HeadTitle className="text-center mt-8 lg:text-2xl text-lg">
         SHOP BY CONCERN
       </HeadTitle>
       <Container>
@@ -38,7 +38,7 @@ const CategorySection = () => {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-6">
+          <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-6">
             {data?.categories
               ?.filter((category) => category?.parent_id === null)
               .slice(0, 12)
@@ -46,7 +46,7 @@ const CategorySection = () => {
                 <Link
                   to="/products"
                   key={index}
-                  className="lg:px-16 px-5 md:px-10 items-center justify-center"
+                  className="items-center justify-center"
                   onClick={() =>
                     handleCategoryClick(category.categoryName, category.id)
                   }
@@ -57,8 +57,8 @@ const CategorySection = () => {
                     alt={category?.categoryName}
                     className="w-full object-cover rounded"
                   />
-                  <h3 className="text-sm text-gray-600 mt-2 text-center">
-                    {category?.categoryName}
+                  <h3 className="text-sm text-gray-600 mt-2 text-center uppercase">
+                    {category?.categoryName ?? ""}
                   </h3>
                 </Link>
               ))}

@@ -35,7 +35,11 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
             <div key={index}>
               <li className="bg-white py-2 px-5 border-t last:border-b border-gray-light font-semibold cursor-pointer">
                 <div className="flex justify-between">
-                  <Link to="/products" onClick={handleHideNavbar}>
+                  <Link
+                    to="/products"
+                    className="capitalize"
+                    onClick={handleHideNavbar}
+                  >
                     {data?.categoryName ?? ""}
                   </Link>
                   {data?.subcategories?.length > 0 ? (
