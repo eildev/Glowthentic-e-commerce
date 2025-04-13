@@ -11,9 +11,11 @@ const ItemDetails = ({
   couponData,
   isLoading,
   location,
+  totalWeight,
 }) => {
   // Use the passed location value for shipping display
-  const displayShipping = location || 0;
+  const extraShipping = Math.floor(totalWeight / 850) * 20;
+  const displayShipping = (location || 0) + extraShipping;
   // console.log('total', total);
   // Show correct discount indicator (fixed or percentage)
   const value = couponData?.discount_type === "fixed" ? "৳" : "%";
