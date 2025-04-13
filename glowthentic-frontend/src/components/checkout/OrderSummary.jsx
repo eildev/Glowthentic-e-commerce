@@ -21,6 +21,19 @@ const OrderSummary = ({
   const checkColor = {
     "--chkfg": "#fff",
   };
+ console.log(carts);
+
+//  carts?.weight?.forEach((weight) => {
+//    totalWeight += weight;
+//  });
+let totalWeight = 0;
+
+carts?.forEach(item => {
+  totalWeight += parseFloat(item.weight * item.quantity); // or parseInt() if weight is always whole numbers
+});
+
+console.log("Total weight:", totalWeight);
+
 const preventClick = selectedDistrict && selectedUpazila ? "pointer-events-none opacity-100" : "";
   // Auto-select shipping based on district and upazila
   useEffect(() => {
@@ -104,6 +117,7 @@ const preventClick = selectedDistrict && selectedUpazila ? "pointer-events-none 
         discountPrice={discountPrice}
         couponData={couponData}
         location={location}
+        totalWeight={totalWeight}
       />
     </div>
   );

@@ -11,9 +11,11 @@ const ItemDetails = ({
   couponData,
   isLoading,
   location,
+  totalWeight,
 }) => {
   // Use the passed location value for shipping display
-  const displayShipping = location || 0;
+  const extraShipping = Math.floor(totalWeight / 850) * 20;
+  const displayShipping = (location || 0) + extraShipping;
   // console.log('total', total);
   // Show correct discount indicator (fixed or percentage)
   const value = couponData?.discount_type === "fixed" ? "৳" : "%";
@@ -50,10 +52,10 @@ const ItemDetails = ({
         <span className="text-sm font-medium">{tax} ৳</span>
       </div>
       <hr className="my-2 text-hr-thin" />
-      {/* <div className="flex justify-between font-bold">
+      <div className="flex justify-between font-bold">
         <span className="text-sm text-gray font-bold">Grand Total</span>
         <span className="text-lg font-medium">{total} ৳</span>
-      </div> */}
+      </div>
     </div>
   );
 };
