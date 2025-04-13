@@ -12,6 +12,7 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
   // if (isLoading) {
   //   return <span>Loading...</span>;
   // }
+  console.log("categoryData", categories);
   if (error) {
     return <span>Error</span>;
   }
@@ -53,7 +54,7 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
                       />
                     </div>
                   ) : (
-                    "No Category Found"
+                    ""
                   )}
                 </div>
               </li>
