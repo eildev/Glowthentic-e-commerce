@@ -9,6 +9,9 @@ import {
   setFilteredTags,
   setFilteredPrices,
 } from "../../redux/features/slice/filterSlice";
+import { useGetBrandQuery } from "../../redux/features/api/brand/brandApi";
+
+
 
 const DropdownFilter = () => {
   const dispatch = useDispatch();
@@ -20,8 +23,9 @@ const DropdownFilter = () => {
   } = useSelector((state) => state.filters);
 
   const { data: categoryData, isLoading, refetch } = useGetCategoryQuery();
+  const { data: brandData, isBrandLoading } = useGetBrandQuery()
   const { data: tagsData } = useGetTagsQuery();
-
+console.log('brandData',  brandData);
   useEffect(() => {
     refetch();
   }, [refetch]);
@@ -164,18 +168,18 @@ const DropdownFilter = () => {
           className="collapse-title text-secondary font-bold"
           htmlFor="category"
         >
-          Category
+          Brands
         </div>
         <div className="collapse-content">
-          {categoryData?.categories?.slice(0, 10).map((category) => (
-            <div key={category.id || category.categoryName} className="flex items-center py-2">
+          {brandData?.Brands.map((brand) => (
+            <div key={brand.id || brand.BrandName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
-                checked={selectedCategories.includes(category.categoryName)}
+                checked={selectedCategories.includes(brand.BrandName)}
                 onChange={() =>
                   handleCategoriesCheckboxChange(
-                    category.categoryName,
-                    category.id
+                    brand.BrandName,
+                    brand.id
                   )
                 }
               />
@@ -183,12 +187,12 @@ const DropdownFilter = () => {
                 className="ml-3 font-normal mb-1 cursor-pointer"
                 onClick={() =>
                   handleCategoriesCheckboxChange(
-                    category.categoryName,
-                    category.id
+                    brand.BrandName,
+                    brand.id
                   )
                 }
               >
-                {category.categoryName}
+                {brand.BrandName}
               </span>
             </div>
           ))}
