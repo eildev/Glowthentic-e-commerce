@@ -182,14 +182,13 @@ const CheckoutPage = () => {
       phone_number: `${formData.phone}`,
       coupon_code: coupon_code,
       order_note: formData.orderNotes,
-      ...(token ? { user_id: user.id } : { session_id: userSessionId }),
+      ...(token ? { user_id: user?.id } : { session_id: userSessionId }),
     };
 
-    // console.log(orderData);
+    console.log(orderData);
     try {
       const response = await placeOrder(orderData).unwrap();
-      // console.log('Order response:', response);
-
+      console.log("Order response:", response);
 
       if (response?.status === 200 || response?.success) {
         toast.success("Order placed successfully!");
@@ -207,7 +206,6 @@ const CheckoutPage = () => {
       toast.error("Failed to place order.");
     }
   };
-
 
   return (
     <div>

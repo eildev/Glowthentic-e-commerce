@@ -2,29 +2,28 @@ import Container from "../../components/Container";
 
 import image1 from "../../assets/img/special-offer/13.png";
 import image2 from "../../assets/img/special-offer/14.png";
+import image3 from "../../assets/img/special-offer/Eves-Banner.jpg";
+import image4 from "../../assets/img/special-offer/Eves-Banner-2.jpg";
 // import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 const SpecialOffers = () => {
   return (
     <div>
       {/* <DynamicHelmet title="Special Offers" /> */}
-      <Container>
-        <div className="flex flex-wrap mt-3 mb-14">
-          <div className="w-full px-5 lg:px-2  sm:w-1/2">
+
+      <div className="flex flex-wrap mt-3 mb-14">
+        <div className="w-full">
+          <picture>
+            {/* Large Devices (1024px and up) */}
+            <source media="(min-width: 1024px)" srcSet={image3} />
+            {/* Small Devices (default) */}
             <img
-              src={image1}
+              src={image4}
               alt="Special Offer 1"
               className="w-full h-full "
             />
-          </div>
-          <div className="w-full sm:w-1/2">
-            <img
-              src={image2}
-              alt="Special Offer 2"
-              className="w-full h-full "
-            />
-          </div>
+          </picture>
         </div>
-      </Container>
+      </div>
     </div>
   );
 };

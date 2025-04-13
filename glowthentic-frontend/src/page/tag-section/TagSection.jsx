@@ -39,7 +39,7 @@ const TagSection = () => {
               <Link
                 to="/products"
                 key={index}
-                className="lg:px-16 px-5 md:px-10 items-center justify-center"
+                className="items-center justify-center"
                 onClick={() => handleTagClick(tags.id)}
               >
                 <img

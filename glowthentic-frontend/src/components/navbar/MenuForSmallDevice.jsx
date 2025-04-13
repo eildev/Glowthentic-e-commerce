@@ -32,7 +32,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
             fill="#0C0C0C"
           />
         </svg>
-        <span className="text-[#0C0C0C] text-sm font-semibold">
+        <span className="text-[#0C0C0C] text-sm font-semibold capitalize">
           {item?.categoryName}
         </span>
       </span>
@@ -66,7 +66,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
                   {item?.subcategories.slice(0, 10).map((subcategory) => (
                     <li
                       key={subcategory.slug}
-                      className="text-sm text-[#404040] py-[10px] border-t border-[#DFDFDF] px-5"
+                      className="text-sm text-[#404040] py-[10px] border-t border-[#DFDFDF] px-5 capitalize"
                     >
                       <Link
                         to="/products"
@@ -86,7 +86,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
               <div>
                 <li
                   onClick={() => toggleSection("skin")}
-                  className="bg-white py-[10px] px-2 border-t border-gray-light font-semibold cursor-pointer text-sm flex justify-between"
+                  className="bg-white py-[10px] px-2 border-t border-gray-light font-semibold cursor-pointer text-sm flex justify-between capitalize"
                 >
                   {"By Brands"}
                   <Icon
@@ -107,7 +107,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
                   {item?.brands?.map((brand) => (
                     <li
                       key={brand?.slug}
-                      className="text-sm text-[#404040] py-[10px] border-t border-[#DFDFDF] px-5"
+                      className="text-sm text-[#404040] py-[10px] border-t border-[#DFDFDF] px-5 capitalize"
                     >
                       <Link
                         to="/products"
@@ -127,7 +127,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
               <div>
                 <li
                   onClick={() => toggleSection("collection")}
-                  className="bg-white py-[10px] px-2 border-t border-gray-light font-semibold cursor-pointer text-sm flex justify-between"
+                  className="bg-white py-[10px] px-2 border-t border-gray-light font-semibold cursor-pointer text-sm flex justify-between capitalize"
                 >
                   {"By Skin Condition"}
                   <Icon
@@ -148,7 +148,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
                   {item?.tags?.slice(0, 10).map((tag) => (
                     <li
                       key={tag.id}
-                      className="text-sm text-[#404040] py-[10px] border-t border-[#DFDFDF] px-5"
+                      className="text-sm text-[#404040] py-[10px] border-t border-[#DFDFDF] px-5 capitalize"
                     >
                       <Link
                         to="/products"
@@ -168,7 +168,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
               item?.product_feature.slice(0, 10).map((feature) => (
                 <li
                   key={feature.id}
-                  className="text-sm text-[#404040] py-[10px] px-2 bg-white border-t last:border-b border-[#DFDFDF]"
+                  className="text-sm text-[#404040] py-[10px] px-2 bg-white border-t last:border-b border-[#DFDFDF] capitalize"
                 >
                   <Link
                     to="/products"
