@@ -8,6 +8,7 @@ import {
   setFilteredBrands,
   setFilteredFeatures,
   setFilteredSearchQuery,
+  addCategoryWithName,
 } from "../../redux/features/slice/filterSlice";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Container from "../../components/Container";
@@ -17,42 +18,77 @@ import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import AllProduct from "./AllProduct";
 import { useLocation } from "react-router-dom";
+import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 
 const AllProductPage = () => {
   const dispatch = useDispatch();
   const { toggleFilter: isFilterOpen } = useSelector((state) => state.filters);
   const location = useLocation();
-  // console.log({ setFilteredCategories });
+  
+  // Fetch categories to get names from IDs
+  const { data: categoryData } = useGetCategoryQuery();
 
   useEffect(() => {
     const {
       categoryId,
+      categoryName,
       subcategoryId,
+      subcategoryName,
       brandId,
+      brandName,
       tagId,
+      tagName,
       featureSlug,
+      featureName,
       searchQuery,
     } = location.state || {};
 
+    // Helper function to find category name from ID
+    const findCategoryName = (id) => {
+      if (!categoryData?.categories) return null;
+      
+      const category = categoryData.categories.find(cat => cat.id === id);
+      return category ? category.categoryName : null;
+    };
+
+    // Reset filters when navigating to products page with new filters
+    // Only clear filters if we have new filters to apply
+    if (categoryId || subcategoryId || brandId || tagId || featureSlug || searchQuery) {
+      dispatch(setFilteredCategories([]));
+      dispatch(setFilteredTags([]));
+      dispatch(setFilteredBrands([]));
+      dispatch(setFilteredFeatures([]));
+      dispatch(setFilteredSearchQuery(""));
+    }
+
     if (categoryId) {
-      dispatch(setFilteredCategories([categoryId]));
+      const name = categoryName || findCategoryName(categoryId) || `Category ${categoryId}`;
+      dispatch(addCategoryWithName({ id: categoryId, name }));
     }
+    
     if (subcategoryId) {
-      dispatch(setFilteredCategories([subcategoryId]));
+      const name = subcategoryName || findCategoryName(subcategoryId) || `Subcategory ${subcategoryId}`;
+      dispatch(addCategoryWithName({ id: subcategoryId, name }));
     }
+    
     if (brandId) {
       dispatch(setFilteredBrands([brandId]));
+      // You could implement a similar addBrandWithName if needed
     }
+    
     if (tagId) {
       dispatch(setFilteredTags([tagId]));
+      // You could implement a similar addTagWithName if needed
     }
+    
     if (featureSlug) {
       dispatch(setFilteredFeatures([featureSlug]));
     }
+    
     if (searchQuery) {
       dispatch(setFilteredSearchQuery(searchQuery));
     }
-  }, [location.state, dispatch]);
+  }, [location.state, dispatch, categoryData]);
 
   const handleSortChange = (e) => {
     dispatch(setSortOption(e.target.value));
@@ -63,10 +99,6 @@ const AllProductPage = () => {
       <Breadcrumb>
         <li>Products</li>
       </Breadcrumb>
-      {/* <HeadTitle className="mt-5 lg:text-3xl mx-5 mb-3">
-        Women Skincare{" "}
-        <span className="text-gray text-sm lg:text-lg ms-1">(110)</span>
-      </HeadTitle> */}
 
       <div className="flex justify-between items-center mb-5 mx-5 gap-2">
         <div className="w-1/2">

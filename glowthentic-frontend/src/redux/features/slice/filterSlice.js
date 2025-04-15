@@ -3,8 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const filterSlice = createSlice({
     name: "filters",
     initialState: {
-        selectedCategories: [],
-        filteredCategories: [],
+        selectedCategories: [], // Category names for display
+        selectedCategoryMap: {}, // Map of ID to name for quick lookup
+        filteredCategories: [], // Category IDs for filtering
         filteredTags: [],
         filteredPrices: [],
         filteredBrands: [],
@@ -18,8 +19,65 @@ const filterSlice = createSlice({
         setSelectedCategories(state, action) {
             state.selectedCategories = action.payload;
         },
+        addCategoryWithName(state, action) {
+            const { id, name } = action.payload;
+            
+            // Update the ID-to-name mapping
+            state.selectedCategoryMap[id] = name;
+            
+            // Update filtered categories (IDs)
+            if (!state.filteredCategories.includes(id)) {
+                state.filteredCategories.push(id);
+            }
+            
+            // Update selected categories (names for display)
+            if (!state.selectedCategories.includes(name)) {
+                state.selectedCategories.push(name);
+            }
+        },
+        removeCategoryByName(state, action) {
+            const nameToRemove = action.payload;
+            
+            // Find the ID that corresponds to this name
+            const idToRemove = Object.keys(state.selectedCategoryMap).find(
+                id => state.selectedCategoryMap[id] === nameToRemove
+            );
+            
+            // Remove from filtered categories (IDs)
+            if (idToRemove) {
+                state.filteredCategories = state.filteredCategories.filter(
+                    id => id !== idToRemove
+                );
+                // Remove from the mapping
+                delete state.selectedCategoryMap[idToRemove];
+            }
+            
+            // Remove from selected categories (names)
+            state.selectedCategories = state.selectedCategories.filter(
+                name => name !== nameToRemove
+            );
+        },
         setFilteredCategories(state, action) {
+            // This should update both filteredCategories and ensure selectedCategories is in sync
             state.filteredCategories = action.payload;
+            
+            // Clear selected categories that are no longer in filtered categories
+            const validIds = new Set(action.payload);
+            
+            // Keep only selected categories that match valid IDs
+            state.selectedCategories = state.selectedCategories.filter(name => {
+                const matchingId = Object.keys(state.selectedCategoryMap).find(
+                    id => state.selectedCategoryMap[id] === name
+                );
+                return matchingId && validIds.has(matchingId);
+            });
+            
+            // Update the map to only include valid IDs
+            Object.keys(state.selectedCategoryMap).forEach(id => {
+                if (!validIds.has(id)) {
+                    delete state.selectedCategoryMap[id];
+                }
+            });
         },
         setFilteredTags(state, action) {
             state.filteredTags = action.payload;
@@ -44,6 +102,7 @@ const filterSlice = createSlice({
         },
         clearAllFilters(state) {
             state.selectedCategories = [];
+            state.selectedCategoryMap = {};
             state.filteredCategories = [];
             state.filteredTags = [];
             state.filteredPrices = [];
@@ -56,13 +115,28 @@ const filterSlice = createSlice({
             let filtered = [...products];
             let anyFilterApplied = false;
 
-            // Apply category filter
+            // Apply category filter with improved logic
             if (state.filteredCategories.length > 0) {
                 anyFilterApplied = true;
-                filtered = filtered.filter(product=>
-                    (product.category_id && state.filteredCategories.includes(product.category_id)) ||
-                    (product.subcategory_id && state.filteredCategories.includes(product.subcategory_id))
-                );
+                filtered = filtered.filter(product => {
+                    // Check both category_id and subcategory_id
+                    const categoryMatches = product.category_id && 
+                        state.filteredCategories.includes(product.category_id);
+                    const subcategoryMatches = product.subcategory_id && 
+                        state.filteredCategories.includes(product.subcategory_id);
+                    
+                    // Also check product.category.id if available
+                    const categoryObjMatches = product.category && product.category.id &&
+                        state.filteredCategories.includes(product.category.id);
+                    
+                    // Also check subcategories array if available
+                    const subcategoriesArrayMatches = product.subcategories && 
+                        product.subcategories.some(sub => 
+                            state.filteredCategories.includes(sub.id)
+                        );
+                    
+                    return categoryMatches || subcategoryMatches || categoryObjMatches || subcategoriesArrayMatches;
+                });
             }
 
             // Apply tags filter
@@ -174,6 +248,8 @@ const filterSlice = createSlice({
 
 export const {
     setSelectedCategories,
+    addCategoryWithName,
+    removeCategoryByName,
     setFilteredCategories,
     setFilteredTags,
     setFilteredPrices,
