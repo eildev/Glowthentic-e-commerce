@@ -30,10 +30,7 @@ const Product = ({ product, isDark }) => {
     (variant) => variant.status === "Default"
   );
 
-<<<<<<< HEAD
 console.log("product", product);
-=======
->>>>>>> 1998888878d89874fb5de462ea0259218b64f694
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
     (variant) =>
