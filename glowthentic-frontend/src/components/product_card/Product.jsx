@@ -146,13 +146,13 @@ console.log("product", product);
   return (
     <div
       className={`card w-auto bg-light rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out ${
-        isDark ? "h-[320px] lg:h-[500px]" : ""
+        isDark ? "min-h-[320px] lg:min-h-[500px]" : ""
       }`}
     >
-      <figure className="relative overflow-hidden">
+      <figure className="relative overflow-hidden min-h-[180px] md:min-h-[380px] lg:h-[380px]">
         <Link to={`/product/${product.slug}`}>
           <img
-            className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:pb-3 pb-2 border p-6 transition-transform duration-500 hover:scale-105"
+            className="lg:h-[380px] min-h-[250px] md:min-h-[280px] object-cover transition-transform duration-500 hover:scale-105"
             src={productImage ?? defaultImage}
             alt={product_name ?? "product image"}
           />
@@ -198,7 +198,7 @@ console.log("product", product);
       </figure>
 
       <div
-        className={`card-body px-3 lg:px-5 rounded-b-2xl transition-colors duration-300 ${
+        className={`card-body md:h-[180px] h-[180px] px-3 lg:px-5 rounded-b-2xl transition-colors duration-300 ${
           isDark
             ? "bg-primary text-white text-center"
             : "bg-white text-primary text-left"
