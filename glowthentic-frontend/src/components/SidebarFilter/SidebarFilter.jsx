@@ -60,12 +60,12 @@ const SidebarFilter = ({ className }) => {
           </Link>
         </div>
         <hr className="text-hr-thin" />
-        <div className="flex justify-between items-center p-4">
+        {/* <div className="flex justify-between items-center p-4">
           <HeadTitle className="text-sm md:text-lg lg:text-lg xl:text-lg">
             Out Of Stock Items
           </HeadTitle>
           <Toggle className="mt-1" />
-        </div>
+        </div> */}
         <hr className="text-hr-thin" />
         <DropdownFilter />
       </div>

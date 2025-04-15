@@ -63,8 +63,8 @@ export default function ProductQueryNavigation({ data }) {
     { id: "details", label: "Product Details" },
     { id: "apply", label: "How to Apply" },
     { id: "ingredients", label: "Ingredient" },
-    { id: "advance", label: "What Makes It Advance" },
-    { id: "specs", label: "Product Specification" },
+    // { id: "advance", label: "What Makes It Advance" },
+    // { id: "specs", label: "Product Specification" },
   ];
   const contentData = {
     details: {
@@ -79,14 +79,14 @@ export default function ProductQueryNavigation({ data }) {
       short: truncateText(ingredients, 80),
       full: ingredients,
     },
-    advance: {
-      short: truncateText(advance, 80),
-      full: advance,
-    },
-    specs: {
-      short: truncateText(specification, 80),
-      full: specification,
-    },
+    // advance: {
+    //   short: truncateText(advance, 80),
+    //   full: advance,
+    // },
+    // specs: {
+    //   short: truncateText(specification, 80),
+    //   full: specification,
+    // },
   };
   const handleTabClick = (tabId) => {
     setSelectedTab(tabId);

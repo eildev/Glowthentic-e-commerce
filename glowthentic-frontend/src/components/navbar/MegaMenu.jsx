@@ -18,15 +18,15 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
       <Container>
         <div className="grid grid-cols-5 gap-5 py-10">
           <div>
-            <ul className="font-semibold text-lg grid gap-2">
+            <ul className="font-semibold text-sm xxl:text-lg grid gap-2">
               {product_feature.slice(0, 10).map((feature) => (
                 <li
                   key={feature?.slug}
-                  className="cursor-pointer hover:text-secondary"
+                  className="cursor-pointer hover:text-secondary capitalize"
                 >
                   <Link
                     to="/products"
-                    state={{ featureSlug: feature?.slug }}
+                    // state={{ featureSlug: feature?.slug }}
                     onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
                     className="capitalize"
                   >
@@ -37,11 +37,13 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-2">By Subcategory</h2>
-            <ul className="grid gap-2">
+            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">
+              By Subcategory
+            </h2>
+            <ul className="grid gap-2 text-sm xxl:text-lg">
               {subcategories.slice(0, 10).map((subcategory) => (
                 <li
-                  className="font-normal hover:text-secondary"
+                  className="font-normal hover:text-secondary capitalize"
                   key={subcategory.slug}
                 >
                   <Link
@@ -56,11 +58,13 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-2">By Brands</h2>
-            <ul className="grid gap-2">
+            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">
+              By Brands
+            </h2>
+            <ul className="grid gap-2 text-sm xxl:text-lg">
               {brands.slice(0, 10).map((brand) => (
                 <li
-                  className="font-normal hover:text-secondary"
+                  className="font-normal hover:text-secondary capitalize"
                   key={brand?.slug}
                 >
                   <Link
@@ -75,10 +79,15 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-2">By Skin Condition</h2>
-            <ul className="grid gap-2">
+            <h2 className="font-semibold mb-2 text-sm xxl:text-lg">
+              By Skin Condition
+            </h2>
+            <ul className="grid gap-2 text-sm xxl:text-lg">
               {tags.slice(0, 10).map((tag) => (
-                <li className="font-normal hover:text-secondary" key={tag.id}>
+                <li
+                  className="font-normal hover:text-secondary capitalize"
+                  key={tag.id}
+                >
                   <Link
                     to="/products"
                     state={{ tagId: tag.id }}
@@ -90,7 +99,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
               ))}
             </ul>
           </div>
-          <div className="grid">
+          <div>
             <img src={image} alt="navbar Image" />
             <h4 className="font-semibold capitalize text-sm my-2">
               capture totale super potent rich cream

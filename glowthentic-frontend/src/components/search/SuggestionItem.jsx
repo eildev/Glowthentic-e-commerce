@@ -3,6 +3,7 @@ import defaultImage from "../../assets/img/Product/20.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSuggestionsVisible } from "../../redux/features/slice/searchSlice";
+import { imagePath } from "../../utils/imagePath";
 
 const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
   const { product_name, thumbnail, variants, slug, variant_image } = item;
@@ -10,7 +11,8 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
   const navigate = useNavigate();
 
   // Safe image access
-  const product_image = thumbnail || (variant_image && variant_image[0]?.image);
+  const product_image =
+    thumbnail || imagePath(variant_image && variant_image[0]?.image);
 
   // Log the component mounting and the item data
   useEffect(() => {
@@ -19,18 +21,19 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
 
   const handleItemClick = (e) => {
     // Add explicit debugging
-    console.log("SuggestionItem clicked!");
-    console.log("Slug value:", slug);
+    // console.log("SuggestionItem clicked!");
+    // console.log("Slug value:", slug);
 
     e.preventDefault(); // Prevent default behavior
     e.stopPropagation(); // Prevent click from bubbling up to document
 
     // Check if slug exists before navigating
     if (slug) {
-      console.log("Attempting to navigate to:", `/product/${slug}`);
+      // console.log("Attempting to navigate to:", `/product/${slug}`);
       navigate(`/product/${slug}`);
     } else {
-      console.error("Missing slug for product:", product_name);
+      // console.error("Missing slug for product:", product_name);
+      toast.error("Something went wrong Please Be patient");
     }
 
     // Close suggestions after attempting navigation
@@ -49,13 +52,13 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
           alt={product_name || "Product"}
           className="w-10 h-10 object-cover rounded"
           onClick={(e) => {
-            console.log("Image clicked directly");
+            // console.log("Image clicked directly");
             handleItemClick(e);
           }}
         />
         <div
           onClick={(e) => {
-            console.log("Text div clicked directly");
+            // console.log("Text div clicked directly");
             handleItemClick(e);
           }}
         >

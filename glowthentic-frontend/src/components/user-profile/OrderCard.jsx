@@ -5,15 +5,15 @@ import { useGetReviewInfoQuery } from "../../redux/features/api/review/reviewGet
 import { useSelector } from "react-redux";
 
 const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
-const [reviewItem, setReviewItem] = useState(null)
-const { user, token } = useSelector((state) => state.auth);
-// const { data, isLoading, isError, error } = useGetReviewInfoQuery();
+  const [reviewItem, setReviewItem] = useState(null);
+  const { user, token } = useSelector((state) => state.auth);
+  // const { data, isLoading, isError, error } = useGetReviewInfoQuery();
 
-// console.log(data);
+  // console.log(data);
 
-const clickHandle = (item) => {
-  setReviewItem(item); 
-};
+  const clickHandle = (item) => {
+    setReviewItem(item);
+  };
 
   useEffect(() => {
     if (reviewItem) {
@@ -28,10 +28,10 @@ const clickHandle = (item) => {
           <p className="text-center text-gray-500">Loading orders...</p>
         ) : order?.order?.length === 0 ? (
           <p className="text-center text-gray-500">
-            আপনি এখনও কোনো অর্ডার করেননি।
+            You haven`t placed any order yet.
           </p>
         ) : order?.order ? (
-          [...order.order] 
+          [...order.order]
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((item, i) => {
               const formattedDate = new Date(item.created_at).toLocaleString(
@@ -80,16 +80,14 @@ const clickHandle = (item) => {
         ) : (
           <p className="text-center text-gray-500">No data Available</p>
         )
-      ) 
-      : historyLoad ? (
+      ) : historyLoad ? (
         <p className="text-center text-gray-500">Loading history...</p>
       ) : history?.length === 0 ? (
         <p className="text-center text-gray-500">
           আপনার কোনো অর্ডার ইতিহাস নেই।
         </p>
       ) : (
-        [...history.order
-        ] // Create a copy before sorting
+        [...history.order] // Create a copy before sorting
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
           .map((item, i) => {
             const formattedDate = new Date(item.created_at).toLocaleString(
@@ -135,19 +133,20 @@ const clickHandle = (item) => {
                     className={`
                           text-white bg-secondary
                       w-full uppercase rounded-md md:rounded-none py-3 text-sm md:text-md`}
-                    onClick={()=>clickHandle(item)}
+                    onClick={() => clickHandle(item)}
                   >
                     Give Review
                   </button>
 
-
-                  <OrderReviewModal item={reviewItem} setReviewItem={setReviewItem}/>
+                  <OrderReviewModal
+                    item={reviewItem}
+                    setReviewItem={setReviewItem}
+                  />
                 </div>
               </div>
             );
           })
       )}
-
     </>
   );
 };

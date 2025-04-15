@@ -7,7 +7,6 @@ import { useReviewInfoMutation } from "../../redux/features/api/review/reviewApi
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
-
 function getRating(rating) {
   switch (rating) {
     case 1:
@@ -33,11 +32,11 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
   // const [selectedItem, setSelectedItem] = useState(null);
   const hasMultipleProducts = item?.order_details?.length > 1;
   const selectedProduct =
-  hasMultipleProducts && selectedIndex !== "all"
-  ? item?.order_details[selectedIndex]
-  : item?.order_details[0];
-  
-  console.log(selectedProduct);
+    hasMultipleProducts && selectedIndex !== "all"
+      ? item?.order_details[selectedIndex]
+      : item?.order_details[0];
+
+  // console.log(selectedProduct);
 
   const userID = user?.id;
   const [rating, setRating] = useState(3);
@@ -46,7 +45,8 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
   const [reviewText, setReviewText] = useState("");
   const [review, setReview] = useState(false);
 
-  const [postReview, { isLoading, isError, isSuccess }] = useReviewInfoMutation();
+  const [postReview, { isLoading, isError, isSuccess }] =
+    useReviewInfoMutation();
 
   const customStyles = {
     itemShapes: Star,
@@ -57,7 +57,7 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
-    setImagesFile(files)
+    setImagesFile(files);
     const newImages = files.map((file) => URL.createObjectURL(file));
     setImages([...images, ...newImages]);
   };
@@ -71,15 +71,14 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
 
     // Validation to check if the review text is empty
     if (!reviewText.trim()) {
-      setReview(true)
       return; // Prevent form submission
     }
 
-    console.log(item?.order_details);
+    // console.log(item?.order_details);
 
     const reviewData = {
       user_id: userID,
-      product_id: (selectedIndex == "all" ? null : selectedProduct?.product.id),
+      product_id: selectedIndex == "all" ? null : selectedProduct?.product.id,
       order_id: item?.id,
       rating: rating,
       review: reviewText,
@@ -93,10 +92,10 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
       setReviewText("");
       setImages([]);
       setRating(3);
-      setReview(false)
+      setReview(false);
       document.getElementById("my_modal_3").close();
-      setReviewItem(null); 
-      setSelectedIndex('all')
+      setReviewItem(null);
+      setSelectedIndex("all");
     } catch (error) {
       console.error("Failed to submit review:", error);
       // toast.error("Failed to submit review.");
@@ -106,11 +105,22 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
   return (
     <dialog id="my_modal_3" className="modal ">
       <div className="modal-box rounded-lg md:min-w-[700px] p-8">
-        <form className="flex items-center justify-between mb-4" method="dialog">
+        <form
+          className="flex items-center justify-between mb-4"
+          method="dialog"
+        >
           <h3 className="text-md md:text-lg font-bold font-encode text-secondary">
             Give Review
           </h3>
-          <button className="cursor-pointer" onClick={() => {setReviewItem(null); setSelectedIndex('all')}}>✕</button>
+          <button
+            className="cursor-pointer"
+            onClick={() => {
+              setReviewItem(null);
+              setSelectedIndex("all");
+            }}
+          >
+            ✕
+          </button>
         </form>
 
         <div className="flex flex-col items-center md:flex-row">
@@ -132,7 +142,10 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
                     {selectedProduct?.product?.category?.categoryName}
                   </p>
                   <p className="flex items-center text-sm md:text-md text-dark font-semibold font-encode">
-                    <Icon className="w-4 h-4 md:w-6 md:h-6 text-secondary" icon={"mdi:star"} />
+                    <Icon
+                      className="w-4 h-4 md:w-6 md:h-6 text-secondary"
+                      icon={"mdi:star"}
+                    />
                     4.5
                   </p>
                 </div>
@@ -143,31 +156,31 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
             </div>
           ) : null}
 
-
-          <div className={`w-full ${selectedIndex !=="all" || !hasMultipleProducts ? "md:pl-8" : ""} mt-4 md:mt-0`}>
+          <div
+            className={`w-full ${
+              selectedIndex !== "all" || !hasMultipleProducts ? "md:pl-8" : ""
+            } mt-4 md:mt-0`}
+          >
             <form onSubmit={handleSubmit}>
               <div className="flex justify-between items-center">
-
                 {/* products select */}
-                {
-                  hasMultipleProducts && <select
+                {hasMultipleProducts && (
+                  <select
                     className="mb-2 py-1 px-2 w-full rounded-md text-center text-gray-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary hover:border-secondary"
                     onChange={(e) => setSelectedIndex(e.target.value)}
                   >
                     <option value="all">All Products</option>
                     {item?.order_details.map((detail, index) => (
-                      <option key={index} value={index} >
+                      <option key={index} value={index}>
                         {detail.product.product_name}
                       </option>
                     ))}
                   </select>
-                }
-
-
+                )}
               </div>
 
               <div className="flex items-center mt-2">
-              <p className="text-sm md:text-md text-dark font-medium font-encode mr-5">
+                <p className="text-sm md:text-md text-dark font-medium font-encode mr-5">
                   Star
                 </p>
                 <Rating
@@ -181,16 +194,31 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
                 </p>
               </div>
 
-              <p className="text-sm text-dark font-medium mt-6 mb-2">Upload Images</p>
+              <p className="text-sm text-dark font-medium mt-6 mb-2">
+                Upload Images
+              </p>
               <label className="block w-full p-4 border border-gray-300 rounded-md cursor-pointer text-center text-gray-500 hover:bg-gray-100 transition duration-200 ease-in-out">
                 Click to Upload Images
-                <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} />
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
               </label>
               {images.length > 0 && (
                 <div className="flex flex-wrap gap-3 mt-4 justify-center">
                   {images.map((img, index) => (
-                    <div key={index} className="relative w-20 h-20 rounded-md overflow-hidden shadow-md">
-                      <img src={img} alt={`Uploaded Preview ${index}`} className="w-full h-full object-cover" />
+                    <div
+                      key={index}
+                      className="relative w-20 h-20 rounded-md overflow-hidden shadow-md"
+                    >
+                      <img
+                        src={img}
+                        alt={`Uploaded Preview ${index}`}
+                        className="w-full h-full object-cover"
+                      />
                       <button
                         onClick={() => handleImageDelete(index)}
                         className="absolute top-1 right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full shadow-lg flex items-center justify-center"
@@ -202,7 +230,9 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
                 </div>
               )}
 
-              <p className="text-sm md:text-md text-dark font-medium font-encode mt-6 mb-2">Review</p>
+              <p className="text-sm md:text-md text-dark font-medium font-encode mt-6 mb-2">
+                Review
+              </p>
               <textarea
                 type="text"
                 rows={3}
@@ -221,8 +251,12 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
               </button>
 
               <div>
-                {isError && <p className="text-red-500 mt-2">Failed to submit review.</p>}
-                {review && <p className="text-red-500 mt-2">Please write a review!</p>}
+                {isError && (
+                  <p className="text-red-500 mt-2">Failed to submit review.</p>
+                )}
+                {review && (
+                  <p className="text-red-500 mt-2">Please write a review!</p>
+                )}
               </div>
             </form>
           </div>

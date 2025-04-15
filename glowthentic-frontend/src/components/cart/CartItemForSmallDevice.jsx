@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice";
 import { imagePath } from "../../utils/imagePath";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const CartItemForSmallDevice = ({ item, handleDelete }) => {
-    const [itemCount, setItemCount] = useState(item?.quantity || 1);
+  const [itemCount, setItemCount] = useState(item?.quantity || 1);
   const dispatch = useDispatch();
   const selectedItems = useSelector((state) => state.selectCart.selectedItems);
   const isSelected = selectedItems.includes(item.id);
@@ -16,7 +17,7 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
     dispatch(toggleItemSelection(item.id));
   };
 
-  const image = imagePath(item?.variant_image[0].image);
+  const image = imagePath(item?.variant_image[0]?.image);
   return (
     <tr className="border-none">
       <div>
@@ -34,10 +35,11 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
               <div className="font-semibold text-xs">
                 {item?.product?.product_name ?? ""}
               </div>
+              <div className="text-sm opacity-50 mb-1">{item?.variant_name ?? ""}</div>
               <div className="text-[#FA8232] flex items-center gap-2">
                 <svg
-                  width="11"
-                  height="11"
+                  width="14"
+                  height="14"
                   viewBox="0 0 25 26"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +69,12 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <h1 className="font-semibold text-xs leading-4">Edit</h1>
+                <Link
+                  to={`/product/${item?.product?.slug}`}
+                  className="font-medium text-sm leading-4"
+                >
+                  Edit
+                </Link>
               </div>
             </div>
           </div>

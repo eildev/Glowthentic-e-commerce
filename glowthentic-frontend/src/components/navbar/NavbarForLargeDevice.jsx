@@ -8,9 +8,7 @@ import { useGetNavbarCategoryQuery } from "../../redux/features/api/category/cat
 const NavbarForLargeDevice = () => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const { data: categories, error, isLoading } = useGetNavbarCategoryQuery();
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+
   if (error) {
     return <span>Error</span>;
   }
@@ -21,7 +19,7 @@ const NavbarForLargeDevice = () => {
   return (
     <div className="hidden lg:block h-[54px] bg-primary text-white py-4">
       <Container>
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-center gap-2 capitalize">
           {categories?.categories.map((data, index) => (
             <div
               key={index}
@@ -32,13 +30,19 @@ const NavbarForLargeDevice = () => {
                 to="/products"
                 state={{ categoryId: data.id }}
                 onClick={handleHideMegaMenu}
-                className={`flex items-center gap-1 text-xs xl:text-sm  hover:text-secondary ${
+                className={` flex items-center gap-1 text-xs xl:text-sm  hover:text-secondary ${
                   data?.isButton
                     ? "bg-white px-4 py-1 text-black rounded-2xl font-medium"
                     : ""
                 }`}
               >
-                {data?.categoryName ?? ""}
+                <p className="capitalize">
+                  {data?.categoryName
+                    ? data.categoryName
+                        .toLowerCase()
+                        .replace(/(^|\s)\w/g, (letter) => letter.toUpperCase())
+                    : ""}
+                </p>
                 <Icon
                   className={data?.isButton ? "hidden" : "block"}
                   icon="solar:alt-arrow-down-line-duotone"

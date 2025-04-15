@@ -26,7 +26,11 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
     !productData?.categories?.length &&
     !productData?.brands?.length
   ) {
-    return <p className="px-4 py-2 text-gray-500">No results found</p>;
+    return (
+      <p className="px-4 py-5 text-black text-center lg:text-xl">
+        No results found
+      </p>
+    );
   }
 
   return (

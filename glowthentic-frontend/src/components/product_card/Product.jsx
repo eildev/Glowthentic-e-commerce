@@ -30,49 +30,54 @@ const Product = ({ product, isDark }) => {
     (variant) => variant.status === "Default"
   );
 
-  // console.log('product',product);
-
+console.log("product", product);
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
     (variant) =>
-      variant?.product_variant_promotion?.[0]?.coupon?.discount_type ===
-      "percentage"
+      variant?.product_variant_promotion?.coupon?.discount_type ===
+        "percentage" ||
+      variant?.product_variant_promotion?.coupon?.discount_type === "fixed"
   );
 
-
-  
-  const filteredCartItems = cartItems.filter(item => {
+  const filteredCartItems = cartItems.filter((item) => {
     if (user?.id) {
       return item.user_id == user.id;
     } else {
       return item.user_id == null;
     }
   });
-  
 
+  const promotion = variantWithPromotion?.product_variant_promotion?.coupon;
 
-
-  // console.log('variantWithPromotion',variantWithPromotion);
-  const promotion = variantWithPromotion?.product_variant_promotion?.[0];
-  // console.log(variantWithPromotion);
   let discountPercentage = 0;
   let finalPrice = variants[0]?.regular_price;
-  let stockStatus = "In Stock";
+  let stockStatus =
+    product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock";
 
   if (promotion) {
-    discountPercentage = Math.round(promotion.coupon.discount_value);
-    const discountAmount =
-      (discountPercentage * variants[0].regular_price) / 100;
-    finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
-    stockStatus = `${discountPercentage}% Off`;
-
-    console.log("discount",finalPrice, stockStatus);
+    if (promotion.discount_type === "percentage") {
+      discountPercentage = Math.round(promotion.discount_value);
+      const discountAmount =
+        (discountPercentage * variants[0].regular_price) / 100;
+      finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
+      stockStatus =
+        product?.product_stock?.length > 0
+          ? `${discountPercentage}% Off`
+          : "Out Of Stock";
+    } else {
+      discountPercentage = promotion.discount_value;
+      finalPrice = variants[0].regular_price - promotion.discount_value;
+      stockStatus =
+        product?.product_stock?.length > 0 ? "Flat Discount" : "Out Of Stock";
+    }
   }
 
   useEffect(() => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
     setIsFav(favourite.some((item) => item.id === id));
-    setIsInCart(filteredCartItems.some((item) => item.id === defaultVariant.id));
+    setIsInCart(
+      filteredCartItems.some((item) => item.id === defaultVariant.id)
+    );
   }, [id, filteredCartItems, defaultVariant]);
 
   const productImage = imagePath(variants[0]?.variant_image[0]?.image);
@@ -84,7 +89,11 @@ const Product = ({ product, isDark }) => {
         `${productItem?.product?.product_name ?? ""} removed from Cart!`
       );
     } else {
-      const newProduct = { ...productItem, quantity: 1, user_id: user?.id || null};
+      const newProduct = {
+        ...productItem,
+        quantity: 1,
+        user_id: user?.id || null,
+      };
       dispatch(addToCart(newProduct));
       toast.success(
         `${productItem?.product?.product_name ?? ""} added to Cart!`
@@ -188,20 +197,21 @@ const Product = ({ product, isDark }) => {
       >
         <Link to={`/product/${product.slug}`}>
           <HeadTitle
-            className={`text-sm lg:text-lg transition-colors duration-200 hover:text-secondary ${
+            className={`text-sm xl:text-lg transition-colors duration-200 hover:text-secondary ${
               isDark ? "text-white" : "text-primary"
             }`}
           >
-            {productName ?? "Beautya Capture Total Dreamskin Care & Perfect"}
+            {`${product_name.slice(0, 30)} (${variants?.[0].variant_name})` ??
+              "Beautya Capture Total Dreamskin Care & Perfect"}
           </HeadTitle>
         </Link>
         <Paragraph className="text-xs lg:text-sm transition-opacity duration-200 hover:opacity-80">
           <span
             dangerouslySetInnerHTML={{
-              __html: productdetails[0].description
+              __html: productdetails[0]?.description
                 ? window.innerWidth >= 1000
-                  ? productdetails[0].description.slice(0, 80)
-                  : productdetails[0].description.slice(0, 40) + "..."
+                  ? productdetails[0]?.description?.slice(0, 80)
+                  : productdetails[0]?.description?.slice(0, 40) + "..."
                 : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
             }}
           />

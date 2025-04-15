@@ -85,7 +85,7 @@ const EditAccount = () => {
 
   // Handle form submission
   const onSubmit = async (formData) => {
-    console.log("User ID:", userID);
+    // console.log("User ID:", userID);
     if (!userID) {
       toast.error("User ID is not available. Please log in again.");
       return;
@@ -111,22 +111,22 @@ const EditAccount = () => {
           formDataToSend.append(key, value);
         });
         formDataToSend.append("image", imageFile);
-        console.log("Sending FormData:", [...formDataToSend]);
+        // console.log("Sending FormData:", [...formDataToSend]);
         response = await updateUser({
           id: userID,
           ...Object.fromEntries(formDataToSend),
         }).unwrap();
       } else {
-        console.log("Sending JSON payload:", payload);
+        // console.log("Sending JSON payload:", payload);
         response = await updateUser(payload).unwrap();
       }
 
-      console.log("API Response:", response);
+      // console.log("API Response:", response);
       toast.success("User information updated successfully!");
       if (response.user?.image) {
         setImagePreview(response.user.image);
       } else {
-        console.log("No image URL in response");
+        // console.log("No image URL in response");
       }
     } catch (err) {
       console.error("Update error:", err);

@@ -1,4 +1,9 @@
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import Container from "../../components/Container";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import PreviousPage from "../../components/previous-page/PreviousPage";
@@ -25,7 +30,7 @@ import { useCheckCouponMutation } from "../../redux/features/api/couponApi/coupo
 const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const { selectedItems, allSelected } = useSelector(
     (state) => state.selectCart
@@ -40,21 +45,18 @@ const CartPage = () => {
   const [discountPrice, setDiscountPrice] = useState(0);
   const [checkCoupon, { isLoading, isSuccess, isError, error }] =
     useCheckCouponMutation();
-  const [couponData, setCouponData] = useState({})
+  const [couponData, setCouponData] = useState({});
   const location = useLocation();
   const queryString = location.search;
   const [searchParams, setSearchParams] = useSearchParams();
 
-
-  const filteredCartItems = cartItems.filter(item => {
+  const filteredCartItems = cartItems.filter((item) => {
     if (user?.id) {
       return item.user_id == user.id;
     } else {
       return item.user_id == null;
     }
   });
-  
-  
 
   useEffect(() => {
     const urlCoupon = searchParams.get("coupon");
@@ -62,11 +64,13 @@ const CartPage = () => {
       setCoupon_code(urlCoupon);
       const fetchCoupon = async () => {
         try {
-          const response = await checkCoupon({ coupon_code: urlCoupon }).unwrap();
+          const response = await checkCoupon({
+            coupon_code: urlCoupon,
+          }).unwrap();
           // console.log("API Response:", response);
           const discountValue = Math.round(response?.data?.discount_value);
-          setDiscountPrice(discountValue)
-          setCouponData(response.data)
+          setDiscountPrice(discountValue);
+          setCouponData(response.data);
         } catch (error) {
           console.error("Error fetching coupon:", error);
         }
@@ -75,18 +79,17 @@ const CartPage = () => {
     }
   }, [searchParams]);
 
-
-
-
-
+  // console.log(couponData);
 
   useEffect(() => {
     const total = filteredCartItems.reduce((sum, item) => {
       const regularPrice = item?.regular_price;
       const quantity = item?.quantity || 1;
 
-      const discountValue = item?.product_variant_promotion?.[0]?.coupon?.discount_value || 0;
-      const discountType = item?.product_variant_promotion?.[0]?.coupon?.discount_type;
+      const discountValue =
+        item?.product_variant_promotion?.coupon?.discount_value || 0;
+      const discountType =
+        item?.product_variant_promotion?.coupon?.discount_type;
 
       let finalPrice = regularPrice;
 
@@ -105,20 +108,16 @@ const CartPage = () => {
     setSubTotalPrice(total);
   }, [filteredCartItems]);
 
-
-
   const handleDelete = (id) => {
     setItemToDelete(id);
     setIsRemoveAll(false);
     setShowModal(true);
   };
 
-
   const handleRemoveAll = () => {
     setIsRemoveAll(true);
     setShowModal(true);
   };
-
 
   const confirmDelete = () => {
     if (isRemoveAll) {
@@ -139,7 +138,6 @@ const CartPage = () => {
     setIsRemoveAll(false);
   };
 
-
   const cancelDelete = () => {
     setShowModal(false);
     setItemToDelete(null);
@@ -156,27 +154,22 @@ const CartPage = () => {
     0
   );
 
-  const shippingPrice = filteredCartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
-
+  const shippingPrice =
+    filteredCartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
 
   // let discountPrice = 0;
 
+  const tax = parseFloat(subTotalPrice * (2 / 100)).toFixed(0);
 
-  const tax = parseFloat(
-    subTotalPrice * (2 / 100)
-  ).toFixed(0);
-
-  const totalPrice = (
-    Number(subTotalPrice) - Number(discountPrice ? (couponData.discount_type == "fixed" ? discountPrice : (discountPrice * subTotalPrice / 100)) : 0)
-  );
-
-
-
-
-
-
-
-
+  const totalPrice =
+    Number(subTotalPrice) -
+    Number(
+      discountPrice
+        ? couponData.discount_type == "fixed"
+          ? discountPrice
+          : (discountPrice * subTotalPrice) / 100
+        : 0
+    );
 
   const handleApply = async () => {
     if (coupon_code.trim() === "") {
@@ -186,48 +179,41 @@ const CartPage = () => {
     setSearchParams({ coupon: coupon_code });
     // console.log(coupon_code);
     try {
-
       const response = await checkCoupon({ coupon_code }).unwrap();
-      console.log("Server Response:", response);
-      console.log(coupon_code);
+      // console.log("Server Response:", response);
+      // console.log(coupon_code);
 
       const discountValue = Math.round(response?.data?.discount_value);
-      setDiscountPrice(discountValue)
+      setDiscountPrice(discountValue);
 
       if (response.data) {
-
         if (response.data.status == "Active") {
           toast.success(
-            `You Got ${discountValue}${response?.data?.discount_type === "percentage" ? "%" : "৳"} Discount`
+            `You Got ${discountValue}${
+              response?.data?.discount_type === "percentage" ? "%" : "৳"
+            } Discount`
           );
-          setCouponData(response.data)
+          setCouponData(response.data);
           setCoupon_code("");
-          setVoucher(false)
-
-        }
-        else {
+          setVoucher(false);
+        } else {
           toast.error("This coupon has expired");
         }
-
-      }
-
-      else {
-        toast.error("Coupon Not Match")
-        setCouponData({})
+      } else {
+        toast.error("Coupon Not Match");
+        setCouponData({});
       }
     } catch (err) {
       console.error("Error:", err);
     }
-
   };
 
   // if (isLoading) {
   //   return <p>Loading...</p>;
   // }
 
-  
   const cartCount = filteredCartItems.length;
-  console.log(cartCount);
+  // console.log(cartCount);
 
   return (
     <div className="md:py-10">
@@ -240,13 +226,11 @@ const CartPage = () => {
           <h1>Voucher Code</h1>
         </button>
       </div>
-      <Container >
-
+      <Container>
         <div
-
-          className={`lg:grid-cols-3 gap-4 ${cartCount.length == 0 ? "hidden" : "grid"
-            }`}
-
+          className={`lg:grid-cols-3 gap-4 ${
+            cartCount.length == 0 ? "hidden" : "grid"
+          }`}
         >
           <div className="md:bg-white p-5 lg:col-span-2">
             <div className="flex justify-between border-b border-[#D7D7D7]">
@@ -280,22 +264,21 @@ const CartPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                  {cartItems
-                    .filter(item => {
-                      if (user?.id) {
-                        return item.user_id == user.id; // user login thakle
-                      } else {
-                        return item.user_id == null; // user login na thakle
-                      }
-                    })
-                    .map((item, index) => (
-                      <CartItem
-                        key={index}
-                        item={item}
-                        handleDelete={handleDelete}
-                      />
-                    ))}
-
+                    {cartItems
+                      .filter((item) => {
+                        if (user?.id) {
+                          return item.user_id == user.id; // user login thakle
+                        } else {
+                          return item.user_id == null; // user login na thakle
+                        }
+                      })
+                      .map((item, index) => (
+                        <CartItem
+                          key={index}
+                          item={item}
+                          handleDelete={handleDelete}
+                        />
+                      ))}
                   </tbody>
                 </table>
               </div>
@@ -304,7 +287,7 @@ const CartPage = () => {
               <table className="table border-t border-[#D7D7D7] block md:hidden">
                 <tbody>
                   {cartItems
-                    .filter(item => {
+                    .filter((item) => {
                       if (user?.id) {
                         return item.user_id == user.id; // user login thakle
                       } else {
@@ -318,14 +301,17 @@ const CartPage = () => {
                         handleDelete={handleDelete}
                       />
                     ))}
-
                 </tbody>
               </table>
             </div>
           </div>
 
           <div className="grid gap-5 h-fit">
-            <div className={`card bg-base-100 shadow-sm rounded-[5px] ${voucher ? "" : "hidden"}`}>
+            <div
+              className={`card bg-base-100 shadow-sm rounded-[5px] ${
+                voucher ? "" : "hidden"
+              }`}
+            >
               <div className="card-body">
                 <h2 className="card-title font-medium text-sm text-[#191C1F] border-b border-[#E4E7E9] py-2">
                   Coupon Code
@@ -350,7 +336,14 @@ const CartPage = () => {
                 </div>
               </div>
             </div>
-            <button onClick={() => setVoucher(!voucher)} className={`text-sm text-[#FA8232] hover:text-[#c4723c] transition-all duration-100 underline text-left pl-2 ${!voucher ? "" : "hidden"}`}>Have Any Voucher?</button>
+            <button
+              onClick={() => setVoucher(!voucher)}
+              className={`text-sm text-[#FA8232] hover:text-[#c4723c] transition-all duration-100 underline text-left pl-2 hidden lg:block ${
+                !voucher ? "" : "hidden"
+              }`}
+            >
+              Have Any Voucher?
+            </button>
             <div className="card bg-base-100 shadow-sm rounded-[5px]">
               <div className="card-body">
                 <h2 className="card-title font-medium text-sm text-[#191C1F]">
@@ -360,7 +353,7 @@ const CartPage = () => {
                   <ul className="flex justify-between">
                     <li className="text-[11px] text-[#5F6C72]">Sub-total</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
-                      {(Number(subTotalPrice) || 0)} <span>৳</span>
+                      {Number(subTotalPrice) || 0} <span>৳</span>
                     </li>
                   </ul>
                   {/* <ul className="flex justify-between text-[11px] text-[#5F6C72]">
@@ -369,15 +362,27 @@ const CartPage = () => {
                       {shippingPrice} <span>৳</span>
                     </li>
                   </ul> */}
-                  {
-                    isLoading ? <p className="text-[11px] my-1">Loading...</p> : (couponData?.discount_value && <ul className="flex justify-between text-[11px] text-green-600">
-                      <li className="text-[11px]">Discount ({couponData ? (couponData?.cupon_code) : ""})</li>
-                      <li className="text-[11px] font-bold">
-                        {discountPrice ? discountPrice : 0} <span>{discountPrice ? (couponData?.discount_type == "fixed" ? "৳" : "%") : "৳"}</span>
-                      </li>
-                    </ul>)
-
-                  }
+                  {isLoading ? (
+                    <p className="text-[11px] my-1">Loading...</p>
+                  ) : (
+                    couponData?.discount_value && (
+                      <ul className="flex justify-between text-[11px] text-green-600">
+                        <li className="text-[11px]">
+                          Discount ({couponData ? couponData?.cupon_code : ""})
+                        </li>
+                        <li className="text-[11px] font-bold">
+                          {discountPrice ? discountPrice : 0}{" "}
+                          <span>
+                            {discountPrice
+                              ? couponData?.discount_type == "fixed"
+                                ? "৳"
+                                : "%"
+                              : "৳"}
+                          </span>
+                        </li>
+                      </ul>
+                    )
+                  )}
                   {/* <ul className="flex justify-between text-[11px] text-[#5F6C72]">
                     <li className="text-[11px] text-[#5F6C72]">Tax</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
@@ -402,85 +407,76 @@ const CartPage = () => {
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
         <div
-          className={`${cartCount.length === 0
-            ? "block text-center text-lg font-semibold"
-            : "hidden"
-            }`}
+          className={`${
+            cartCount.length === 0
+              ? "block text-center text-lg font-semibold"
+              : "hidden"
+          }`}
         >
           No Items Available!
         </div>
-        {
-          voucherActive && (
-            <div
-              className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[90]"
-
-            >
-
-              <div className="h-auto w-full bg-white fixed bottom-0 rounded-t-xl px-3 py-5">
-                <div>
-                  <h1 className="text-[#1C1B1B]">Voucher Code</h1>
-                  <input
-                    type="text"
-                    placeholder="Enter Voucher Code"
-                    className="p-4 border border-[#F4F5FD] rounded-lg mt-4 w-full placeholder:text-xs placeholder:font-normal"
-                  />
-                </div>
-                <button
-                  onClick={() => isVoucherActive(!voucherActive)}
-                  className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-8"
-                >
-                  Apply
-                </button>
-                <button
-                  onClick={() => isVoucherActive(!voucherActive)}
-                  className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-2"
-                >
-                  cancel
-                </button>
+        {voucherActive && (
+          <div className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[90]">
+            <div className="h-auto w-full bg-white fixed bottom-0 rounded-t-xl px-3 py-5">
+              <div>
+                <h1 className="text-[#1C1B1B]">Voucher Code</h1>
+                <input
+                  type="text"
+                  placeholder="Enter Voucher Code"
+                  className="p-4 border border-[#F4F5FD] rounded-lg mt-4 w-full placeholder:text-xs placeholder:font-normal"
+                />
               </div>
+              <button
+                onClick={() => isVoucherActive(!voucherActive)}
+                className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-8"
+              >
+                Apply
+              </button>
+              <button
+                onClick={() => isVoucherActive(!voucherActive)}
+                className="w-full bg-[#FA8232] rounded-lg p-2 text-white mt-2"
+              >
+                cancel
+              </button>
             </div>
-          )
-        }
+          </div>
+        )}
         {/* New Confirmation Modal */}
-        {
-          showModal && (
-            <div className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[100]">
-              <div className="w-full max-w-md bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl px-5 py-8">
-                <div className="text-center">
-                  <h1 className="text-[#1C1B1B] text-lg font-semibold">
-                    {isRemoveAll ? "Remove All Items" : "Remove Item"}
-                  </h1>
-                  <p className="text-[#5F6C72] mt-2">
-                    {isRemoveAll
-                      ? "Are you sure you want to remove all selected items from your cart?"
-                      : "Are you sure you want to remove this item from your cart?"}
-                  </p>
-                </div>
-                <div className="flex justify-center gap-4 mt-6">
-                  <button
-                    onClick={cancelDelete}
-                    className="px-6 py-2 bg-gray-200 text-[#1C1B1B] rounded-lg"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={confirmDelete}
-                    className="px-6 py-2 bg-red-500 text-white rounded-lg"
-                  >
-                    Yes, Remove
-                  </button>
-                </div>
+        {showModal && (
+          <div className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[100]">
+            <div className="w-full max-w-md bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl px-5 py-8">
+              <div className="text-center">
+                <h1 className="text-[#1C1B1B] text-lg font-semibold">
+                  {isRemoveAll ? "Remove All Items" : "Remove Item"}
+                </h1>
+                <p className="text-[#5F6C72] mt-2">
+                  {isRemoveAll
+                    ? "Are you sure you want to remove all selected items from your cart?"
+                    : "Are you sure you want to remove this item from your cart?"}
+                </p>
+              </div>
+              <div className="flex justify-center gap-4 mt-6">
+                <button
+                  onClick={cancelDelete}
+                  className="px-6 py-2 bg-gray-200 text-[#1C1B1B] rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="px-6 py-2 bg-red-500 text-white rounded-lg"
+                >
+                  Yes, Remove
+                </button>
               </div>
             </div>
-          )
-        }
-      </Container >
-    </div >
+          </div>
+        )}
+      </Container>
+    </div>
   );
 };
 

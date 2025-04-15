@@ -26,16 +26,13 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-
-
-  const { user } = useSelector(state => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (user?.id) {
       dispatch(updateCartUserId(user.id));
     }
   }, [user?.id, dispatch, refresh]);
-
 
   const from = location.state?.from || "/";
 
@@ -64,7 +61,7 @@ const Login = () => {
       if (result.status === 200) {
         // console.log(result);
         dispatch(loginSuccess(result));
-        setRefresh(!refresh)
+        setRefresh(!refresh);
         navigate(from);
         toast.success(result.message);
       } else {
@@ -127,7 +124,7 @@ const Login = () => {
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
-        <div className="mb-4 relative">
+        {/* <div className="mb-4 relative">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
@@ -160,9 +157,45 @@ const Login = () => {
               {errors.password.message}
             </p>
           )}
+        </div> */}
+        <div className="mb-4 relative">
+          <div className="relative flex items-center">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              className={`w-full p-3 pr-12 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+                errors.password ? "border-red-500" : ""
+              }`}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-4 flex items-center text-gray-500"
+            >
+              <Icon
+                icon={showPassword ? "ooui:eye-closed" : "ooui:eye"}
+                width="1.5em"
+                height="2em"
+                style={{ color: "#898989" }}
+              />
+            </button>
+          </div>
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
         </div>
         <div className="mb-4 text-right">
-          <Link to="/forgot-password" className="text-secondary">
+          <Link to="/forget-password" className="text-secondary">
             Forgot password?
           </Link>
         </div>

@@ -143,70 +143,75 @@ const SignUp = () => {
         </div>
 
         <div className="mb-4 relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="Password"
-            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
-              errors.password ? "border-red-500" : ""
-            }`}
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters",
-              },
-              // pattern: {
-              //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-              //   message:
-              //     "Password must contain at least one letter and one number",
-              // },
-            })}
-          />
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="absolute inset-y-0 right-4 flex items-center text-gray-500"
-          >
-            <Icon
-              icon={showPassword ? "ooui:eye-closed" : "ooui:eye"}
-              width="1.5em"
-              height="2em"
-              style={{ color: "#898989" }}
+          <div className="relative flex items-center">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              className={`w-full p-3 pr-12 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+                errors.password ? "border-red-500" : ""
+              }`}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+                // pattern: {
+                //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                //   message: "Password must contain at least one letter and one number",
+                // },
+              })}
             />
-          </button>
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-4 flex items-center text-gray-500"
+            >
+              <Icon
+                icon={showPassword ? "ooui:eye-closed" : "ooui:eye"}
+                width="1.5em"
+                height="2em"
+                style={{ color: "#898989" }}
+              />
+            </button>
+          </div>
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">
               {errors.password.message}
             </p>
           )}
         </div>
+
+        {/* Confirm Password Field */}
         <div className="mb-4 relative">
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            name="password_confirmation"
-            placeholder="Confirm Password"
-            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
-              errors.password_confirmation ? "border-red-500" : ""
-            }`}
-            {...register("password_confirmation", {
-              required: "Confirm Password is required",
-              validate: (value) =>
-                value === watch("password") || "Passwords do not match",
-            })}
-          />
-          <button
-            type="button"
-            onClick={toggleConfirmPasswordVisibility}
-            className="absolute inset-y-0 right-4 flex items-center text-gray-500"
-          >
-            <Icon
-              icon={showConfirmPassword ? "ooui:eye-closed" : "ooui:eye"}
-              width="1.5em"
-              height="2em"
-              style={{ color: "#898989" }}
+          <div className="relative flex items-center">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="password_confirmation"
+              placeholder="Confirm Password"
+              className={`w-full p-3 pr-12 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+                errors.password_confirmation ? "border-red-500" : ""
+              }`}
+              {...register("password_confirmation", {
+                required: "Confirm Password is required",
+                validate: (value) =>
+                  value === watch("password") || "Passwords do not match",
+              })}
             />
-          </button>
+            <button
+              type="button"
+              onClick={toggleConfirmPasswordVisibility}
+              className="absolute right-4 flex items-center text-gray-500"
+            >
+              <Icon
+                icon={showConfirmPassword ? "ooui:eye-closed" : "ooui:eye"}
+                width="1.5em"
+                height="2em"
+                style={{ color: "#898989" }}
+              />
+            </button>
+          </div>
           {errors.password_confirmation && (
             <p className="text-red-500 text-sm mt-1">
               {errors.password_confirmation.message}

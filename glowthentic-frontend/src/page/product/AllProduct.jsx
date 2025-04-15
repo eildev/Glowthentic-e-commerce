@@ -19,30 +19,28 @@ const AllProduct = () => {
     sortOption,
   } = useSelector((state) => state.filters);
 
-
-  const isAnyFilterApplied = 
-    filteredCategories.length > 0 || 
-    filteredTags.length > 0 || 
-    filteredPrices.length > 0 || 
-    filteredBrands.length > 0 || 
-    filteredFeatures.length > 0 || 
+  const isAnyFilterApplied =
+    filteredCategories.length > 0 ||
+    filteredTags.length > 0 ||
+    filteredPrices.length > 0 ||
+    filteredBrands.length > 0 ||
+    filteredFeatures.length > 0 ||
     filteredSearchQuery !== "";
-
 
   useEffect(() => {
     if (data?.data) {
       dispatch(setFilteredProducts(data.data));
     }
   }, [
-    data, 
-    dispatch, 
-    filteredCategories, 
-    filteredTags, 
-    filteredPrices, 
+    data,
+    dispatch,
+    filteredCategories,
+    filteredTags,
+    filteredPrices,
     filteredBrands,
     filteredFeatures,
     filteredSearchQuery,
-    sortOption
+    sortOption,
   ]);
 
   if (isLoading) {
@@ -56,20 +54,28 @@ const AllProduct = () => {
   }
 
   if (error) {
-    return <p className="text-red-500 text-center my-5">Error: {error.message || "Failed to load products"}</p>;
+    return (
+      <p className="text-red-500 text-center my-5">
+        Error: {error.message || "Failed to load products"}
+      </p>
+    );
   }
-
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5 w-full">
       {filteredProducts.length > 0 ? (
         filteredProducts.map((product) => (
-          <div key={product.id} className="transition-all duration-500 ease-in-out animate-fadeIn">
+          <div
+            key={product.id}
+            className="transition-all duration-500 ease-in-out animate-fadeIn"
+          >
             <Product product={product} />
           </div>
         ))
       ) : (
         <div className="col-span-full text-center text-gray-500 my-10">
-          {isAnyFilterApplied ? "No products matched your filters" : "No products found"}
+          {isAnyFilterApplied
+            ? "No products matched your filters"
+            : "No products found"}
         </div>
       )}
     </div>

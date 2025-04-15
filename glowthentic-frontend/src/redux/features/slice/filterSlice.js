@@ -59,17 +59,18 @@ const filterSlice = createSlice({
             // Apply category filter
             if (state.filteredCategories.length > 0) {
                 anyFilterApplied = true;
-                filtered = filtered.filter(product => 
-                    state.filteredCategories.includes(product.category_id)
+                filtered = filtered.filter(product =>
+                    (product.category_id && state.filteredCategories.includes(product.category_id)) ||
+                    (product.subcategory_id && state.filteredCategories.includes(product.subcategory_id))
                 );
             }
 
             // Apply tags filter
             if (state.filteredTags.length > 0) {
                 anyFilterApplied = true;
-                filtered = filtered.filter(product => 
-                    product.product_tags && 
-                    product.product_tags.some(tag => 
+                filtered = filtered.filter(product =>
+                    product.product_tags &&
+                    product.product_tags.some(tag =>
                         state.filteredTags.includes(tag.tag_id)
                     )
                 );
@@ -81,7 +82,7 @@ const filterSlice = createSlice({
                 filtered = filtered.filter(product => {
                     if (!product.variants || !product.variants.length) return false;
                     const price = product.variants[0].regular_price;
-                    return state.filteredPrices.some(priceRange => 
+                    return state.filteredPrices.some(priceRange =>
                         price >= priceRange.min && price <= priceRange.max
                     );
                 });
@@ -90,7 +91,7 @@ const filterSlice = createSlice({
             // Apply brand filter
             if (state.filteredBrands.length > 0) {
                 anyFilterApplied = true;
-                filtered = filtered.filter(product => 
+                filtered = filtered.filter(product =>
                     state.filteredBrands.includes(product.brand_id)
                 );
             }
@@ -98,8 +99,8 @@ const filterSlice = createSlice({
             // Apply feature filter
             if (state.filteredFeatures.length > 0) {
                 anyFilterApplied = true;
-                filtered = filtered.filter(product => 
-                    product.feature && 
+                filtered = filtered.filter(product =>
+                    product.feature &&
                     state.filteredFeatures.includes(product.feature.slug)
                 );
             }
@@ -107,7 +108,7 @@ const filterSlice = createSlice({
             // Apply search filter
             if (state.filteredSearchQuery) {
                 anyFilterApplied = true;
-                filtered = filtered.filter(product => 
+                filtered = filtered.filter(product =>
                     product.product_name.toLowerCase().includes(
                         state.filteredSearchQuery.toLowerCase()
                     )
@@ -137,12 +138,12 @@ const filterSlice = createSlice({
                     });
                     break;
                 case "Latest Arrival":
-                    sortedProducts.sort((a, b) => 
+                    sortedProducts.sort((a, b) =>
                         new Date(b.created_at) - new Date(a.created_at)
                     );
                     break;
                 case "Old First":
-                    sortedProducts.sort((a, b) => 
+                    sortedProducts.sort((a, b) =>
                         new Date(a.created_at) - new Date(b.created_at)
                     );
                     break;

@@ -6,7 +6,7 @@ const OrderHistory = () => {
   const { user } = useSelector((state) => state.auth);
   const userID = user?.id;
 
-  console.log("id", userID);
+  // console.log("id", userID);
 
   const {
     data: history,
@@ -14,8 +14,8 @@ const OrderHistory = () => {
     error,
   } = useGetOrderHistoryQuery(userID);
 
-  console.log(error);
-  console.log(historyLoad);
+  // console.log(error);
+  // console.log(historyLoad);
 
   return (
     <div>

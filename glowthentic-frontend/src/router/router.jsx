@@ -95,7 +95,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/privacy-policy",
-        element: <PrivacyPolicy/>,
+        element: <PrivacyPolicy />,
       },
       {
         path: "/track-order",

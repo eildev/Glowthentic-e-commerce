@@ -13,9 +13,9 @@ import { useGetBannersQuery } from "../../redux/features/api/homeBannerApi/homeB
 import HomeBannerImage from "../../components/HomeBannerImage";
 const HomeSlider = () => {
   const { data, error, isLoading } = useGetBannersQuery();
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+  // if (isLoading) {
+  //   return <span>Loading...</span>;
+  // }
   if (error) {
     return <span>Error</span>;
   }
@@ -37,22 +37,10 @@ const HomeSlider = () => {
         className="mySwiper"
       >
         {data?.banners?.map((banner) => (
-          <SwiperSlide key={banner.id} className="h-[537px]">
-            <HomeBannerImage imgLink={banner?.image}></HomeBannerImage>
+          <SwiperSlide key={banner.id} className="h-[537px] w-full">
+            <HomeBannerImage banner={banner}></HomeBannerImage>
           </SwiperSlide>
         ))}
-        {/* <SwiperSlide className="h-[537px]">
-          <img src={data?.banners[0].image} className="w-full object-center object-cover lg:h-[537px] h-[350px]" alt="Slider Image" />
-        </SwiperSlide> */}
-        {/* <SwiperSlide className="h-[537px]">
-          <img src={image2} className="w-full object-center object-cover lg:h-[537px] h-[350px]" alt="Slider Image" />
-        </SwiperSlide>
-        <SwiperSlide className="h-[537px]">
-          <img src={image3} className="w-full object-center object-cover lg:h-[537px] h-[350px]" alt="Slider Image" />
-        </SwiperSlide>
-        <SwiperSlide className="h-[537px]">
-          <img src={image4} className="w-full object-center object-cover lg:h-[537px] h-[350px]" alt="Slider Image" />
-        </SwiperSlide> */}
       </Swiper>
       <div className="custom-pagination mt-4 flex justify-center "></div>
     </div>
