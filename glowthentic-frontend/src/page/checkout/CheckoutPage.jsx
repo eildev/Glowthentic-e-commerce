@@ -144,6 +144,8 @@ const CheckoutPage = () => {
   const userSessionId = getOrCreateSessionId();
 
   const onSubmit = async (formData) => {
+    console.log(selectedDistrict);
+    console.log(selectedUpazila);
     const orderData = {
       products: filteredCartItems.map((item) => {
         const regularPrice = item.regular_price;
@@ -173,8 +175,8 @@ const CheckoutPage = () => {
       combo: [],
       full_name: `${formData.name}`,
       address: `${formData.address}`,
-      district: `${formData.district}`,
-      police_station: `${formData.upazila}`,
+      district: selectedDistrict,
+      police_station: selectedUpazila,
       postal_code: 1000,
       payment_method: formData.paymentMethod,
       shipping_method: "In-House",
