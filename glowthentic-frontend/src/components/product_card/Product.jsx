@@ -152,7 +152,7 @@ console.log("product", product);
       <figure className="relative overflow-hidden">
         <Link to={`/product/${product.slug}`}>
           <img
-            className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:pb-3 pb-2 transition-transform duration-500 hover:scale-105"
+            className="lg:h-[380px] min-h-[180px] md:min-h-[380px] object-cover lg:pb-3 pb-2 border p-6 transition-transform duration-500 hover:scale-105"
             src={productImage ?? defaultImage}
             alt={product_name ?? "product image"}
           />
@@ -175,17 +175,26 @@ console.log("product", product);
           handleFav={handleFav}
           name={"heart"}
         />
-        <ProductIcon
-          image={cartIcon}
-          className={`bottom-[15px] lg:bottom-[25px] transition-all duration-200 ease-in-out transform hover:scale-110 ${
-            isInCart ? "bg-secondary text-white" : "bg-primary text-white"
-          } hover:bg-secondary`}
-          imgClassName=""
-          product={product}
-          handleAddToCart={handleAddToCart}
-          name={"cart"}
-          defaultVariant={defaultVariant}
-        />
+ <ProductIcon
+  image={cartIcon}
+  className={`bottom-[15px] lg:bottom-[25px] transition-all duration-200 ease-in-out transform ${
+    stockStatus === "In Stock"
+      ? "hover:scale-110 hover:bg-secondary cursor-pointer"
+      : "cursor-not-allowed opacity-60"
+  } ${
+    isInCart
+      ? "bg-secondary text-white"
+      : stockStatus === "In Stock"
+      ? "bg-primary text-white"
+      : "bg-gray text-white"
+  }`}
+  imgClassName=""
+  product={product}
+  handleAddToCart={product?.product_stock[0]?.StockQuantity > 0 ? handleAddToCart : () => {}} // Prevent action if stock is 0
+  name={"cart"}
+  defaultVariant={defaultVariant}
+/>
+
       </figure>
 
       <div
@@ -197,7 +206,7 @@ console.log("product", product);
       >
         <Link to={`/product/${product.slug}`}>
           <HeadTitle
-            className={`text-sm xl:text-lg transition-colors duration-200 hover:text-secondary ${
+            className={`text-sm xl:text-base transition-colors duration-200 hover:text-secondary ${
               isDark ? "text-white" : "text-primary"
             }`}
           >

@@ -158,17 +158,13 @@ const ProductSlider = ({ data, variantId }) => {
         >
           {images?.map((image, index) => (
             <SwiperSlide key={index} className="cursor-crosshair">
-              <div
-                className="zoom-container"
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-              >
+
                 <img
                   src={`http://127.0.0.1:8000/${image?.image}`}
                   // src={`${image}`}
                   className="zoom-image"
                 />
-              </div>
+    ``
             </SwiperSlide>
           ))}
         </Swiper>

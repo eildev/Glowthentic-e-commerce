@@ -160,7 +160,7 @@ const DropdownFilter = () => {
               <div className="text-sm text-gray-500">Loading prices...</div>
             ) : (
               <>
-                {/* Price Range Slider with custom class */}
+             
                 <Slider
                   range
                   min={minPrice}
@@ -172,7 +172,7 @@ const DropdownFilter = () => {
                   disabled={isProductsLoading}
                   step={1} // Adjust for smooth sliding
                 />
-                {/* Display selected price range */}
+              
                 <div className="flex justify-between mt-4">
                   <span className="text-sm font-medium">
                     ${priceRange[0].toFixed(2)}
