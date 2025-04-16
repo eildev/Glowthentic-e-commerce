@@ -21,7 +21,7 @@ const OrdeProgressPage = () => {
   const orderId = queryParams.get("orderId");
   // console.log(orderId);
   const orderData = useSelector((state) => state.order?.orderData);
-  // console.log(orderData);
+  console.log(orderData);
   // console.log(orderData?.order_tracking_status);
   if (!orderData)
     return <div>No order data available. Please track your order again.</div>;

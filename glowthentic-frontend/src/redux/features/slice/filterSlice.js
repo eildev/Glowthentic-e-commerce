@@ -57,8 +57,53 @@ const filterSlice = createSlice({
                 name => name !== nameToRemove
             );
         },
+        addTag(state, action) {
+            const { id, name } = action.payload;
+            if (!state.filteredTags.includes(id)) {
+                state.filteredTags.push(id);
+            }
+            if (!state.selectedCategories.includes(name)) {
+                state.selectedCategories.push(name);
+            }
+            state.selectedCategoryMap[id] = name;
+        },
+        removeTag(state, action) {
+            const nameToRemove = action.payload;
+            const idToRemove = Object.keys(state.selectedCategoryMap).find(
+                id => state.selectedCategoryMap[id] === nameToRemove
+            );
+            if (idToRemove) {
+                state.filteredTags = state.filteredTags.filter(id => id !== idToRemove);
+                delete state.selectedCategoryMap[idToRemove];
+            }
+            state.selectedCategories = state.selectedCategories.filter(
+                name => name !== nameToRemove
+            );
+        },
+        addBrand(state, action) {
+            const { id, name } = action.payload;
+            if (!state.filteredBrands.includes(id)) {
+                state.filteredBrands.push(id);
+            }
+            if (!state.selectedCategories.includes(name)) {
+                state.selectedCategories.push(name);
+            }
+            state.selectedCategoryMap[id] = name;
+        },
+        removeBrand(state, action) {
+            const nameToRemove = action.payload;
+            const idToRemove = Object.keys(state.selectedCategoryMap).find(
+                id => state.selectedCategoryMap[id] === nameToRemove
+            );
+            if (idToRemove) {
+                state.filteredBrands = state.filteredBrands.filter(id => id !== idToRemove);
+                delete state.selectedCategoryMap[idToRemove];
+            }
+            state.selectedCategories = state.selectedCategories.filter(
+                name => name !== nameToRemove
+            );
+        },
         setFilteredCategories(state, action) {
-            // This should update both filteredCategories and ensure selectedCategories is in sync
             state.filteredCategories = action.payload;
             
             // Clear selected categories that are no longer in filtered categories
@@ -115,51 +160,54 @@ const filterSlice = createSlice({
             let filtered = [...products];
             let anyFilterApplied = false;
 
-            // Apply category filter with improved logic
+            console.log("Initial state:", state);
+            console.log("Initial products:", products.length);
+
+            // Apply category filter
             if (state.filteredCategories.length > 0) {
                 anyFilterApplied = true;
                 filtered = filtered.filter(product => {
-                    // Check both category_id and subcategory_id
-                    const categoryMatches = product.category_id && 
-                        state.filteredCategories.includes(product.category_id);
-                    const subcategoryMatches = product.subcategory_id && 
-                        state.filteredCategories.includes(product.subcategory_id);
-                    
-                    // Also check product.category.id if available
-                    const categoryObjMatches = product.category && product.category.id &&
-                        state.filteredCategories.includes(product.category.id);
-                    
-                    // Also check subcategories array if available
-                    const subcategoriesArrayMatches = product.subcategories && 
-                        product.subcategories.some(sub => 
-                            state.filteredCategories.includes(sub.id)
-                        );
-                    
-                    return categoryMatches || subcategoryMatches || categoryObjMatches || subcategoriesArrayMatches;
+                    if (product.category_id && state.filteredCategories.includes(product.category_id)) {
+                        return true;
+                    }
+                    if (product.subcategory_id && state.filteredCategories.includes(product.subcategory_id)) {
+                        return true;
+                    }
+                    if (product.category?.id && state.filteredCategories.includes(product.category.id)) {
+                        return true;
+                    }
+                    if (product.subcategories?.length) {
+                        return product.subcategories.some(sub => state.filteredCategories.includes(sub.id));
+                    }
+                    return false;
                 });
+                console.log("After category filter:", filtered.length, filtered);
             }
 
             // Apply tags filter
             if (state.filteredTags.length > 0) {
                 anyFilterApplied = true;
                 filtered = filtered.filter(product =>
-                    product.product_tags &&
-                    product.product_tags.some(tag =>
+                    product.product_tags?.some(tag =>
                         state.filteredTags.includes(tag.tag_id)
                     )
                 );
+                console.log("After tags filter:", filtered.length, filtered);
             }
 
             // Apply price filter
             if (state.filteredPrices.length > 0) {
                 anyFilterApplied = true;
                 filtered = filtered.filter(product => {
-                    if (!product.variants || !product.variants.length) return false;
-                    const price = product.variants[0].regular_price;
-                    return state.filteredPrices.some(priceRange =>
-                        price >= priceRange.min && price <= priceRange.max
-                    );
+                    if (!product.variants?.length) return false;
+                    return product.variants.some(variant => {
+                        const price = variant.regular_price;
+                        return state.filteredPrices.some(priceRange =>
+                            price >= priceRange.min && price <= priceRange.max
+                        );
+                    });
                 });
+                console.log("After price filter:", filtered.length, filtered);
             }
 
             // Apply brand filter
@@ -168,6 +216,7 @@ const filterSlice = createSlice({
                 filtered = filtered.filter(product =>
                     state.filteredBrands.includes(product.brand_id)
                 );
+                console.log("After brand filter:", filtered.length, filtered);
             }
 
             // Apply feature filter
@@ -177,6 +226,7 @@ const filterSlice = createSlice({
                     product.feature &&
                     state.filteredFeatures.includes(product.feature.slug)
                 );
+                console.log("After feature filter:", filtered.length, filtered);
             }
 
             // Apply search filter
@@ -187,11 +237,13 @@ const filterSlice = createSlice({
                         state.filteredSearchQuery.toLowerCase()
                     )
                 );
+                console.log("After search filter:", filtered.length, filtered);
             }
 
             // If no filter has been applied, use all products
             if (!anyFilterApplied) {
                 filtered = products;
+                console.log("No filters applied, using all products:", filtered.length);
             }
 
             // Apply sorting
@@ -242,6 +294,7 @@ const filterSlice = createSlice({
             }
 
             state.filteredProducts = sortedProducts;
+            console.log("Final filtered products:", sortedProducts.length, sortedProducts);
         },
     },
 });
@@ -250,6 +303,10 @@ export const {
     setSelectedCategories,
     addCategoryWithName,
     removeCategoryByName,
+    addTag,
+    removeTag,
+    addBrand,
+    removeBrand,
     setFilteredCategories,
     setFilteredTags,
     setFilteredPrices,

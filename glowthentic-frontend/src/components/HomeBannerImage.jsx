@@ -21,7 +21,7 @@ const HomeBannerImage = ({ banner }) => {
       {/* Small Devices (default) */}
       <img
         src={imagePath(banner.small_image)}
-        className="w-full lg:h-[737px] h-[550px]"
+        className="w-full lg:h-[737px] h-full"
         alt="Slider Image"
       />
     </picture>
