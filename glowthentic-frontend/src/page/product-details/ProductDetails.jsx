@@ -116,6 +116,7 @@ const ProductDetails = () => {
     },
   ];
   const [itemCount, setItemCount] = useState(1);
+  console.log(itemCount)
   const [variant, setVariant] = useState([0]);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
@@ -147,7 +148,7 @@ const ProductDetails = () => {
     // alert("Add to cart");
     const newProduct = {
       ...selectedVariantData,
-      quantity: 1,
+      quantity: itemCount,
       user_id: user?.id || null,
     };
     dispatch(addToCart(newProduct));
@@ -177,7 +178,7 @@ const ProductDetails = () => {
   const handleCheckOut = () => {
     const newProduct = {
       ...selectedVariantData,
-      quantity: 1,
+      quantity: itemCount,
       user_id: user?.id || null,
     };
     dispatch(addToCart(newProduct));

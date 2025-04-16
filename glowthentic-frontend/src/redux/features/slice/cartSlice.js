@@ -21,9 +21,9 @@ const cartSlice = createSlice({
       // console.log("action", action);
 
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += item.quantity;
       } else {
-        state.cartItems.push({ ...item, quantity: 1 });
+        state.cartItems.push({ ...item, quantity: item.quantity });
       }
       saveCartToLocalStorage(state.cartItems);
     },
