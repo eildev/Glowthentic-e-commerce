@@ -16,7 +16,7 @@ const ForgetPassword = () => {
       >
         <p className="mb-6 text-gray text-center">
           No worriest! Just enter your email and we’ll send you a reset password
-          link.
+          verification code.
         </p>
         <div className="mb-4">
           <input

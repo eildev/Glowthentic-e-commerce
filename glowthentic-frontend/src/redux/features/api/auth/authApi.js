@@ -65,13 +65,25 @@ const authApi = createApi({
             },
             providesTags: ["UserDetails"],
         }),
+        // updateUser: builder.mutation({
+        //     query: ({ id, ...data }) => ({
+        //         url: `user/details/update/${id}`,
+        //         method: "POST",
+        //         body: data, // Can be JSON or FormData
+        //     }),
+        //     invalidatesTags: ["User", "UserDetails"],
+        // }),
         updateUser: builder.mutation({
-            query: ({ id, ...data }) => ({
-                url: `user/details/update/${id}`,
-                method: "POST",
-                body: data, // Can be JSON or FormData
-            }),
-            invalidatesTags: ["User", "UserDetails"],
+            query: (data) => {
+
+                const isFormData = data instanceof FormData;
+                return {
+                    url: "update-profile",
+                    method: "POST",
+                    body: data,
+                    headers: isFormData ? {} : { "Content-Type": "application/json" },
+                };
+            },
         }),
     }),
 });
