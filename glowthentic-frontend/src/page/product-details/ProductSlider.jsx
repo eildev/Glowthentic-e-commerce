@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { X } from 'lucide-react';
+import Panzoom from "@panzoom/panzoom";
 
 const ProductSlider = ({ data, variantId }) => {
   
@@ -47,6 +48,16 @@ const ProductSlider = ({ data, variantId }) => {
   const closeModal = () => {
     setShowModal(false);
   };
+
+  const slideRefs = useRef([]);
+
+  useEffect(() => {
+    if (showModal && slideRefs.current.length) {
+      slideRefs.current.forEach((el) => {
+        if (el) Panzoom(el, { maxScale: 3 });
+      });
+    }
+  }, [showModal, images]);
 
   return (
     <>
@@ -197,32 +208,40 @@ const ProductSlider = ({ data, variantId }) => {
       {/* Modal with Swiper */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center">
-          <button
-            onClick={closeModal}
-            className="absolute top-4 right-4 z-50 bg-white border border-gray text-black p-2 rounded-full"
-          >
-            <X />
-          </button>
+        {/* Close Button */}
+        <button
+          onClick={closeModal}
+          className="absolute top-4 right-4 z-50 bg-white border border-gray-300 text-black p-2 rounded-full"
+        >
+          <X />
+        </button>
 
-          <Swiper
-            initialSlide={activeIndex}
-            spaceBetween={10}
-            slidesPerView={1}
-            navigation={false}
-            modules={[Navigation]}
-            className="w-full h-full"
-          >
-            {images?.map((image, index) => (
-              <SwiperSlide key={index} className="flex items-center justify-center">
+        {/* Swiper */}
+        <Swiper
+          initialSlide={activeIndex}
+          spaceBetween={10}
+          slidesPerView={1}
+          navigation={false}
+          modules={[Navigation]}
+          className="w-full h-full"
+        >
+          {images?.map((image, index) => (
+            <SwiperSlide key={index} className="flex items-center justify-center">
+              <div
+                ref={(el) => (slideRefs.current[index] = el)}
+                className="flex items-center justify-center"
+              >
                 <img
                   src={`http://127.0.0.1:8000/${image?.image}`}
-                  className="max-w-[95vw] max-h-[90vh] object-contain touch-pinch-zoom"
-                  style={{ touchAction: "pinch-zoom" }}
+                  className="max-w-[95vw] max-h-[90vh] object-contain select-none"
+                  draggable="false"
                 />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
       )}
     </>
   );
