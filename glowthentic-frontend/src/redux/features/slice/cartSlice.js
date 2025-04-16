@@ -39,6 +39,7 @@ const cartSlice = createSlice({
       const itemId = action.payload;
       const item = state.cartItems.find(cartItem => cartItem.id === itemId);
       if (item) {
+        
         item.quantity += 1;
         saveCartToLocalStorage(state.cartItems);
       }

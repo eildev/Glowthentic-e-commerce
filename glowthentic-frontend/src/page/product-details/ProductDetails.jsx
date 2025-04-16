@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/features/slice/cartSlice";
 import toast from "react-hot-toast";
 import ShowPrice from "./ShowPrice.jsx";
+import IncrementDecrement from "../../components/typography/IncrementDecrement.jsx";
 
 const TagElement = ({ value }) => {
   // console.log("myValue", value);
@@ -114,7 +115,7 @@ const ProductDetails = () => {
         " As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
     },
   ];
-
+  const [itemCount, setItemCount] = useState(1);
   const [variant, setVariant] = useState([0]);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
@@ -294,6 +295,9 @@ const ProductDetails = () => {
             {/* //Select price end// */}
             {/* //Button// */}
             <div className="mt-4">
+           <div>
+           <IncrementDecrement setItemCount={setItemCount} item={data} />
+           </div>
               <RegularButton
                 isLoading={isLoading}
                 className="me-4 my-1 px-6 text-sm"
