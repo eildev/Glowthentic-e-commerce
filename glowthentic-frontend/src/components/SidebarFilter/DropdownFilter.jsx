@@ -4,9 +4,8 @@ import Checkbox from "../typography/Checkbox";
 import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
 import {
-  setSelectedCategories,
-  setFilteredCategories,
-  setFilteredTags,
+  addCategoryWithName,
+  removeCategoryByName,
   setFilteredPrices,
 } from "../../redux/features/slice/filterSlice";
 import { useGetBrandQuery } from "../../redux/features/api/brand/brandApi";
@@ -15,7 +14,7 @@ import "rc-slider/assets/index.css"; // Import default rc-slider styles
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import _ from "lodash"; // For debouncing
 
-// Add custom CSS for the slider with transitions
+// Same slider styles as before
 const sliderStyles = `
   .custom-slider .rc-slider-track {
     background-color: #4A5568;
@@ -51,7 +50,7 @@ const sliderStyles = `
 
 const DropdownFilter = () => {
   const dispatch = useDispatch();
-  const { selectedCategories, filteredCategories, filteredTags, filteredPrices } =
+  const { selectedCategories, filteredCategories, filteredTags, filteredPrices, selectedCategoryMap } =
     useSelector((state) => state.filters);
 
   const { data: categoryData, isLoading, refetch } = useGetCategoryQuery();
@@ -119,28 +118,30 @@ const DropdownFilter = () => {
     debouncedPriceChange(newRange);
   };
 
-  const handleCategoriesCheckboxChange = (item, categoryId) => {
-    const newSelected = selectedCategories.includes(item)
-      ? selectedCategories.filter((i) => i !== item)
-      : [...selectedCategories, item];
-    dispatch(setSelectedCategories(newSelected));
-
-    const newFiltered = filteredCategories.includes(categoryId)
-      ? filteredCategories.filter((id) => id !== categoryId)
-      : [...filteredCategories, categoryId];
-    dispatch(setFilteredCategories(newFiltered));
+  const handleCategoriesCheckboxChange = (categoryName, categoryId) => {
+    // Check if this category is already selected
+    const isSelected = selectedCategories.includes(categoryName);
+    
+    if (isSelected) {
+      // Remove the category
+      dispatch(removeCategoryByName(categoryName));
+    } else {
+      // Add the category
+      dispatch(addCategoryWithName({ id: categoryId, name: categoryName }));
+    }
   };
 
-  const handleTagsCheckboxChange = (item, tagId) => {
-    const newSelected = selectedCategories.includes(item)
-      ? selectedCategories.filter((i) => i !== item)
-      : [...selectedCategories, item];
-    dispatch(setSelectedCategories(newSelected));
-
-    const newFiltered = filteredTags.includes(tagId)
-      ? filteredTags.filter((id) => id !== tagId)
-      : [...filteredTags, tagId];
-    dispatch(setFilteredTags(newFiltered));
+  const handleTagsCheckboxChange = (tagName, tagId) => {
+    // Check if this tag is already selected
+    const isSelected = selectedCategories.includes(tagName);
+    
+    if (isSelected) {
+      // Remove the tag
+      dispatch(removeCategoryByName(tagName));
+    } else {
+      // Add the tag
+      dispatch(addCategoryWithName({ id: tagId, name: tagName }));
+    }
   };
 
   return (
@@ -160,7 +161,6 @@ const DropdownFilter = () => {
               <div className="text-sm text-gray-500">Loading prices...</div>
             ) : (
               <>
-             
                 <Slider
                   range
                   min={minPrice}

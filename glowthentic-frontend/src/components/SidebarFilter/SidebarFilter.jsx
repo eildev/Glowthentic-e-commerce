@@ -4,11 +4,10 @@ import HeadTitle from "../typography/HeadTitle";
 import Toggle from "../typography/Toggle";
 import DropdownFilter from "./DropdownFilter";
 import cn from "../../utils/cn";
-// import { clearAllFilters } from "../redux/slices/filterSlice";
 import { IoMdClose } from "react-icons/io";
 import {
   clearAllFilters,
-  setSelectedCategories,
+  removeCategoryByName,
 } from "../../redux/features/slice/filterSlice";
 
 const SidebarFilter = ({ className }) => {
@@ -16,11 +15,7 @@ const SidebarFilter = ({ className }) => {
   const { selectedCategories } = useSelector((state) => state.filters);
 
   const removeFilter = (itemToRemove) => {
-    dispatch(
-      setSelectedCategories(
-        selectedCategories.filter((item) => item !== itemToRemove)
-      )
-    );
+    dispatch(removeCategoryByName(itemToRemove));
   };
 
   return (
@@ -60,12 +55,6 @@ const SidebarFilter = ({ className }) => {
           </Link>
         </div>
         <hr className="text-hr-thin" />
-        {/* <div className="flex justify-between items-center p-4">
-          <HeadTitle className="text-sm md:text-lg lg:text-lg xl:text-lg">
-            Out Of Stock Items
-          </HeadTitle>
-          <Toggle className="mt-1" />
-        </div> */}
         <hr className="text-hr-thin" />
         <DropdownFilter />
       </div>
