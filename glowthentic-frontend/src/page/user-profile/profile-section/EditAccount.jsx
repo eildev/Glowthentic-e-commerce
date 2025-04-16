@@ -114,8 +114,8 @@ const EditAccount = () => {
   //       // console.log("Sending FormData:", [...formDataToSend]);
   //       response = await updateUser({
   //         id: userID,
-  //         // ...Object.fromEntries(formDataToSend),
-  //         body: formData,
+  //         ...Object.fromEntries(formDataToSend),
+  //         // body: formData,
   //       }).unwrap();
   //     } else {
   //       // console.log("Sending JSON payload:", payload);
@@ -123,7 +123,7 @@ const EditAccount = () => {
   //     }
 
   //     // console.log("API Response:", response);
-  //     toast.success("User information updated successfully!");
+  //     // toast.success("User information updated successfully!");
   //     if (response.user?.image) {
   //       setImagePreview(response.user.image);
   //     } else {
@@ -146,7 +146,6 @@ const EditAccount = () => {
     }
 
     try {
-      // সবসময় FormData ব্যবহার করা হবে, কারণ ইমেজ থাকতে পারে বা নাও থাকতে পারে
       const formDataToSend = new FormData();
       formDataToSend.append("id", userID);
       formDataToSend.append("full_name", formData.name);
@@ -158,25 +157,31 @@ const EditAccount = () => {
       formDataToSend.append("postal_code", formData.postalCode);
       formDataToSend.append("phone_number", formData.phone);
 
-      // ইমেজ ফাইল থাকলে যোগ করা হবে
       if (imageFile) {
         formDataToSend.append("image", imageFile);
       }
 
-      await updateUser(formDataToSend).unwrap();
+      for (let [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+      }
+
+      const response = await updateUser({
+        id: userID,
+        ...Object.fromEntries(formDataToSend),
+      }).unwrap();
+
       toast.success("User information updated successfully!");
+      if (response.user?.image) {
+        setImagePreview(response.user.image);
+      }
     } catch (err) {
+      console.error("Update error:", err);
       const errorMessage = err?.data?.message || "Failed to update user";
       const fieldErrors = err?.data?.errors || {};
-
-      if (err.status === 405) {
-        toast.error("Method not allowed. Please contact support.");
-      } else {
-        toast.error(errorMessage);
-        Object.entries(fieldErrors).forEach(([field, messages]) => {
-          toast.error(`${field}: ${messages.join(", ")}`);
-        });
-      }
+      toast.error(errorMessage);
+      Object.entries(fieldErrors).forEach(([field, messages]) => {
+        toast.error(`${field}: ${messages.join(", ")}`);
+      });
     }
   };
 
