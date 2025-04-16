@@ -185,7 +185,7 @@ const ProductDetails = () => {
 
     navigate("/checkout");
   };
-
+console.log(data?.data?.shipping_charge);
   return (
     <div>
       <Container>
@@ -195,9 +195,9 @@ const ProductDetails = () => {
             <HeadTitle className="mb-2">
               {data?.data?.product_name ?? ""}
             </HeadTitle>
-            {/* <h4 className="font-bold">
-              {data?.data?.productdetails[0]?.description ?? ""}
-            </h4> */}
+            <h4 className="font-bold">
+              {data?.data?.productdetails?.short_description}
+            </h4>
             <p>
               <span className="font-thin text-sm text-gray">
                 {data?.data?.product_tags.map(
@@ -233,7 +233,7 @@ const ProductDetails = () => {
               <h4
                 className="font-bold"
                 dangerouslySetInnerHTML={{
-                  __html: data?.data?.productdetails[0]?.description ?? "",
+                  __html:   data?.data?.productdetails?.short_description
                 }}
               ></h4>
               <p>
@@ -266,7 +266,7 @@ const ProductDetails = () => {
                       className="py-3"
                       value={variant.id}
                     >
-                      {variant.weight} ML
+                      {variant.size}
                     </option>
                   ))}
                 </select>
@@ -317,24 +317,30 @@ const ProductDetails = () => {
             </div>
             {/* //Button End// */}
             <div className="bg-[#fbeff2] p-2 font-normal text-sm mt-4">
-              <p className="flex items-center py-1">
-                <Icon icon="mdi:wallet-giftcard" width="2em" height="2em" />
-                <span className="ps-2">
-                  Receive 2 free samples when you spend $100
-                </span>
-              </p>
+              {
+data?.data?.shipping_charge === "free" &&  <p className="flex items-center py-1">
+<Icon icon="mdi:wallet-giftcard" width="2em" height="2em" />
+<span className="ps-2">
+  
+   <h1>Free Shipping</h1>
+  
+  
+</span>
+</p> 
+              }
+             
               <p className="flex items-center py-1">
                 <Icon icon="ic:baseline-discount" width="2em" height="2em" />
                 <span className="ps-2">
-                  Receive $2 when you return 5 empty containers
+                  {data?.data?.productdetails.product_policy}
                 </span>
               </p>
-              <p className="flex items-center py-1">
+              {/* <p className="flex items-center py-1">
                 <Icon icon="mdi:question-answer" width="2em" height="2em" />
                 <span className="ps-2">
                   Receive free 1-2-1 expert advice in branches
                 </span>
-              </p>
+              </p> */}
             </div>
           </div>
           {/* //Right Section  End // */}
@@ -353,23 +359,7 @@ const ProductDetails = () => {
             </div>
             <div className="collapse-content font-normal text-sm  text-justify">
               <p>
-                Beautya s 1st revitalizing serum that concentrates the double
-                power of the Rose de Granville from the stem to the flower to
-                revitalize the skin twice as fast (1) and visibly rejuvenate.
-                Created after 20 years of research, the 10,000 (2) micro-pearls
-                rich in revitalizing rose micro-nutrients are now completed by
-                the power of the Rose sap. The next-generation, 92%
-                natural-origin (3) formula of La Micro-Huile de Rose Advanced
-                Serum is twice as concentrated,(4) combining the nourishing
-                richness of an oil with the deep penetration of a serum. From
-                the first application of the serum, the skin appears plumped. In
-                3 weeks, 2x improvement in the look or feel of skin
-                elasticity.(5) With regular use, skin looks and feels
-                transformed. As if replenished from within, the skin seems
-                denser and firmer, and wrinkles appear noticeably reduced. As if
-                lifted, facial contours appear enhanced. Reveal your
-                extraordinary beauty with Beautya Prestige. (1) Instrumental
-                test, 32 panelists, after 30 min.
+                {data?.data?.productDetails?.description}
               </p>
             </div>
           </div>
