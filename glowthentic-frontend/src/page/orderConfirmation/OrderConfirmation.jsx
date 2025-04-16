@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import image from "../../assets/img/order-confirmation/Online-shopping.png";
 import Container from "../../components/Container";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 const OrderConfirmation = () => {
+  const [searchParams] = useSearchParams();
+  const invoiceNumber = searchParams.get("invoice") || "Unknown";
   return (
     <Container>
       <DynamicHelmet title="Order Confirmation" />
@@ -21,9 +23,12 @@ const OrderConfirmation = () => {
             <i className="fas fa-check-circle"></i>
           </div>
 
-          <h2 className="text-2xl font-bold mb-4">
+          <h2 className="text-2xl font-bold mb-2">
             Your order has been placed successfully
           </h2>
+          <h1 className="text-xl mb-4">
+            Your Order Number is <span className="font-bold">{invoiceNumber}</span>
+          </h1>
           <p className="text-gray-600 px-2 mb-6">
             Thank you for choosing us! Feel free to continue shopping and
             explore our wide range of products. Happy Shopping!
