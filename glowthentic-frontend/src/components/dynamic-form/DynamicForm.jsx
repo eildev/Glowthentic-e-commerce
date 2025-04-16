@@ -63,11 +63,11 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
           </div> */}
           <p className="text-xs text-gray-400 mt-6 text-center">
             Protected by reCAPTCHA and subject to the Rhombus{" "}
-            <Link to="/" className="text-secondary">
+            <Link to="/privacy-policy" className="text-secondary">
               Privacy Policy
             </Link>{" "}
             and{" "}
-            <Link to="/" className="text-secondary">
+            <Link to="/terms-and-conditions" className="text-secondary">
               Terms of Service
             </Link>
             .
