@@ -5,23 +5,30 @@ import {
   decrementQuantity,
   incrementQuantity,
 } from "../../redux/features/slice/cartSlice";
+import toast from "react-hot-toast";
 // import { incrementQuantity, decrementQuantity } from "../../features/cart/cartSlice";
 
 const IncrementDecrement = ({ setItemCount, item }) => {
   const dispatch = useDispatch();
-  const [count, setCount] = useState(item?.quantity);
+  const [count, setCount] = useState(item?.quantity || 1);
 
-  // console.log(count);
-
+console.log(item?.quantity);
   useEffect(() => {
-    setCount(item?.quantity); // Sync local state with Redux state
-  }, [item?.quantity]);
+    setCount(item?.quantity || count); 
+  }, [item?.quantity, count]);
 
   const handleIncrement = () => {
-    dispatch(incrementQuantity(item.id));
-    setCount(count + 1);
-    setItemCount(count + 1)
+    const maxStock = item?.data?.product_stock?.[0]?.StockQuantity || 1;
+  
+    if (count < maxStock) {
+      dispatch(incrementQuantity(item.id));
+      setCount(count + 1);
+      setItemCount(count + 1);
+    } else {
+      toast.error("Maximum stock limit reached");
+    }
   };
+  
 
   const handleDecrement = () => {
     if (count > 1) {
@@ -40,7 +47,7 @@ const IncrementDecrement = ({ setItemCount, item }) => {
         <Icon icon="majesticons:minus" width="15" height="15" />
       </span>
       <input
-        className="text-sm text-center font-medium w-7"
+        className="text-sm text-center font-medium w-7 bg-transparent"
         value={count}
         readOnly
       />

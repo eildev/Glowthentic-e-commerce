@@ -196,12 +196,13 @@ const CheckoutPage = () => {
         toast.success("Order placed successfully!");
         dispatch(clearCart());
         // Added this small delay before navigation to ensure state updates
+        const invoiceNumber = response?.order?.invoice_number || "INV_DEFAULT";
+        console.log(invoiceNumber);
         setTimeout(() => {
-          navigate("/order-confirmation", { replace: true });
+          navigate(`/order-confirmation?invoice=${invoiceNumber}`, { replace: true });
         }, 100);
       } else {
         toast.error("Order placement unsuccessful!");
-        // console.log('Unsuccessful response:', response);
       }
     } catch (err) {
       console.error("Error placing order:", err);

@@ -22,6 +22,14 @@ const OrdeProgressPage = () => {
   // console.log(orderId);
   const orderData = useSelector((state) => state.order?.orderData);
   console.log(orderData);
+  const isoDate = orderData?.billingInfo?.created_at;
+const date = new Date(isoDate);
+const formattedDate = date.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
   // console.log(orderData?.order_tracking_status);
   if (!orderData)
     return <div>No order data available. Please track your order again.</div>;
@@ -32,7 +40,8 @@ const OrdeProgressPage = () => {
     (acc, item) => acc + parseFloat(item.total_price || 0),
     0
   );
-  const shipping = 100;
+  const shipping = Number(orderData?.order?.shipping_charge) || 0;
+    console.log("shipping", shipping);
   const tax = Number(((subtotal * 2.5) / 100).toFixed(2));
   const totalEstimated = Number((subtotal + shipping + tax).toFixed(2));
   return (
@@ -187,11 +196,10 @@ const OrdeProgressPage = () => {
                 <div className=" mx-auto bg-white rounded-lg  p-6">
                   <div className="text-center">
                     <h1 className="lg:text-xl text-lg  font-semibold mb-4">
-                      Hello Brian Klean, here is Your Cart
+                      Hello {orderData?.userDetails?.full_name}, here is Your Cart
                     </h1>
                     <p className="text-sm text-gray-600 mb-6">
-                      Here is a summary of your recent order made on Dec 15,
-                      2023. You can also view your order in the{" "}
+                      Here is a summary of your recent order made on {formattedDate}. You can also view your order in the{" "}
                       <span className="font-bold text-primary ">Purchases</span>{" "}
                       section of your account.
                     </p>
@@ -296,13 +304,13 @@ const OrdeProgressPage = () => {
                   {/* Order Confirmation */}
                   <div className="mt-6 text-center">
                     <p className="text-sm  text-gray-600">
-                      Your order <span className="font-medium">#239483929</span>{" "}
+                      Your order <span className="font-medium">#{orderData?.order?.invoice_number}</span>{" "}
                       has been placed!
                     </p>
                     <p className="text-sm text-gray-600">
                       We sent an email to{" "}
                       <span className="font-medium text-blue-600">
-                        loitf.uddin@gmail.com
+                        {orderData?.userDetails?.user?.email}
                       </span>{" "}
                       with your order confirmation and receipt.
                     </p>
@@ -329,12 +337,11 @@ const OrdeProgressPage = () => {
                   <h3 className="font-semibold text-orange-500">
                     Shipping Address
                   </h3>
-                  <p className="text-gray-700">Lotif Uddin</p>
+                  <p className="text-gray-700">{orderData?.userDetails?.full_name}</p>
                   <p className="text-gray-500">
-                    House 41, Block E, Road-06, Banosree, Dhaka, Dhaka,
-                    Bangladesh
+                    {orderData?.userDetails?.address}
                   </p>
-                  <p className="text-gray-700">+2379201374</p>
+                  <p className="text-gray-700">{orderData?.userDetails?.phone_number}</p>
                 </div>
                 {/* Billing Details */}
                 <div className="text-center md:text-left border-0 md:border-[1px] md:border-e-0  border-[#D3D8E3]   p-5">
@@ -350,12 +357,8 @@ const OrdeProgressPage = () => {
                   <h3 className="font-semibold text-orange-500">
                     Billing Details
                   </h3>
-                  <p className="text-gray-700">Lotif Uddin</p>
-                  <p className="text-gray-500">
-                    House 41, Block E, Road-06, Banosree, Dhaka, Dhaka,
-                    Bangladesh
-                  </p>
-                  <p className="text-gray-700">+2379201374</p>
+               
+                  <p className="text-gray-700">{orderData?.userDetails?.phone_number}</p>
                 </div>
                 {/* Shipping Method */}
                 <div className="text-center md:text-left border-0 md:border-[1px] border-[#D3D8E3]  p-5">
@@ -368,7 +371,9 @@ const OrdeProgressPage = () => {
                     Shipping Method
                   </h3>
                   <p className="text-gray-700 ">Preferred Method:</p>
-                  <p className="text-gray-500">U.S Standard</p>
+                  <p className="text-gray-500">{
+                    orderData?.billingInfo?.active_payment_method === "COD" && "Cash on Delivery"
+                    }</p>
                   <p className="text-gray-500">
                     (normally 4-5 business days, unless otherwise noted)
                   </p>
@@ -379,7 +384,7 @@ const OrdeProgressPage = () => {
           {/* Call Us Section */}
           <div className="mt-6 bg-orange-500 text-white text-center py-4 pyb-0  shadow">
             <p className="text-sm lg:text-lg">
-              Call us at <span className="font-bold">1-800-748-94200</span> or
+              Call us at <span className="font-bold">+880 1715-443884</span> or
               reply this email
             </p>
           </div>

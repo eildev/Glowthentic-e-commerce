@@ -73,49 +73,9 @@ const ProductDetails = () => {
   //       data?.product_stock?.length > 0 ? "Flat Discount" : "Out Of Stock";
   //   }
   // }
-  const faqs = [
-    {
-      question: "What is the best way to use this product?",
-      answer:
-        "Beautya s 1st revitalizing serum that concentrates the double power of the Rose de Granville from the stem to the flower torevitalize the skin twice as fast (1) and visibly rejuvenate. Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed bythe power of the Rose sap. The next-generation,92%natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated,(4) combining the nourishing richness of an oil with the deep penetration of a serum. From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin elasticity.(5) With regular use, skin looks and feels transformed. As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists, after 30 min.",
-    },
-    {
-      question: " Can this product be used on all skin types?",
-      answer:
-        "Our product is suitable for most skin types, including normal, oily, dry, and combination skin. However, if you have sensitive skin or a skin condition, we recommend performing a patch test before using the product all over your face. Apply a small amount of the product to the inside of your elbow and wait 24 hours to make sure you do not have an allergic reaction or irritation. If you experience any discomfort, discontinue use of the product immediately",
-    },
-    {
-      question: "How often should I use this product?",
-      answer:
-        "Richness of an oil with the deep penetration of a serum. From the first application of the serum, the skin appears plumped. In 3 weeks, 2x improvement in the look or feel of skin lasticity.(5) With regular use, skin looks and feels transformed. As if replenished from within, the skin seems",
-    },
-    {
-      question: "Can this product be used during pregnancy?",
-      answer:
-        "Created after 20 years of research, the 10,000 (2) micro-pearls rich in revitalizing rose micro-nutrients are now completed by the power of the Rose sap. The next-generation, 92% natural-origin (3) formula of La Micro-Huile de Rose Advanced Serum is twice as concentrated",
-    },
-    {
-      question: "How often should I use this product?",
-      answer:
-        "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
-    },
-    {
-      question: "How should I store this product?",
-      answer:
-        "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
-    },
-    {
-      question: "How long will it take to see results from using this product?",
-      answer:
-        "As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
-    },
-    {
-      question: "Can this product be used in conjunction with other skincare",
-      answer:
-        " As if replenished from within, the skin seems denser and firmer, and wrinkles appear noticeably reduced. As if lifted, facial contours appear enhanced. Reveal your extraordinary beauty with Beautya Prestige. (1) Instrumental test, 32 panelists",
-    },
-  ];
+  const stockAvailable = data?.data?.product_stock?.[0]?.StockQuantity > 0;
   const [itemCount, setItemCount] = useState(1);
+  console.log(itemCount)
   const [variant, setVariant] = useState([0]);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
@@ -147,7 +107,7 @@ const ProductDetails = () => {
     // alert("Add to cart");
     const newProduct = {
       ...selectedVariantData,
-      quantity: 1,
+      quantity: itemCount,
       user_id: user?.id || null,
     };
     dispatch(addToCart(newProduct));
@@ -177,14 +137,14 @@ const ProductDetails = () => {
   const handleCheckOut = () => {
     const newProduct = {
       ...selectedVariantData,
-      quantity: 1,
+      quantity: itemCount,
       user_id: user?.id || null,
     };
     dispatch(addToCart(newProduct));
 
     navigate("/checkout");
   };
-
+console.log(data?.data?.shipping_charge);
   return (
     <div>
       <Container>
@@ -194,9 +154,9 @@ const ProductDetails = () => {
             <HeadTitle className="mb-2">
               {data?.data?.product_name ?? ""}
             </HeadTitle>
-            {/* <h4 className="font-bold">
-              {data?.data?.productdetails[0]?.description ?? ""}
-            </h4> */}
+            <h4 className="font-bold">
+              {data?.data?.productdetails?.short_description}
+            </h4>
             <p>
               <span className="font-thin text-sm text-gray">
                 {data?.data?.product_tags.map(
@@ -232,7 +192,7 @@ const ProductDetails = () => {
               <h4
                 className="font-bold"
                 dangerouslySetInnerHTML={{
-                  __html: data?.data?.productdetails[0]?.description ?? "",
+                  __html:   data?.data?.productdetails?.short_description
                 }}
               ></h4>
               <p>
@@ -265,7 +225,7 @@ const ProductDetails = () => {
                       className="py-3"
                       value={variant.id}
                     >
-                      {variant.weight} ML
+                      {variant.size}
                     </option>
                   ))}
                 </select>
@@ -298,17 +258,27 @@ const ProductDetails = () => {
            <div>
            <IncrementDecrement setItemCount={setItemCount} item={data} />
            </div>
-              <RegularButton
+           <RegularButton
                 isLoading={isLoading}
-                className="me-4 my-1 px-6 text-sm"
-                onClick={() => handleAddToCart()}
+                className={`me-4 my-1 px-6 text-sm ${
+                  stockAvailable
+                    ? "bg-orange-500 hover:bg-orange-600"
+                    : "bg-gray-gradient cursor-not-allowed"
+                }`}
+                onClick={handleAddToCart}
+                disabled={!stockAvailable}
               >
                 Add To Cart
               </RegularButton>
               <RegularButton
                 isLoading={isLoading}
-                className="me-4 my-1 px-6 text-sm"
-                onClick={() => handleCheckOut()}
+                className={`me-4 my-1 px-6 text-sm ${
+                  stockAvailable
+                    ? "bg-orange-500 hover:bg-orange-600"
+                    : "bg-gray-gradient  cursor-not-allowed"
+                }`}
+                onClick={handleCheckOut}
+                disabled={!stockAvailable}
               >
                 Buy Now
               </RegularButton>
@@ -316,24 +286,30 @@ const ProductDetails = () => {
             </div>
             {/* //Button End// */}
             <div className="bg-[#fbeff2] p-2 font-normal text-sm mt-4">
-              <p className="flex items-center py-1">
-                <Icon icon="mdi:wallet-giftcard" width="2em" height="2em" />
-                <span className="ps-2">
-                  Receive 2 free samples when you spend $100
-                </span>
-              </p>
+              {
+data?.data?.shipping_charge === "free" &&  <p className="flex items-center py-1">
+<Icon icon="mdi:wallet-giftcard" width="2em" height="2em" />
+<span className="ps-2">
+  
+   <h1>Free Shipping</h1>
+  
+  
+</span>
+</p> 
+              }
+             
               <p className="flex items-center py-1">
                 <Icon icon="ic:baseline-discount" width="2em" height="2em" />
                 <span className="ps-2">
-                  Receive $2 when you return 5 empty containers
+                  {data?.data?.productdetails.product_policy}
                 </span>
               </p>
-              <p className="flex items-center py-1">
+              {/* <p className="flex items-center py-1">
                 <Icon icon="mdi:question-answer" width="2em" height="2em" />
                 <span className="ps-2">
                   Receive free 1-2-1 expert advice in branches
                 </span>
-              </p>
+              </p> */}
             </div>
           </div>
           {/* //Right Section  End // */}
@@ -352,23 +328,7 @@ const ProductDetails = () => {
             </div>
             <div className="collapse-content font-normal text-sm  text-justify">
               <p>
-                Beautya s 1st revitalizing serum that concentrates the double
-                power of the Rose de Granville from the stem to the flower to
-                revitalize the skin twice as fast (1) and visibly rejuvenate.
-                Created after 20 years of research, the 10,000 (2) micro-pearls
-                rich in revitalizing rose micro-nutrients are now completed by
-                the power of the Rose sap. The next-generation, 92%
-                natural-origin (3) formula of La Micro-Huile de Rose Advanced
-                Serum is twice as concentrated,(4) combining the nourishing
-                richness of an oil with the deep penetration of a serum. From
-                the first application of the serum, the skin appears plumped. In
-                3 weeks, 2x improvement in the look or feel of skin
-                elasticity.(5) With regular use, skin looks and feels
-                transformed. As if replenished from within, the skin seems
-                denser and firmer, and wrinkles appear noticeably reduced. As if
-                lifted, facial contours appear enhanced. Reveal your
-                extraordinary beauty with Beautya Prestige. (1) Instrumental
-                test, 32 panelists, after 30 min.
+                {data?.data?.productDetails?.description}
               </p>
             </div>
           </div>
