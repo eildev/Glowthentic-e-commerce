@@ -9,7 +9,7 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
   const { user, token } = useSelector((state) => state.auth);
   // const { data, isLoading, isError, error } = useGetReviewInfoQuery();
 
-  // console.log(data);
+  console.log(order?.data[0].order_status);
 
   const clickHandle = (item) => {
     setReviewItem(item);
@@ -23,15 +23,15 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
 
   return (
     <>
-      {status === "On Delivery" ? (
+      {status  == 'order' ? (
         orderLoad ? (
           <p className="text-center text-gray-500">Loading orders...</p>
-        ) : order?.order?.length === 0 ? (
+        ) : order?.data?.length === 0 ? (
           <p className="text-center text-gray-500">
             You haven`t placed any order yet.
           </p>
-        ) : order?.order ? (
-          [...order.order]
+        ) : order?.data ? (
+          [...order.data]
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((item, i) => {
               const formattedDate = new Date(item.created_at).toLocaleString(
@@ -50,10 +50,10 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
                 <div key={i} className="border-b border-b-gray-light py-8">
                   <div>
                     <h3 className="text-lg md:text-2xl text-dark font-bold font-encode">
-                      No Order : #{item.invoice_number}
+                      No Order : #{item?.invoice_number}
                     </h3>
                     <p className="flex capitalize justify-between items-center text-md md:text-lg text-dark font-semibold font-encode bg-hr-thin py-2 px-4 my-2">
-                      {item.status}
+                      {item?.status}
                       <Icon
                         className="w-4 h-4 md:w-6 md:h-6"
                         icon="mdi-light:clock"
@@ -71,7 +71,7 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
                       {formattedDate}
                     </p>
                     <p className="text-xl my-2 md:text-2xl text-dark font-semibold font-encode">
-                      ৳ {item.grand_total}
+                      ৳ {item?.grand_total}
                     </p>
                   </div>
                 </div>
@@ -87,7 +87,7 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
           আপনার কোনো অর্ডার ইতিহাস নেই।
         </p>
       ) : (
-        [...history.order] // Create a copy before sorting
+        [...history.data]
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
           .map((item, i) => {
             const formattedDate = new Date(item.created_at).toLocaleString(
@@ -106,10 +106,10 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
               <div key={i} className="border-b border-b-gray-light py-8">
                 <div>
                   <h3 className="text-lg md:text-2xl text-dark font-bold font-encode">
-                    No Order : #{item.invoice_number}
+                    No Order : #{item?.invoice_number}
                   </h3>
                   <p className="flex capitalize justify-between items-center text-md md:text-lg text-dark font-semibold font-encode bg-hr-thin py-2 px-4 my-2">
-                    {item.status}
+                    {item?.status}
                     <Icon
                       className="w-4 h-4 md:w-6 md:h-6"
                       icon="mdi-light:clock"
@@ -127,7 +127,7 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
                     {formattedDate}
                   </p>
                   <p className="text-xl my-2 md:text-2xl text-dark font-semibold font-encode">
-                    ৳ {item.grand_total}
+                    ৳ {item?.grand_total}
                   </p>
                   <button
                     className={`

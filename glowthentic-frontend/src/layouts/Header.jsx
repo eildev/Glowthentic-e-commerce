@@ -81,7 +81,7 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
 
           {/*--------- Search bar show in small Device  Start -----------*/}
           <div
-            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform ${
+            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform z-20 ${
               showSearchBar
                 ? "opacity-100 visible translate-y-0"
                 : "opacity-0 invisible -translate-y-5"

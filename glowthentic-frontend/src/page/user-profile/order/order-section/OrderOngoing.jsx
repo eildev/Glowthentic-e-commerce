@@ -9,14 +9,16 @@ const OrderOngoing = () => {
   // console.log("id", userID);
 
   const {
-    data: order,
+    data,
     isLoading: orderLoad,
     error,
   } = useGetOrderInfoQuery(userID);
 
+// console.log(data?.data[0].order_status == 'Processing');
+
   return (
     <div>
-      <OrderCard order={order} orderLoad={orderLoad} status="On Delivery" />
+      <OrderCard order={data} orderLoad={orderLoad} status={'order'} />
     </div>
   );
 };

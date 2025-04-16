@@ -114,7 +114,7 @@ const BannerCollection = () => {
                 // src={`${baseURL + image?.image}`}
                 src={imagePath(image?.image)}
                 alt={`Banner ${index + 1}`}
-                className="w-full h-[200px] md:h-[400px] object-cover"
+                className="w-full h-full md:h-full object-cover"
               />
             </div>
           ))}

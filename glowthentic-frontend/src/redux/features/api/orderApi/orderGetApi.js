@@ -11,7 +11,7 @@ const orderGetApi = createApi({
         getOrderInfo: builder.query({
             query: (id) => {
                 // console.log("in api", id);
-                return `/order/get/${id}`;
+                return `/order/processing/${id}`;
             },
         }),
     })
