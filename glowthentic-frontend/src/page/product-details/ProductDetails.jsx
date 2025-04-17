@@ -31,7 +31,8 @@ const ProductDetails = () => {
   const { token, user } = useSelector((state) => state.auth);
 
   console.log("my Products", data?.data);
-
+const categoryId = data?.data?.category_id
+console.log(categoryId);
   const navigate = useNavigate();
   const images = [
     "https://picsum.photos/200/300",
@@ -330,7 +331,7 @@ const ProductDetails = () => {
         {/* Review Section End */}
 
         {/* Recommended Products Slider */}
-        <RecommendedSlider></RecommendedSlider>
+        <RecommendedSlider categoryId={categoryId}></RecommendedSlider>
       </Container>
     </div>
   );
