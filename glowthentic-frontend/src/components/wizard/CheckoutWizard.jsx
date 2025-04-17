@@ -12,7 +12,7 @@ const CheckoutWizard = ({
   errors,
   handleSubmit,
   onSubmit,
-  cartItems,
+  carts,
   subTotal,
   total,
   shippingCharge,
@@ -31,7 +31,13 @@ const CheckoutWizard = ({
 }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [location, setLocation] = useState(0); // Add location state to match OrderSummary
+  let totalWeight = 0;
 
+  carts?.forEach(item => {
+    totalWeight += parseFloat(item.weight * item.quantity); // or parseInt() if weight is always whole numbers
+  });
+  
+  console.log("Total weight:", totalWeight);
   // Automatically determine location based on district and upazila
   useEffect(() => {
     if (districtId) {
@@ -49,20 +55,20 @@ const CheckoutWizard = ({
       }
     }
   }, [districtId, upazilaId]);
-
+console.log("location", location);
   // Shipping calculation effect
-  useEffect(() => {
-    // Calculate shipping charge based on location and quantity
-    if (location) {
-      const baseShipping = location; // 80 or 120 based on location
-      const extraCharge = (Shipping - 1) * 20; // Extra charge for additional items
-      const totalShippingCharge = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
+  // useEffect(() => {
+  //   // Calculate shipping charge based on location and quantity
+  //   if (location) {
+  //     const baseShipping = location; // 80 or 120 based on location
+  //     const extraCharge = (Shipping - 1) * 20; // Extra charge for additional items
+  //     const totalShippingCharge = carts.length <= 1 ? baseShipping : baseShipping + extraCharge;
       
-      if (setShippingCharge) {
-        setShippingCharge(totalShippingCharge);
-      }
-    }
-  }, [location, Shipping, cartItems.length, setShippingCharge]);
+  //     if (setShippingCharge) {
+  //       setShippingCharge(totalShippingCharge);
+  //     }
+  //   }
+  // }, [location, Shipping, carts.length, setShippingCharge]);
 
   const validateStep = async (step) => {
     if (step === 0) {
@@ -98,7 +104,8 @@ const CheckoutWizard = ({
   ];
   
   // Calculate tax and discount for ItemDetails in review step
-  const tax = Math.round(subTotal * (2 / 100));
+  // const tax = Math.round(subTotal * (2 / 100));
+  const tax = 0
   
   const renderStepContent = () => {
     // console.log("Current form state:", watch());
@@ -130,7 +137,7 @@ const CheckoutWizard = ({
                 Items
               </div>
               <div className="collapse-content peer-checked:block text-left">
-                <Item carts={cartItems} />
+                <Item carts={carts} />
               </div>
             </div>
             <hr className="text-gray-thin" />
@@ -170,19 +177,20 @@ const CheckoutWizard = ({
               <h3 className="font-semibold mb-2">Shipping Option</h3>
               <div className="text-sm text-gray font-normal">
                 {location === 80 ? "Inside Dhaka (৳80)" : "Outside Dhaka (৳120)"}
-                {cartItems.length > 1 && ` + Extra Items (${Shipping - 1} × ৳20)`}
+                {carts.length > 1 && ` + Extra Items (${Shipping - 1} × ৳20)`}
               </div>
             </div>
             
             <h3 className="text-left font-semibold pt-4">Order Info</h3>
             <ItemDetails
-              carts={cartItems}
+        
               subTotal={subTotal}
               shipingCharge={shippingCharge}
               Shipping={Shipping}
               location={location}
               tax={tax}
               total={total}
+              totalWeight={totalWeight}
             />
           </>
         );

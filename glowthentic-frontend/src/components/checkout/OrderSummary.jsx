@@ -64,7 +64,7 @@ const preventClick = selectedDistrict && selectedUpazila ? "pointer-events-none 
         }
       }
     }, [location, Shipping, carts.length, setShipingCharge]);
-
+console.log('ekhane shipping charge', shipingCharge);
   return (
     <div className="p-6 text-left rounded-lg">
 

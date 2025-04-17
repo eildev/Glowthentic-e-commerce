@@ -221,7 +221,7 @@ const CheckoutPage = () => {
             errors={errors}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
-            cartItems={filteredCartItems}
+            carts={filteredCartItems}
             subTotal={subTotal}
             total={grandTotal}
             shippingCharge={shippingCharge}
