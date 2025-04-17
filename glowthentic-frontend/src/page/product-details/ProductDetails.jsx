@@ -93,7 +93,10 @@ const ProductDetails = () => {
 
     setSelectedVariant(selected);
   };
-  console;
+  const productDetails = data?.data?.productdetails?.description;
+ 
+  const apply = data?.data?.productdetails?.usage_instruction;
+  const ingredients = data?.data?.productdetails?.ingredients;
 
   // console.log("Selected Variants", selectedVariant);
 
@@ -327,8 +330,14 @@ data?.data?.shipping_charge === "free" &&  <p className="flex items-center py-1"
               Product Details
             </div>
             <div className="collapse-content font-normal text-sm  text-justify">
-              <p>
-                {data?.data?.productDetails?.description}
+            <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
+                <div
+                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  dangerouslySetInnerHTML={{
+                    __html: productDetails
+                     
+                  }}
+                />
               </p>
             </div>
           </div>
@@ -338,12 +347,14 @@ data?.data?.shipping_charge === "free" &&  <p className="flex items-center py-1"
               How To Apply
             </div>
             <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                step 1: Dispense two to three pumps into the palm of your hand.
-                Then, using the pads of the fingers, apply the serum to the
-                entire face from the centre outwards.
-                <br /> step 2: Use gentle pressure to make the serum penetrate
-                deeply.
+            <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
+                <div
+                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  dangerouslySetInnerHTML={{
+                    __html: apply
+                     
+                  }}
+                />
               </p>
             </div>
           </div>
@@ -351,49 +362,23 @@ data?.data?.shipping_charge === "free" &&  <p className="flex items-center py-1"
             <input type="checkbox" />
             <div className="collapse-title text-lg font-medium">Ingredient</div>
             <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                Richness of an oil with the deep penetration of a serum. From
-                the first application of the serum, the skin appears plumped. In
-                3 weeks, 2x improvement in the look or feel of skin
-                elasticity.(5) With regular use, skin looks and feels
-                transformed. As if replenished from within, the skin seems
+            <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
+                <div
+                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  dangerouslySetInnerHTML={{
+                    __html: ingredients
+                     
+                  }}
+                />
               </p>
             </div>
           </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              What Makes It Advance
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                Created after 20 years of research, the 10,000 (2) micro-pearls
-                rich in revitalizing rose micro-nutrients are now completed by
-                the power of the Rose sap. The next-generation, 92%
-                natural-origin (3) formula of La Micro-Huile de Rose Advanced
-                Serum is twice as concentrated
-              </p>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              Product Specification
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <p>
-                As if replenished from within, the skin seems denser and firmer,
-                and wrinkles appear noticeably reduced. As if lifted, facial
-                contours appear enhanced. Reveal your extraordinary beauty with
-                Beautya Prestige. (1) Instrumental test, 32 panelists
-              </p>
-            </div>
-          </div>
+       
         </div>
         {/* //-------------------------Review Section Start----------------------// */}
-        <div>
+        {/* <div>
           <ProductReviews images={images} data={data}></ProductReviews>
-        </div>
+        </div> */}
         {/* //---------------------------Review Section End---------------------------// */}
         {/* //Banner section  big Screen// */}
         {/* <div className="bg-primary my-6 hidden sm:block">
