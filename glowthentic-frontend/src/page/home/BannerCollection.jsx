@@ -18,7 +18,7 @@ const bannerImages = [
   bannerImg4,
   bannerImg5,
 ];
-const baseURL = "http://127.0.0.1:8000/";
+const baseURL = "https://backend.glowthentic.store/";
 
 const sliderSettings = {
   dots: true,
@@ -128,7 +128,6 @@ const BannerCollection = () => {
             {cart1?.link_button}
           </Link>
         </div> */}
-
       </div>
       <div className="mt-5 grid grid-cols-5 gap-4 lg:hidden">
         {/* Left Side (50% width) */}

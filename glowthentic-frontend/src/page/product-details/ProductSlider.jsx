@@ -5,16 +5,13 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
 import Panzoom from "@panzoom/panzoom";
 
 const ProductSlider = ({ data, variantId }) => {
-  
-
   const selectedVariantData = data?.data?.variants?.find(
     (variant) => variant.id === variantId
   );
-
 
   const images = selectedVariantData?.variant_image || [];
 
@@ -87,7 +84,7 @@ const ProductSlider = ({ data, variantId }) => {
                 onMouseLeave={handleMouseLeave}
               >
                 <img
-                  src={`http://127.0.0.1:8000/${image?.image}`}
+                  src={`https://backend.glowthentic.store/${image?.image}`}
                   // src={`${image}`}
                   className="zoom-image  object-cover max-h-[605px]"
                 />
@@ -127,7 +124,7 @@ const ProductSlider = ({ data, variantId }) => {
                 className="min-w-[75px] min-h-[78px] cursor-pointer"
               >
                 <img
-                  src={`http://127.0.0.1:8000/${image?.image}`}
+                  src={`https://backend.glowthentic.store/${image?.image}`}
                   // src={`${image}`}
                   className="min-h-[74px] max-h-[75px] w-full object-cover"
                 />
@@ -172,7 +169,7 @@ const ProductSlider = ({ data, variantId }) => {
             <SwiperSlide key={index}>
               <img
                 onClick={() => openModal(index)}
-                src={`http://127.0.0.1:8000/${image?.image}`}
+                src={`https://backend.glowthentic.store/${image?.image}`}
                 className="cursor-zoom-in"
               />
             </SwiperSlide>
@@ -196,7 +193,7 @@ const ProductSlider = ({ data, variantId }) => {
                 className="min-w-[80px] max-h-[80px] border-2 border-transparent cursor-pointer"
               >
                 <img
-                  src={`http://127.0.0.1:8000/${image?.image}`}
+                  src={`https://backend.glowthentic.store/${image?.image}`}
                   className="max-h-[74px] w-full object-cover"
                 />
               </SwiperSlide>
@@ -208,40 +205,42 @@ const ProductSlider = ({ data, variantId }) => {
       {/* Modal with Swiper */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center">
-        {/* Close Button */}
-        <button
-          onClick={closeModal}
-          className="absolute top-4 right-4 z-50 bg-white border border-gray-300 text-black p-2 rounded-full"
-        >
-          <X />
-        </button>
+          {/* Close Button */}
+          <button
+            onClick={closeModal}
+            className="absolute top-4 right-4 z-50 bg-white border border-gray-300 text-black p-2 rounded-full"
+          >
+            <X />
+          </button>
 
-        {/* Swiper */}
-        <Swiper
-          initialSlide={activeIndex}
-          spaceBetween={10}
-          slidesPerView={1}
-          navigation={false}
-          modules={[Navigation]}
-          className="w-full h-full"
-        >
-          {images?.map((image, index) => (
-            <SwiperSlide key={index} className="flex items-center justify-center">
-              <div
-                ref={(el) => (slideRefs.current[index] = el)}
+          {/* Swiper */}
+          <Swiper
+            initialSlide={activeIndex}
+            spaceBetween={10}
+            slidesPerView={1}
+            navigation={false}
+            modules={[Navigation]}
+            className="w-full h-full"
+          >
+            {images?.map((image, index) => (
+              <SwiperSlide
+                key={index}
                 className="flex items-center justify-center"
               >
-                <img
-                  src={`http://127.0.0.1:8000/${image?.image}`}
-                  className="max-w-[95vw] max-h-[90vh] object-contain select-none"
-                  draggable="false"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-
+                <div
+                  ref={(el) => (slideRefs.current[index] = el)}
+                  className="flex items-center justify-center"
+                >
+                  <img
+                    src={`https://backend.glowthentic.store/${image?.image}`}
+                    className="max-w-[95vw] max-h-[90vh] object-contain select-none"
+                    draggable="false"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       )}
     </>
   );
