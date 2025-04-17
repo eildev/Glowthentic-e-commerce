@@ -129,19 +129,25 @@ const Footer = () => {
 
           <footer className="footer grid md:grid-cols-2 text-white lg:grid-cols-3  items-center px-5 py-4">
             <aside className="grid-flow-row lg:grid-flow-col items-center gap-5">
-              <div className="flex justify-between gap-1">
+              {/* <div className="flex justify-between gap-1">
                 <span>
                   <Icon icon="mdi-light:map-marker" width="24" height="24" />
                 </span>
                 <p>
                   House 41, Block E, Road-06, Banasree, Dhaka, Dhaka, Bangladesh
                 </p>
+              </div> */}
+              <div className="flex justify-between gap-3">
+                <span>
+                  <Icon icon="material-symbols:mail" width="24" height="24" />
+                </span>
+                <p>glowthenticbd@gmail.com</p>
               </div>
-              <span className="hidden lg:block text-xl">|</span>
+              {/* <span className="hidden lg:block text-xl">|</span>
               <div className="flex justify-between gap-1 cursor-pointer hover:underline">
                 <Icon icon="mdi-light:phone" width="24" height="24" />
                 <p>+880 1715-443884</p>
-              </div>
+              </div> */}
             </aside>
             <div className="hidden lg:block"></div>
             <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
