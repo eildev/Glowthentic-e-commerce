@@ -152,7 +152,7 @@ const Product = ({ product, isDark }) => {
       <figure className="relative overflow-hidden min-h-[180px] md:min-h-[380px] lg:h-[380px]">
         <Link to={`/product/${product.slug}`}>
           <img
-            className="lg:h-[380px] min-h-[250px] md:min-h-[280px] object-cover transition-transform duration-500 hover:scale-105"
+            className="lg:h-[380px] min-h-[250px] max-h-[250px] md:min-h-[280px] object-cover transition-transform duration-500 hover:scale-105"
             src={productImage ?? defaultImage}
             alt={product_name ?? "product image"}
           />
@@ -198,7 +198,7 @@ const Product = ({ product, isDark }) => {
       </figure>
 
       <div
-        className={`card-body h-[200px] px-4 py-3 rounded-b-2xl flex flex-col justify-between transition-colors duration-300 ${
+        className={`card-body h-[200px] px-4  rounded-b-2xl flex flex-col justify-between transition-colors duration-300 ${
           isDark
             ? "bg-primary text-white text-center"
             : "bg-white text-primary text-left"
@@ -206,25 +206,20 @@ const Product = ({ product, isDark }) => {
       >
         <Link to={`/product/${product.slug}`}>
         <HeadTitle
-            className={`text-sm md:text-base lg:text-lg line-clamp-2 transition-colors duration-200 hover:text-secondary ${
-              isDark ? "text-white" : "text-primary"
-            }`} // Added line clamping for long titles
-          >
-            {`${product_name.slice(0, 30)} (${variants[0]?.variant_name})` ??
-              "Beautya Capture Total Dreamskin Care & Perfect"}
-          </HeadTitle>
+  className={`text-sm md:text-base lg:text-lg line-clamp-2 transition-colors duration-200 hover:text-secondary ${
+    isDark ? "text-white" : "text-primary"
+  }`}
+>
+  {product_name && variants[0]?.variant_name
+    ? `${product_name} (${variants[0].variant_name})`
+    : "Beautya Capture Total Dreamskin Care & Perfect"}
+</HeadTitle>
+
         </Link>
-        <Paragraph className="text-xs md:text-sm mt-2 line-clamp-2 min-h-[40px] md:min-h-[44px] transition-opacity duration-200 hover:opacity-80 items-end">
-          <span
-            dangerouslySetInnerHTML={{
-              __html: productdetails[0]?.description
-                ? window.innerWidth >= 1000
-                  ? productdetails[0]?.description?.slice(0, 60) + "..."
-                  : productdetails[0]?.description?.slice(0, 40) + "..."
-                : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
-            }}
-          />
-        </Paragraph>
+        <Paragraph className="text-xs md:text-sm mt-1 lg:mt-2 line-clamp-2 min-h-[40px] md:min-h-[44px] transition-opacity duration-200 hover:opacity-80">
+  {productdetails[0]?.description ??
+    "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
+</Paragraph>
         <div
           className={`flex gap-3  ${
             isDark ? "justify-center" : "justify-start"

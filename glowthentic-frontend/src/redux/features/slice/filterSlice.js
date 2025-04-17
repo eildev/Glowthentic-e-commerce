@@ -37,9 +37,11 @@ const filterSlice = createSlice({
         },
         removeCategoryByName(state, action) {
             const nameToRemove = action.payload;
-            
+            console.log("state", state.selectedCategoryMap)
+            console.log("action", action);
             // Find the ID that corresponds to this name
             const idToRemove = Object.keys(state.selectedCategoryMap).find(
+              
                 id => state.selectedCategoryMap[id] === nameToRemove
             );
             
