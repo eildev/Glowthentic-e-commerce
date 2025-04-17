@@ -2,18 +2,15 @@ import { Icon } from "@iconify/react";
 import Container from "../components/Container";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/search/SearchBar";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react"; // Added useRef and useEffect
 import Logo from "../components/navbar/Logo";
 import CartIcon from "../components/navbar/CartIcon";
 import { useSelector } from "react-redux";
 import { useGetWishlistByUserIdQuery } from "../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import WishIcon from "../components/navbar/WishIcon";
-const Header = ({ setShowMobileMenu, showMobileMenu }) => {
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const { token, user } = useSelector((state) => state.auth);
 
-  // console.log("token",  token);
-  // console.log(user?.data?.id);
+const Header = ({ setShowMobileMenu, showMobileMenu, showSearchBar, setShowSearchBar }) => {
+  const { token, user } = useSelector((state) => state.auth);
 
   const {
     data: wishlist,
@@ -23,10 +20,34 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
     skip: !user?.id,
   });
   const wishListCount = wishlist?.wishlist.length;
-  // console.log(wishlist);
-  const userRoute = token ? "/user-profile" : "/login";
-
   const cartLength = useSelector((state) => state.cart.cartItems.length);
+
+  // Create a ref for the search bar
+  const searchBarRef = useRef(null);
+
+  // Handle clicks outside the search bar to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the click is outside the search bar and if the search bar is currently visible
+      if (
+        showSearchBar &&
+        searchBarRef.current &&
+        !searchBarRef.current.contains(event.target)
+      ) {
+        setShowSearchBar(false); // Close the search bar
+      }
+    };
+
+    // Add event listener for mousedown events
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSearchBar, setShowSearchBar]); // Re-run effect when showSearchBar or setShowSearchBar changes
+
+  const userRoute = token ? "/user-profile" : "/login";
 
   return (
     <div className="bg-primary border-b border-[rgba(255,255,255,0.25)]">
@@ -73,15 +94,16 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
           </div>
           {/*--------- Small Device logo -----------*/}
 
-          {/*--------- large Device Search bar  Start -----------*/}
+          {/*--------- large Device Search bar Start -----------*/}
           <div className="navbar-center hidden lg:flex">
             <SearchBar className="w-[600px]" />
           </div>
           {/*--------- large Device Search bar End -----------*/}
 
-          {/*--------- Search bar show in small Device  Start -----------*/}
+          {/*--------- Search bar show in small Device Start -----------*/}
           <div
-            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform z-20 ${
+            ref={searchBarRef} // Attach the ref to the search bar container
+            className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform z-20 block lg:hidden ${
               showSearchBar
                 ? "opacity-100 visible translate-y-0"
                 : "opacity-0 invisible -translate-y-5"
@@ -108,7 +130,7 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
 
           {/*--------- Cart wishlist start -----------*/}
           <div className="navbar-end hidden lg:flex">
-            {/* Cart Icon  */}
+            {/* Cart Icon */}
             <div className="px-2">
               <CartIcon className="border-primary text-primary flex justify-center items-center" />
             </div>
@@ -121,7 +143,7 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
                 ></WishIcon>
               </div>
             )}
-            {/* user  */}
+            {/* user */}
             <Link to={userRoute} className="px-2">
               <Icon icon="line-md:account-small" width="30" height="30" />
             </Link>

@@ -76,7 +76,7 @@ const Product = ({ product, isDark }) => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
     setIsFav(favourite.some((item) => item.id === id));
     setIsInCart(
-      filteredCartItems.some((item) => item.id === defaultVariant.id)
+      filteredCartItems.some((item) => item.id === defaultVariant?.id)
     );
   }, [id, filteredCartItems, defaultVariant]);
 
@@ -141,7 +141,7 @@ const Product = ({ product, isDark }) => {
   //   }
   // }
 
-  const productName = product_name + " " + variants?.[0].variant_name;
+  const productName = product_name + " " + variants[0]?.variant_name;
 
   return (
     <div
@@ -210,7 +210,7 @@ const Product = ({ product, isDark }) => {
               isDark ? "text-white" : "text-primary"
             }`} // Added line clamping for long titles
           >
-            {`${product_name.slice(0, 30)} (${variants?.[0].variant_name})` ??
+            {`${product_name.slice(0, 30)} (${variants[0]?.variant_name})` ??
               "Beautya Capture Total Dreamskin Care & Perfect"}
           </HeadTitle>
         </Link>
