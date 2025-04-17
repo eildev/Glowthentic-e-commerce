@@ -198,43 +198,43 @@ const Product = ({ product, isDark }) => {
       </figure>
 
       <div
-        className={`card-body md:h-[180px] h-[180px] px-3 lg:px-5 rounded-b-2xl transition-colors duration-300 ${
+        className={`card-body h-[200px] px-4 py-3 rounded-b-2xl flex flex-col justify-between transition-colors duration-300 ${
           isDark
             ? "bg-primary text-white text-center"
             : "bg-white text-primary text-left"
-        }`}
+        }`} // Use flex-col and justify-between to control alignment
       >
         <Link to={`/product/${product.slug}`}>
-          <HeadTitle
-            className={`text-sm xl:text-base transition-colors duration-200 hover:text-secondary ${
+        <HeadTitle
+            className={`text-sm md:text-base lg:text-lg line-clamp-2 transition-colors duration-200 hover:text-secondary ${
               isDark ? "text-white" : "text-primary"
-            }`}
+            }`} // Added line clamping for long titles
           >
             {`${product_name.slice(0, 30)} (${variants?.[0].variant_name})` ??
               "Beautya Capture Total Dreamskin Care & Perfect"}
           </HeadTitle>
         </Link>
-        <Paragraph className="text-xs lg:text-sm transition-opacity duration-200 hover:opacity-80">
+        <Paragraph className="text-xs md:text-sm mt-2 line-clamp-2 min-h-[40px] md:min-h-[44px] transition-opacity duration-200 hover:opacity-80 items-end">
           <span
             dangerouslySetInnerHTML={{
               __html: productdetails[0]?.description
                 ? window.innerWidth >= 1000
-                  ? productdetails[0]?.description?.slice(0, 80)
+                  ? productdetails[0]?.description?.slice(0, 60) + "..."
                   : productdetails[0]?.description?.slice(0, 40) + "..."
                 : "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
             }}
           />
         </Paragraph>
         <div
-          className={`flex gap-3 items-center ${
-            isDark ? "justify-center" : ""
-          }`}
+          className={`flex gap-3  ${
+            isDark ? "justify-center" : "justify-start"
+          }`} // Price section always at the bottom
         >
-          <Paragraph className="lg:text-xl text-lg text-secondary transition-transform duration-200 hover:scale-105">
+          <Paragraph className="text-lg md:text-xl text-secondary transition-transform duration-200 hover:scale-105">
             <span>৳ {finalPrice}</span>
           </Paragraph>
           {discountPercentage > 0 && (
-            <Paragraph className="lg:text-sm text-xs text-gray-thin transition-opacity duration-200 hover:opacity-60">
+            <Paragraph className="text-xs md:text-sm text-gray-400 transition-opacity duration-200 hover:opacity-60">
               <del>৳ {variants[0].regular_price}</del>
             </Paragraph>
           )}
