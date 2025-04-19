@@ -362,7 +362,12 @@ const EditAccount = () => {
 
         {/* Contact Information */}
         <div className="my-8">
-          <CommonTitle title="Contact" />
+           <div className="flex items-center">
+        
+                <h2 className=" text-2xl md:text-4xl text-secondary font-bold font-encode">
+                  Contact
+                </h2>
+              </div>
           <div className="my-4">
             <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Email

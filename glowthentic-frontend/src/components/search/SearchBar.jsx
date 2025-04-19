@@ -59,6 +59,28 @@ const SearchBar = ({ className }) => {
       dispatch(setSuggestionsVisible(true)); // Show suggestions if query exists
     }
   };
+    // Handle clicks outside the search bar and suggestions
+    // useEffect(() => {
+    //   const handleClickOutside = (event) => {
+    //     // Check if the click is outside the search bar and suggestions
+    //     const suggestionsContainer = document.querySelector('.suggestions-container');
+    //     const isClickInsideSuggestions = suggestionsContainer && suggestionsContainer.contains(event.target);
+        
+    //     if (
+    //       searchRef.current &&
+    //       !searchRef.current.contains(event.target) &&
+    //       !isClickInsideSuggestions
+    //     ) {
+    //       dispatch(setQuery("")); // Clear the search query
+    //       dispatch(setSuggestionsVisible(false)); // Hide suggestions
+    //     }
+    //   };
+  
+    //   document.addEventListener("mousedown", handleClickOutside);
+    //   return () => {
+    //     document.removeEventListener("mousedown", handleClickOutside);
+    //   };
+    // }, [dispatch]);
 
   const renderedSuggestions = useMemo(() => {
     return (

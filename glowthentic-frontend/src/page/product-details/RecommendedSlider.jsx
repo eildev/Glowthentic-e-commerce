@@ -67,7 +67,7 @@ const items = [
 const RecommendedSlider = ({categoryId}) => {
 //   console.log("category", categoryId);
   const { data, isLoading, error } = useGetProductsQuery();
-  console.log("recomanded", data.data);
+  // console.log("recomanded", data?.data);
   const simillerCategoryData = data?.data?.filter(
     (product) => product.category_id === categoryId
   );
