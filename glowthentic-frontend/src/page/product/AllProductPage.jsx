@@ -9,6 +9,8 @@ import {
   setFilteredFeatures,
   setFilteredSearchQuery,
   addCategoryWithName,
+  addBrand,
+  addTag,
 } from "../../redux/features/slice/filterSlice";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Container from "../../components/Container";
@@ -18,15 +20,23 @@ import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import AllProduct from "./AllProduct";
 import { useLocation } from "react-router-dom";
-import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
+import {
+  useGetCategoryQuery,
+  useGetNavbarCategoryQuery,
+} from "../../redux/features/api/category/categoryApi";
+import { useGetBrandQuery } from "../../redux/features/api/brand/brandApi";
+import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
 
 const AllProductPage = () => {
   const dispatch = useDispatch();
   const { toggleFilter: isFilterOpen } = useSelector((state) => state.filters);
   const location = useLocation();
-  
-  // Fetch categories to get names from IDs
+
+  // Fetch categories, brands, and tags
   const { data: categoryData } = useGetCategoryQuery();
+  const { data: navbarCategoryData } = useGetNavbarCategoryQuery();
+  const { data: brandData } = useGetBrandQuery();
+  const { data: tagsData } = useGetTagsQuery();
 
   useEffect(() => {
     const {
@@ -43,17 +53,37 @@ const AllProductPage = () => {
       searchQuery,
     } = location.state || {};
 
-    // Helper function to find category name from ID
+    // Helper functions to find names from IDs
     const findCategoryName = (id) => {
-      if (!categoryData?.categories) return null;
-      
-      const category = categoryData.categories.find(cat => cat.id === id);
+      if (!categoryData?.categories && !navbarCategoryData?.categories)
+        return null;
+      const category =
+        categoryData?.categories.find((cat) => cat.id === id) ||
+        navbarCategoryData?.categories.find((cat) => cat.id === id);
       return category ? category.categoryName : null;
     };
 
+    const findBrandName = (id) => {
+      if (!brandData?.Brands) return null;
+      const brand = brandData.Brands.find((b) => b.id === id);
+      return brand ? brand.BrandName : null;
+    };
+
+    const findTagName = (id) => {
+      if (!tagsData?.categories) return null;
+      const tag = tagsData.categories.find((t) => t.id === id);
+      return tag ? tag.tagName : null;
+    };
+
     // Reset filters when navigating to products page with new filters
-    // Only clear filters if we have new filters to apply
-    if (categoryId || subcategoryId || brandId || tagId || featureSlug || searchQuery) {
+    if (
+      categoryId ||
+      subcategoryId ||
+      brandId ||
+      tagId ||
+      featureSlug ||
+      searchQuery
+    ) {
       dispatch(setFilteredCategories([]));
       dispatch(setFilteredTags([]));
       dispatch(setFilteredBrands([]));
@@ -62,33 +92,44 @@ const AllProductPage = () => {
     }
 
     if (categoryId) {
-      const name = categoryName || findCategoryName(categoryId) || `Category ${categoryId}`;
+      const name =
+        categoryName || findCategoryName(categoryId) || `Category ${categoryId}`;
       dispatch(addCategoryWithName({ id: categoryId, name }));
     }
-    
+
     if (subcategoryId) {
-      const name = subcategoryName || findCategoryName(subcategoryId) || `Subcategory ${subcategoryId}`;
+      const name =
+        subcategoryName ||
+        findCategoryName(subcategoryId) ||
+        `Subcategory ${subcategoryId}`;
       dispatch(addCategoryWithName({ id: subcategoryId, name }));
     }
-    
+
     if (brandId) {
-      dispatch(setFilteredBrands([brandId]));
-      // You could implement a similar addBrandWithName if needed
+      const name = brandName || findBrandName(brandId) || `Brand ${brandId}`;
+      dispatch(addBrand({ id: brandId, name }));
     }
-    
+
     if (tagId) {
-      dispatch(setFilteredTags([tagId]));
-      // You could implement a similar addTagWithName if needed
+      const name = tagName || findTagName(tagId) || `Tag ${tagId}`;
+      dispatch(addTag({ id: tagId, name }));
     }
-    
+
     if (featureSlug) {
       dispatch(setFilteredFeatures([featureSlug]));
     }
-    
+
     if (searchQuery) {
       dispatch(setFilteredSearchQuery(searchQuery));
     }
-  }, [location.state, dispatch, categoryData]);
+  }, [
+    location.state,
+    dispatch,
+    categoryData,
+    navbarCategoryData,
+    brandData,
+    tagsData,
+  ]);
 
   const handleSortChange = (e) => {
     dispatch(setSortOption(e.target.value));

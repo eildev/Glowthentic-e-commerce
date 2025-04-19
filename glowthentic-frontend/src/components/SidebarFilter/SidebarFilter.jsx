@@ -16,21 +16,38 @@ import { useEffect } from "react";
 
 const SidebarFilter = ({ className }) => {
   const dispatch = useDispatch();
-  const { selectedCategories, selectedCategoryMap, filteredCategories, filteredTags, filteredBrands } =
-    useSelector((state) => state.filters);
+  const {
+    selectedCategories,
+    selectedCategoryMap,
+    filteredCategories,
+    filteredTags,
+    filteredBrands,
+    filteredPrices,
+    filteredSearchQuery,
+  } = useSelector((state) => state.filters);
   const { data: productData, isLoading: isProductsLoading } = useGetProductsQuery();
 
-  // Re-filter products when filters change
   useEffect(() => {
     if (productData?.data && !isProductsLoading) {
       console.log("SidebarFilter re-filtering products:", {
         filteredCategories,
         filteredTags,
         filteredBrands,
+        filteredPrices,
+        filteredSearchQuery,
       });
       dispatch(setFilteredProducts(productData.data));
     }
-  }, [dispatch, productData, isProductsLoading, filteredCategories, filteredTags, filteredBrands]);
+  }, [
+    dispatch,
+    productData,
+    isProductsLoading,
+    filteredCategories,
+    filteredTags,
+    filteredBrands,
+    filteredPrices,
+    filteredSearchQuery,
+  ]);
 
   const removeFilter = (itemToRemove) => {
     console.log(`Removing filter: ${itemToRemove}`);

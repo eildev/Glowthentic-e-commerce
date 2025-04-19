@@ -53,7 +53,7 @@ const NavbarForLargeDevice = () => {
               <MegaMenu
                 showMegaMenu={hoveredCategory === index}
                 data={data}
-                onHideMegaMenu={handleHideMegaMenu} // Handler পাঠানো
+                onHideMegaMenu={handleHideMegaMenu}
               />
             </div>
           ))}

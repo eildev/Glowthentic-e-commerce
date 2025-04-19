@@ -14,6 +14,7 @@ const filterSlice = createSlice({
     toggleFilter: false,
     filteredProducts: [],
     sortOption: "Recommended",
+    filterOrder: [], // Tracks filter application order
   },
   reducers: {
     addCategoryWithName(state, action) {
@@ -22,6 +23,12 @@ const filterSlice = createSlice({
       console.log(`Adding category: id=${stringId}, name=${name}`);
       if (!state.filteredCategories.includes(stringId)) {
         state.filteredCategories.push(stringId);
+        state.filterOrder.push({
+          type: "category",
+          id: stringId,
+          name,
+          timestamp: Date.now(),
+        });
       }
       if (!state.selectedCategories.includes(name)) {
         state.selectedCategories.push(name);
@@ -35,12 +42,20 @@ const filterSlice = createSlice({
         (id) => state.selectedCategoryMap[id] === nameToRemove
       );
       if (idToRemove) {
-        state.filteredCategories = state.filteredCategories.filter((id) => id !== idToRemove);
+        state.filteredCategories = state.filteredCategories.filter(
+          (id) => id !== idToRemove
+        );
+        state.filterOrder = state.filterOrder.filter(
+          (filter) => !(filter.type === "category" && filter.id === idToRemove)
+        );
         delete state.selectedCategoryMap[idToRemove];
         state.selectedCategories = state.selectedCategories.filter(
           (name) => name !== nameToRemove
         );
-        console.log(`Category removed: id=${idToRemove}, remaining categories:`, state.filteredCategories);
+        console.log(
+          `Category removed: id=${idToRemove}, remaining categories:`,
+          state.filteredCategories
+        );
       } else {
         console.warn(`No ID found for category: ${nameToRemove}`);
       }
@@ -51,6 +66,12 @@ const filterSlice = createSlice({
       console.log(`Adding tag: id=${stringId}, name=${name}`);
       if (!state.filteredTags.includes(stringId)) {
         state.filteredTags.push(stringId);
+        state.filterOrder.push({
+          type: "tag",
+          id: stringId,
+          name,
+          timestamp: Date.now(),
+        });
       }
       if (!state.selectedCategories.includes(name)) {
         state.selectedCategories.push(name);
@@ -64,12 +85,20 @@ const filterSlice = createSlice({
         (id) => state.selectedCategoryMap[id] === nameToRemove
       );
       if (idToRemove) {
-        state.filteredTags = state.filteredTags.filter((id) => id !== idToRemove);
+        state.filteredTags = state.filteredTags.filter(
+          (id) => id !== idToRemove
+        );
+        state.filterOrder = state.filterOrder.filter(
+          (filter) => !(filter.type === "tag" && filter.id === idToRemove)
+        );
         delete state.selectedCategoryMap[idToRemove];
         state.selectedCategories = state.selectedCategories.filter(
           (name) => name !== nameToRemove
         );
-        console.log(`Tag removed: id=${idToRemove}, remaining tags:`, state.filteredTags);
+        console.log(
+          `Tag removed: id=${idToRemove}, remaining tags:`,
+          state.filteredTags
+        );
       } else {
         console.warn(`No ID found for tag: ${nameToRemove}`);
       }
@@ -80,6 +109,12 @@ const filterSlice = createSlice({
       console.log(`Adding brand: id=${stringId}, name=${name}`);
       if (!state.filteredBrands.includes(stringId)) {
         state.filteredBrands.push(stringId);
+        state.filterOrder.push({
+          type: "brand",
+          id: stringId,
+          name,
+          timestamp: Date.now(),
+        });
       }
       if (!state.selectedCategories.includes(name)) {
         state.selectedCategories.push(name);
@@ -93,12 +128,20 @@ const filterSlice = createSlice({
         (id) => state.selectedCategoryMap[id] === nameToRemove
       );
       if (idToRemove) {
-        state.filteredBrands = state.filteredBrands.filter((id) => id !== idToRemove);
+        state.filteredBrands = state.filteredBrands.filter(
+          (id) => id !== idToRemove
+        );
+        state.filterOrder = state.filterOrder.filter(
+          (filter) => !(filter.type === "brand" && filter.id === idToRemove)
+        );
         delete state.selectedCategoryMap[idToRemove];
         state.selectedCategories = state.selectedCategories.filter(
           (name) => name !== nameToRemove
         );
-        console.log(`Brand removed: id=${idToRemove}, remaining brands:`, state.filteredBrands);
+        console.log(
+          `Brand removed: id=${idToRemove}, remaining brands:`,
+          state.filteredBrands
+        );
       } else {
         console.warn(`No ID found for brand: ${nameToRemove}`);
       }
@@ -106,6 +149,25 @@ const filterSlice = createSlice({
     setFilteredPrices(state, action) {
       console.log("Setting price filter:", action.payload);
       state.filteredPrices = action.payload;
+      if (action.payload.length > 0) {
+        state.filterOrder.push({
+          type: "price",
+          min: action.payload[0].min,
+          max: action.payload[0].max,
+          timestamp: Date.now(),
+        });
+      }
+    },
+    setFilteredSearchQuery(state, action) {
+      console.log("Setting search query:", action.payload);
+      state.filteredSearchQuery = action.payload;
+      if (action.payload) {
+        state.filterOrder.push({
+          type: "search",
+          query: action.payload,
+          timestamp: Date.now(),
+        });
+      }
     },
     clearAllFilters(state) {
       console.log("Clearing all filters");
@@ -117,6 +179,7 @@ const filterSlice = createSlice({
       state.filteredBrands = [];
       state.filteredFeatures = [];
       state.filteredSearchQuery = "";
+      state.filterOrder = [];
     },
     setFilteredProducts(state, action) {
       const products = action.payload;
@@ -128,24 +191,37 @@ const filterSlice = createSlice({
         tags: state.filteredTags,
         brands: state.filteredBrands,
         prices: state.filteredPrices,
+        features: state.filteredFeatures,
         search: state.filteredSearchQuery,
+        filterOrder: state.filterOrder,
       });
 
       // Apply category filter
       if (state.filteredCategories.length > 0) {
         anyFilterApplied = true;
         filtered = filtered.filter((product) => {
-          if (product.category_id && state.filteredCategories.includes(String(product.category_id))) {
+          if (
+            product.category_id &&
+            state.filteredCategories.includes(String(product.category_id))
+          ) {
             return true;
           }
-          if (product.subcategory_id && state.filteredCategories.includes(String(product.subcategory_id))) {
+          if (
+            product.subcategory_id &&
+            state.filteredCategories.includes(String(product.subcategory_id))
+          ) {
             return true;
           }
-          if (product.category?.id && state.filteredCategories.includes(String(product.category.id))) {
+          if (
+            product.category?.id &&
+            state.filteredCategories.includes(String(product.category.id))
+          ) {
             return true;
           }
           if (product.subcategories?.length) {
-            return product.subcategories.some((sub) => state.filteredCategories.includes(String(sub.id)));
+            return product.subcategories.some((sub) =>
+              state.filteredCategories.includes(String(sub.id))
+            );
           }
           return false;
         });
@@ -156,7 +232,9 @@ const filterSlice = createSlice({
       if (state.filteredTags.length > 0) {
         anyFilterApplied = true;
         filtered = filtered.filter((product) =>
-          product.product_tags?.some((tag) => state.filteredTags.includes(String(tag.tag_id)))
+          product.product_tags?.some((tag) =>
+            state.filteredTags.includes(String(tag.tag_id))
+          )
         );
         console.log("After tags filter:", filtered.length);
       }
@@ -188,8 +266,10 @@ const filterSlice = createSlice({
       // Apply feature filter
       if (state.filteredFeatures.length > 0) {
         anyFilterApplied = true;
-        filtered = filtered.filter((product) =>
-          product.feature && state.filteredFeatures.includes(product.feature.slug)
+        filtered = filtered.filter(
+          (product) =>
+            product.feature &&
+            state.filteredFeatures.includes(product.feature.slug)
         );
         console.log("After feature filter:", filtered.length);
       }
@@ -198,7 +278,9 @@ const filterSlice = createSlice({
       if (state.filteredSearchQuery) {
         anyFilterApplied = true;
         filtered = filtered.filter((product) =>
-          product.product_name.toLowerCase().includes(state.filteredSearchQuery.toLowerCase())
+          product.product_name
+            .toLowerCase()
+            .includes(state.filteredSearchQuery.toLowerCase())
         );
         console.log("After search filter:", filtered.length);
       }
@@ -209,7 +291,100 @@ const filterSlice = createSlice({
         console.log("No filters applied, using all products:", filtered.length);
       }
 
-      // Apply sorting
+      // Sort products by filterOrder (newest filters first)
+      if (state.filterOrder.length > 0) {
+        filtered = filtered.sort((a, b) => {
+          // Find the latest filter that matches product A
+          const aLatestFilter = state.filterOrder
+            .slice()
+            .reverse()
+            .find((filter) => {
+              if (filter.type === "category") {
+                return (
+                  (a.category_id &&
+                    filter.id === String(a.category_id)) ||
+                  (a.subcategory_id &&
+                    filter.id === String(a.subcategory_id)) ||
+                  (a.category?.id &&
+                    filter.id === String(a.category.id)) ||
+                  (a.subcategories?.some((sub) =>
+                    filter.id === String(sub.id)
+                  ))
+                );
+              }
+              if (filter.type === "tag") {
+                return a.product_tags?.some(
+                  (tag) => filter.id === String(tag.tag_id)
+                );
+              }
+              if (filter.type === "brand") {
+                return filter.id === String(a.brand_id);
+              }
+              if (filter.type === "price") {
+                return a.variants?.some(
+                  (variant) =>
+                    variant.regular_price >= filter.min &&
+                    variant.regular_price <= filter.max
+                );
+              }
+              if (filter.type === "search") {
+                return a.product_name
+                  .toLowerCase()
+                  .includes(filter.query.toLowerCase());
+              }
+              return false;
+            });
+
+          // Find the latest filter that matches product B
+          const bLatestFilter = state.filterOrder
+            .slice()
+            .reverse()
+            .find((filter) => {
+              if (filter.type === "category") {
+                return (
+                  (b.category_id &&
+                    filter.id === String(b.category_id)) ||
+                  (b.subcategory_id &&
+                    filter.id === String(b.subcategory_id)) ||
+                  (b.category?.id &&
+                    filter.id === String(b.category.id)) ||
+                  (b.subcategories?.some((sub) =>
+                    filter.id === String(sub.id)
+                  ))
+                );
+              }
+              if (filter.type === "tag") {
+                return b.product_tags?.some(
+                  (tag) => filter.id === String(tag.tag_id)
+                );
+              }
+              if (filter.type === "brand") {
+                return filter.id === String(b.brand_id);
+              }
+              if (filter.type === "price") {
+                return b.variants?.some(
+                  (variant) =>
+                    variant.regular_price >= filter.min &&
+                    variant.regular_price <= filter.max
+                );
+              }
+              if (filter.type === "search") {
+                return b.product_name
+                  .toLowerCase()
+                  .includes(filter.query.toLowerCase());
+              }
+              return false;
+            });
+
+          // Compare timestamps of the latest matching filters
+          const aTimestamp = aLatestFilter ? aLatestFilter.timestamp : 0;
+          const bTimestamp = bLatestFilter ? bLatestFilter.timestamp : 0;
+
+          return bTimestamp - aTimestamp; // Higher timestamp (newer) comes first
+        });
+      }
+
+      // Apply sorting option
       let sortedProducts = [...filtered];
       switch (state.sortOption) {
         case "Price High To Low":
@@ -248,6 +423,7 @@ const filterSlice = createSlice({
           break;
         case "Recommended":
         default:
+          // Keep filterOrder-based sorting
           break;
       }
 
@@ -270,18 +446,56 @@ const filterSlice = createSlice({
           delete state.selectedCategoryMap[id];
         }
       });
+      // Update filterOrder
+      state.filterOrder = state.filterOrder.filter(
+        (filter) =>
+          filter.type !== "category" || action.payload.includes(filter.id)
+      );
     },
     setFilteredTags: (state, action) => {
       state.filteredTags = action.payload.map(String); // Ensure IDs are strings
+      // Update filterOrder
+      state.filterOrder = state.filterOrder.filter(
+        (filter) => filter.type !== "tag" || action.payload.includes(filter.id)
+      );
     },
     setFilteredBrands: (state, action) => {
       state.filteredBrands = action.payload.map(String); // Ensure IDs are strings
+      // Update filterOrder
+      state.filterOrder = state.filterOrder.filter(
+        (filter) =>
+          filter.type !== "brand" || action.payload.includes(filter.id)
+      );
     },
     setFilteredFeatures: (state, action) => {
       state.filteredFeatures = action.payload;
+      // Update filterOrder
+      if (action.payload.length > 0) {
+        state.filterOrder.push({
+          type: "feature",
+          slug: action.payload[0],
+          timestamp: Date.now(),
+        });
+      }
+      state.filterOrder = state.filterOrder.filter(
+        (filter) =>
+          filter.type !== "feature" || action.payload.includes(filter.slug)
+      );
     },
     setFilteredSearchQuery: (state, action) => {
       state.filteredSearchQuery = action.payload;
+      // Update filterOrder
+      if (action.payload) {
+        state.filterOrder.push({
+          type: "search",
+          query: action.payload,
+          timestamp: Date.now(),
+        });
+      } else {
+        state.filterOrder = state.filterOrder.filter(
+          (filter) => filter.type !== "search"
+        );
+      }
     },
     toggleFilter: (state) => {
       state.toggleFilter = !state.toggleFilter;

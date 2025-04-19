@@ -9,10 +9,7 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
   const [menu, setMenu] = useState(null);
   const [item, setItem] = useState(null);
   const { data: categories, error, isLoading } = useGetNavbarCategoryQuery();
-  // if (isLoading) {
-  //   return <span>Loading...</span>;
-  // }
-  console.log("categoryData", categories);
+
   if (error) {
     return <span>Error</span>;
   }
@@ -37,6 +34,7 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
                 <div className="flex justify-between">
                   <Link
                     to="/products"
+                    state={{ categoryId: data.id }}
                     className="capitalize"
                     onClick={handleHideNavbar}
                   >
@@ -44,7 +42,6 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
                   </Link>
                   {data?.subcategories?.length > 0 ? (
                     <div
-                      state={{ categoryId: data.id }}
                       onClick={(e) => {
                         e.preventDefault();
                         setMenu(index);
