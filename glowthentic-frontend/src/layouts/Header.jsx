@@ -1,15 +1,18 @@
+
 import { Icon } from "@iconify/react";
 import Container from "../components/Container";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/search/SearchBar";
-import { useState, useEffect, useRef } from "react"; // Added useRef and useEffect
+import { useState, useEffect, useRef } from "react";
 import Logo from "../components/navbar/Logo";
 import CartIcon from "../components/navbar/CartIcon";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useGetWishlistByUserIdQuery } from "../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import WishIcon from "../components/navbar/WishIcon";
+import { setQuery, setSuggestionsVisible } from "../redux/features/slice/searchSlice";
 
 const Header = ({ setShowMobileMenu, showMobileMenu, showSearchBar, setShowSearchBar }) => {
+  const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
 
   const {
@@ -25,16 +28,18 @@ const Header = ({ setShowMobileMenu, showMobileMenu, showSearchBar, setShowSearc
   // Create a ref for the search bar
   const searchBarRef = useRef(null);
 
-  // Handle clicks outside the search bar to close it
+  // Handle clicks outside the search bar to close it and clear query
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check if the click is outside the search bar and if the search bar is currently visible
+      // Check if the click is outside the search bar and if the search bar is visible
       if (
         showSearchBar &&
         searchBarRef.current &&
         !searchBarRef.current.contains(event.target)
       ) {
         setShowSearchBar(false); // Close the search bar
+        dispatch(setQuery("")); // Clear the search query
+        dispatch(setSuggestionsVisible(false)); // Hide suggestions
       }
     };
 
@@ -45,7 +50,7 @@ const Header = ({ setShowMobileMenu, showMobileMenu, showSearchBar, setShowSearc
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showSearchBar, setShowSearchBar]); // Re-run effect when showSearchBar or setShowSearchBar changes
+  }, [showSearchBar, setShowSearchBar, dispatch]);
 
   const userRoute = token ? "/user-profile" : "/login";
 
@@ -102,7 +107,7 @@ const Header = ({ setShowMobileMenu, showMobileMenu, showSearchBar, setShowSearc
 
           {/*--------- Search bar show in small Device Start -----------*/}
           <div
-            ref={searchBarRef} // Attach the ref to the search bar container
+            ref={searchBarRef}
             className={`absolute -bottom-9 left-0 w-full transition-all duration-300 ease-in-out transform z-20 block lg:hidden ${
               showSearchBar
                 ? "opacity-100 visible translate-y-0"
