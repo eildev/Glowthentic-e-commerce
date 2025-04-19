@@ -14,6 +14,7 @@ import {
 } from "../../redux/features/slice/cartSlice";
 import { useAddToWishlistMutation } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import { imagePath } from "../../utils/imagePath";
+import useMediaQuery from "./useMediaQuery";
 
 const Product = ({ product, isDark }) => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Product = ({ product, isDark }) => {
   const { token, user } = useSelector((state) => state.auth);
   const [addToWishlist, { isLoading, isError, isSuccess, data }] =
     useAddToWishlistMutation();
-
+    const isMobile = useMediaQuery("(max-width: 767px)");
   const { id, product_name, productdetails, variants, price, stock } = product;
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
@@ -198,7 +199,7 @@ const Product = ({ product, isDark }) => {
       </figure>
 
       <div
-        className={`card-body h-[200px] px-4  rounded-b-2xl flex flex-col justify-between transition-colors duration-300 ${
+        className={`card-body h-[200px] px-2 md:px-4  rounded-b-2xl flex flex-col justify-center  transition-colors duration-300 ${
           isDark
             ? "bg-primary text-white text-center"
             : "bg-white text-primary text-left"
@@ -216,14 +217,29 @@ const Product = ({ product, isDark }) => {
 </HeadTitle>
 
         </Link>
-        <Paragraph className="text-xs md:text-sm mt-1 lg:mt-2 line-clamp-2 min-h-[40px] md:min-h-[44px] transition-opacity duration-200 hover:opacity-80">
-  {productdetails[0]?.description ??
-    "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
-</Paragraph>
+        {isMobile ? (
+  <Paragraph className="text-xs  min-h-[40px] transition-opacity duration-200 hover:opacity-80">
+    {productdetails?.short_description.slice(0, 40)}
+  </Paragraph>
+) : (
+  <Paragraph className="text-sm lg:mt-2  line-clamp-2 min-h-[44px] transition-opacity duration-200 hover:opacity-80">
+    {productdetails?.short_description.slice(0, 60)}
+  </Paragraph>
+)}
+
+{/* <Paragraph
+  className="text-xs md:text-sm lg:mt-2 mb-2 hidden line-clamp-1 md:line-clamp-2 min-h-[40px] md:min-h-[44px] transition-opacity duration-200 hover:opacity-80"
+>
+  {window.innerWidth <= 768 // Check if the device width is mobile-sized
+    ? productdetails[0]?.short_description.slice(0, 20) + "..." // Display 10 characters followed by '...'
+    : productdetails[0]?.short_description ??
+      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
+</Paragraph> */}
+
         <div
-          className={`flex gap-3  ${
-            isDark ? "justify-center" : "justify-start"
-          }`} // Price section always at the bottom
+          className={`flex gap-3   ${
+            isDark ? "justify-start" : "justify-start"
+          }`} 
         >
           <Paragraph className="text-lg md:text-xl text-secondary transition-transform duration-200 hover:scale-105">
             <span>৳ {finalPrice}</span>

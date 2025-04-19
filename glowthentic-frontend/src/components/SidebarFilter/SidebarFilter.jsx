@@ -1,21 +1,64 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import HeadTitle from "../typography/HeadTitle";
-import Toggle from "../typography/Toggle";
 import DropdownFilter from "./DropdownFilter";
 import cn from "../../utils/cn";
 import { IoMdClose } from "react-icons/io";
 import {
   clearAllFilters,
   removeCategoryByName,
+  removeTag,
+  removeBrand,
+  setFilteredProducts,
 } from "../../redux/features/slice/filterSlice";
+import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
+import { useEffect } from "react";
 
 const SidebarFilter = ({ className }) => {
   const dispatch = useDispatch();
-  const { selectedCategories } = useSelector((state) => state.filters);
+  const { selectedCategories, selectedCategoryMap, filteredCategories, filteredTags, filteredBrands } =
+    useSelector((state) => state.filters);
+  const { data: productData, isLoading: isProductsLoading } = useGetProductsQuery();
+
+  // Re-filter products when filters change
+  useEffect(() => {
+    if (productData?.data && !isProductsLoading) {
+      console.log("SidebarFilter re-filtering products:", {
+        filteredCategories,
+        filteredTags,
+        filteredBrands,
+      });
+      dispatch(setFilteredProducts(productData.data));
+    }
+  }, [dispatch, productData, isProductsLoading, filteredCategories, filteredTags, filteredBrands]);
 
   const removeFilter = (itemToRemove) => {
-    dispatch(removeCategoryByName(itemToRemove));
+    console.log(`Removing filter: ${itemToRemove}`);
+    const idToRemove = Object.keys(selectedCategoryMap).find(
+      (id) => selectedCategoryMap[id] === itemToRemove
+    );
+    if (idToRemove) {
+      if (filteredCategories.includes(idToRemove)) {
+        console.log(`Dispatching removeCategoryByName for ${itemToRemove}`);
+        dispatch(removeCategoryByName(itemToRemove));
+      } else if (filteredTags.includes(idToRemove)) {
+        console.log(`Dispatching removeTag for ${itemToRemove}`);
+        dispatch(removeTag(itemToRemove));
+      } else if (filteredBrands.includes(idToRemove)) {
+        console.log(`Dispatching removeBrand for ${itemToRemove}`);
+        dispatch(removeBrand(itemToRemove));
+      }
+    } else {
+      console.warn(`No ID found for filter: ${itemToRemove}`);
+    }
+  };
+
+  const handleClearAllFilters = () => {
+    console.log("Clearing all filters from SidebarFilter");
+    dispatch(clearAllFilters());
+    if (productData?.data) {
+      dispatch(setFilteredProducts(productData.data));
+    }
   };
 
   return (
@@ -47,10 +90,7 @@ const SidebarFilter = ({ className }) => {
           </div>
         </div>
         <div className="p-4">
-          <Link
-            className="text-secondary"
-            onClick={() => dispatch(clearAllFilters())}
-          >
+          <Link className="text-secondary" onClick={handleClearAllFilters}>
             Clear All Filters
           </Link>
         </div>
