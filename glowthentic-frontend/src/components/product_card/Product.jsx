@@ -52,6 +52,8 @@ const Product = ({ product, isDark }) => {
 
   let discountPercentage = 0;
   let finalPrice = variants[0]?.regular_price;
+  finalPrice = parseInt(finalPrice)
+  console.log(typeof(finalPrice));
   let stockStatus =
     product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock";
 
@@ -60,14 +62,14 @@ const Product = ({ product, isDark }) => {
       discountPercentage = Math.round(promotion.discount_value);
       const discountAmount =
         (discountPercentage * variants[0].regular_price) / 100;
-      finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
+        finalPrice = Math.round(variants[0].regular_price - discountAmount);
       stockStatus =
         product?.product_stock?.length > 0
           ? `${discountPercentage}% Off`
           : "Out Of Stock";
     } else {
       discountPercentage = promotion.discount_value;
-      finalPrice = variants[0].regular_price - promotion.discount_value;
+      finalPrice = Math.round(variants[0].regular_price - promotion.discount_value) ;
       stockStatus =
         product?.product_stock?.length > 0 ? "Flat Discount" : "Out Of Stock";
     }
@@ -236,20 +238,30 @@ const Product = ({ product, isDark }) => {
       "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
 </Paragraph> */}
 
-        <div
-          className={`flex gap-3   ${
-            isDark ? "justify-start" : "justify-start"
-          }`} 
-        >
-          <Paragraph className="text-lg md:text-xl text-secondary transition-transform duration-200 hover:scale-105">
-            <span>৳ {finalPrice}</span>
-          </Paragraph>
-          {discountPercentage > 0 && (
-            <Paragraph className="text-xs md:text-sm text-gray-400 transition-opacity duration-200 hover:opacity-60">
-              <del>৳ {variants[0].regular_price}</del>
-            </Paragraph>
-          )}
-        </div>
+<div
+  className={`flex gap-1 sm:gap-2 md:gap-3 justify-start items-center w-full ${
+    isDark ? "text-center" : "text-start"
+  }`}
+>
+  <Paragraph
+    className={`text-sm sm:text-base md:text-lg lg:text-xl mx-0 px-0 md:w-0  transition-transform duration-200 hover:scale-105 ${
+      isDark ? "text-white border-gray-700" : "text-secondary border-gray-300"
+    }`}
+  >
+    <span aria-label={`Price: ${finalPrice} Bangladeshi Taka`}>৳ {finalPrice}</span>
+  </Paragraph>
+  {discountPercentage > 0 && (
+    <Paragraph
+      className={`text-xs sm:text-sm md:text-base px-0  transition-opacity duration-200 hover:opacity-60 ${
+        isDark ? "text-gray-300 border-gray-700 ml-1 sm:ml-2 md:ml-3" : "text-gray-400 border-gray-300 ml-1 sm:ml-2 md:ml-3"
+      }`}
+    >
+      <del aria-label={`Original price: ${variants[0].regular_price} Bangladeshi Taka`}>
+        ৳ {variants[0].regular_price}
+      </del>
+    </Paragraph>
+  )}
+</div>
       </div>
     </div>
   );
