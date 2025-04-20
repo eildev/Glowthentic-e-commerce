@@ -5,64 +5,6 @@ import Product from "../../components/product_card/Product";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import Loading from "../../components/spinners/Loading";
 
-const items = [
-  {
-    img: "https://swiperjs.com/demos/images/nature-1.jpg",
-    title: "Beautya Capture Total Dreamskin Care & Perfect",
-    price: "$76.00",
-    description:
-      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
-  },
-  {
-    img: "https://swiperjs.com/demos/images/nature-2.jpg",
-    title: "Beautya Capture Total Dreamskin Care & Perfect",
-    price: "$76.00",
-    description:
-      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
-  },
-  {
-    img: "https://swiperjs.com/demos/images/nature-3.jpg",
-    title: "Beautya Capture Total Dreamskin Care & Perfect",
-    price: "$76.00",
-    description:
-      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
-  },
-  {
-    img: "https://swiperjs.com/demos/images/nature-4.jpg",
-    title: "Beautya Capture Total Dreamskin Care & Perfect",
-    price: "$76.00",
-    description:
-      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
-  },
-  {
-    img: "https://swiperjs.com/demos/images/nature-5.jpg",
-    title: "Beautya Capture Total Dreamskin Care & Perfect",
-    price: "$76.00",
-    description:
-      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
-  },
-  {
-    img: "https://swiperjs.com/demos/images/nature-6.jpg",
-    title: "Beautya Capture Total Dreamskin Care & Perfect",
-    price: "$76.00",
-    description:
-      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
-  },
-  {
-    img: "https://swiperjs.com/demos/images/nature-7.jpg",
-    title: "Beautya Capture Total Dreamskin Care & Perfect",
-    price: "$76.00",
-    description:
-      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
-  },
-  {
-    img: "https://swiperjs.com/demos/images/nature-8.jpg",
-    title: "Beautya Capture Total Dreamskin Care & Perfect",
-    price: "$76.00",
-    description:
-      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration",
-  },
-];
 
 const RecommendedSlider = ({categoryId}) => {
 //   console.log("category", categoryId);
@@ -71,7 +13,7 @@ const RecommendedSlider = ({categoryId}) => {
   const simillerCategoryData = data?.data?.filter(
     (product) => product.category_id === categoryId
   );
-  console.log("similerCategory", simillerCategoryData);
+ 
 
   if (isLoading) return <Loading />;
   if (error) return <p>Error: {error}</p>;

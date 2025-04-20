@@ -84,7 +84,7 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
         <td>
           <div className="flex flex-col justify-center items-center">
             <div className="w-20 h-8">
-              <IncrementDecrement setItemCount={setItemCount} item={item} />
+              <IncrementDecrement setItemCount={setItemCount} item={item} status={'cart'}/>
             </div>
             <div
               onClick={() => handleDelete(item?.id)}

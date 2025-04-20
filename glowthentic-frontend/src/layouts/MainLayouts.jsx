@@ -34,7 +34,7 @@ const MainLayouts = () => {
         </div>
       </div>
       <div className="lg:h-[140px] h-[80px]"></div>
-      <div className="lg:min-h-[calc(100vh-553px)] min-h-[calc(100vh-80px)]">
+      <div className="lg:min-h-[calc(100vh-496px)] min-h-[calc(100vh-80px)]">
         {/*--------- Outlet -----------*/}
         <Outlet />
       </div>

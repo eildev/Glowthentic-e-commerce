@@ -3,7 +3,7 @@ import defaultImage from "../../assets/img/Product/20.png";
 import IncrementDecrement from "../typography/IncrementDecrement";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { imagePath } from "../../utils/imagePath";
 import { Link } from "react-router-dom";
 
@@ -23,6 +23,7 @@ const CartItem = ({ item, handleDelete }) => {
   // console.log("Main Price:", finalPrice);
 
   const [itemCount, setItemCount] = useState(item?.quantity || 1);
+  const [total, setTotal] = useState(finalPrice * itemCount);
   const dispatch = useDispatch();
   const selectedItems = useSelector((state) => state.selectCart.selectedItems);
   const isSelected = selectedItems.includes(item.id);
@@ -31,7 +32,9 @@ const CartItem = ({ item, handleDelete }) => {
     dispatch(toggleItemSelection(item.id));
   };
 
-  // console.log(item.regular_price);
+  useEffect(() => {
+    setTotal(finalPrice * itemCount);
+  }, [itemCount, finalPrice]);
 
   return (
     <tr className="border-none">
@@ -99,7 +102,7 @@ const CartItem = ({ item, handleDelete }) => {
       <td className="mx-auto">
         <div className="flex flex-col justify-center items-center">
           <div>
-            <IncrementDecrement setItemCount={setItemCount} item={item} />
+            <IncrementDecrement setItemCount={setItemCount} item={item} status={'cart'}/>
           </div>
           <div
             onClick={() => handleDelete(item?.id)}
@@ -158,7 +161,7 @@ const CartItem = ({ item, handleDelete }) => {
         </td>
       )}
       <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
-        ৳{finalPrice * itemCount}
+        ৳{total}
       </td>
     </tr>
   );

@@ -25,26 +25,33 @@ const TagElement = ({ value }) => {
 };
 
 const ProductDetails = () => {
+  
   const dispatch = useDispatch();
   const { id } = useParams();
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   const { token, user } = useSelector((state) => state.auth);
 
-  console.log("my Products", data?.data);
+  const filteredCartItems = cartItems.filter((item) => {
+    if (user?.id) {
+      return item.user_id == user.id;
+    } else {
+      return item.user_id == null;
+    }
+  });
+
+ 
+
 const categoryId = data?.data?.category_id
-console.log(categoryId);
+
   const navigate = useNavigate();
-  const images = [
-    "https://picsum.photos/200/300",
-    "https://picsum.photos/300/300",
-    "https://picsum.photos/300/200",
-    "https://picsum.photos/400/300",
-  ];
+
 
   const stockAvailable = data?.data?.product_stock?.[0]?.StockQuantity > 0;
   const [itemCount, setItemCount] = useState(1);
   console.log(itemCount);
-  const [variant, setVariant] = useState([0]);
+ 
+  // const [variant, setVariant] = useState([0]);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   useEffect(() => {
@@ -69,46 +76,93 @@ console.log(categoryId);
     (variant) => variant.id === selectedVariant?.id
   );
 
+
+  
+  const matchedItem = filteredCartItems.find(
+    (item) => item.id === selectedVariantData?.id
+  );
+  
   const handleAddToCart = () => {
+    const stockLimit = matchedItem?.product_stock?.StockQuantity || selectedVariantData?.product_stock?.StockQuantity || 0;
+  
+    const totalRequested = (matchedItem?.quantity || 0) + itemCount;
+  
+   
+    if (totalRequested > stockLimit) {
+      toast.error("Cannot add more than available stock!");
+      return;
+    }
+  
     const newProduct = {
       ...selectedVariantData,
       quantity: itemCount,
       user_id: user?.id || null,
     };
+  
+    toast.success("Added to Cart");
     dispatch(addToCart(newProduct));
-    toast.success(`${data?.data?.product_name ?? ""} added to Cart!`);
+    setItemCount(1);
   };
+  
 
-  const [openIndex, setOpenIndex] = useState(0);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const mainSwiperRef = useRef(null);
-  const thumbsSwiperRef = useRef(null);
+  // const [openIndex, setOpenIndex] = useState(0);
+  // const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  // const mainSwiperRef = useRef(null);
+  // const thumbsSwiperRef = useRef(null);
 
-  const [expanded, setExpanded] = useState({
-    productDetails: false,
-    howToApply: false,
-    ingredient: false,
-    productSpecification: false,
-  });
+  // const [expanded, setExpanded] = useState({
+  //   productDetails: false,
+  //   howToApply: false,
+  //   ingredient: false,
+  //   productSpecification: false,
+  // });
 
-  const toggleReadMore = (key) => {
-    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+  // const toggleReadMore = (key) => {
+  //   setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+  // };
 
-  const truncateText = (text, limit, isExpanded) =>
-    isExpanded ? text : `${text.substring(0, limit)}...`;
+  // const truncateText = (text, limit, isExpanded) =>
+  //   isExpanded ? text : `${text.substring(0, limit)}...`;
+
+
 
   const handleCheckOut = () => {
-    const newProduct = {
-      ...selectedVariantData,
-      quantity: itemCount,
-      user_id: user?.id || null,
-    };
-    dispatch(addToCart(newProduct));
-    navigate("/checkout");
-  };
+ 
+    const stockLimit = matchedItem?.product_stock?.StockQuantity || selectedVariantData?.product_stock?.StockQuantity || 0;
+  
+    if (matchedItem) {
+      const totalQuantity = matchedItem.quantity + itemCount;
+  
+      if (totalQuantity > stockLimit) {
+       
+        navigate("/checkout");
+        return;
+      }
+  
 
-  console.log(data?.data?.shipping_charge);
+      const newProduct = {
+        ...selectedVariantData,
+        quantity: itemCount,
+        user_id: user?.id || null,
+      };
+  
+      dispatch(addToCart(newProduct));
+      navigate("/checkout");
+    } else {
+ 
+      const newProduct = {
+        ...selectedVariantData,
+        quantity: itemCount,
+        user_id: user?.id || null,
+      };
+  
+      dispatch(addToCart(newProduct));
+      navigate("/checkout");
+    }
+  };
+  
+ 
+
 
   return (
     <div>
@@ -218,35 +272,37 @@ console.log(categoryId);
             {/* Select price end */}
 
             {/* Buttons */}
-            <div className="mt-4">
+            <div className="mt-4 flex flex-wrap justify-evenly items-center gap-3">
               <div>
-                <IncrementDecrement setItemCount={setItemCount} item={data} />
+              <IncrementDecrement setItemCount={setItemCount} item={selectedVariantData} itemCount={itemCount} status={'details'}/>
               </div>
               <RegularButton
                 isLoading={isLoading}
-                className={`me-4 my-1 px-6 text-sm ${
+                stockAvailable={stockAvailable}
+                className={`block text-sm text-nowrap justify-between ${
                   stockAvailable
                     ? "bg-orange-500 hover:bg-orange-600"
                     : "bg-gray-gradient cursor-not-allowed"
                 }`}
                 onClick={handleAddToCart}
-                disabled={!stockAvailable}
+
               >
                 Add To Cart
               </RegularButton>
               <RegularButton
                 isLoading={isLoading}
-                className={`me-4 my-1 px-6 text-sm ${
+                className={`block text-sm text-nowrap justify-between ${
                   stockAvailable
                     ? "bg-orange-500 hover:bg-orange-600"
                     : "bg-gray-gradient cursor-not-allowed"
                 }`}
                 onClick={handleCheckOut}
-                disabled={!stockAvailable}
+                stockAvailable={stockAvailable}
               >
                 Buy Now
               </RegularButton>
             </div>
+            <p className="text-sm mt-2 mb-5 lg:text-left lg:ml-3 text-center">Max Product Stock <span className="text-secondary font-semibold">{selectedVariantData?.product_stock?.StockQuantity || 0}</span></p>
             {/* Buttons End */}
 
             {/* Conditionally Render Shipping/Policy Section */}
@@ -326,7 +382,7 @@ console.log(categoryId);
         </div>
         {/* Review Section Start */}
         <div>
-          <ProductReviews images={images} data={data}></ProductReviews>
+          <ProductReviews data={data}></ProductReviews>
         </div>
         {/* Review Section End */}
 

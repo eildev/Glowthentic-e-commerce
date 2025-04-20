@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getCartFromLocalStorage, saveCartToLocalStorage } from '../../../utils/localstorage';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 // Initial state
 const initialState = {
@@ -16,16 +17,16 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
-      const existingItem = state.cartItems.find(cartItem => cartItem.id === item.id);
-      // console.log("state", state);
-      // console.log("action", action);
+      const existingItem = state.cartItems.find((cartItem) => cartItem.id === item.id && cartItem.user_id === item.user_id);
+  
 
       if (existingItem) {
-        existingItem.quantity += item.quantity;
+        existingItem.quantity += item.quantity || 1;
       } else {
-        state.cartItems.push({ ...item, quantity: item.quantity });
+
+        state.cartItems.push({ ...item, quantity: item.quantity || 1 });
       }
-      saveCartToLocalStorage(state.cartItems);
+      
     },
     removeFromCart: (state, action) => {
       state.cartItems = state.cartItems.filter(cartItem => cartItem.id !== action.payload);
@@ -47,7 +48,7 @@ const cartSlice = createSlice({
     decrementQuantity: (state, action) => {
       const itemId = action.payload;
       const item = state.cartItems.find(cartItem => cartItem.id === itemId);
-      if (item && item.quantity > 1) { // Minimum quantity is 1
+      if (item && item.quantity > 1) { 
         item.quantity -= 1;
         saveCartToLocalStorage(state.cartItems);
       }
