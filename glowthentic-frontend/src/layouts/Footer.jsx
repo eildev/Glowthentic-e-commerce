@@ -58,7 +58,17 @@ const Footer = () => {
             </nav>
             <nav>
               <CardTitle>Our Brands</CardTitle>
-              <Link to="#" className="link link-hover">
+              <Link
+                to="#"
+                onClick={() =>
+                  window.open(
+                    "https://miyora.store/",
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
+                className="link link-hover"
+              >
                 Miyora
               </Link>
               <Link to="#" className="link link-hover">
