@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 
-const TopBanner = () => {
+const TopBanner = ({img}) => {
     const banners = [
         { image: img1, title: "সৌন্দর্যের রাজ্যে স্বাগতম!", date: "September 23th, 2025" },
         { image: img2, title: "স্কিনকেয়ার নিয়ে কিছু কথা:", date: "September 23th, 2025" },
@@ -19,7 +19,7 @@ const TopBanner = () => {
             {/* First image  */}
             <div className="col-span-3 relative h-[595px] rounded-lg">
                 <img 
-                    src={banners[0].image} 
+                    src={img} 
                     alt={banners[0].title} 
                     className="w-full h-[595px] object-cover rounded-lg"
                 />
@@ -31,7 +31,7 @@ const TopBanner = () => {
             </div>
 
             {/* Second & Third images  */}
-            <div className="col-span-1 flex flex-col gap-3">
+            {/* <div className="col-span-1 flex flex-col gap-3">
                 {banners.slice(1, 3).map((banner, index) => (
                     <div key={index} className="relative flex-1 ">
                         <img 
@@ -46,7 +46,7 @@ const TopBanner = () => {
                         </div>
                     </div>
                 ))}
-            </div>
+            </div> */}
         </div>
                  {/* Mobile & Tablet View (Auto-Swiping Slider) */}
                  <div className="lg:hidden my-10">
