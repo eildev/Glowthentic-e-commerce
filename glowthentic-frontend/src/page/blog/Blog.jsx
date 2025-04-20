@@ -21,7 +21,7 @@ const Blog = () => {
             
             <MainArticle latestArticle={latestArticle}></MainArticle>
             <ProductGroup></ProductGroup>
-            <ALlBlogPosts> </ALlBlogPosts>
+           
             </Container>
         </div>
     );

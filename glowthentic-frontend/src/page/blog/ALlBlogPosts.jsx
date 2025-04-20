@@ -2,8 +2,9 @@ import React from 'react';
 import { useGetBlogQuery } from '../../redux/features/api/blog/blogApi';
 import BlogCard from './BlogCard';
 
-const AllBlogPosts = () => {
+const AllBlogPosts = ({selectedProduct}) => {
     const { data, isLoading, isError } = useGetBlogQuery();
+  
 console.log(data);
     if (isLoading) {
         return <div className="text-center mt-10">Loading blogs...</div>;

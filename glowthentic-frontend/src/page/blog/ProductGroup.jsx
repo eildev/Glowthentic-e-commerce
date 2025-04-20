@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useGetBlogCategoryQuery } from '../../redux/features/api/blogCategory/blogCategoryApi';
+import AllBlogPosts from './ALlBlogPosts';
+
 
 const productList = [
     "Lipsticks", "Makeup", "Cosmetics", "Shampoo", "Hair", "LifeStyle", "Health", "Food"
@@ -11,6 +13,7 @@ const ProductGroup = () => {
 console.log("category", data?.blogCat);
 const [selectedProduct, setSelectedProduct] = useState(data?.blogCat[0]?.cat_name);
     return (
+        <div>
         <div className="border-y-[1px] border-[#FA8232] mt-20 mb-2">
             <div
                 className="
@@ -45,6 +48,8 @@ const [selectedProduct, setSelectedProduct] = useState(data?.blogCat[0]?.cat_nam
                 ))}
             </div>
         </div>
+       <AllBlogPosts selectedProduct={selectedProduct}></AllBlogPosts>
+         </div>
     );
 };
 
