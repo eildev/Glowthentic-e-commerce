@@ -223,7 +223,7 @@ const EditAccount = () => {
             src={imagePreview}
             alt="User Avatar"
           />
-          <label className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          {/* <label className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
             <FaCamera className="text-white text-2xl cursor-pointer" />
             <input
               type="file"
@@ -231,7 +231,7 @@ const EditAccount = () => {
               className="hidden"
               onChange={handleImageChange}
             />
-          </label>
+          </label> */}
         </div>
 
         {/* Form Inputs */}
@@ -362,12 +362,11 @@ const EditAccount = () => {
 
         {/* Contact Information */}
         <div className="my-8">
-           <div className="flex items-center">
-        
-                <h2 className=" text-2xl md:text-4xl text-secondary font-bold font-encode">
-                  Contact
-                </h2>
-              </div>
+          <div className="flex items-center">
+            <h2 className=" text-2xl md:text-4xl text-secondary font-bold font-encode">
+              Contact
+            </h2>
+          </div>
           <div className="my-4">
             <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Email
