@@ -278,7 +278,7 @@ const categoryId = data?.data?.category_id
               </div>
               <RegularButton
                 isLoading={isLoading}
-                stockAvailable={stockAvailable}
+                isDisabled={!stockAvailable}
                 className={`block text-sm text-nowrap justify-between ${
                   stockAvailable
                     ? "bg-orange-500 hover:bg-orange-600"
@@ -297,7 +297,7 @@ const categoryId = data?.data?.category_id
                     : "bg-gray-gradient cursor-not-allowed"
                 }`}
                 onClick={handleCheckOut}
-                stockAvailable={stockAvailable}
+                isDisabled={!stockAvailable}
               >
                 Buy Now
               </RegularButton>
