@@ -10,7 +10,7 @@ const blogCategoryApi = createApi({
         getBlogCategoryByDetails: builder.query({
             query: (id) => `/blogCategory/${id}`,
         }),
-       
+
     })
 })
 
