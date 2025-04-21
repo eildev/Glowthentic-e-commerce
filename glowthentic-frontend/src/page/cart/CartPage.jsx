@@ -402,7 +402,7 @@ const CartPage = () => {
                 </div>
                 <div className="card-actions justify-center">
                   <Link to={`/checkout${queryString}`}>
-                    <RegularButton className="btn-wide" check={'check'}>Checkout</RegularButton>
+                    <RegularButton className="btn-wide" >Checkout</RegularButton>
                   </Link>
                 </div>
               </div>

@@ -1,9 +1,9 @@
 import cn from "../../utils/cn";
 
-const RegularButton = ({ children, className, onClick, isLoading, stockAvailable, check }) => {
+const RegularButton = ({ children, className, onClick, isLoading, isDisabled }) => {
   return (
     <button
-    disabled={check ? false : !stockAvailable}
+    disabled={isDisabled}
       onClick={onClick}
       className={`${cn(
         "bg-secondary p-3 rounded-md text-white capitalize",
