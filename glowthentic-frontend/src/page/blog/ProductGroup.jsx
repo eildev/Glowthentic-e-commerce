@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useGetBlogCategoryQuery } from '../../redux/features/api/blogCategory/blogCategoryApi';
-import AllBlogPosts from './ALlBlogPosts';
+import AllBlogPosts from './AllBlogPosts';
 
-const ProductGroup = () => {
+const ProductGroup = ({ latestArticles, setSelectedBlogId, sortedBlogs }) => {
     const { data, isLoading } = useGetBlogCategoryQuery();
 
     // Add default "All Categories" manually at the top
     const allCategories = data?.blogCat
-        ? [{ id: "all", cat_name: "All Articles" }, ...data.blogCat]
+        ? [{ id: 'all', cat_name: 'All Articles' }, ...data.blogCat]
         : [];
 
     // Set default selectedCategoryId
-    const [selectedCategoryId, setSelectedCategoryId] = useState("all");
+    const [selectedCategoryId, setSelectedCategoryId] = useState('all');
 
     if (isLoading) return <p>Loading categories...</p>;
 
@@ -40,9 +40,10 @@ const ProductGroup = () => {
                         >
                             <h1
                                 className={`font-semibold transition-all duration-300 ease-in-out transform
-                                    ${selectedCategoryId === cat.id
-                                        ? "text-[#FA8232] text-3xl"
-                                        : "text-[#B9B9B9] text-2xl"
+                                    ${
+                                        selectedCategoryId === cat.id
+                                            ? 'text-[#FA8232] text-3xl'
+                                            : 'text-[#B9B9B9] text-2xl'
                                     }`}
                             >
                                 {cat.cat_name}
@@ -52,8 +53,12 @@ const ProductGroup = () => {
                 </div>
             </div>
 
-            {/* Pass selected category ID as prop */}
-            <AllBlogPosts selectedCategoryId={selectedCategoryId} />
+            {/* Pass props to AllBlogPosts */}
+            <AllBlogPosts
+                selectedCategoryId={selectedCategoryId}
+                setSelectedBlogId={setSelectedBlogId}
+                sortedBlogs={sortedBlogs}
+            />
         </div>
     );
 };
