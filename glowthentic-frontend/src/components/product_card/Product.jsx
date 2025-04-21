@@ -25,13 +25,13 @@ const Product = ({ product, isDark }) => {
   const { token, user } = useSelector((state) => state.auth);
   const [addToWishlist, { isLoading, isError, isSuccess, data }] =
     useAddToWishlistMutation();
-    const isMobile = useMediaQuery("(max-width: 767px)");
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const { id, product_name, productdetails, variants, price, stock } = product;
   const defaultVariant = product.variants.find(
     (variant) => variant.status === "Default"
   );
 
-// console.log("product", product);
+  // console.log("product", product);
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
     (variant) =>
@@ -52,8 +52,8 @@ const Product = ({ product, isDark }) => {
 
   let discountPercentage = 0;
   let finalPrice = variants[0]?.regular_price;
-  finalPrice = parseInt(finalPrice)
-  console.log(typeof(finalPrice));
+  finalPrice = parseInt(finalPrice);
+  console.log(typeof finalPrice);
   let stockStatus =
     product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock";
 
@@ -62,14 +62,16 @@ const Product = ({ product, isDark }) => {
       discountPercentage = Math.round(promotion.discount_value);
       const discountAmount =
         (discountPercentage * variants[0].regular_price) / 100;
-        finalPrice = Math.round(variants[0].regular_price - discountAmount);
+      finalPrice = Math.round(variants[0].regular_price - discountAmount);
       stockStatus =
         product?.product_stock?.length > 0
           ? `${discountPercentage}% Off`
           : "Out Of Stock";
     } else {
       discountPercentage = promotion.discount_value;
-      finalPrice = Math.round(variants[0].regular_price - promotion.discount_value) ;
+      finalPrice = Math.round(
+        variants[0].regular_price - promotion.discount_value
+      );
       stockStatus =
         product?.product_stock?.length > 0 ? "Flat Discount" : "Out Of Stock";
     }
@@ -155,7 +157,7 @@ const Product = ({ product, isDark }) => {
       <figure className="relative overflow-hidden min-h-[180px] md:min-h-[380px] lg:h-[380px]">
         <Link to={`/product/${product.slug}`}>
           <img
-            className="lg:h-[380px] min-h-[250px] max-h-[250px] md:min-h-[280px] object-cover transition-transform duration-500 hover:scale-105"
+            className="lg:h-[380px] min-h-[250px] md:min-h-[280px] object-cover transition-transform duration-500 hover:scale-105"
             src={productImage ?? defaultImage}
             alt={product_name ?? "product image"}
           />
@@ -178,26 +180,29 @@ const Product = ({ product, isDark }) => {
           handleFav={handleFav}
           name={"heart"}
         />
- <ProductIcon
-  image={cartIcon}
-  className={`bottom-[15px] lg:bottom-[25px] transition-all duration-200 ease-in-out transform ${
-    stockStatus === "In Stock"
-      ? "hover:scale-110 hover:bg-secondary cursor-pointer"
-      : "cursor-not-allowed opacity-60"
-  } ${
-    isInCart
-      ? "bg-secondary text-white"
-      : stockStatus === "In Stock"
-      ? "bg-primary text-white"
-      : "bg-gray text-white"
-  }`}
-  imgClassName=""
-  product={product}
-  handleAddToCart={product?.product_stock[0]?.StockQuantity > 0 ? handleAddToCart : () => {}} // Prevent action if stock is 0
-  name={"cart"}
-  defaultVariant={defaultVariant}
-/>
-
+        <ProductIcon
+          image={cartIcon}
+          className={`bottom-[15px] lg:bottom-[25px] transition-all duration-200 ease-in-out transform ${
+            stockStatus === "In Stock"
+              ? "hover:scale-110 hover:bg-secondary cursor-pointer"
+              : "cursor-not-allowed opacity-60"
+          } ${
+            isInCart
+              ? "bg-secondary text-white"
+              : stockStatus === "In Stock"
+              ? "bg-primary text-white"
+              : "bg-gray text-white"
+          }`}
+          imgClassName=""
+          product={product}
+          handleAddToCart={
+            product?.product_stock[0]?.StockQuantity > 0
+              ? handleAddToCart
+              : () => {}
+          } // Prevent action if stock is 0
+          name={"cart"}
+          defaultVariant={defaultVariant}
+        />
       </figure>
 
       <div
@@ -208,28 +213,27 @@ const Product = ({ product, isDark }) => {
         }`} // Use flex-col and justify-between to control alignment
       >
         <Link to={`/product/${product.slug}`}>
-        <HeadTitle
-  className={`text-sm md:text-base lg:text-lg line-clamp-2 transition-colors duration-200 hover:text-secondary ${
-    isDark ? "text-white" : "text-primary"
-  }`}
->
-  {product_name && variants[0]?.variant_name
-    ? `${product_name} (${variants[0].variant_name})`
-    : "Beautya Capture Total Dreamskin Care & Perfect"}
-</HeadTitle>
-
+          <HeadTitle
+            className={`text-sm md:text-base lg:text-lg line-clamp-2 transition-colors duration-200 hover:text-secondary ${
+              isDark ? "text-white" : "text-primary"
+            }`}
+          >
+            {product_name && variants[0]?.variant_name
+              ? `${product_name} (${variants[0].variant_name})`
+              : "Beautya Capture Total Dreamskin Care & Perfect"}
+          </HeadTitle>
         </Link>
         {isMobile ? (
-  <Paragraph className="text-xs  min-h-[40px] transition-opacity duration-200 hover:opacity-80">
-    {productdetails?.short_description.slice(0, 40)}
-  </Paragraph>
-) : (
-  <Paragraph className="text-sm lg:mt-2  line-clamp-2 min-h-[44px] transition-opacity duration-200 hover:opacity-80">
-    {productdetails?.short_description.slice(0, 60)}
-  </Paragraph>
-)}
+          <Paragraph className="text-xs  min-h-[40px] transition-opacity duration-200 hover:opacity-80">
+            {productdetails?.short_description.slice(0, 40)}
+          </Paragraph>
+        ) : (
+          <Paragraph className="text-sm lg:mt-2  line-clamp-2 min-h-[44px] transition-opacity duration-200 hover:opacity-80">
+            {productdetails?.short_description.slice(0, 60)}
+          </Paragraph>
+        )}
 
-{/* <Paragraph
+        {/* <Paragraph
   className="text-xs md:text-sm lg:mt-2 mb-2 hidden line-clamp-1 md:line-clamp-2 min-h-[40px] md:min-h-[44px] transition-opacity duration-200 hover:opacity-80"
 >
   {window.innerWidth <= 768 // Check if the device width is mobile-sized
@@ -238,30 +242,38 @@ const Product = ({ product, isDark }) => {
       "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
 </Paragraph> */}
 
-<div
-  className={`flex gap-1 sm:gap-2 md:gap-3 justify-start items-center w-full ${
-    isDark ? "text-center" : "text-start"
-  }`}
->
-  <Paragraph
-    className={`text-sm sm:text-base md:text-lg lg:text-xl mx-0 px-0 md:w-0  transition-transform duration-200 hover:scale-105 ${
-      isDark ? "text-white border-gray-700" : "text-secondary border-gray-300"
-    }`}
-  >
-    <span aria-label={`Price: ${finalPrice} Bangladeshi Taka`}>৳ {finalPrice}</span>
-  </Paragraph>
-  {discountPercentage > 0 && (
-    <Paragraph
-      className={`text-xs sm:text-sm md:text-base px-0  transition-opacity duration-200 hover:opacity-60 ${
-        isDark ? "text-gray-300 border-gray-700 ml-1 sm:ml-2 md:ml-3" : "text-gray-400 border-gray-300 ml-1 sm:ml-2 md:ml-3"
-      }`}
-    >
-      <del aria-label={`Original price: ${variants[0].regular_price} Bangladeshi Taka`}>
-        ৳ {variants[0].regular_price}
-      </del>
-    </Paragraph>
-  )}
-</div>
+        <div
+          className={`flex gap-1 sm:gap-2 md:gap-3 justify-start items-center w-full ${
+            isDark ? "text-center" : "text-start"
+          }`}
+        >
+          <Paragraph
+            className={`text-sm sm:text-base md:text-lg lg:text-xl mx-0 px-0 md:w-0  transition-transform duration-200 hover:scale-105 ${
+              isDark
+                ? "text-white border-gray-700"
+                : "text-secondary border-gray-300"
+            }`}
+          >
+            <span aria-label={`Price: ${finalPrice} Bangladeshi Taka`}>
+              ৳ {finalPrice}
+            </span>
+          </Paragraph>
+          {discountPercentage > 0 && (
+            <Paragraph
+              className={`text-xs sm:text-sm md:text-base px-0  transition-opacity duration-200 hover:opacity-60 ${
+                isDark
+                  ? "text-gray-300 border-gray-700 ml-1 sm:ml-2 md:ml-3"
+                  : "text-gray-400 border-gray-300 ml-1 sm:ml-2 md:ml-3"
+              }`}
+            >
+              <del
+                aria-label={`Original price: ${variants[0].regular_price} Bangladeshi Taka`}
+              >
+                ৳ {variants[0].regular_price}
+              </del>
+            </Paragraph>
+          )}
+        </div>
       </div>
     </div>
   );

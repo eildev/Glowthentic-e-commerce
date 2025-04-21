@@ -1,4 +1,3 @@
-
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -7,6 +6,7 @@ import AppBar from "./AppBar";
 import { useState } from "react";
 import ScrollTop from "../components/ScrollTop";
 import RedirectTop from "../components/RedirectTop";
+import TrackPageViews from "../components/TrackPageViews";
 
 const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -14,6 +14,7 @@ const MainLayouts = () => {
 
   return (
     <div>
+      <TrackPageViews />
       <RedirectTop />
       <div className="fixed top-0 left-0 w-full z-50">
         {/*--------- Header -----------*/}
