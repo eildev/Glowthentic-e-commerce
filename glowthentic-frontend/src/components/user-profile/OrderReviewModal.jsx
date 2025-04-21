@@ -129,7 +129,7 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
               <div className="w-[280px]">
                 <img
                   className="object-cover h-[350px] w-[280px]"
-                  src={`https://backend.glowthentic.store/${selectedProduct?.variant?.variant_image[0]?.image}`}
+                  src={`http://127.0.0.1:8000/${selectedProduct?.variant?.variant_image[0]?.image}`}
                   alt=""
                 />
               </div>
