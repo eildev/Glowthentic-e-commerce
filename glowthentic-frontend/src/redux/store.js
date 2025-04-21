@@ -27,6 +27,7 @@ import reviewGetApi from "./features/api/review/reviewGetApi";
 import brandApi from "./features/api/brand/brandApi";
 import blogApi from "./features/api/blog/blogApi";
 import blogCategoryApi from "./features/api/blogCategory/blogCategoryApi";
+import userTrackApi from "./features/api/track/userTrackApi";
 
 // import orderGetApi from "./features/api/orderApi/orderGetApi";
 // import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
@@ -63,6 +64,7 @@ const store = configureStore({
         [couponApi.reducerPath]: couponApi.reducer,
         [reviewApi.reducerPath]: reviewApi.reducer,
         [reviewGetApi.reducerPath]: reviewGetApi.reducer,
+        [userTrackApi.reducerPath]: userTrackApi.reducer,
 
     },
     middleware: (getDefaultMiddleware) =>
@@ -89,6 +91,7 @@ const store = configureStore({
             .concat(couponApi.middleware)
             .concat(reviewApi.middleware)
             .concat(reviewGetApi.middleware)
+            .concat(userTrackApi.middleware)
 
 });
 
