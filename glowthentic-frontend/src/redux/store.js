@@ -30,6 +30,7 @@ import blogCategoryApi from "./features/api/blogCategory/blogCategoryApi";
 import userTrackApi from "./features/api/track/userTrackApi";
 import blogCommentsApi from "./features/api/blogComments/blogCommentsApi";
 import blogCommentsGetApi from "./features/api/blogComments/blogCommentsGetApi";
+import blogLikesApi from "./features/api/blogComments/blogLikesApi";
 
 // import orderGetApi from "./features/api/orderApi/orderGetApi";
 // import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
@@ -59,6 +60,7 @@ const store = configureStore({
         [checkoutApi.reducerPath]: checkoutApi.reducer,
         [registerApi.reducerPath]: registerApi.reducer,
         [blogCommentsApi.reducerPath]: blogCommentsApi.reducer,
+        [blogLikesApi.reducerPath]: blogLikesApi.reducer,
         [blogCommentsGetApi.reducerPath]: blogCommentsGetApi.reducer,
         [orderAPI.reducerPath]: orderAPI.reducer,
         [homeBannerApi.reducerPath]: homeBannerApi.reducer,
@@ -88,6 +90,7 @@ const store = configureStore({
             .concat(checkoutApi.middleware)
             .concat(registerApi.middleware)
             .concat(blogCommentsApi.middleware)
+            .concat(blogLikesApi.middleware)
             .concat(blogCommentsGetApi.middleware)
             .concat(orderAPI.middleware)
             .concat(homeBannerApi.middleware)
