@@ -7,6 +7,7 @@ import LikeButton from './LikeButton';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
 import { useLikeInfoMutation } from '../../redux/features/api/blogComments/blogLikesApi';
+import { useGetblogLikesInfoQuery } from '../../redux/features/api/blogComments/blogLikesGetApli';
 
 const CommentSection = ({ blogId }) => {
   console.log("comment page id", blogId);
@@ -14,24 +15,25 @@ const CommentSection = ({ blogId }) => {
   const { user, token } = useSelector((state) => state.auth);
   console.log("user", user);
   const { data: commentsData, isLoading: commentsLoading } = useGetblogCommentsInfoQuery(blogId);
+  const { data: likesData, isLoading: likesLoading } = useGetblogLikesInfoQuery(blogId);
   console.log("commentsData", commentsData);
   const [commentSave, { isLoading: commentLoading }] = useCommentInfoMutation();
   const [likeSave, { isLoading: likeLoading }] = useLikeInfoMutation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // const handleLike = () => setLikes(likes + 1);
-  const handleLike = async() => {
-    const user_id = 1;
-    const blog_id = 1;
-    const like = ?1:0
-    try{
-      const result = await likeSave({user_id, blog_id, like});
-      console.log(result);
+  const handleLike = () => setLikes(likes + 1);
+  // const handleLike = async() => {
+  //   const user_id = user?.id;
+  //   const blog_id = ;
+  //   const like = ?1:0
+  //   try{
+  //     const result = await likeSave({user_id, blog_id, like});
+  //     console.log(result);
       
-    }catch(error){
-      console.log(error);
-    }
-  };
+  //   }catch(error){
+  //     console.log(error);
+  //   }
+  // };
 
   const handleCommentSubmit = async (commentText) => {
     console.log('User:', user, 'Token:', token);

@@ -15,7 +15,7 @@ const blogLikesGetApi = createApi({
     tagTypes: ['BlogLikes'], // Add tagTypes
     endpoints: builder => ({
       getblogLikesInfo: builder.query({
-        query: (blogId) => `/blogComment?blog_id=${blogId}`,
+        query: (blogId) => `/post/react?blog_id=${blogId}`,
         providesTags: (result, error, blogId) => [{ type: 'BlogLikes', id: blogId }],
       }),
     }),
