@@ -225,11 +225,11 @@ const Product = ({ product, isDark }) => {
         </Link>
         {isMobile ? (
           <Paragraph className="text-xs  min-h-[40px] transition-opacity duration-200 hover:opacity-80">
-            {productdetails?.short_description.slice(0, 40)}
+            {productdetails?.short_description?.slice(0, 40)}
           </Paragraph>
         ) : (
           <Paragraph className="text-sm lg:mt-2  line-clamp-2 min-h-[44px] transition-opacity duration-200 hover:opacity-80">
-            {productdetails?.short_description.slice(0, 60)}
+            {productdetails?.short_description?.slice(0, 60)}
           </Paragraph>
         )}
 

@@ -1,11 +1,11 @@
-// src/pages/Signout.js
+// src/pages/SignOut.js
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useLogoutUserMutation } from "../redux/features/api/auth/authApi";
-import { logout } from "../redux/features/slice/authSlice";
+import { useLogoutUserMutation } from "../../redux/features/api/auth/authApi";
+import { logout } from "../../redux/features/slice/authSlice";
 
-const Signout = () => {
+const SignOut = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutUser, { isLoading, error }] = useLogoutUserMutation();
@@ -15,7 +15,7 @@ const Signout = () => {
       try {
         await logoutUser().unwrap(); // API কল করে লগআউট
         dispatch(logout()); // Redux স্টেট ক্লিয়ার
-        navigate("/login"); 
+        navigate("/login");
       } catch (err) {
         console.error("Logout failed:", err);
       }
@@ -29,4 +29,4 @@ const Signout = () => {
   return null; // লগআউট হয়ে গেলে কিছু দেখানোর প্রয়োজন নেই
 };
 
-export default Signout;
+export default SignOut;
