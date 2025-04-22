@@ -21,7 +21,27 @@ const CommentSection = ({ blogId }) => {
   const [likeSave, { isLoading: likeLoading }] = useLikeInfoMutation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const handleLike = () => setLikes(likes + 1);
+  const handleLike = async () => {
+    setLikes(likes + 1)
+    try {
+      const result = await likeSave({
+        blog_id: blogId,
+        like: setLikes,
+        user_id: user?.id,
+      }).unwrap();
+      console.log('Comment post result:', result);
+      if(result.status === 200){
+       toast.success("Liked Successfully")
+      }
+   
+    } catch (error) {
+      console.error('Full error:', error, 'Status:', error.status, 'Data:', error.data);
+      alert(error?.data?.message || 'Failed to liked');
+    }
+  };
+  console.log("likes", likesData);
+  const filterLikes = likesData?.blogComment?.filter((comment) => comment?.blog_id === blogId);
+
   // const handleLike = async() => {
   //   const user_id = user?.id;
   //   const blog_id = ;
@@ -77,7 +97,7 @@ toast.error('Please log in to post a comment')
   return (
     <div className="max-w-auto mx-auto p-8">
       <div className="flex justify-between items-center">
-        <LikeButton likes={likes} onLike={handleLike} />
+        <LikeButton likes={likesData} onLike={handleLike} />
         <button
           onClick={toggleDropdown}
           className="text-gray-600 hover:text-indigo-600 font-semibold flex items-center space-x-1 transition duration-200"
