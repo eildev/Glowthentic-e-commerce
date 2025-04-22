@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useGetblogCommentsInfoQuery } from '../../redux/features/api/blogComments/blogCommentsGetApi';
+import { useSelector } from 'react-redux';
+import { useCommentInfoMutation } from '../../redux/features/api/blogComments/blogCommentsApi';
+import { toast } from 'react-toastify';
 
 const LikeButton = ({ likes, onLike }) => (
   <button
@@ -12,7 +16,7 @@ const LikeButton = ({ likes, onLike }) => (
   </button>
 );
 
-const CommentForm = ({ onSubmit }) => {
+const CommentForm = ({ onSubmit, disabled }) => {
   const [comment, setComment] = useState('');
 
   const handleSubmit = (e) => {
@@ -33,10 +37,12 @@ const CommentForm = ({ onSubmit }) => {
           className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
           rows="5"
           placeholder="Share your thoughts..."
+          disabled={disabled}
         />
         <button
           type="submit"
           className="mt-3 bg-secondary text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition duration-200"
+          disabled={disabled}
         >
           Post Comment
         </button>
@@ -55,30 +61,50 @@ const Comment = ({ text, author, date }) => (
   </div>
 );
 
-const CommentSection = () => {
+const CommentSection = ({ blogId }) => {
   const [likes, setLikes] = useState(0);
-  const [comments, setComments] = useState([
-    { id: 1, text: 'Great post!', author: 'Jane Doe', date: '2025-04-20' },
-    { id: 2, text: 'Really insightful, thanks for sharing!', author: 'John Smith', date: '2025-04-19' },
-  ]);
+  const { user, token } = useSelector((state) => state.auth);
+  const { data: commentsData, isLoading: commentsLoading } = useGetblogCommentsInfoQuery(blogId);
+  console.log("comments", commentsData);
+  const [commentSave, { isLoading: registerLoading }] = useCommentInfoMutation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLike = () => setLikes(likes + 1);
 
-  const handleCommentSubmit = (commentText) => {
-    const newComment = {
-      id: comments.length + 1,
-      text: commentText,
-      author: 'Anonymous',
-      date: new Date().toISOString().split('T')[0],
-    };
-    setComments([...comments, newComment]);
+  const handleCommentSubmit = async (commentText) => {
+    console.log('User:', user, 'Token:', token);
+    console.log('Payload:', { blog_id: blogId, comment: commentText, subscriber_id: user?.id });
+  
+    if (!user || !token) {
+      toast.error('Please log in to post a comment');
+      return;
+    }
+  
+    try {
+      const result = await commentSave({
+        blog_id: blogId,
+        comment: commentText,
+        subscriber_id: user?.id,
+      }).unwrap();
+      console.log(result);
+      toast.success('Comment posted successfully');
+    } catch (error) {
+      console.error('Full error:', error, 'Status:', error.status, 'Data:', error.data);
+      toast.error(error?.data?.message || 'Failed to post comment');
+    }
   };
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
+  const comments = commentsData?.blogComment?.map((comment) => ({
+    id: comment.id,
+    text: comment.comment,
+    author: comment.subscriber?.name || 'Anonymous',
+    date: new Date(comment.created_at).toLocaleDateString(),
+  })) || [];
+console.log("new commet", comments);
   return (
-    <div className="max-w-auto mx-auto p-8 ">
+    <div className="max-w-auto mx-auto p-8">
       <div className="flex justify-between items-center">
         <LikeButton likes={likes} onLike={handleLike} />
         <button
@@ -96,14 +122,19 @@ const CommentSection = () => {
           </svg>
         </button>
       </div>
-      <CommentForm onSubmit={handleCommentSubmit} />
+      <CommentForm
+        onSubmit={handleCommentSubmit}
+        disabled={!user || !token || registerLoading}
+      />
       <div
         className={`mt-8 overflow-hidden transition-all duration-300 ease-in-out ${
           isDropdownOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <h3 className="text-xl font-bold text-gray-900">Comments</h3>
-        {comments.length > 0 ? (
+        {commentsLoading ? (
+          <p className="text-gray-500 mt-4">Loading comments...</p>
+        ) : comments.length > 0 ? (
           comments.map((comment) => (
             <Comment
               key={comment.id}
