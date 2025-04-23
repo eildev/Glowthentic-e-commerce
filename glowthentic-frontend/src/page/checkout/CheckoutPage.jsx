@@ -175,6 +175,7 @@ const CheckoutPage = () => {
       combo: [],
       full_name: `${formData.name}`,
       address: `${formData.address}`,
+      email: `${formData.email}`,
       district: selectedDistrict,
       police_station: selectedUpazila,
       postal_code: 1000,
