@@ -9,7 +9,7 @@ const blogLikesApi = createApi({
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
-      headers.set('Accept', 'application/json'); // Ensure JSON response
+      headers.set('Accept', 'application/json');
       return headers;
     },
   }),
@@ -23,8 +23,15 @@ const blogLikesApi = createApi({
       }),
       invalidatesTags: (result, error, { blog_id }) => [{ type: 'BlogLikes', id: blog_id }],
     }),
+    unlikeInfo: builder.mutation({
+      query: ({ blog_id, user_id }) => ({
+        url: `/post/react?blog_id=${blog_id}&user_id=${user_id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, { blog_id }) => [{ type: 'BlogLikes', id: blog_id }],
+    }),
   }),
 });
 
-export const {  useLikeInfoMutation } = blogLikesApi;
+export const { useLikeInfoMutation, useUnlikeInfoMutation } = blogLikesApi;
 export default blogLikesApi;
