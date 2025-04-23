@@ -109,7 +109,6 @@ const CheckoutPage = () => {
 
   // Use the state-managed shipping charge for total calculation
   const grandTotal = Math.round(discountedSubTotal + shippingCharge + tax);
-  // console.log("grand", grandTotal);
 
   const {
     register,
@@ -144,8 +143,6 @@ const CheckoutPage = () => {
   const userSessionId = getOrCreateSessionId();
 
   const onSubmit = async (formData) => {
-    console.log(selectedDistrict);
-    console.log(selectedUpazila);
     const orderData = {
       products: filteredCartItems.map((item) => {
         const regularPrice = item.regular_price;
@@ -186,20 +183,19 @@ const CheckoutPage = () => {
       order_note: formData.orderNotes,
       ...(token ? { user_id: user?.id } : { session_id: userSessionId }),
     };
-
-    console.log(orderData);
     try {
       const response = await placeOrder(orderData).unwrap();
-      console.log("Order response:", response);
 
       if (response?.status === 200 || response?.success) {
         toast.success("Order placed successfully!");
         dispatch(clearCart());
         // Added this small delay before navigation to ensure state updates
         const invoiceNumber = response?.order?.invoice_number || "INV_DEFAULT";
-        console.log(invoiceNumber);
+
         setTimeout(() => {
-          navigate(`/order-confirmation?invoice=${invoiceNumber}`, { replace: true });
+          navigate(`/order-confirmation?invoice=${invoiceNumber}`, {
+            replace: true,
+          });
         }, 100);
       } else {
         toast.error("Order placement unsuccessful!");

@@ -20,8 +20,6 @@ const CartItem = ({ item, handleDelete }) => {
     finalPrice = regularPrice - (regularPrice * discountValue) / 100;
   }
 
-  // console.log("Main Price:", finalPrice);
-
   const [itemCount, setItemCount] = useState(item?.quantity || 1);
   const [total, setTotal] = useState(finalPrice * itemCount);
   const dispatch = useDispatch();
@@ -55,7 +53,9 @@ const CartItem = ({ item, handleDelete }) => {
             <div className="font-bold mb-1">
               {item?.product?.product_name ?? ""}
             </div>
-            <div className="text-sm opacity-50 mb-1">{item?.variant_name ?? ""}</div>
+            <div className="text-sm opacity-50 mb-1">
+              {item?.variant_name ?? ""}
+            </div>
             <div className="text-[#FA8232] flex items-center gap-2 cursor-pointer">
               <svg
                 width="25"
@@ -102,7 +102,11 @@ const CartItem = ({ item, handleDelete }) => {
       <td className="mx-auto">
         <div className="flex flex-col justify-center items-center">
           <div>
-            <IncrementDecrement setItemCount={setItemCount} item={item} status={'cart'}/>
+            <IncrementDecrement
+              setItemCount={setItemCount}
+              item={item}
+              status={"cart"}
+            />
           </div>
           <div
             onClick={() => handleDelete(item?.id)}

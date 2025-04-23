@@ -20,7 +20,6 @@ const filterSlice = createSlice({
     addCategoryWithName(state, action) {
       const { id, name } = action.payload;
       const stringId = String(id); // Ensure ID is a string
-      console.log(`Adding category: id=${stringId}, name=${name}`);
       if (!state.filteredCategories.includes(stringId)) {
         state.filteredCategories.push(stringId);
         state.filterOrder.push({
@@ -37,7 +36,6 @@ const filterSlice = createSlice({
     },
     removeCategoryByName(state, action) {
       const nameToRemove = action.payload;
-      console.log(`Removing category: name=${nameToRemove}`);
       const idToRemove = Object.keys(state.selectedCategoryMap).find(
         (id) => state.selectedCategoryMap[id] === nameToRemove
       );
@@ -52,10 +50,6 @@ const filterSlice = createSlice({
         state.selectedCategories = state.selectedCategories.filter(
           (name) => name !== nameToRemove
         );
-        console.log(
-          `Category removed: id=${idToRemove}, remaining categories:`,
-          state.filteredCategories
-        );
       } else {
         console.warn(`No ID found for category: ${nameToRemove}`);
       }
@@ -63,7 +57,6 @@ const filterSlice = createSlice({
     addTag(state, action) {
       const { id, name } = action.payload;
       const stringId = String(id); // Ensure ID is a string
-      console.log(`Adding tag: id=${stringId}, name=${name}`);
       if (!state.filteredTags.includes(stringId)) {
         state.filteredTags.push(stringId);
         state.filterOrder.push({
@@ -80,7 +73,6 @@ const filterSlice = createSlice({
     },
     removeTag(state, action) {
       const nameToRemove = action.payload;
-      console.log(`Removing tag: name=${nameToRemove}`);
       const idToRemove = Object.keys(state.selectedCategoryMap).find(
         (id) => state.selectedCategoryMap[id] === nameToRemove
       );
@@ -95,10 +87,6 @@ const filterSlice = createSlice({
         state.selectedCategories = state.selectedCategories.filter(
           (name) => name !== nameToRemove
         );
-        console.log(
-          `Tag removed: id=${idToRemove}, remaining tags:`,
-          state.filteredTags
-        );
       } else {
         console.warn(`No ID found for tag: ${nameToRemove}`);
       }
@@ -106,7 +94,6 @@ const filterSlice = createSlice({
     addBrand(state, action) {
       const { id, name } = action.payload;
       const stringId = String(id); // Ensure ID is a string
-      console.log(`Adding brand: id=${stringId}, name=${name}`);
       if (!state.filteredBrands.includes(stringId)) {
         state.filteredBrands.push(stringId);
         state.filterOrder.push({
@@ -123,7 +110,6 @@ const filterSlice = createSlice({
     },
     removeBrand(state, action) {
       const nameToRemove = action.payload;
-      console.log(`Removing brand: name=${nameToRemove}`);
       const idToRemove = Object.keys(state.selectedCategoryMap).find(
         (id) => state.selectedCategoryMap[id] === nameToRemove
       );
@@ -138,16 +124,11 @@ const filterSlice = createSlice({
         state.selectedCategories = state.selectedCategories.filter(
           (name) => name !== nameToRemove
         );
-        console.log(
-          `Brand removed: id=${idToRemove}, remaining brands:`,
-          state.filteredBrands
-        );
       } else {
         console.warn(`No ID found for brand: ${nameToRemove}`);
       }
     },
     setFilteredPrices(state, action) {
-      console.log("Setting price filter:", action.payload);
       state.filteredPrices = action.payload;
       if (action.payload.length > 0) {
         state.filterOrder.push({
@@ -159,7 +140,6 @@ const filterSlice = createSlice({
       }
     },
     setFilteredSearchQuery(state, action) {
-      console.log("Setting search query:", action.payload);
       state.filteredSearchQuery = action.payload;
       if (action.payload) {
         state.filterOrder.push({
@@ -170,7 +150,6 @@ const filterSlice = createSlice({
       }
     },
     clearAllFilters(state) {
-      console.log("Clearing all filters");
       state.selectedCategories = [];
       state.selectedCategoryMap = {};
       state.filteredCategories = [];
@@ -185,17 +164,6 @@ const filterSlice = createSlice({
       const products = action.payload;
       let filtered = [...products];
       let anyFilterApplied = false;
-
-      console.log("Applying filters:", {
-        categories: state.filteredCategories,
-        tags: state.filteredTags,
-        brands: state.filteredBrands,
-        prices: state.filteredPrices,
-        features: state.filteredFeatures,
-        search: state.filteredSearchQuery,
-        filterOrder: state.filterOrder,
-      });
-
       // Apply category filter
       if (state.filteredCategories.length > 0) {
         anyFilterApplied = true;
@@ -225,7 +193,6 @@ const filterSlice = createSlice({
           }
           return false;
         });
-        console.log("After category filter:", filtered.length);
       }
 
       // Apply tags filter
@@ -236,7 +203,6 @@ const filterSlice = createSlice({
             state.filteredTags.includes(String(tag.tag_id))
           )
         );
-        console.log("After tags filter:", filtered.length);
       }
 
       // Apply price filter
@@ -251,7 +217,6 @@ const filterSlice = createSlice({
             );
           });
         });
-        console.log("After price filter:", filtered.length);
       }
 
       // Apply brand filter
@@ -260,7 +225,6 @@ const filterSlice = createSlice({
         filtered = filtered.filter((product) =>
           state.filteredBrands.includes(String(product.brand_id))
         );
-        console.log("After brand filter:", filtered.length);
       }
 
       // Apply feature filter
@@ -271,7 +235,6 @@ const filterSlice = createSlice({
             product.feature &&
             state.filteredFeatures.includes(product.feature.slug)
         );
-        console.log("After feature filter:", filtered.length);
       }
 
       // Apply search filter
@@ -282,13 +245,11 @@ const filterSlice = createSlice({
             .toLowerCase()
             .includes(state.filteredSearchQuery.toLowerCase())
         );
-        console.log("After search filter:", filtered.length);
       }
 
       // If no filter has been applied, use all products
       if (!anyFilterApplied) {
         filtered = products;
-        console.log("No filters applied, using all products:", filtered.length);
       }
 
       // Sort products by filterOrder (newest filters first)
@@ -428,7 +389,6 @@ const filterSlice = createSlice({
       }
 
       state.filteredProducts = sortedProducts;
-      console.log("Final filtered products:", sortedProducts.length);
     },
     setSelectedCategories: (state, action) => {
       state.selectedCategories = action.payload;

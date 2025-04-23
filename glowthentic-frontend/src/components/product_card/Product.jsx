@@ -31,7 +31,6 @@ const Product = ({ product, isDark }) => {
     (variant) => variant.status === "Default"
   );
 
-  // console.log("product", product);
   // Find the variant with promotion
   const variantWithPromotion = variants.find(
     (variant) =>
@@ -53,7 +52,6 @@ const Product = ({ product, isDark }) => {
   let discountPercentage = 0;
   let finalPrice = variants[0]?.regular_price;
   finalPrice = parseInt(finalPrice);
-  console.log(typeof finalPrice);
   let stockStatus =
     product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock";
 

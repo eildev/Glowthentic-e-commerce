@@ -19,7 +19,6 @@ const HomeSlider = () => {
   if (error) {
     return <span>Error</span>;
   }
-  // console.log(data);
   return (
     <div className="relative w-full h-fit">
       <Swiper

@@ -4,9 +4,7 @@ import RegularButton from "../../components/typography/RegularButton";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 
 const PasswordVerification = () => {
-  const verificationPasswordHandleData = (data) => {
-    // console.log("Password verification Code:", data); // data will be the form data.
-  };
+  const verificationPasswordHandleData = (data) => {};
   return (
     <div>
       <DynamicHelmet title="Verification" />

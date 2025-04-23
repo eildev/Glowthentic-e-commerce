@@ -67,33 +67,42 @@ const DynamicForm = ({ title, handleForm, children = " " }) => {
             <>
               <div className="my-6 text-gray-500 text-center">or</div>
               <div className="flex gap-4 md:flex-row">
-                <button
-                  onClick={handleGoogleLogin}
-                  disabled={googleLoading || !googleData?.url}
-                  className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded disabled:opacity-50"
-                >
-                  <Icon
-                    icon="flat-color-icons:google"
-                    width="2em"
-                    height="2em"
-                    className="w-5 h-5"
-                  />
-                  {googleLoading ? "Loading..." : "Google"}
-                </button>
-                <button
-                  onClick={handleFacebookLogin}
-                  disabled={facebookLoading || !facebookData?.url}
-                  className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded disabled:opacity-50"
-                >
-                  <Icon
-                    icon="ic:baseline-facebook"
-                    width="2em"
-                    height="2em"
-                    style={{ color: "#1977f3" }}
-                    className="w-5 h-5"
-                  />
-                  {facebookLoading ? "Loading..." : "Facebook"}
-                </button>
+                {googleLoading ? (
+                  <div className="skeleton bg-neutral-500 h-[42px] w-[154px] rounded-md"></div>
+                ) : (
+                  <button
+                    onClick={handleGoogleLogin}
+                    disabled={googleLoading || !googleData?.url}
+                    className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded disabled:opacity-50"
+                  >
+                    <Icon
+                      icon="flat-color-icons:google"
+                      width="2em"
+                      height="2em"
+                      className="w-5 h-5"
+                    />
+                    {googleLoading ? "Loading..." : "Google"}
+                  </button>
+                )}
+
+                {facebookLoading ? (
+                  <div className="skeleton bg-neutral-500 h-[42px] w-[154px] rounded-md"></div>
+                ) : (
+                  <button
+                    onClick={handleFacebookLogin}
+                    disabled={facebookLoading || !facebookData?.url}
+                    className="flex items-center bg-white justify-center gap-2 w-full border border-gray-300 py-2 px-4 rounded disabled:opacity-50"
+                  >
+                    <Icon
+                      icon="ic:baseline-facebook"
+                      width="2em"
+                      height="2em"
+                      style={{ color: "#1977f3" }}
+                      className="w-5 h-5"
+                    />
+                    {facebookLoading ? "Loading..." : "Facebook"}
+                  </button>
+                )}
               </div>
             </>
           )}

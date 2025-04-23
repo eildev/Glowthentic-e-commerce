@@ -26,7 +26,6 @@ const WishlistPage = () => {
   } = useGetWishlistByUserIdQuery(user?.id, {
     skip: !user?.id,
   });
-  // console.log(wishlist);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [isInCart, setIsInCart] = useState([]);

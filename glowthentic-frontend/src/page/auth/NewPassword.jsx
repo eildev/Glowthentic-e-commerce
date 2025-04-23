@@ -15,9 +15,7 @@ const NewPassword = () => {
   const toggleConfirmPassword = () => {
     setShowConfirmPassword((prevState) => !prevState);
   };
-  const newPasswordHandleData = (formData) => {
-    // console.log("New Password", formData);
-  };
+  const newPasswordHandleData = (formData) => {};
   return (
     <div>
       <DynamicHelmet title="New Password" />

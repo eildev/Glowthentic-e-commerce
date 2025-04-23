@@ -15,21 +15,14 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
     thumbnail || imagePath(variant_image && variant_image[0]?.image);
 
   // Log the component mounting and the item data
-  useEffect(() => {
-    // console.log("SuggestionItem mounted with slug:", slug);
-  }, [slug]);
+  useEffect(() => {}, [slug]);
 
   const handleItemClick = (e) => {
-    // Add explicit debugging
-    // console.log("SuggestionItem clicked!");
-    // console.log("Slug value:", slug);
-
     e.preventDefault(); // Prevent default behavior
     e.stopPropagation(); // Prevent click from bubbling up to document
 
     // Check if slug exists before navigating
     if (slug) {
-      // console.log("Attempting to navigate to:", `/product/${slug}`);
       navigate(`/product/${slug}`);
     } else {
       // console.error("Missing slug for product:", product_name);
@@ -52,13 +45,11 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
           alt={product_name || "Product"}
           className="w-10 h-10 object-cover rounded"
           onClick={(e) => {
-            // console.log("Image clicked directly");
             handleItemClick(e);
           }}
         />
         <div
           onClick={(e) => {
-            // console.log("Text div clicked directly");
             handleItemClick(e);
           }}
         >

@@ -25,17 +25,11 @@ const SidebarFilter = ({ className }) => {
     filteredPrices,
     filteredSearchQuery,
   } = useSelector((state) => state.filters);
-  const { data: productData, isLoading: isProductsLoading } = useGetProductsQuery();
+  const { data: productData, isLoading: isProductsLoading } =
+    useGetProductsQuery();
 
   useEffect(() => {
     if (productData?.data && !isProductsLoading) {
-      console.log("SidebarFilter re-filtering products:", {
-        filteredCategories,
-        filteredTags,
-        filteredBrands,
-        filteredPrices,
-        filteredSearchQuery,
-      });
       dispatch(setFilteredProducts(productData.data));
     }
   }, [
@@ -50,19 +44,15 @@ const SidebarFilter = ({ className }) => {
   ]);
 
   const removeFilter = (itemToRemove) => {
-    console.log(`Removing filter: ${itemToRemove}`);
     const idToRemove = Object.keys(selectedCategoryMap).find(
       (id) => selectedCategoryMap[id] === itemToRemove
     );
     if (idToRemove) {
       if (filteredCategories.includes(idToRemove)) {
-        console.log(`Dispatching removeCategoryByName for ${itemToRemove}`);
         dispatch(removeCategoryByName(itemToRemove));
       } else if (filteredTags.includes(idToRemove)) {
-        console.log(`Dispatching removeTag for ${itemToRemove}`);
         dispatch(removeTag(itemToRemove));
       } else if (filteredBrands.includes(idToRemove)) {
-        console.log(`Dispatching removeBrand for ${itemToRemove}`);
         dispatch(removeBrand(itemToRemove));
       }
     } else {
@@ -71,7 +61,6 @@ const SidebarFilter = ({ className }) => {
   };
 
   const handleClearAllFilters = () => {
-    console.log("Clearing all filters from SidebarFilter");
     dispatch(clearAllFilters());
     if (productData?.data) {
       dispatch(setFilteredProducts(productData.data));

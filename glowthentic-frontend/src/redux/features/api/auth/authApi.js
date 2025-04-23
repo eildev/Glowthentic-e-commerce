@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api",
+        baseUrl: "https://backend.glowthentic.store/api",
         credentials: "include",
         prepareHeaders: (headers, { getState, endpoint }) => {
             const csrfToken = Cookies.get("XSRF-TOKEN");
@@ -61,14 +61,13 @@ const authApi = createApi({
         }),
         getUserInfo: builder.query({
             query: (id) => {
-                // console.log("in api", id);
                 return `/user/details/show/${id}`;
             },
             providesTags: ["UserDetails"],
         }),
         updateUser: builder.mutation({
             query: ({ id, ...data }) => ({
-                url: `user/details/update/${id}`,
+                url: `/user/details/update/${id}`,
                 method: "POST",
                 body: data, // JSON বা FormData
             }),

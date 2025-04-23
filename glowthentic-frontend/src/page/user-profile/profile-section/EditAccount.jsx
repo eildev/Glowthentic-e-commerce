@@ -83,62 +83,6 @@ const EditAccount = () => {
     }
   };
 
-  // Handle form submission
-  // const onSubmit = async (formData) => {
-  //   // console.log("User ID:", userID);
-  //   if (!userID) {
-  //     toast.error("User ID is not available. Please log in again.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const payload = {
-  //       id: userID,
-  //       full_name: formData.name,
-  //       email: formData.email,
-  //       address: formData.address,
-  //       country: formData.country,
-  //       city: formData.region,
-  //       police_station: formData.zone,
-  //       postal_code: formData.postalCode,
-  //       phone_number: formData.phone,
-  //     };
-
-  //     let response;
-  //     if (imageFile) {
-  //       const formDataToSend = new FormData();
-  //       Object.entries(payload).forEach(([key, value]) => {
-  //         formDataToSend.append(key, value);
-  //       });
-  //       formDataToSend.append("image", imageFile);
-  //       // console.log("Sending FormData:", [...formDataToSend]);
-  //       response = await updateUser({
-  //         id: userID,
-  //         ...Object.fromEntries(formDataToSend),
-  //         // body: formData,
-  //       }).unwrap();
-  //     } else {
-  //       // console.log("Sending JSON payload:", payload);
-  //       response = await updateUser(payload).unwrap();
-  //     }
-
-  //     // console.log("API Response:", response);
-  //     // toast.success("User information updated successfully!");
-  //     if (response.user?.image) {
-  //       setImagePreview(response.user.image);
-  //     } else {
-  //       // console.log("No image URL in response");
-  //     }
-  //   } catch (err) {
-  //     console.error("Update error:", err);
-  //     const errorMessage = err?.data?.message || "Failed to update user";
-  //     const fieldErrors = err?.data?.errors || {};
-  //     toast.error(errorMessage);
-  //     Object.entries(fieldErrors).forEach(([field, messages]) => {
-  //       toast.error(`${field}: ${messages.join(", ")}`);
-  //     });
-  //   }
-  // };
   const onSubmit = async (formData) => {
     if (!userID) {
       toast.error("User ID is not available. Please log in again.");
@@ -162,7 +106,6 @@ const EditAccount = () => {
       }
 
       for (let [key, value] of formDataToSend.entries()) {
-        console.log(key, value);
       }
 
       const response = await updateUser({
