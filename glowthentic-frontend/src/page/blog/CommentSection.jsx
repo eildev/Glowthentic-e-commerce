@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useGetblogCommentsInfoQuery } from "../../redux/features/api/blogComments/blogCommentsGetApi";
 import { useSelector } from "react-redux";
 import { useCommentInfoMutation } from "../../redux/features/api/blogComments/blogCommentsApi";
@@ -6,73 +6,77 @@ import { Toaster, toast } from "react-hot-toast";
 import LikeButton from "./LikeButton";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
-import { useLikeInfoMutation } from "../../redux/features/api/blogComments/blogLikesApi";
-import { useGetblogLikesInfoQuery } from "../../redux/features/api/blogComments/blogLikesGetApli";
+import {
+  useLikeInfoMutation,
+  useUnlikeInfoMutation,
+} from "../../redux/features/api/blogComments/blogLikesApi";
+import { useGetblogLikesInfoQuery } from "../../redux/features/api/blogComments/blogLikesGetApi";
 
 const CommentSection = ({ blogId }) => {
-  // console.log("comment page id", blogId);
-  const [likes, setLikes] = useState(0);
   const { user, token } = useSelector((state) => state.auth);
-  // console.log("user", user);
   const { data: commentsData, isLoading: commentsLoading } =
     useGetblogCommentsInfoQuery(blogId);
-  const { data: likesData, isLoading: likesLoading } =
-    useGetblogLikesInfoQuery(blogId);
-  // console.log("commentsData", commentsData);
+  const {
+    data: likesData,
+    isLoading: likesLoading,
+    error: likesError,
+    refetch: refetchLikes,
+  } = useGetblogLikesInfoQuery(blogId);
   const [commentSave, { isLoading: commentLoading }] = useCommentInfoMutation();
   const [likeSave, { isLoading: likeLoading }] = useLikeInfoMutation();
+  const [unlikeSave, { isLoading: unlikeLoading }] = useUnlikeInfoMutation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [userLiked, setUserLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+
+  // Log likesData for debugging
+  // useEffect(() => {
+  //   console.log('likesData:', likesData, 'likesError:', likesError, 'blogId:', blogId);
+  //   if (likesData?.likes) {
+  //     const likesForBlog = likesData.likes.filter(like => like.blog_id === Number(blogId));
+  //     setLikeCount(likesForBlog.length);
+  //     setUserLiked(likesForBlog.some(like => like.user_id === Number(user?.id)));
+  //   }
+  // }, [likesData, likesError, blogId, user?.id]);
 
   const handleLike = async () => {
-    setLikes(likes + 1);
+    if (!user || !token) {
+      toast.error("Please log in to like this post");
+      return;
+    }
+
     try {
-      const result = await likeSave({
-        blog_id: blogId,
-        like: setLikes,
-        user_id: user?.id,
-      }).unwrap();
-      // console.log('Comment post result:', result);
-      if (result.status === 200) {
-        toast.success("Liked Successfully");
+      let response;
+      if (userLiked) {
+        // Unlike action
+        response = await unlikeSave({
+          blog_id: blogId,
+          user_id: user?.id,
+        }).unwrap();
+      } else {
+        // Like action
+        response = await likeSave({
+          blog_id: blogId,
+          user_id: user?.id,
+          like: 1,
+        }).unwrap();
+      }
+
+      if (response.status === 200) {
+        setUserLiked(!userLiked);
+        setLikeCount((prev) => (userLiked ? prev - 1 : prev + 1));
+        refetchLikes();
+        toast.success(
+          userLiked ? "Unliked successfully" : "Liked successfully"
+        );
       }
     } catch (error) {
-      console.error(
-        "Full error:",
-        error,
-        "Status:",
-        error.status,
-        "Data:",
-        error.data
-      );
-      alert(error?.data?.message || "Failed to liked");
+      console.error("Like error:", error);
+      toast.error(error?.data?.message || "Failed to process like");
     }
   };
-  // console.log("likes", likesData);
-  const filterLikes = likesData?.blogComment?.filter(
-    (comment) => comment?.blog_id === blogId
-  );
-
-  // const handleLike = async() => {
-  //   const user_id = user?.id;
-  //   const blog_id = ;
-  //   const like = ?1:0
-  //   try{
-  //     const result = await likeSave({user_id, blog_id, like});
-  //     console.log(result);
-
-  //   }catch(error){
-  //     console.log(error);
-  //   }
-  // };
 
   const handleCommentSubmit = async (commentText) => {
-    // console.log("User:", user, "Token:", token);
-    // console.log("Payload:", {
-    //   blog_id: blogId,
-    //   comment: commentText,
-    //   subscriber_id: user?.id,
-    // });
-
     if (!user || !token) {
       toast.error("Please log in to post a comment");
       return;
@@ -84,27 +88,19 @@ const CommentSection = ({ blogId }) => {
         comment: commentText,
         subscriber_id: user?.id,
       }).unwrap();
-      // console.log("Comment post result:", result);
       if (result.status === 200) {
-        toast.success("Comment posted Successfully");
+        toast.success("Comment posted successfully");
       }
     } catch (error) {
-      console.error(
-        "Full error:",
-        error,
-        "Status:",
-        error.status,
-        "Data:",
-        error.data
-      );
-      alert(error?.data?.message || "Failed to post comment");
+      console.error("Comment error:", error);
+      toast.error(error?.data?.message || "Failed to post comment");
     }
   };
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const filterComments = commentsData?.blogComment?.filter(
-    (comment) => comment?.blog_id === blogId
+    (comment) => comment?.blog_id === Number(blogId)
   );
   const comments =
     filterComments?.map((comment) => ({
@@ -114,12 +110,11 @@ const CommentSection = ({ blogId }) => {
       date: new Date(comment.created_at).toLocaleDateString(),
     })) || [];
 
-  // console.log("new comment", comments);
-
   return (
     <div className="max-w-auto mx-auto p-8">
+      <Toaster />
       <div className="flex justify-between items-center">
-        <LikeButton likes={likesData} onLike={handleLike} />
+        <LikeButton likes={likeCount} onLike={handleLike} isLiked={userLiked} />
         <button
           onClick={toggleDropdown}
           className="text-gray-600 hover:text-indigo-600 font-semibold flex items-center space-x-1 transition duration-200"
@@ -142,8 +137,12 @@ const CommentSection = ({ blogId }) => {
           </svg>
         </button>
       </div>
+      {likesError && (
+        <p className="text-red-500 mt-2">
+          Failed to load likes. Please try again.
+        </p>
+      )}
       <CommentForm onSubmit={handleCommentSubmit} disabled={commentLoading} />
-
       <div
         className={`mt-8 overflow-hidden transition-all duration-300 ease-in-out ${
           isDropdownOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
