@@ -16,7 +16,14 @@ const authApi = createApi({
                 headers.set("Authorization", `Bearer ${token}`);
             }
             // Only set Content-Type for non-file upload endpoints
-            if (endpoint !== "updateUser" || !(getState().auth.body instanceof FormData)) {
+            // if (endpoint !== "updateUser" || !(getState().auth.body instanceof FormData)) {
+            //     headers.set("Content-Type", "application/json");
+            // }
+            // headers.set("Accept", "application/json");
+            // return headers;
+            // FormData হলে Content-Type সেট করা হবে না
+            const body = getState().auth.body;
+            if (!(body instanceof FormData)) {
                 headers.set("Content-Type", "application/json");
             }
             headers.set("Accept", "application/json");
@@ -65,12 +72,23 @@ const authApi = createApi({
             },
             providesTags: ["UserDetails"],
         }),
+        // updateUser: builder.mutation({
+        //     query: ({ id, ...data }) => ({
+        //         url: `/user/details/update/${id}`,
+        //         method: "POST",
+        //         body: data, // Can be JSON or FormData
+        //     }),
+        //     invalidatesTags: ["User", "UserDetails"],
+        // }),
         updateUser: builder.mutation({
-            query: ({ id, ...data }) => ({
-                url: `user/details/update/${id}`,
-                method: "POST",
-                body: data, // Can be JSON or FormData
-            }),
+            query: ({ id, body }) => {
+                console.log("Sending FormData to API:", [...body]); // ডিবাগিং
+                return {
+                    url: `/user/details/update/${id}`,
+                    method: "POST",
+                    body,
+                };
+            },
             invalidatesTags: ["User", "UserDetails"],
         }),
     }),
