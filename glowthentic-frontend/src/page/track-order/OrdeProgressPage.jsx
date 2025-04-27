@@ -209,7 +209,9 @@ const OrdeProgressPage = () => {
                     >
                       <div className="flex  gap-4 lg:gap-0">
                         <img
-                          src={imagePath(item.variant?.variant_image[0].image)}
+                          src={imagePath(
+                            item?.variant?.variant_image[0]?.image
+                          )}
                           alt={item.title}
                           className="w-16 h-16 object-cover rounded"
                         />
@@ -252,9 +254,9 @@ const OrdeProgressPage = () => {
                               ৳{item.total_price}
                             </span>
                           </p>
-                          <RegularButton className="py-0 lg:h-11  bg-secondary  border h-8  hover:border-secondary text-white lg:bg-secondary  lg:text-md text-xs rounded-xl">
+                          {/* <RegularButton className="py-0 lg:h-11  bg-secondary  border h-8  hover:border-secondary text-white lg:bg-secondary  lg:text-md text-xs rounded-xl">
                             Read More
-                          </RegularButton>
+                          </RegularButton> */}
                         </div>
                       </div>
                     </div>

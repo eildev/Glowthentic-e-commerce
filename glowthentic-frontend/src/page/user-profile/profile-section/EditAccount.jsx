@@ -59,8 +59,8 @@ const EditAccount = () => {
         phone: formattedPhone,
       };
       reset(userData);
-      if (data.userDetails?.image) {
-        setImagePreview(data.userDetails.image); // Use userDetails.image
+      if (data?.userDetails?.image) {
+        setImagePreview(data?.userDetails?.image); // Use userDetails.image
       }
     }
   }, [data, reset]);

@@ -347,7 +347,7 @@ const ProductDetails = () => {
             <div className="collapse-content font-normal text-sm text-justify">
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
-                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: productDetails,
                   }}
@@ -363,7 +363,7 @@ const ProductDetails = () => {
             <div className="collapse-content font-normal text-sm text-justify">
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
-                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: apply,
                   }}
@@ -377,7 +377,7 @@ const ProductDetails = () => {
             <div className="collapse-content font-normal text-sm text-justify">
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
-                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: ingredients,
                   }}
