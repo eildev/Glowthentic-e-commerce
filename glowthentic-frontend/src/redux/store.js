@@ -65,9 +65,7 @@ const store = configureStore({
         [reviewGetApi.reducerPath]: reviewGetApi.reducer,
 
     },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware()
-            .concat(productApi.middleware)
+    middleware: (getDefaultMiddleware) =>getDefaultMiddleware().concat(productApi.middleware)
             .concat(offerBannerApi.middleware)
             .concat(categoryApi.middleware)
             .concat(blogApi.middleware)

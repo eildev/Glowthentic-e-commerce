@@ -18,3 +18,4 @@ const RegularButton = ({ children, className, onClick, isLoading, stockAvailable
 };
 
 export default RegularButton;
+ 
