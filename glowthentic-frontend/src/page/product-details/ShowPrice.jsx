@@ -26,7 +26,7 @@ const ShowPrice = ({ selectedVariant }) => {
       ) : (
         ""
       )}
-      <span className="text-black text-nowrap text-xs md:text-sm pe-2 font-normal">
+      <span className="text-nowrap md:text-sm pe-2 font-normal text-secondary text-lg">
         ৳{finalPrice ?? selectedVariant?.regular_price}
       </span>
       {selectedVariant?.product_variant_promotion?.coupon ? (

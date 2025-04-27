@@ -196,7 +196,7 @@ const CheckoutWizard = ({
             <h3 className="text-left font-semibold pt-4">Order Info</h3>
             <ItemDetails
               subTotal={subTotal}
-              shipingCharge={shippingCharge}
+              shippingCharge={shippingCharge}
               Shipping={Shipping}
               location={location}
               tax={tax}

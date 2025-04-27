@@ -5,7 +5,7 @@ import ItemDetails from "./ItemDetails";
 const OrderSummary = ({
   carts,
   total,
-  shipingCharge,
+  shippingCharge,
   setShipingCharge,
   setLocation,
   Shipping,
@@ -30,6 +30,7 @@ const OrderSummary = ({
   carts?.forEach((item) => {
     totalWeight += parseFloat(item.weight * item.quantity); // or parseInt() if weight is always whole numbers
   });
+  console.log("setShipping charge", shippingCharge);
 
   const preventClick =
     selectedDistrict && selectedUpazila
@@ -117,7 +118,7 @@ const OrderSummary = ({
         carts={carts}
         total={total}
         isLoading={isLoading}
-        shipingCharge={shipingCharge}
+        shippingCharge={shippingCharge}
         Shipping={Shipping}
         subTotal={subTotal}
         tax={tax}

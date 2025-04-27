@@ -168,8 +168,7 @@ const ProductDetails = () => {
               <span className="font-thin text-sm text-gray">
                 {data?.data?.product_tags.map(
                   (tagData, index) =>
-                    `${tagData?.tag?.tagName ?? ""}${
-                      index < data.data.product_tags.length - 1 ? " | " : ""
+                    `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""
                     }`
                 )}
               </span>
@@ -203,8 +202,7 @@ const ProductDetails = () => {
                 <span className="font-thin text-sm text-gray">
                   {data?.data?.product_tags.map(
                     (tagData, index) =>
-                      `${tagData?.tag?.tagName ?? ""}${
-                        index < data.data.product_tags.length - 1 ? " | " : ""
+                      `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""
                       }`
                   )}
                 </span>
@@ -235,7 +233,7 @@ const ProductDetails = () => {
                       className="py-3"
                       value={variant.id}
                     >
-                      {variant.size}
+                      {variant?.variant_name ?? "N/A"}
                     </option>
                   ))}
                 </select>
@@ -243,20 +241,19 @@ const ProductDetails = () => {
 
               <span className="text-lg font-semibold text-gray">
                 {selectedVariant
-                  ? `৳${
+                  ? `৳${selectedVariant?.product_variant_promotion?.coupon
+                    ? selectedVariant?.product_variant_promotion?.coupon
+                      .discount_type === "fixed"
+                      ? selectedVariant?.regular_price -
                       selectedVariant?.product_variant_promotion?.coupon
-                        ? selectedVariant?.product_variant_promotion?.coupon
-                            .discount_type === "fixed"
-                          ? selectedVariant?.regular_price -
-                            selectedVariant?.product_variant_promotion?.coupon
-                              .discount_value
-                          : selectedVariant?.regular_price -
-                            (selectedVariant?.regular_price *
-                              selectedVariant?.product_variant_promotion?.coupon
-                                .discount_value) /
-                              100
-                        : selectedVariant?.regular_price
-                    }`
+                        .discount_value
+                      : selectedVariant?.regular_price -
+                      (selectedVariant?.regular_price *
+                        selectedVariant?.product_variant_promotion?.coupon
+                          .discount_value) /
+                      100
+                    : selectedVariant?.regular_price
+                  }`
                   : "Loading..."}
               </span>
             </div>
@@ -277,22 +274,20 @@ const ProductDetails = () => {
               <RegularButton
                 isLoading={isLoading}
                 isDisabled={!stockAvailable}
-                className={`block text-sm text-nowrap justify-between ${
-                  stockAvailable
+                className={`block text-sm text-nowrap justify-between ${stockAvailable
                     ? "bg-orange-500 hover:bg-orange-600"
                     : "bg-gray-gradient cursor-not-allowed"
-                }`}
+                  }`}
                 onClick={handleAddToCart}
               >
                 Add To Cart
               </RegularButton>
               <RegularButton
                 isLoading={isLoading}
-                className={`block text-sm text-nowrap justify-between ${
-                  stockAvailable
+                className={`block text-sm text-nowrap justify-between ${stockAvailable
                     ? "bg-orange-500 hover:bg-orange-600"
                     : "bg-gray-gradient cursor-not-allowed"
-                }`}
+                  }`}
                 onClick={handleCheckOut}
                 isDisabled={!stockAvailable}
               >
@@ -347,7 +342,7 @@ const ProductDetails = () => {
             <div className="collapse-content font-normal text-sm text-justify">
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
-                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: productDetails,
                   }}
@@ -363,7 +358,7 @@ const ProductDetails = () => {
             <div className="collapse-content font-normal text-sm text-justify">
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
-                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: apply,
                   }}
@@ -377,7 +372,7 @@ const ProductDetails = () => {
             <div className="collapse-content font-normal text-sm text-justify">
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
-                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: ingredients,
                   }}

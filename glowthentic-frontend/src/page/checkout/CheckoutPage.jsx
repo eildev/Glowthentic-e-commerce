@@ -37,6 +37,7 @@ const CheckoutPage = () => {
   const [districtId, setDistrictId] = useState("");
   const [upazilaId, setUpazilaId] = useState("");
   const [shippingCharge, setShippingCharge] = useState(0); // Add state for shipping charge
+ 
 
   const filteredCartItems = cartItems.filter((item) => {
     if (user?.id) {
@@ -266,7 +267,8 @@ const CheckoutPage = () => {
                       location={location}
                       carts={filteredCartItems}
                       total={grandTotal}
-                      setShipingCharge={setShippingCharge} // Pass setter instead of value
+                      setShipingCharge={setShippingCharge}
+                      shippingCharge={shippingCharge} // Pass setter instead of value
                       Shipping={Shipping}
                       subTotal={subTotal}
                       tax={tax}
