@@ -99,14 +99,10 @@ const BannerCollection = () => {
   const cart5 =
     data?.offerbanners?.find((item) => item.status == "cart5") || {};
 
-  // console.log(cart2);
-
-  // console.log(data);
-
   return (
-    <div className=" mx-auto ">
+    <div className=" mx-auto">
       {/* Mobile & Tablet View (Slider Only) */}
-      <div className="block lg:hidden mt-6 relative w-full h-[200px] md:h-[500px] rounded-md overflow-hidden">
+      <div className=" mt-6 block lg:hidden relative w-full h-[200px] md:h-[500px] rounded-md overflow-hidden">
         <Slider {...sliderSettings} className="pointer-events-auto">
           {cart1.images?.map((image, index) => (
             <div key={index} className="relative w-full">
@@ -114,7 +110,7 @@ const BannerCollection = () => {
                 // src={`${baseURL + image?.image}`}
                 src={imagePath(image?.image)}
                 alt={`Banner ${index + 1}`}
-                className="w-full h-[200px] md:h-[400px] object-cover"
+                className="w-full h-full md:h-full object-cover"
               />
             </div>
           ))}
@@ -128,6 +124,43 @@ const BannerCollection = () => {
             {cart1?.link_button}
           </Link>
         </div> */}
+      </div>
+      <div className="mt-5 grid grid-cols-5 gap-4 lg:hidden">
+        {/* Left Side (50% width) */}
+        <div className="relative p-8 rounded-lg h-[300px] col-span-3">
+          <img
+            src={imagePath(cart2.image)}
+            alt="Beauty & Care"
+            className="absolute inset-0 w-full h-full object-cover rounded-lg"
+          />
+        </div>
+
+        {/* Right Side (50% width) - 2 stacked boxes */}
+        <div className="flex flex-col gap-4 col-span-2">
+          <div className="relative text-white p-4 rounded-lg h-[140px] flex flex-col justify-center items-start">
+            <img
+              src={imagePath(cart4.image)}
+              alt="Check This Out"
+              className="absolute inset-0 w-full h-full object-cover rounded-lg"
+            />
+          </div>
+
+          <div className="relative text-white p-4 rounded-lg h-[140px] flex flex-col justify-center items-start">
+            <img
+              src={imagePath(cart5.image)}
+              alt="Body Lotion"
+              className="absolute inset-0 w-full h-full object-cover rounded-lg"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="relative lg:hidden text-white p-4 rounded-lg w-full mt-5 h-[200px] md:h-[500px] flex flex-col justify-center items-start">
+        <img
+          // src={`${baseURL + cart3.image}`}
+          src={imagePath(cart3.image)}
+          alt="Discount"
+          className="absolute inset-0 transform w-full h-full object-cover rounded-lg"
+        />
       </div>
 
       {/* Large Screens View */}
@@ -162,7 +195,7 @@ const BannerCollection = () => {
           </div>
 
           {/* Right: Beauty & Care Section */}
-          <div className="relative bg-[#0F1228] p-8 rounded-lg flex flex-col justify-between items-center w-[420px] h-[543px]">
+          <div className="relative p-8 rounded-lg flex flex-col justify-between items-center w-[420px] h-[543px]">
             <img
               // src={`${baseURL + cart2.image}`}
               src={imagePath(cart2.image)}
@@ -174,7 +207,7 @@ const BannerCollection = () => {
 
         {/* Bottom Row */}
         <div className="flex gap-8">
-          <div className="relative bg-[#0F1228] text-white p-4 rounded-lg w-[676px] h-[277px] flex flex-col justify-center items-start">
+          <div className="relative text-white p-4 rounded-lg w-[676px] h-[277px] flex flex-col justify-center items-start">
             <img
               // src={`${baseURL + cart3.image}`}
               src={imagePath(cart3.image)}
@@ -183,7 +216,7 @@ const BannerCollection = () => {
             />
           </div>
 
-          <div className="relative bg-[#0F1228] text-white p-4 rounded-lg w-[238px] h-[277px] flex flex-col justify-center items-start">
+          <div className="relative text-white p-4 rounded-lg w-[238px] h-[277px] flex flex-col justify-center items-start">
             <img
               // src={`${baseURL + cart4.image}`}
               src={imagePath(cart4.image)}
@@ -192,7 +225,7 @@ const BannerCollection = () => {
             />
           </div>
 
-          <div className="relative bg-[#0F1228] text-white p-4 rounded-lg w-[238px] h-[277px] flex flex-col justify-center items-start">
+          <div className="relative text-white p-4 rounded-lg w-[238px] h-[277px] flex flex-col justify-center items-start">
             <img
               // src={`${baseURL + cart5.image}`}
               src={imagePath(cart5.image)}

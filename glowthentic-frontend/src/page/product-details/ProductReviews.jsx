@@ -2,18 +2,19 @@ import Rating from "react-rating";
 import { useGetReviewInfoQuery } from "../../redux/features/api/review/reviewGetApi";
 
 
-const ProductReviews = ({ images, data }) => {
+const ProductReviews = ({ data }) => {
 
     const { data: reviews, isLoading, isError, error } = useGetReviewInfoQuery(data?.data.id);
 
-    // console.log("data", data?.data.id, "review", reviews);
 
 
 
 
     return (
-        <div className="mt-4 mb-[28px]">
-            <h2 className="md:text-[18px] text-[10px] text-[#242424] border-b border-[#242424] w-fit p-[10px] mb-6">Rate & review ({images.length})</h2>
+        <>
+        {
+            reviews?.reviews?.length !== 0 && <div className="mt-4 mb-[28px]">
+            <h2 className="md:text-[18px] text-[10px] text-[#242424] border-b border-[#242424] w-fit p-[10px] mb-6">Rate & review ({reviews?.length})</h2>
             {
                 reviews?.reviews.map((item, index) => (
                     <div key={index} className="mb-[27px]">
@@ -62,6 +63,8 @@ const ProductReviews = ({ images, data }) => {
     ))
 }
         </div >
+        }
+        </>
     );
 };
 

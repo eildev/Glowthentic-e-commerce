@@ -17,9 +17,7 @@ const ContactUsForm = () => {
   const [agreePolicy, setAgreePolicy] = useState(false);
 
   const handleChange = (e) => {
-    // console.log(e.target.value );
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // console.log(formData);
   };
 
   const handleSubmit = async (e) => {
@@ -53,7 +51,6 @@ const ContactUsForm = () => {
         phone: "",
         category: "",
       });
-      // console.log(formData);
       setAgreePolicy(false);
     } catch (err) {
       console.error(

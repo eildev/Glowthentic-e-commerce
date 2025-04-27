@@ -4,18 +4,23 @@ import Checkbox from "../typography/Checkbox";
 import { useGetCategoryQuery } from "../../redux/features/api/category/categoryApi";
 import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
 import {
-  setSelectedCategories,
-  setFilteredCategories,
-  setFilteredTags,
+  addCategoryWithName,
+  removeCategoryByName,
   setFilteredPrices,
+  addTag,
+  removeTag,
+  addBrand,
+  removeBrand,
+  clearAllFilters,
+  setFilteredProducts,
 } from "../../redux/features/slice/filterSlice";
 import { useGetBrandQuery } from "../../redux/features/api/brand/brandApi";
 import Slider from "rc-slider";
-import "rc-slider/assets/index.css"; // Import default rc-slider styles
+import "rc-slider/assets/index.css";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
-import _ from "lodash"; // For debouncing
+import _ from "lodash";
 
-// Add custom CSS for the slider with transitions
+// Slider styles
 const sliderStyles = `
   .custom-slider .rc-slider-track {
     background-color: #4A5568;
@@ -51,25 +56,30 @@ const sliderStyles = `
 
 const DropdownFilter = () => {
   const dispatch = useDispatch();
-  const { selectedCategories, filteredCategories, filteredTags, filteredPrices } =
-    useSelector((state) => state.filters);
-
+  const {
+    filteredCategories,
+    filteredTags,
+    filteredPrices,
+    filteredBrands,
+    selectedCategoryMap,
+    filteredSearchQuery,
+  } = useSelector((state) => state.filters);
   const { data: categoryData, isLoading, refetch } = useGetCategoryQuery();
-  const { data: brandData, isBrandLoading } = useGetBrandQuery();
-  const { data: tagsData } = useGetTagsQuery();
-  const { data: productData, error, isLoading: isProductsLoading } = useGetProductsQuery();
+  const { data: brandData, isLoading: isBrandLoading } = useGetBrandQuery();
+  const { data: tagsData, isLoading: isTagsLoading } = useGetTagsQuery();
+  const {
+    data: productData,
+    error,
+    isLoading: isProductsLoading,
+  } = useGetProductsQuery();
 
-  // Initialize minPrice and maxPrice with temporary defaults
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
-
-  // State for price range slider
   const [priceRange, setPriceRange] = useState([
     filteredPrices[0]?.min || 0,
     filteredPrices[0]?.max || 1000,
   ]);
 
-  // Calculate min and max prices from product data when available
   useEffect(() => {
     if (productData?.data && !isProductsLoading) {
       let newMinPrice = Number.MAX_SAFE_INTEGER;
@@ -77,23 +87,27 @@ const DropdownFilter = () => {
 
       productData.data.forEach((product) => {
         product.variants.forEach((variant) => {
-          if (typeof variant.regular_price === "number" && !isNaN(variant.regular_price)) {
-            if (variant.regular_price < newMinPrice) newMinPrice = variant.regular_price;
-            if (variant.regular_price > newMaxPrice) newMaxPrice = variant.regular_price;
+          if (
+            typeof variant.regular_price === "number" &&
+            !isNaN(variant.regular_price)
+          ) {
+            if (variant.regular_price < newMinPrice)
+              newMinPrice = variant.regular_price;
+            if (variant.regular_price > newMaxPrice)
+              newMaxPrice = variant.regular_price;
           }
         });
       });
 
-      // Apply padding to min and max prices
       newMinPrice = Math.max(0, newMinPrice - 20);
       newMaxPrice = newMaxPrice + 20;
 
-      // Update state only if values are valid
-      if (newMinPrice !== Number.MAX_SAFE_INTEGER && newMaxPrice !== Number.MIN_SAFE_INTEGER) {
+      if (
+        newMinPrice !== Number.MAX_SAFE_INTEGER &&
+        newMaxPrice !== Number.MIN_SAFE_INTEGER
+      ) {
         setMinPrice(newMinPrice);
         setMaxPrice(newMaxPrice);
-
-        // Update priceRange to use actual min/max if filteredPrices is not set
         if (!filteredPrices[0]?.min && !filteredPrices[0]?.max) {
           setPriceRange([newMinPrice, newMaxPrice]);
         }
@@ -101,12 +115,31 @@ const DropdownFilter = () => {
     }
   }, [productData, isProductsLoading, filteredPrices]);
 
-  // Refetch categories when needed
+  useEffect(() => {
+    if (filteredPrices[0]?.min && filteredPrices[0]?.max) {
+      setPriceRange([filteredPrices[0].min, filteredPrices[0].max]);
+    }
+  }, [filteredPrices]);
+
   useEffect(() => {
     refetch();
   }, [refetch]);
 
-  // Debounced price range change handler
+  useEffect(() => {
+    if (productData?.data && !isProductsLoading) {
+      dispatch(setFilteredProducts(productData.data));
+    }
+  }, [
+    dispatch,
+    productData,
+    isProductsLoading,
+    filteredCategories,
+    filteredTags,
+    filteredBrands,
+    filteredPrices,
+    filteredSearchQuery,
+  ]);
+
   const debouncedPriceChange = useCallback(
     _.debounce((newRange) => {
       dispatch(setFilteredPrices([{ min: newRange[0], max: newRange[1] }]));
@@ -119,80 +152,102 @@ const DropdownFilter = () => {
     debouncedPriceChange(newRange);
   };
 
-  const handleCategoriesCheckboxChange = (item, categoryId) => {
-    const newSelected = selectedCategories.includes(item)
-      ? selectedCategories.filter((i) => i !== item)
-      : [...selectedCategories, item];
-    dispatch(setSelectedCategories(newSelected));
-
-    const newFiltered = filteredCategories.includes(categoryId)
-      ? filteredCategories.filter((id) => id !== categoryId)
-      : [...filteredCategories, categoryId];
-    dispatch(setFilteredCategories(newFiltered));
+  const handleCategoriesCheckboxChange = (categoryName, categoryId) => {
+    const isSelected = filteredCategories.includes(String(categoryId));
+    if (isSelected) {
+      dispatch(removeCategoryByName(categoryName));
+    } else {
+      dispatch(
+        addCategoryWithName({ id: String(categoryId), name: categoryName })
+      );
+    }
   };
 
-  const handleTagsCheckboxChange = (item, tagId) => {
-    const newSelected = selectedCategories.includes(item)
-      ? selectedCategories.filter((i) => i !== item)
-      : [...selectedCategories, item];
-    dispatch(setSelectedCategories(newSelected));
-
-    const newFiltered = filteredTags.includes(tagId)
-      ? filteredTags.filter((id) => id !== tagId)
-      : [...filteredTags, tagId];
-    dispatch(setFilteredTags(newFiltered));
+  const handleTagsCheckboxChange = (tagName, tagId) => {
+    const isSelected = filteredTags.includes(String(tagId));
+    if (isSelected) {
+      dispatch(removeTag(tagName));
+    } else {
+      dispatch(addTag({ id: String(tagId), name: tagName }));
+    }
   };
+
+  const handleBrandsCheckboxChange = (brandName, brandId) => {
+    const isSelected = filteredBrands.includes(String(brandId));
+    if (isSelected) {
+      dispatch(removeBrand(brandName));
+    } else {
+      dispatch(addBrand({ id: String(brandId), name: brandName }));
+    }
+  };
+
+  const handleClearFilters = () => {
+    dispatch(clearAllFilters());
+    if (productData?.data) {
+      dispatch(setFilteredProducts(productData.data));
+    }
+  };
+
+  if (isLoading || isBrandLoading || isTagsLoading || isProductsLoading) {
+    return <div className="text-gray-500">Loading filters...</div>;
+  }
+  if (error || !categoryData || !brandData || !tagsData || !productData) {
+    return (
+      <div className="text-red-500">
+        Error loading filters. Please try again.
+      </div>
+    );
+  }
 
   return (
-    <div>
-      {/* Inject custom slider styles */}
+    <div className="p-4">
       <style>{sliderStyles}</style>
 
       {/* Price Range Slider Section */}
-      <div className="collapse collapse-arrow">
+      <div className="collapse collapse-arrow bg-white mb-2">
         <input type="checkbox" className="peer" id="price" defaultChecked />
-        <div className="collapse-title text-secondary font-bold" htmlFor="price">
+        <label
+          className="collapse-title text-secondary font-bold"
+          htmlFor="price"
+        >
           Price
-        </div>
+        </label>
         <div className="collapse-content">
           <div className="px-4 py-2">
-            {isProductsLoading ? (
-              <div className="text-sm text-gray-500">Loading prices...</div>
-            ) : (
-              <>
-                {/* Price Range Slider with custom class */}
-                <Slider
-                  range
-                  min={minPrice}
-                  max={maxPrice}
-                  value={priceRange}
-                  onChange={handlePriceRangeChange}
-                  allowCross={false}
-                  className="custom-slider"
-                  disabled={isProductsLoading}
-                  step={1} // Adjust for smooth sliding
-                />
-                {/* Display selected price range */}
-                <div className="flex justify-between mt-4">
-                  <span className="text-sm font-medium">
-                    ${priceRange[0].toFixed(2)}
-                  </span>
-                  <span className="text-sm font-medium">
-                    ${priceRange[1].toFixed(2)}
-                  </span>
-                </div>
-              </>
-            )}
+            <Slider
+              range
+              min={minPrice}
+              max={maxPrice}
+              value={priceRange}
+              onChange={handlePriceRangeChange}
+              allowCross={false}
+              className="custom-slider"
+              disabled={
+                isProductsLoading || minPrice === 0 || maxPrice === 1000
+              }
+              step={1}
+            />
+            <div className="flex justify-between mt-4">
+              <span className="text-sm font-medium">
+                ${priceRange[0].toFixed(2)}
+              </span>
+              <span className="text-sm font-medium">
+                ${priceRange[1].toFixed(2)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Category Section */}
-      <div className="collapse collapse-arrow bg-white">
+      <div className="collapse collapse-arrow bg-white mb-2">
         <input type="checkbox" className="peer" id="category" defaultChecked />
-        <div className="collapse-title text-secondary font-bold" htmlFor="category">
+        <label
+          className="collapse-title text-secondary font-bold"
+          htmlFor="category"
+        >
           Category
-        </div>
+        </label>
         <div className="collapse-content">
           {categoryData?.categories?.slice(0, 10).map((category) => (
             <div
@@ -201,15 +256,21 @@ const DropdownFilter = () => {
             >
               <Checkbox
                 className="checkbox-sm"
-                checked={selectedCategories.includes(category.categoryName)}
+                checked={filteredCategories.includes(String(category.id))}
                 onChange={() =>
-                  handleCategoriesCheckboxChange(category.categoryName, category.id)
+                  handleCategoriesCheckboxChange(
+                    category.categoryName,
+                    category.id
+                  )
                 }
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
                 onClick={() =>
-                  handleCategoriesCheckboxChange(category.categoryName, category.id)
+                  handleCategoriesCheckboxChange(
+                    category.categoryName,
+                    category.id
+                  )
                 }
               >
                 {category.categoryName}
@@ -218,23 +279,23 @@ const DropdownFilter = () => {
           ))}
         </div>
       </div>
-      <hr className="text-hr-thin" />
+      <hr className="text-hr-thin my-2" />
 
-      {/* Skin Condition Section */}
-      <div className="collapse collapse-arrow">
+      {/* Skin Condition (Tags) Section */}
+      <div className="collapse collapse-arrow bg-white mb-2">
         <input type="checkbox" className="peer" id="skin-condition" />
-        <div
+        <label
           className="collapse-title text-secondary font-bold"
           htmlFor="skin-condition"
         >
           Skin Condition
-        </div>
+        </label>
         <div className="collapse-content">
           {tagsData?.categories?.map((tag) => (
             <div key={tag.id || tag.tagName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
-                checked={selectedCategories.includes(tag.tagName)}
+                checked={filteredTags.includes(String(tag.id))}
                 onChange={() => handleTagsCheckboxChange(tag?.tagName, tag.id)}
               />
               <span
@@ -247,14 +308,17 @@ const DropdownFilter = () => {
           ))}
         </div>
       </div>
-      <hr className="text-hr-thin" />
+      <hr className="text-hr-thin my-2" />
 
       {/* Brands Section */}
-      <div className="collapse collapse-arrow bg-white">
-        <input type="checkbox" className="peer" id="category" defaultChecked />
-        <div className="collapse-title text-secondary font-bold" htmlFor="category">
+      <div className="collapse collapse-arrow bg-white mb-2">
+        <input type="checkbox" className="peer" id="brands" defaultChecked />
+        <label
+          className="collapse-title text-secondary font-bold"
+          htmlFor="brands"
+        >
           Brands
-        </div>
+        </label>
         <div className="collapse-content">
           {brandData?.Brands.map((brand) => (
             <div
@@ -263,15 +327,15 @@ const DropdownFilter = () => {
             >
               <Checkbox
                 className="checkbox-sm"
-                checked={selectedCategories.includes(brand.BrandName)}
+                checked={filteredBrands.includes(String(brand.id))}
                 onChange={() =>
-                  handleCategoriesCheckboxChange(brand.BrandName, brand.id)
+                  handleBrandsCheckboxChange(brand.BrandName, brand.id)
                 }
               />
               <span
                 className="ml-3 font-normal mb-1 cursor-pointer"
                 onClick={() =>
-                  handleCategoriesCheckboxChange(brand.BrandName, brand.id)
+                  handleBrandsCheckboxChange(brand.BrandName, brand.id)
                 }
               >
                 {brand.BrandName}
@@ -280,7 +344,15 @@ const DropdownFilter = () => {
           ))}
         </div>
       </div>
-      <hr className="text-hr-thin" />
+      <hr className="text-hr-thin my-2" />
+
+      {/* Clear All Filters Button */}
+      <button
+        className="btn btn-secondary w-full mt-4"
+        onClick={handleClearFilters}
+      >
+        Clear All Filters
+      </button>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import Container from "../Container";
-import image from "../../assets/img/navbar.jpg";
+import image from "../../assets/img/navbar/navbar.jpg";
 import { Link } from "react-router-dom";
 
 const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
@@ -27,7 +27,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
                   <Link
                     to="/products"
                     // state={{ featureSlug: feature?.slug }}
-                    onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
+                    onClick={onHideMegaMenu}
                     className="capitalize"
                   >
                     {feature?.slug ?? ""}
@@ -49,7 +49,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
                   <Link
                     to="/products"
                     state={{ subcategoryId: subcategory.id }}
-                    onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
+                    onClick={onHideMegaMenu}
                   >
                     {subcategory?.categoryName ?? ""}
                   </Link>
@@ -70,7 +70,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
                   <Link
                     to="/products"
                     state={{ brandId: brand.id }}
-                    onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
+                    onClick={onHideMegaMenu}
                   >
                     {brand?.brandName}
                   </Link>
@@ -91,7 +91,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
                   <Link
                     to="/products"
                     state={{ tagId: tag.id }}
-                    onClick={onHideMegaMenu} // ক্লিক করলে MegaMenu hide হবে
+                    onClick={onHideMegaMenu}
                   >
                     {tag?.tagName}
                   </Link>
@@ -102,10 +102,11 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
           <div>
             <img src={image} alt="navbar Image" />
             <h4 className="font-semibold capitalize text-sm my-2">
-              capture totale super potent rich cream
+              Miyora Coconut Oil Serum
             </h4>
-            <p className="text-xs">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloribu
+            <p className="text-xs text-justify">
+              Miyora’s Coconut Oil Serum is your ultimate natural beauty
+              essential.
             </p>
           </div>
         </div>

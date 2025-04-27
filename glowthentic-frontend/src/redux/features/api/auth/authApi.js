@@ -15,15 +15,9 @@ const authApi = createApi({
             if (token) {
                 headers.set("Authorization", `Bearer ${token}`);
             }
-            // Only set Content-Type for non-file upload endpoints
-            // if (endpoint !== "updateUser" || !(getState().auth.body instanceof FormData)) {
-            //     headers.set("Content-Type", "application/json");
-            // }
-            // headers.set("Accept", "application/json");
-            // return headers;
-            // FormData হলে Content-Type সেট করা হবে না
-            const body = getState().auth.body;
-            if (!(body instanceof FormData)) {
+            if (endpoint === "updateUser" && getState().auth.body instanceof FormData) {
+
+            } else {
                 headers.set("Content-Type", "application/json");
             }
             headers.set("Accept", "application/json");
@@ -67,7 +61,6 @@ const authApi = createApi({
         }),
         getUserInfo: builder.query({
             query: (id) => {
-                // console.log("in api", id);
                 return `/user/details/show/${id}`;
             },
             providesTags: ["UserDetails"],
@@ -81,15 +74,32 @@ const authApi = createApi({
         //     invalidatesTags: ["User", "UserDetails"],
         // }),
         updateUser: builder.mutation({
-            query: ({ id, body }) => {
-                console.log("Sending FormData to API:", [...body]); // ডিবাগিং
-                return {
-                    url: `/user/details/update/${id}`,
-                    method: "POST",
-                    body,
-                };
-            },
+            query: ({ id, ...data }) => ({
+                url: `/user/details/update/${id}`,
+                method: "POST",
+                body: data, // JSON বা FormData
+            }),
             invalidatesTags: ["User", "UserDetails"],
+        }),
+        getGoogleAuthUrl: builder.query({
+            query: () => '/auth/google',
+        }),
+        getFacebookAuthUrl: builder.query({
+            query: () => '/auth/facebook',
+        }),
+        forgotPassword: builder.mutation({
+            query: (data) => ({
+                url: "/forgot-password",
+                method: "POST",
+                body: data,
+            }),
+        }),
+        resetPassword: builder.mutation({
+            query: (data) => ({
+                url: "/reset-password",
+                method: "POST",
+                body: data,
+            }),
         }),
     }),
 });
@@ -102,6 +112,10 @@ export const {
     useGetUserQuery,
     useGetUserInfoQuery,
     useUpdateUserMutation,
+    useGetGoogleAuthUrlQuery,
+    useGetFacebookAuthUrlQuery,
+    useForgotPasswordMutation,
+    useResetPasswordMutation
 } = authApi;
 
 export default authApi;

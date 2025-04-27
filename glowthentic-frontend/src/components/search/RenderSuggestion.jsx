@@ -10,7 +10,6 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
   const handleHideSuggestions = () => {
     dispatch(setSuggestionsVisible(false));
   };
-
   const handleSuggestionClick = (e) => {
     e.stopPropagation(); // Prevent suggestion click from bubbling up
   };
@@ -40,12 +39,12 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
           <h3 className="font-bold text-lg px-4 py-2 text-black">Products</h3>
           <div className="my-1 h-[1px] bg-[#00000042] w-full"></div>
           <div>
-            {productData.products.slice(0, 10).map((item, index) => (
+            {productData?.products.slice(0, 10).map((item, index) => (
               <SuggestionItem
                 key={index}
                 item={item}
                 showDivider={
-                  index !== productData.products.slice(0, 10).length - 1
+                  index !== productData?.products.slice(0, 10).length - 1
                 }
               />
             ))}
@@ -64,11 +63,11 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
                 <Icon icon="iwwa:tag" width="16" height="16" className="mr-2" />
                 <Link
                   to="/products"
-                  state={{ categoryId: item.id }}
+                  state={{ categoryId: item?.id }}
                   onClick={handleHideSuggestions}
                   className="w-full"
                 >
-                  {item.categoryName ?? "NA"}
+                  {item?.categoryName ?? "NA"}
                 </Link>
               </li>
             ))}
@@ -79,7 +78,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
         <div>
           <h3 className="font-bold text-lg px-4 py-2 text-black">Brands</h3>
           <ul>
-            {productData.brands.slice(0, 10).map((item, index) => (
+            {productData?.brands.slice(0, 10).map((item, index) => (
               <li
                 key={index}
                 className="text-black ps-4 py-[3px] flex items-center hover:bg-gray-100"
@@ -91,7 +90,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
                   onClick={handleHideSuggestions}
                   className="w-full"
                 >
-                  {item.brandName ?? "NA"}
+                  {item?.BrandName ?? "NA"}
                 </Link>
               </li>
             ))}

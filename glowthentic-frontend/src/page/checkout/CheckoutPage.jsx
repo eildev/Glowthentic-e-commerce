@@ -109,7 +109,6 @@ const CheckoutPage = () => {
 
   // Use the state-managed shipping charge for total calculation
   const grandTotal = Math.round(discountedSubTotal + shippingCharge + tax);
-  // console.log("grand", grandTotal);
 
   const {
     register,
@@ -173,8 +172,9 @@ const CheckoutPage = () => {
       combo: [],
       full_name: `${formData.name}`,
       address: `${formData.address}`,
-      district: `${formData.district}`,
-      police_station: `${formData.upazila}`,
+      email: `${formData.email}`,
+      district: selectedDistrict,
+      police_station: selectedUpazila,
       postal_code: 1000,
       payment_method: formData.paymentMethod,
       shipping_method: "In-House",
@@ -184,22 +184,22 @@ const CheckoutPage = () => {
       order_note: formData.orderNotes,
       ...(token ? { user_id: user?.id } : { session_id: userSessionId }),
     };
-
-    console.log(orderData);
     try {
       const response = await placeOrder(orderData).unwrap();
-      console.log("Order response:", response);
 
       if (response?.status === 200 || response?.success) {
         toast.success("Order placed successfully!");
         dispatch(clearCart());
         // Added this small delay before navigation to ensure state updates
+        const invoiceNumber = response?.order?.invoice_number || "INV_DEFAULT";
+
         setTimeout(() => {
-          navigate("/order-confirmation", { replace: true });
+          navigate(`/order-confirmation?invoice=${invoiceNumber}`, {
+            replace: true,
+          });
         }, 100);
       } else {
         toast.error("Order placement unsuccessful!");
-        // console.log('Unsuccessful response:', response);
       }
     } catch (err) {
       console.error("Error placing order:", err);
@@ -218,7 +218,7 @@ const CheckoutPage = () => {
             errors={errors}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
-            cartItems={filteredCartItems}
+            carts={filteredCartItems}
             subTotal={subTotal}
             total={grandTotal}
             shippingCharge={shippingCharge}

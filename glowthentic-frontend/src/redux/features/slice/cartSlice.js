@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getCartFromLocalStorage, saveCartToLocalStorage } from '../../../utils/localstorage';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 // Initial state
 const initialState = {
@@ -16,14 +17,12 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
-      const existingItem = state.cartItems.find(cartItem => cartItem.id === item.id);
-      // console.log("state", state);
-      // console.log("action", action);
+      const existingItem = state.cartItems.find((cartItem) => cartItem.id === item.id && cartItem.user_id === item.user_id);
 
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += item.quantity || 1;
       } else {
-        state.cartItems.push({ ...item, quantity: 1 });
+        state.cartItems.push({ ...item, quantity: item.quantity || 1 });
       }
       saveCartToLocalStorage(state.cartItems);
     },
@@ -39,6 +38,7 @@ const cartSlice = createSlice({
       const itemId = action.payload;
       const item = state.cartItems.find(cartItem => cartItem.id === itemId);
       if (item) {
+
         item.quantity += 1;
         saveCartToLocalStorage(state.cartItems);
       }
@@ -46,7 +46,7 @@ const cartSlice = createSlice({
     decrementQuantity: (state, action) => {
       const itemId = action.payload;
       const item = state.cartItems.find(cartItem => cartItem.id === itemId);
-      if (item && item.quantity > 1) { // Minimum quantity is 1
+      if (item && item.quantity > 1) {
         item.quantity -= 1;
         saveCartToLocalStorage(state.cartItems);
       }
@@ -54,11 +54,11 @@ const cartSlice = createSlice({
 
     updateCartUserId: (state, action) => {
       const userId = action.payload;
-    
+
       const isUserIdAlreadyPresent = state.cartItems.some(
         (item) => item.user_id === userId
       );
-    
+
       if (isUserIdAlreadyPresent) return;
 
       const updatedCart = state.cartItems.map((item) => {
@@ -67,11 +67,11 @@ const cartSlice = createSlice({
         }
         return item;
       });
-    
+
       state.cartItems = updatedCart;
       saveCartToLocalStorage(updatedCart);
     }
-    
+
   }
 });
 

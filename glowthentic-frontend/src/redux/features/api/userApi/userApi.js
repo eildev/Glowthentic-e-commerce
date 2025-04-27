@@ -6,7 +6,6 @@ const userApi = createApi({
     endpoints: builder => ({
         getUserInfo: builder.query({
             query: (id) => {
-                // console.log("in api", id);
                 return `/user/details/show/${id}`;
             },
         }),

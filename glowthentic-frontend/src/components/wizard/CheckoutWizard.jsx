@@ -12,7 +12,7 @@ const CheckoutWizard = ({
   errors,
   handleSubmit,
   onSubmit,
-  cartItems,
+  carts,
   subTotal,
   total,
   shippingCharge,
@@ -27,20 +27,24 @@ const CheckoutWizard = ({
   setDistrictId,
   upazilaId,
   setUpazilaId,
-  setShippingCharge // Add shipping charge setter
+  setShippingCharge, // Add shipping charge setter
 }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [location, setLocation] = useState(0); // Add location state to match OrderSummary
+  let totalWeight = 0;
 
+  carts?.forEach((item) => {
+    totalWeight += parseFloat(item.weight * item.quantity); // or parseInt() if weight is always whole numbers
+  });
   // Automatically determine location based on district and upazila
   useEffect(() => {
     if (districtId) {
       // Check if district is Dhaka AND upazila is Dhaka Sadar
-      const district = districtsData.districts.find(d => d.id === districtId);
-      const upazila = district?.upazilas.find(u => u.id === upazilaId);
-      
+      const district = districtsData.districts.find((d) => d.id === districtId);
+      const upazila = district?.upazilas.find((u) => u.id === upazilaId);
+
       if (
-        district?.name?.toLowerCase() === "dhaka" && 
+        district?.name?.toLowerCase() === "dhaka" &&
         upazila?.name?.toLowerCase() === "dhaka sadar"
       ) {
         setLocation(80); // Inside Dhaka
@@ -49,24 +53,30 @@ const CheckoutWizard = ({
       }
     }
   }, [districtId, upazilaId]);
-
   // Shipping calculation effect
-  useEffect(() => {
-    // Calculate shipping charge based on location and quantity
-    if (location) {
-      const baseShipping = location; // 80 or 120 based on location
-      const extraCharge = (Shipping - 1) * 20; // Extra charge for additional items
-      const totalShippingCharge = cartItems.length <= 1 ? baseShipping : baseShipping + extraCharge;
-      
-      if (setShippingCharge) {
-        setShippingCharge(totalShippingCharge);
-      }
-    }
-  }, [location, Shipping, cartItems.length, setShippingCharge]);
+  // useEffect(() => {
+  //   // Calculate shipping charge based on location and quantity
+  //   if (location) {
+  //     const baseShipping = location; // 80 or 120 based on location
+  //     const extraCharge = (Shipping - 1) * 20; // Extra charge for additional items
+  //     const totalShippingCharge = carts.length <= 1 ? baseShipping : baseShipping + extraCharge;
+
+  //     if (setShippingCharge) {
+  //       setShippingCharge(totalShippingCharge);
+  //     }
+  //   }
+  // }, [location, Shipping, carts.length, setShippingCharge]);
 
   const validateStep = async (step) => {
     if (step === 0) {
-      return await trigger(["name", "phone", "email", "district", "upazila", "address"]);
+      return await trigger([
+        "name",
+        "phone",
+        "email",
+        "district",
+        "upazila",
+        "address",
+      ]);
     }
     if (step === 1) {
       return await trigger("paymentMethod");
@@ -96,12 +106,12 @@ const CheckoutWizard = ({
     { title: "Payment", icon: "mdi:credit-card-check" },
     { title: "Review", icon: "majesticons:clipboard-check-line" },
   ];
-  
+
   // Calculate tax and discount for ItemDetails in review step
-  const tax = Math.round(subTotal * (2 / 100));
-  
+  // const tax = Math.round(subTotal * (2 / 100));
+  const tax = 0;
+
   const renderStepContent = () => {
-    // console.log("Current form state:", watch());
     switch (activeStep) {
       case 0:
         return (
@@ -130,7 +140,7 @@ const CheckoutWizard = ({
                 Items
               </div>
               <div className="collapse-content peer-checked:block text-left">
-                <Item carts={cartItems} />
+                <Item carts={carts} />
               </div>
             </div>
             <hr className="text-gray-thin" />
@@ -151,11 +161,18 @@ const CheckoutWizard = ({
                 </div>
                 <div className="flex justify-between text-sm text-gray font-normal">
                   <span>District:</span>
-                  <span>{districtsData.districts.find(d => d.id === districtId)?.name || "N/A"}</span>
+                  <span>
+                    {districtsData.districts.find((d) => d.id === districtId)
+                      ?.name || "N/A"}
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm text-gray font-normal">
                   <span>Upazila:</span>
-                  <span>{districtsData.districts.find(d => d.id === districtId)?.upazilas.find(u => u.id === upazilaId)?.name || "N/A"}</span>
+                  <span>
+                    {districtsData.districts
+                      .find((d) => d.id === districtId)
+                      ?.upazilas.find((u) => u.id === upazilaId)?.name || "N/A"}
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm text-gray font-normal">
                   <span>Address:</span>
@@ -164,25 +181,27 @@ const CheckoutWizard = ({
               </div>
               <hr className="text-gray-thin" />
             </div>
-            
+
             {/* Shipping option display */}
             <div className="mt-4 mb-2 text-left">
               <h3 className="font-semibold mb-2">Shipping Option</h3>
               <div className="text-sm text-gray font-normal">
-                {location === 80 ? "Inside Dhaka (৳80)" : "Outside Dhaka (৳120)"}
-                {cartItems.length > 1 && ` + Extra Items (${Shipping - 1} × ৳20)`}
+                {location === 80
+                  ? "Inside Dhaka (৳80)"
+                  : "Outside Dhaka (৳120)"}
+                {carts.length > 1 && ` + Extra Items (${Shipping - 1} × ৳20)`}
               </div>
             </div>
-            
+
             <h3 className="text-left font-semibold pt-4">Order Info</h3>
             <ItemDetails
-              carts={cartItems}
               subTotal={subTotal}
               shipingCharge={shippingCharge}
               Shipping={Shipping}
               location={location}
               tax={tax}
               total={total}
+              totalWeight={totalWeight}
             />
           </>
         );
@@ -199,7 +218,12 @@ const CheckoutWizard = ({
           onClick={handlePrev}
           disabled={activeStep === 0}
         >
-          <Icon icon="line-md:arrow-left" width="1.5em" height="1.5em" className="mr-2" />
+          <Icon
+            icon="line-md:arrow-left"
+            width="1.5em"
+            height="1.5em"
+            className="mr-2"
+          />
           Checkout
         </button>
       </div>

@@ -5,21 +5,15 @@ import { useGetOrderHistoryQuery } from "../../../../redux/features/api/orderApi
 const OrderHistory = () => {
   const { user } = useSelector((state) => state.auth);
   const userID = user?.id;
-
-  // console.log("id", userID);
-
   const {
-    data: history,
+    data,
     isLoading: historyLoad,
     error,
   } = useGetOrderHistoryQuery(userID);
 
-  // console.log(error);
-  // console.log(historyLoad);
-
   return (
     <div>
-      <OrderCard history={history} historyLoad={historyLoad} status="done" />
+      <OrderCard history={data} historyLoad={historyLoad} status={"history"} />
     </div>
   );
 };

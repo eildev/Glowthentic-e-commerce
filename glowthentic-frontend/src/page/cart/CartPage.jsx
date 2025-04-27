@@ -67,7 +67,6 @@ const CartPage = () => {
           const response = await checkCoupon({
             coupon_code: urlCoupon,
           }).unwrap();
-          // console.log("API Response:", response);
           const discountValue = Math.round(response?.data?.discount_value);
           setDiscountPrice(discountValue);
           setCouponData(response.data);
@@ -78,8 +77,6 @@ const CartPage = () => {
       fetchCoupon();
     }
   }, [searchParams]);
-
-  // console.log(couponData);
 
   useEffect(() => {
     const total = filteredCartItems.reduce((sum, item) => {
@@ -177,11 +174,9 @@ const CartPage = () => {
       return;
     }
     setSearchParams({ coupon: coupon_code });
-    // console.log(coupon_code);
+
     try {
       const response = await checkCoupon({ coupon_code }).unwrap();
-      // console.log("Server Response:", response);
-      // console.log(coupon_code);
 
       const discountValue = Math.round(response?.data?.discount_value);
       setDiscountPrice(discountValue);
@@ -213,7 +208,6 @@ const CartPage = () => {
   // }
 
   const cartCount = filteredCartItems.length;
-  // console.log(cartCount);
 
   return (
     <div className="md:py-10">

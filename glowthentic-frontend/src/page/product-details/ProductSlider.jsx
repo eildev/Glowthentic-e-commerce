@@ -1,19 +1,18 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { X } from "lucide-react";
+import Panzoom from "@panzoom/panzoom";
 
 const ProductSlider = ({ data, variantId }) => {
-  // console.log(data?.data?.variants);
-
   const selectedVariantData = data?.data?.variants?.find(
     (variant) => variant.id === variantId
   );
 
-  // console.log(selectedVariantData);
   const images = selectedVariantData?.variant_image || [];
 
   const swiperRef = useRef(null);
@@ -35,18 +34,28 @@ const ProductSlider = ({ data, variantId }) => {
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [thumbsSwiper2, setThumbsSwiper2] = useState(null);
-  // const images = [
-  //     "https://swiperjs.com/demos/images/nature-1.jpg",
-  //     "https://swiperjs.com/demos/images/nature-2.jpg",
-  //     "https://swiperjs.com/demos/images/nature-3.jpg",
-  //     "https://swiperjs.com/demos/images/nature-4.jpg",
-  //     "https://swiperjs.com/demos/images/nature-5.jpg",
-  //     "https://swiperjs.com/demos/images/nature-6.jpg",
-  //     "https://swiperjs.com/demos/images/nature-7.jpg",
-  //     "https://swiperjs.com/demos/images/nature-8.jpg",
-  //     "https://swiperjs.com/demos/images/nature-9.jpg",
-  //     "https://swiperjs.com/demos/images/nature-10.jpg",
-  // ];
+  const [showModal, setShowModal] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const openModal = (index) => {
+    setActiveIndex(index);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const slideRefs = useRef([]);
+
+  useEffect(() => {
+    if (showModal && slideRefs.current.length) {
+      slideRefs.current.forEach((el) => {
+        if (el) Panzoom(el, { maxScale: 3 });
+      });
+    }
+  }, [showModal, images]);
+
   return (
     <>
       {/* Large Device */}
@@ -157,21 +166,16 @@ const ProductSlider = ({ data, variantId }) => {
           className="mySwiper2"
         >
           {images?.map((image, index) => (
-            <SwiperSlide key={index} className="cursor-crosshair">
-              <div
-                className="zoom-container"
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-              >
-                <img
-                  src={`http://127.0.0.1:8000/${image?.image}`}
-                  // src={`${image}`}
-                  className="zoom-image"
-                />
-              </div>
+            <SwiperSlide key={index}>
+              <img
+                onClick={() => openModal(index)}
+                src={`http://127.0.0.1:8000/${image?.image}`}
+                className="cursor-zoom-in"
+              />
             </SwiperSlide>
           ))}
         </Swiper>
+
         <div className="overflow-auto w-[100vw]">
           <Swiper
             onSwiper={setThumbsSwiper2}
@@ -190,14 +194,54 @@ const ProductSlider = ({ data, variantId }) => {
               >
                 <img
                   src={`http://127.0.0.1:8000/${image?.image}`}
-                  // src={`${image}`}
-                  className="max-h-[74px] w-full object-cover "
+                  className="max-h-[74px] w-full object-cover"
                 />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       </div>
+
+      {/* Modal with Swiper */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center">
+          {/* Close Button */}
+          <button
+            onClick={closeModal}
+            className="absolute top-4 right-4 z-50 bg-white border border-gray-300 text-black p-2 rounded-full"
+          >
+            <X />
+          </button>
+
+          {/* Swiper */}
+          <Swiper
+            initialSlide={activeIndex}
+            spaceBetween={10}
+            slidesPerView={1}
+            navigation={false}
+            modules={[Navigation]}
+            className="w-full h-full"
+          >
+            {images?.map((image, index) => (
+              <SwiperSlide
+                key={index}
+                className="flex items-center justify-center"
+              >
+                <div
+                  ref={(el) => (slideRefs.current[index] = el)}
+                  className="flex items-center justify-center"
+                >
+                  <img
+                    src={`http://127.0.0.1:8000/${image?.image}`}
+                    className="max-w-[95vw] max-h-[90vh] object-contain select-none"
+                    draggable="false"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      )}
     </>
   );
 };

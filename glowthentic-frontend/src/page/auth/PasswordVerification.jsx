@@ -3,20 +3,18 @@ import DynamicForm from "../../components/dynamic-form/DynamicForm";
 import RegularButton from "../../components/typography/RegularButton";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 
-const PasswordVarification = () => {
-  const varificationPasswordHandleData = (data) => {
-    // console.log("Password verification Code:", data); // data will be the form data.
-  };
+const PasswordVerification = () => {
+  const verificationPasswordHandleData = (data) => {};
   return (
     <div>
       <DynamicHelmet title="Verification" />
       <DynamicForm
         title="Verification"
-        handleForm={varificationPasswordHandleData}
+        handleForm={verificationPasswordHandleData}
       >
         <h3 className="font-bold  text-lg mt-4">Verification code</h3>
         <p className="mb-6 mt-3 text-gray text-left">
-          Please enter 4-digit verification code sent to Bakulan@gmail.com
+          Please enter 6-digit verification code sent to Bakulan@gmail.com
         </p>
         <div className="mb-4">
           {/* <------code input ----> */}
@@ -84,4 +82,4 @@ const PasswordVarification = () => {
   );
 };
 
-export default PasswordVarification;
+export default PasswordVerification;

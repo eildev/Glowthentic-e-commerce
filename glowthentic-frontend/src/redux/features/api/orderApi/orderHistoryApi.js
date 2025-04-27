@@ -9,8 +9,7 @@ const orderHistoryApi = createApi({
   endpoints: (builder) => ({
     getOrderHistory: builder.query({
       query: (id) => {
-        // console.log("in api", id);
-        return `/order/processing/${id}`;
+        return `/order/completed/${id}`;
       },
     }),
   }),

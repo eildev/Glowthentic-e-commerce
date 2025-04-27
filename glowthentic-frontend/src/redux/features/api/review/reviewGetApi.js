@@ -10,7 +10,6 @@ const reviewGetApi = createApi({
     endpoints: builder => ({
         getReviewInfo: builder.query({
             query: (id) => {
-                // console.log("in api", id);
                 return `/review/${id}`;
             },
         }),

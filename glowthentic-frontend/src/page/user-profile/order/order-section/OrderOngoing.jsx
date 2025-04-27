@@ -6,17 +6,11 @@ const OrderOngoing = () => {
   const { user } = useSelector((state) => state.auth);
   const userID = user?.id;
 
-  // console.log("id", userID);
-
-  const {
-    data: order,
-    isLoading: orderLoad,
-    error,
-  } = useGetOrderInfoQuery(userID);
+  const { data, isLoading: orderLoad, error } = useGetOrderInfoQuery(userID);
 
   return (
     <div>
-      <OrderCard order={order} orderLoad={orderLoad} status="On Delivery" />
+      <OrderCard order={data} orderLoad={orderLoad} status={"order"} />
     </div>
   );
 };

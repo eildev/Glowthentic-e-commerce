@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -35,23 +36,8 @@ const SearchBar = ({ className }) => {
     return () => debouncedSearch.cancel();
   }, [query, debouncedSearch, dispatch]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Check if the clicked element is part of the search results/suggestions
-      const suggestionsContainer = document.querySelector('.suggestions-container');
-      const isClickInsideSuggestions = suggestionsContainer && suggestionsContainer.contains(event.target);
-      
-      // Only close if the click is outside both the search input and suggestions
-      if (searchRef.current && !searchRef.current.contains(event.target) && !isClickInsideSuggestions) {
-        dispatch(setSuggestionsVisible(false));
-      }
-    };
-    
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [dispatch]);
+  // Removed redundant handleClickOutside to avoid conflicts with Header.jsx
+  // The Header.jsx handles outside clicks for mobile devices
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && query.trim()) {
@@ -68,8 +54,33 @@ const SearchBar = ({ className }) => {
   };
 
   const handleInputClick = (e) => {
-    e.stopPropagation(); // Prevent input click from triggering handleClickOutside
+    e.stopPropagation(); // Prevent input click from triggering outside click handlers
+    if (query.length > 0) {
+      dispatch(setSuggestionsVisible(true)); // Show suggestions if query exists
+    }
   };
+    // Handle clicks outside the search bar and suggestions
+    // useEffect(() => {
+    //   const handleClickOutside = (event) => {
+    //     // Check if the click is outside the search bar and suggestions
+    //     const suggestionsContainer = document.querySelector('.suggestions-container');
+    //     const isClickInsideSuggestions = suggestionsContainer && suggestionsContainer.contains(event.target);
+        
+    //     if (
+    //       searchRef.current &&
+    //       !searchRef.current.contains(event.target) &&
+    //       !isClickInsideSuggestions
+    //     ) {
+    //       dispatch(setQuery("")); // Clear the search query
+    //       dispatch(setSuggestionsVisible(false)); // Hide suggestions
+    //     }
+    //   };
+  
+    //   document.addEventListener("mousedown", handleClickOutside);
+    //   return () => {
+    //     document.removeEventListener("mousedown", handleClickOutside);
+    //   };
+    // }, [dispatch]);
 
   const renderedSuggestions = useMemo(() => {
     return (
@@ -100,15 +111,15 @@ const SearchBar = ({ className }) => {
           value={query}
           onChange={(e) => dispatch(setQuery(e.target.value))}
           onKeyPress={handleKeyPress}
-          onClick={handleInputClick} // Stop propagation on input click
+          onClick={handleInputClick}
           className="ps-4 border-none w-full focus:outline-none text-black h-9 placeholder:text-gray-500"
         />
       </div>
       {isSuggestionsVisible && (
-  <div className="absolute left-0 right-0 pt-5 -mt-[14px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30 suggestions-container">
-    {renderedSuggestions}
-  </div>
-)}
+        <div className="absolute left-0 right-0 pt-5 -mt-[14px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30 suggestions-container">
+          {renderedSuggestions}
+        </div>
+      )}
     </div>
   );
 };

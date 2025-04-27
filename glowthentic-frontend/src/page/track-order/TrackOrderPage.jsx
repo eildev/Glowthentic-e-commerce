@@ -14,7 +14,6 @@ const TrackOrderPage = () => {
   const navigate = useNavigate();
   const [orderInfo, { isLoading, isError, isSuccess, data }] =
     useOrderTrackMutation();
-  // console.log(data);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const orderIdData = { order_id: orderId };
@@ -26,7 +25,6 @@ const TrackOrderPage = () => {
     try {
       const result = await orderInfo(orderIdData).unwrap();
       if (result.status === 200) {
-        // console.log(result);
         dispatch(setOrderData(result)); // Store the data
         toast.success("Order found! Redirecting...");
         navigate(`/order-progress?orderId=${orderId}`);

@@ -52,13 +52,13 @@ const truncateText = (element, length) => {
 };
 
 export default function ProductQueryNavigation({ data }) {
-  // console.log(data?.data?.productdetails[0]?.description);
   const [selectedTab, setSelectedTab] = useState("details");
   const [expandedTabs, setExpandedTabs] = useState({});
   const sectionRefs = useRef({});
-  const productDetails = data?.data?.productdetails[0]?.description;
-  const apply = data?.data?.productdetails[0]?.usage_instruction;
-  const ingredients = data?.data?.productdetails[0]?.ingredients;
+  const productDetails = data?.data?.productdetails?.description;
+
+  const apply = data?.data?.productdetails?.usage_instruction;
+  const ingredients = data?.data?.productdetails?.ingredients;
   const tabs = [
     { id: "details", label: "Product Details" },
     { id: "apply", label: "How to Apply" },

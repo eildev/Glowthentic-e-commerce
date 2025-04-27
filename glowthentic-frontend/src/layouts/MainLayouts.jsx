@@ -6,27 +6,36 @@ import AppBar from "./AppBar";
 import { useState } from "react";
 import ScrollTop from "../components/ScrollTop";
 import RedirectTop from "../components/RedirectTop";
+import TrackPageViews from "../components/TrackPageViews";
 
 const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
   return (
     <div>
-      {/* {isLoading && <Loading />} */}
+      <TrackPageViews />
       <RedirectTop />
       <div className="fixed top-0 left-0 w-full z-50">
         {/*--------- Header -----------*/}
-        <Header
-          setShowMobileMenu={setShowMobileMenu}
-          showMobileMenu={showMobileMenu}
-        />
+        <div>
+          <Header
+            setShowMobileMenu={setShowMobileMenu}
+            showMobileMenu={showMobileMenu}
+            setShowSearchBar={setShowSearchBar}
+            showSearchBar={showSearchBar}
+          />
+        </div>
         {/*--------- Navbar -----------*/}
-        <Navbar
-          showMobileMenu={showMobileMenu}
-          setShowMobileMenu={setShowMobileMenu}
-        />
+        <div>
+          <Navbar
+            showMobileMenu={showMobileMenu}
+            setShowMobileMenu={setShowMobileMenu}
+          />
+        </div>
       </div>
       <div className="lg:h-[140px] h-[80px]"></div>
-      <div className="lg:min-h-[calc(100vh-553px)] min-h-[calc(100vh-80px)]">
+      <div className="lg:min-h-[calc(100vh-496px)] min-h-[calc(100vh-80px)]">
         {/*--------- Outlet -----------*/}
         <Outlet />
       </div>
@@ -34,10 +43,7 @@ const MainLayouts = () => {
       <Footer />
       {/*--------- AppBar -----------*/}
       <AppBar />
-
-      {/*--------- OnlineChatButton  -----------*/}
-      {/* <OnlineChatButton></OnlineChatButton> */}
-      {/*---------  ScrollTop -----------*/}
+      {/*--------- ScrollTop -----------*/}
       <ScrollTop />
     </div>
   );

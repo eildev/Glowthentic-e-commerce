@@ -26,7 +26,6 @@ const WishlistPage = () => {
   } = useGetWishlistByUserIdQuery(user?.id, {
     skip: !user?.id,
   });
-  // console.log(wishlist);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [isInCart, setIsInCart] = useState([]);
@@ -118,7 +117,7 @@ const WishlistPage = () => {
                               <div className="mask mask-squircle h-12 w-12">
                                 <img
                                   src={imagePath(
-                                    item?.variant.variant_image[0].image
+                                    item?.variant?.variant_image[0]?.image
                                   )}
                                   alt="Avatar Tailwind CSS Component"
                                 />
@@ -175,7 +174,7 @@ const WishlistPage = () => {
                               <div className="rounded-xl h-[120px] w-[120px]">
                                 <img
                                   src={imagePath(
-                                    item?.variant.variant_image[0].image
+                                    item?.variant?.variant_image[0]?.image
                                   )}
                                   alt="Avatar Tailwind CSS Component"
                                 />
@@ -183,7 +182,7 @@ const WishlistPage = () => {
                             </div>
                             <div>
                               <div className="font-bold">
-                                {item?.wishlist_product?.product_name}
+                                {item?.wishlist_product?.product_name ?? ""}
                               </div>
                               <div className="mt-2">
                                 <h1 className="text-[#FA8232] text-xs font-semibold">

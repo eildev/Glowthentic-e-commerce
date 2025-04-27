@@ -8,6 +8,9 @@ import {
   setFilteredBrands,
   setFilteredFeatures,
   setFilteredSearchQuery,
+  addCategoryWithName,
+  addBrand,
+  addTag,
 } from "../../redux/features/slice/filterSlice";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Container from "../../components/Container";
@@ -17,42 +20,116 @@ import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import AllProduct from "./AllProduct";
 import { useLocation } from "react-router-dom";
+import {
+  useGetCategoryQuery,
+  useGetNavbarCategoryQuery,
+} from "../../redux/features/api/category/categoryApi";
+import { useGetBrandQuery } from "../../redux/features/api/brand/brandApi";
+import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
 
 const AllProductPage = () => {
   const dispatch = useDispatch();
   const { toggleFilter: isFilterOpen } = useSelector((state) => state.filters);
   const location = useLocation();
-  // console.log({ setFilteredCategories });
+
+  // Fetch categories, brands, and tags
+  const { data: categoryData } = useGetCategoryQuery();
+  const { data: navbarCategoryData } = useGetNavbarCategoryQuery();
+  const { data: brandData } = useGetBrandQuery();
+  const { data: tagsData } = useGetTagsQuery();
 
   useEffect(() => {
     const {
       categoryId,
+      categoryName,
       subcategoryId,
+      subcategoryName,
       brandId,
+      brandName,
       tagId,
+      tagName,
       featureSlug,
+      featureName,
       searchQuery,
     } = location.state || {};
 
+    // Helper functions to find names from IDs
+    const findCategoryName = (id) => {
+      if (!categoryData?.categories && !navbarCategoryData?.categories)
+        return null;
+      const category =
+        categoryData?.categories.find((cat) => cat.id === id) ||
+        navbarCategoryData?.categories.find((cat) => cat.id === id);
+      return category ? category.categoryName : null;
+    };
+
+    const findBrandName = (id) => {
+      if (!brandData?.Brands) return null;
+      const brand = brandData.Brands.find((b) => b.id === id);
+      return brand ? brand.BrandName : null;
+    };
+
+    const findTagName = (id) => {
+      if (!tagsData?.categories) return null;
+      const tag = tagsData.categories.find((t) => t.id === id);
+      return tag ? tag.tagName : null;
+    };
+
+    // Reset filters when navigating to products page with new filters
+    if (
+      categoryId ||
+      subcategoryId ||
+      brandId ||
+      tagId ||
+      featureSlug ||
+      searchQuery
+    ) {
+      dispatch(setFilteredCategories([]));
+      dispatch(setFilteredTags([]));
+      dispatch(setFilteredBrands([]));
+      dispatch(setFilteredFeatures([]));
+      dispatch(setFilteredSearchQuery(""));
+    }
+
     if (categoryId) {
-      dispatch(setFilteredCategories([categoryId]));
+      const name =
+        categoryName || findCategoryName(categoryId) || `Category ${categoryId}`;
+      dispatch(addCategoryWithName({ id: categoryId, name }));
     }
+
     if (subcategoryId) {
-      dispatch(setFilteredCategories([subcategoryId]));
+      const name =
+        subcategoryName ||
+        findCategoryName(subcategoryId) ||
+        `Subcategory ${subcategoryId}`;
+      dispatch(addCategoryWithName({ id: subcategoryId, name }));
     }
+
     if (brandId) {
-      dispatch(setFilteredBrands([brandId]));
+      const name = brandName || findBrandName(brandId) || `Brand ${brandId}`;
+      dispatch(addBrand({ id: brandId, name }));
     }
+
     if (tagId) {
-      dispatch(setFilteredTags([tagId]));
+      const name = tagName || findTagName(tagId) || `Tag ${tagId}`;
+      dispatch(addTag({ id: tagId, name }));
     }
+
     if (featureSlug) {
       dispatch(setFilteredFeatures([featureSlug]));
     }
+
     if (searchQuery) {
       dispatch(setFilteredSearchQuery(searchQuery));
     }
-  }, [location.state, dispatch]);
+  }, [
+    location.state,
+    dispatch,
+    categoryData,
+    navbarCategoryData,
+    brandData,
+    tagsData,
+  ]);
 
   const handleSortChange = (e) => {
     dispatch(setSortOption(e.target.value));
@@ -63,10 +140,6 @@ const AllProductPage = () => {
       <Breadcrumb>
         <li>Products</li>
       </Breadcrumb>
-      {/* <HeadTitle className="mt-5 lg:text-3xl mx-5 mb-3">
-        Women Skincare{" "}
-        <span className="text-gray text-sm lg:text-lg ms-1">(110)</span>
-      </HeadTitle> */}
 
       <div className="flex justify-between items-center mb-5 mx-5 gap-2">
         <div className="w-1/2">

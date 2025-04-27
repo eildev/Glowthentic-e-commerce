@@ -3,8 +3,8 @@ import MainLayouts from "../layouts/MainLayouts";
 import HomePage from "../page/home/HomePage";
 import AboutPage from "../page/about/AboutPage";
 import Blog from "../page/blog/Blog";
-import SignUp from "../page/sign-up/SignUp";
-import ForgetPassword from "../page/forget-password/ForgetPassword";
+import SignUp from "../page/auth/SignUp";
+import ForgetPassword from "../page/auth/ForgetPassword";
 import Page404 from "../page/error/Page404";
 import AllProductPage from "../page/product/AllProductPage";
 import ProductDetails from "../page/product-details/ProductDetails";
@@ -14,8 +14,8 @@ import CheckoutPage from "../page/checkout/CheckoutPage";
 import ContactUs from "../page/contact-us/ContactUs";
 import FaqPage from "../page/faq/FaqPage";
 import TrackOrderPage from "../page/track-order/TrackOrderPage";
-import NewPassword from "../page/new-password/NewPassword";
-import PasswordVarification from "../page/password-varification/PasswordVarification";
+import NewPassword from "../page/auth/NewPassword";
+import PasswordVarification from "../page/auth/PasswordVerification";
 import AllComponents from "../page/components/AllComponents";
 import OrderConfirmation from "../page/orderConfirmation/OrderConfirmation";
 import OrdeProgressPage from "../page/track-order/OrdeProgressPage";
@@ -28,11 +28,13 @@ import OrderOngoing from "../page/user-profile/order/order-section/OrderOngoing"
 import OrderHistory from "../page/user-profile/order/order-section/OrderHistory";
 import ProfileMenu from "../page/user-profile/ProfileMenu";
 import PrivateRoute from "./PrivateRoute";
-import Signout from "../page/Signout";
-import Login from "../page/login/Login";
+import Signout from "../page/auth/SignOut";
+import Login from "../page/auth/Login";
 import TermsAndConditionsPage from "../page/terms-&-conditions/TermsAndConditionsPage";
 import PrivacyPolicy from "../page/privacy-policy/PrivacyPolicy";
 import ProtectCheckout from "./ProtectCheckout";
+import AuthCallback from "../components/auth/AuthCallback";
+import ResetPassword from "../page/auth/ResetPassword";
 
 const ErrorBoundary = ({ error }) => {
   console.error("Error caught:", error);
@@ -71,7 +73,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        element: <ProtectCheckout><CheckoutPage /></ProtectCheckout>,
+        element: (
+          <ProtectCheckout>
+            <CheckoutPage />
+          </ProtectCheckout>
+        ),
       },
       {
         path: "/order-confirmation",
@@ -180,8 +186,16 @@ const router = createBrowserRouter([
     element: <NewPassword />,
   },
   {
-    path: "/password-varification",
+    path: "/reset-password",
+    element: <ResetPassword />,
+  },
+  {
+    path: "/password-verification",
     element: <PasswordVarification />,
+  },
+  {
+    path: "/auth/callback",
+    element: <AuthCallback />,
   },
 ]);
 
