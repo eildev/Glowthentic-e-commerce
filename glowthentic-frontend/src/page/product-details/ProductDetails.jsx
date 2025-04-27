@@ -25,7 +25,6 @@ const TagElement = ({ value }) => {
 };
 
 const ProductDetails = () => {
-  
   const dispatch = useDispatch();
   const { id } = useParams();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -40,17 +39,13 @@ const ProductDetails = () => {
     }
   });
 
- 
-
-const categoryId = data?.data?.category_id
+  const categoryId = data?.data?.category_id;
 
   const navigate = useNavigate();
 
-
   const stockAvailable = data?.data?.product_stock?.[0]?.StockQuantity > 0;
   const [itemCount, setItemCount] = useState(1);
-  console.log(itemCount);
- 
+
   // const [variant, setVariant] = useState([0]);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
@@ -76,34 +71,33 @@ const categoryId = data?.data?.category_id
     (variant) => variant.id === selectedVariant?.id
   );
 
-
-  
   const matchedItem = filteredCartItems.find(
     (item) => item.id === selectedVariantData?.id
   );
-  
+
   const handleAddToCart = () => {
-    const stockLimit = matchedItem?.product_stock?.StockQuantity || selectedVariantData?.product_stock?.StockQuantity || 0;
-  
+    const stockLimit =
+      matchedItem?.product_stock?.StockQuantity ||
+      selectedVariantData?.product_stock?.StockQuantity ||
+      0;
+
     const totalRequested = (matchedItem?.quantity || 0) + itemCount;
-  
-   
+
     if (totalRequested > stockLimit) {
       toast.error("Cannot add more than available stock!");
       return;
     }
-  
+
     const newProduct = {
       ...selectedVariantData,
       quantity: itemCount,
       user_id: user?.id || null,
     };
-  
+
     toast.success("Added to Cart");
     dispatch(addToCart(newProduct));
     setItemCount(1);
   };
-  
 
   // const [openIndex, setOpenIndex] = useState(0);
   // const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -124,45 +118,42 @@ const categoryId = data?.data?.category_id
   // const truncateText = (text, limit, isExpanded) =>
   //   isExpanded ? text : `${text.substring(0, limit)}...`;
 
-
-
   const handleCheckOut = () => {
- 
-    const stockLimit = matchedItem?.product_stock?.StockQuantity || selectedVariantData?.product_stock?.StockQuantity || 0;
-  
+    const stockLimit =
+      matchedItem?.product_stock?.StockQuantity ||
+      selectedVariantData?.product_stock?.StockQuantity ||
+      0;
+
     if (matchedItem) {
       const totalQuantity = matchedItem.quantity + itemCount;
-  
+
       if (totalQuantity > stockLimit) {
-       
         navigate("/checkout");
         return;
       }
-  
 
       const newProduct = {
         ...selectedVariantData,
         quantity: itemCount,
         user_id: user?.id || null,
       };
-  
+
       dispatch(addToCart(newProduct));
       navigate("/checkout");
     } else {
- 
       const newProduct = {
         ...selectedVariantData,
         quantity: itemCount,
         user_id: user?.id || null,
       };
-  
+
       dispatch(addToCart(newProduct));
       navigate("/checkout");
     }
   };
   
- 
 
+  console.log(data?.data);
 
   return (
     <div>
@@ -180,8 +171,7 @@ const categoryId = data?.data?.category_id
               <span className="font-thin text-sm text-gray">
                 {data?.data?.product_tags.map(
                   (tagData, index) =>
-                    `${tagData?.tag?.tagName ?? ""}${
-                      index < data.data.product_tags.length - 1 ? " | " : ""
+                    `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""
                     }`
                 )}
               </span>
@@ -191,7 +181,10 @@ const categoryId = data?.data?.category_id
 
           {/* Slide Start */}
           <div className="sm:col-span-7 my-[35px]">
-            <ProductSlider data={data} variantId={selectedVariant?.id}></ProductSlider>
+            <ProductSlider
+              data={data}
+              variantId={selectedVariant?.id}
+            ></ProductSlider>
           </div>
           {/* Slide End */}
 
@@ -212,16 +205,15 @@ const categoryId = data?.data?.category_id
                 <span className="font-thin text-sm text-gray">
                   {data?.data?.product_tags.map(
                     (tagData, index) =>
-                      `${tagData?.tag?.tagName ?? ""}${
-                        index < data.data.product_tags.length - 1 ? " | " : ""
+                      `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""
                       }`
                   )}
                 </span>
               </p>
             </div>
             {/* End of big device section */}
-   {/* Out of Stock Badge */}
-   {!stockAvailable && (
+            {/* Out of Stock Badge */}
+            {!stockAvailable && (
               <div className="mt-2 mb-2">
                 <span className="bg-secondary text-white text-xs md:text-sm px-3 py-1 rounded-full font-semibold">
                   Out of Stock
@@ -231,42 +223,7 @@ const categoryId = data?.data?.category_id
             <ShowPrice selectedVariant={selectedVariant} />
 
             {/* Select price */}
-            <div className="flex items-center justify-between mt-2">
-              <div>
-                <select
-                  className="select focus:outline-none bg-transparent max-w-xs border-none text-sm font-semibold text-gray"
-                  value={selectedVariant?.id || ""}
-                  onChange={handleVariantChange}
-                >
-                  {data?.data?.variants?.map((variant) => (
-                    <option key={variant.id} className="py-3" value={variant.id}>
-                      {variant.size}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <span className="text-lg font-semibold text-gray">
-                {selectedVariant
-                  ? `৳${
-                      selectedVariant?.product_variant_promotion?.coupon
-                        ? selectedVariant?.product_variant_promotion?.coupon
-                            .discount_type === "fixed"
-                          ? selectedVariant?.regular_price -
-                            selectedVariant?.product_variant_promotion?.coupon
-                              .discount_value
-                          : selectedVariant?.regular_price -
-                            (selectedVariant?.regular_price *
-                              selectedVariant?.product_variant_promotion?.coupon
-                                .discount_value) /
-                              100
-                        : selectedVariant?.regular_price
-                    }`
-                  : "Loading..."}
-              </span>
-            </div>
-
-         
+      
 
             <hr className="text-gray-bold" />
             {/* Select price end */}
@@ -274,35 +231,42 @@ const categoryId = data?.data?.category_id
             {/* Buttons */}
             <div className="mt-4 flex flex-wrap justify-evenly items-center gap-3">
               <div>
-              <IncrementDecrement setItemCount={setItemCount} item={selectedVariantData} itemCount={itemCount} status={'details'}/>
+                <IncrementDecrement
+                  setItemCount={setItemCount}
+                  item={selectedVariantData}
+                  itemCount={itemCount}
+                  status={"details"}
+                />
               </div>
               <RegularButton
                 isLoading={isLoading}
-                stockAvailable={stockAvailable}
-                className={`block text-sm text-nowrap justify-between ${
-                  stockAvailable
-                    ? "bg-orange-500 hover:bg-orange-600"
-                    : "bg-gray-gradient cursor-not-allowed"
-                }`}
+                isDisabled={!stockAvailable}
+                className={`block text-sm text-nowrap justify-between ${stockAvailable
+                  ? "bg-orange-500 hover:bg-orange-600"
+                  : "bg-gray-gradient cursor-not-allowed"
+                  }`}
                 onClick={handleAddToCart}
-
               >
                 Add To Cart
               </RegularButton>
               <RegularButton
                 isLoading={isLoading}
-                className={`block text-sm text-nowrap justify-between ${
-                  stockAvailable
-                    ? "bg-orange-500 hover:bg-orange-600"
-                    : "bg-gray-gradient cursor-not-allowed"
-                }`}
+                className={`block text-sm text-nowrap justify-between ${stockAvailable
+                  ? "bg-orange-500 hover:bg-orange-600"
+                  : "bg-gray-gradient cursor-not-allowed"
+                  }`}
                 onClick={handleCheckOut}
-                stockAvailable={stockAvailable}
+                isDisabled={!stockAvailable}
               >
                 Buy Now
               </RegularButton>
             </div>
-            <p className="text-sm mt-2 mb-5 lg:text-left lg:ml-3 text-center">Max Product Stock <span className="text-secondary font-semibold">{selectedVariantData?.product_stock?.StockQuantity || 0}</span></p>
+            <p className="text-sm mt-2 mb-5 lg:text-left lg:ml-3 text-center">
+              Max Product Stock{" "}
+              <span className="text-secondary font-semibold">
+                {selectedVariantData?.product_stock?.StockQuantity || 0}
+              </span>
+            </p>
             {/* Buttons End */}
 
             {/* Conditionally Render Shipping/Policy Section */}
@@ -316,14 +280,59 @@ const categoryId = data?.data?.category_id
                     </span>
                   </p>
                   <p className="flex items-center py-1">
-                    <Icon icon="ic:baseline-discount" width="2em" height="2em" />
+                    <Icon
+                      icon="ic:baseline-discount"
+                      width="2em"
+                      height="2em"
+                    />
                     <span className="ps-2 line-clamp-3">
                       {data?.data?.productdetails.product_policy}
                     </span>
                   </p>
                 </div>
               )}
+                    <div className="flex items-center justify-between my-3">
+              <div className="flex flex-wrap gap-2">
+                {data?.data?.variants?.map((variant) => (
+                  <div
+                    key={variant.id}
+                    className={`cursor-pointer p-2 rounded-lg transition-all ${selectedVariant?.id === variant.id
+                        ? "border-2 border-orange-500 bg-orange-50"
+                        : "border border-transparent hover:border-orange-300"
+                      }`}
+                    onClick={() => setSelectedVariant(variant)}
+                  >
+                    <img
+                         src={'https://backend.glowthentic.store/'+variant.variant_image[0].image || "https://via.placeholder.com/150"}
+                      alt={variant.variant_name || "Variant"}
+                      className="w-20 h-16 object-cover rounded-md"
+                    />
+                    <p className="text-xs text-center mt-1 text-gray-600">
+                      {variant.size}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* <span className="text-lg font-semibold text-gray">
+                {selectedVariant
+                  ? `৳${selectedVariant?.product_variant_promotion?.coupon
+                    ? selectedVariant?.product_variant_promotion?.coupon.discount_type ===
+                      "fixed"
+                      ? selectedVariant?.regular_price -
+                      selectedVariant?.product_variant_promotion?.coupon.discount_value
+                      : selectedVariant?.regular_price -
+                      (selectedVariant?.regular_price *
+                        selectedVariant?.product_variant_promotion?.coupon
+                          .discount_value) /
+                      100
+                    : selectedVariant?.regular_price
+                  }`
+                  : "Loading..."}
+              </span> */}
+            </div>
           </div>
+          
           {/* Right Section End */}
         </div>
 
@@ -341,7 +350,7 @@ const categoryId = data?.data?.category_id
             <div className="collapse-content font-normal text-sm text-justify">
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
-                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: productDetails,
                   }}
@@ -357,7 +366,7 @@ const categoryId = data?.data?.category_id
             <div className="collapse-content font-normal text-sm text-justify">
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
-                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: apply,
                   }}
@@ -371,7 +380,7 @@ const categoryId = data?.data?.category_id
             <div className="collapse-content font-normal text-sm text-justify">
               <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
-                  className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
+                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: ingredients,
                   }}

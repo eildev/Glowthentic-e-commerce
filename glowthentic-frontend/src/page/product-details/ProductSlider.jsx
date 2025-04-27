@@ -9,11 +9,14 @@ import { X } from "lucide-react";
 import Panzoom from "@panzoom/panzoom";
 
 const ProductSlider = ({ data, variantId }) => {
-  const selectedVariantData = data?.data?.variants?.find(
-    (variant) => variant.id === variantId
-  );
 
-  const images = selectedVariantData?.variant_image || [];
+  console.log(variantId);
+
+  const images = variantId
+    ? data?.data?.variants?.find((variant) => variant.id === variantId)
+        ?.variant_image || []
+    : data?.data?.variants?.flatMap((variant) => variant.variant_image || []) ||
+      [];
 
   const swiperRef = useRef(null);
 
@@ -85,8 +88,7 @@ const ProductSlider = ({ data, variantId }) => {
               >
                 <img
                   src={`https://backend.glowthentic.store/${image?.image}`}
-                  // src={`${image}`}
-                  className="zoom-image  object-cover max-h-[605px]"
+                  className="zoom-image object-cover max-h-[605px]"
                 />
               </div>
             </SwiperSlide>
@@ -125,7 +127,6 @@ const ProductSlider = ({ data, variantId }) => {
               >
                 <img
                   src={`https://backend.glowthentic.store/${image?.image}`}
-                  // src={`${image}`}
                   className="min-h-[74px] max-h-[75px] w-full object-cover"
                 />
               </SwiperSlide>
@@ -148,7 +149,7 @@ const ProductSlider = ({ data, variantId }) => {
           </div>
         </div>
       </div>
-      {/* mobile */}
+      {/* Mobile */}
       <div className="lg:hidden flex flex-col gap-2 items-center justify-center">
         <Swiper
           loop={true}

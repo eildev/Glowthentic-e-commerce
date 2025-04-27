@@ -37,6 +37,7 @@ const CheckoutPage = () => {
   const [districtId, setDistrictId] = useState("");
   const [upazilaId, setUpazilaId] = useState("");
   const [shippingCharge, setShippingCharge] = useState(0); // Add state for shipping charge
+ 
 
   const filteredCartItems = cartItems.filter((item) => {
     if (user?.id) {
@@ -109,7 +110,6 @@ const CheckoutPage = () => {
 
   // Use the state-managed shipping charge for total calculation
   const grandTotal = Math.round(discountedSubTotal + shippingCharge + tax);
-  // console.log("grand", grandTotal);
 
   const {
     register,
@@ -144,8 +144,6 @@ const CheckoutPage = () => {
   const userSessionId = getOrCreateSessionId();
 
   const onSubmit = async (formData) => {
-    console.log(selectedDistrict);
-    console.log(selectedUpazila);
     const orderData = {
       products: filteredCartItems.map((item) => {
         const regularPrice = item.regular_price;
@@ -175,6 +173,7 @@ const CheckoutPage = () => {
       combo: [],
       full_name: `${formData.name}`,
       address: `${formData.address}`,
+      email: `${formData.email}`,
       district: selectedDistrict,
       police_station: selectedUpazila,
       postal_code: 1000,
@@ -186,20 +185,19 @@ const CheckoutPage = () => {
       order_note: formData.orderNotes,
       ...(token ? { user_id: user?.id } : { session_id: userSessionId }),
     };
-
-    console.log(orderData);
     try {
       const response = await placeOrder(orderData).unwrap();
-      console.log("Order response:", response);
 
       if (response?.status === 200 || response?.success) {
         toast.success("Order placed successfully!");
         dispatch(clearCart());
         // Added this small delay before navigation to ensure state updates
         const invoiceNumber = response?.order?.invoice_number || "INV_DEFAULT";
-        console.log(invoiceNumber);
+
         setTimeout(() => {
-          navigate(`/order-confirmation?invoice=${invoiceNumber}`, { replace: true });
+          navigate(`/order-confirmation?invoice=${invoiceNumber}`, {
+            replace: true,
+          });
         }, 100);
       } else {
         toast.error("Order placement unsuccessful!");
@@ -269,7 +267,8 @@ const CheckoutPage = () => {
                       location={location}
                       carts={filteredCartItems}
                       total={grandTotal}
-                      setShipingCharge={setShippingCharge} // Pass setter instead of value
+                      setShipingCharge={setShippingCharge}
+                      shippingCharge={shippingCharge} // Pass setter instead of value
                       Shipping={Shipping}
                       subTotal={subTotal}
                       tax={tax}

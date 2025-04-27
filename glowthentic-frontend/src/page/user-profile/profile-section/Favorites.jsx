@@ -8,9 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 const Favorites = () => {
   const { token, user } = useSelector((state) => state.auth);
-  // console.log("token",  token);
-  // console.log(user?.data?.id);
-
   const navigate = useNavigate();
   const {
     data: wishlist,

@@ -1,3 +1,4 @@
+// export default OrderCard;
 import { Icon } from "@iconify/react";
 import OrderReviewModal from "./OrderReviewModal";
 import { useEffect, useState } from "react";
@@ -7,9 +8,6 @@ import { useSelector } from "react-redux";
 const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
   const [reviewItem, setReviewItem] = useState(null);
   const { user, token } = useSelector((state) => state.auth);
-  // const { data, isLoading, isError, error } = useGetReviewInfoQuery();
-
-  console.log(order?.data[0].order_status);
 
   const clickHandle = (item) => {
     setReviewItem(item);
@@ -23,15 +21,17 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
 
   return (
     <>
-      {status  == 'order' ? (
+      {status === "order" ? (
         orderLoad ? (
           <p className="text-center text-gray-500">Loading orders...</p>
-        ) : order?.data?.length === 0 ? (
+        ) : !order?.data ||
+          !Array.isArray(order?.data) ||
+          order?.data.length === 0 ? ( // অ্যারে কিনা চেক করুন
           <p className="text-center text-gray-500">
-            You haven`t placed any order yet.
+            You haven't placed any order yet.
           </p>
-        ) : order?.data ? (
-          [...order.data]
+        ) : (
+          [...(order?.data || [])] // ডিফল্ট খালি অ্যারে
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((item, i) => {
               const formattedDate = new Date(item.created_at).toLocaleString(
@@ -77,17 +77,15 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
                 </div>
               );
             })
-        ) : (
-          <p className="text-center text-gray-500">No data Available</p>
         )
       ) : historyLoad ? (
         <p className="text-center text-gray-500">Loading history...</p>
-      ) : history?.length === 0 ? (
-        <p className="text-center text-gray-500">
-          আপনার কোনো অর্ডার ইতিহাস নেই।
-        </p>
+      ) : !history?.data ||
+        !Array.isArray(history?.data) ||
+        history?.data.length === 0 ? ( // অ্যারে কিনা চেক করুন
+        <p className="text-center text-gray-500">You have no order history.</p>
       ) : (
-        [...history.data]
+        [...(history?.data || [])] // ডিফল্ট খালি অ্যারে
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
           .map((item, i) => {
             const formattedDate = new Date(item.created_at).toLocaleString(

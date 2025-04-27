@@ -61,18 +61,45 @@ const authApi = createApi({
         }),
         getUserInfo: builder.query({
             query: (id) => {
-                // console.log("in api", id);
                 return `/user/details/show/${id}`;
             },
             providesTags: ["UserDetails"],
         }),
+        // updateUser: builder.mutation({
+        //     query: ({ id, ...data }) => ({
+        //         url: `/user/details/update/${id}`,
+        //         method: "POST",
+        //         body: data, // Can be JSON or FormData
+        //     }),
+        //     invalidatesTags: ["User", "UserDetails"],
+        // }),
         updateUser: builder.mutation({
             query: ({ id, ...data }) => ({
-                url: `user/details/update/${id}`,
+                url: `/user/details/update/${id}`,
                 method: "POST",
                 body: data, // JSON বা FormData
             }),
             invalidatesTags: ["User", "UserDetails"],
+        }),
+        getGoogleAuthUrl: builder.query({
+            query: () => '/auth/google',
+        }),
+        getFacebookAuthUrl: builder.query({
+            query: () => '/auth/facebook',
+        }),
+        forgotPassword: builder.mutation({
+            query: (data) => ({
+                url: "/forgot-password",
+                method: "POST",
+                body: data,
+            }),
+        }),
+        resetPassword: builder.mutation({
+            query: (data) => ({
+                url: "/reset-password",
+                method: "POST",
+                body: data,
+            }),
         }),
     }),
 });
@@ -85,6 +112,10 @@ export const {
     useGetUserQuery,
     useGetUserInfoQuery,
     useUpdateUserMutation,
+    useGetGoogleAuthUrlQuery,
+    useGetFacebookAuthUrlQuery,
+    useForgotPasswordMutation,
+    useResetPasswordMutation
 } = authApi;
 
 export default authApi;

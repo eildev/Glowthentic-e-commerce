@@ -12,16 +12,10 @@ const ItemDetails = ({
   isLoading,
   location,
   totalWeight,
-
 }) => {
-  console.log("item page a ", location);
-  console.log(typeof(location));
-  
   // Use the passed location value for shipping display
   const extraShipping = Math.floor(totalWeight / 850) * 20;
   const displayShipping = (location || 0) + extraShipping;
-  console.log('total', displayShipping);
-  console.log(typeof(displayShipping));
   // Show correct discount indicator (fixed or percentage)
   const value = couponData?.discount_type === "fixed" ? "৳" : "%";
 
@@ -33,15 +27,14 @@ const ItemDetails = ({
       </div>
       <div className="flex justify-between">
         <span className="text-sm text-gray font-normal">Shipping</span>
-        <span className="text-sm font-medium">{displayShipping} ৳</span>
+        <span className="text-sm font-medium">{shippingCharge ?? 0} ৳</span>
       </div>
       {isLoading ? (
         <p className="text-sm text-gray">Loading...</p>
       ) : (
         <div
-          className={`flex justify-between ${
-            discountPrice ? "text-green-600" : "text-gray"
-          }`}
+          className={`flex justify-between ${discountPrice ? "text-green-600" : "text-gray"
+            }`}
         >
           <span className="text-sm font-normal">
             Discount {couponData ? `(${couponData.cupon_code})` : ""}

@@ -4,13 +4,10 @@ const orderGetApi = createApi({
     reducerPath: 'orderGetApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://backend.glowthentic.store/api'
-        // baseUrl: 'https://backend.glowthentic.store/api'
-
     }),
     endpoints: builder => ({
         getOrderInfo: builder.query({
             query: (id) => {
-                // console.log("in api", id);
                 return `/order/processing/${id}`;
             },
         }),

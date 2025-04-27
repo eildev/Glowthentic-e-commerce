@@ -10,7 +10,6 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
   const handleHideSuggestions = () => {
     dispatch(setSuggestionsVisible(false));
   };
-console.log("from search", productData);
   const handleSuggestionClick = (e) => {
     e.stopPropagation(); // Prevent suggestion click from bubbling up
   };

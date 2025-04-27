@@ -19,29 +19,23 @@ const OrdeProgressPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const orderId = queryParams.get("orderId");
-  // console.log(orderId);
   const orderData = useSelector((state) => state.order?.orderData);
-  console.log(orderData);
   const isoDate = orderData?.billingInfo?.created_at;
-const date = new Date(isoDate);
-const formattedDate = date.toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
-
-  // console.log(orderData?.order_tracking_status);
+  const date = new Date(isoDate);
+  const formattedDate = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   if (!orderData)
     return <div>No order data available. Please track your order again.</div>;
 
   const orderItems = orderData?.orderDetails || [];
-  // console.log(orderItems);
   const subtotal = orderItems.reduce(
     (acc, item) => acc + parseFloat(item.total_price || 0),
     0
   );
   const shipping = Number(orderData?.order?.shipping_charge) || 0;
-    console.log("shipping", shipping);
   const tax = Number(((subtotal * 2.5) / 100).toFixed(2));
   const totalEstimated = Number((subtotal + shipping + tax).toFixed(2));
   return (
@@ -67,17 +61,16 @@ const formattedDate = date.toLocaleDateString("en-US", {
                 {/* Step 1: Ordered */}
                 <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
                   <div
-                    className={`w-8 h-8 ${
-                      orderData?.order_tracking_status === "Ordered" ||
-                      orderData?.order_tracking_status === "Shipped" ||
-                      orderData?.order_tracking_status === "Completed"
+                    className={`w-8 h-8 ${orderData?.order_tracking_status === "Ordered" ||
+                        orderData?.order_tracking_status === "Shipped" ||
+                        orderData?.order_tracking_status === "Completed"
                         ? "bg-orange-500"
                         : "bg-dark"
-                    } text-white flex items-center justify-center rounded-full mb-2`}
+                      } text-white flex items-center justify-center rounded-full mb-2`}
                   >
                     {orderData?.order_tracking_status === "Ordered" ||
-                    orderData?.order_tracking_status === "Shipped" ||
-                    orderData?.order_tracking_status === "Completed"
+                      orderData?.order_tracking_status === "Shipped" ||
+                      orderData?.order_tracking_status === "Completed"
                       ? "✓"
                       : "🔒"}
                   </div>
@@ -86,17 +79,16 @@ const formattedDate = date.toLocaleDateString("en-US", {
                     <div className="flex w-full lg:w-auto justify-between lg:flex-col flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
                       <p className="font-semibold text-gray-700">Ordered</p>
                       <p
-                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
-                          orderData?.order_tracking_status === "Ordered" ||
-                          orderData?.order_tracking_status === "Shipped" ||
-                          orderData?.order_tracking_status === "Completed"
+                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${orderData?.order_tracking_status === "Ordered" ||
+                            orderData?.order_tracking_status === "Shipped" ||
+                            orderData?.order_tracking_status === "Completed"
                             ? "text-orange-500 bg-[#FA82321A]"
                             : "text-purple-500 bg-[#F4F1FF]"
-                        }`}
+                          }`}
                       >
                         {orderData?.order_tracking_status === "Ordered" ||
-                        orderData?.order_tracking_status === "Shipped" ||
-                        orderData?.order_tracking_status === "Completed"
+                          orderData?.order_tracking_status === "Shipped" ||
+                          orderData?.order_tracking_status === "Completed"
                           ? "Completed"
                           : "In Progress"}
                       </p>
@@ -110,15 +102,14 @@ const formattedDate = date.toLocaleDateString("en-US", {
                 {/* Step 2: Shipped */}
                 <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
                   <div
-                    className={`w-8 h-8 ${
-                      orderData?.order_tracking_status === "Shipped" ||
-                      orderData?.order_tracking_status === "Completed"
+                    className={`w-8 h-8 ${orderData?.order_tracking_status === "Shipped" ||
+                        orderData?.order_tracking_status === "Completed"
                         ? "bg-orange-500"
                         : "bg-dark"
-                    } text-white flex items-center justify-center rounded-full mb-2`}
+                      } text-white flex items-center justify-center rounded-full mb-2`}
                   >
                     {orderData?.order_tracking_status === "Shipped" ||
-                    orderData?.order_tracking_status === "Completed"
+                      orderData?.order_tracking_status === "Completed"
                       ? "✓"
                       : "🔒"}
                   </div>
@@ -127,15 +118,14 @@ const formattedDate = date.toLocaleDateString("en-US", {
                     <div className="flex lg:flex-col justify-between w-full lg:w-auto flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
                       <p className="font-semibold text-gray-700">Shipped</p>
                       <p
-                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
-                          orderData?.order_tracking_status === "Shipped" ||
-                          orderData?.order_tracking_status === "Completed"
+                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${orderData?.order_tracking_status === "Shipped" ||
+                            orderData?.order_tracking_status === "Completed"
                             ? "text-orange-500 bg-[#FA82321A]"
                             : "text-purple-500 bg-[#F4F1FF]"
-                        }`}
+                          }`}
                       >
                         {orderData?.order_tracking_status === "Shipped" ||
-                        orderData?.order_tracking_status === "Completed"
+                          orderData?.order_tracking_status === "Completed"
                           ? "Completed"
                           : "In Progress"}
                       </p>
@@ -149,11 +139,10 @@ const formattedDate = date.toLocaleDateString("en-US", {
                 {/* Step 3: Completed */}
                 <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
                   <div
-                    className={`w-8 h-8 ${
-                      orderData?.order_tracking_status === "Completed"
+                    className={`w-8 h-8 ${orderData?.order_tracking_status === "Completed"
                         ? "bg-orange-500"
                         : "bg-dark"
-                    } text-white flex items-center justify-center rounded-full mb-2`}
+                      } text-white flex items-center justify-center rounded-full mb-2`}
                   >
                     {orderData?.order_tracking_status === "Completed"
                       ? "✓"
@@ -164,11 +153,10 @@ const formattedDate = date.toLocaleDateString("en-US", {
                     <div className="flex w-full lg:w-auto lg:flex-col justify-between ps-2 lg:ps-0 gap-3 lg:gap-0">
                       <p className="font-semibold text-gray-700">Completed</p>
                       <p
-                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
-                          orderData?.order_tracking_status === "Completed"
+                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${orderData?.order_tracking_status === "Completed"
                             ? "text-orange-500 bg-[#FA82321A]"
                             : "text-purple-500 bg-[#F4F1FF]"
-                        }`}
+                          }`}
                       >
                         {orderData?.order_tracking_status === "Completed"
                           ? "Completed"
@@ -196,10 +184,12 @@ const formattedDate = date.toLocaleDateString("en-US", {
                 <div className=" mx-auto bg-white rounded-lg  p-6">
                   <div className="text-center">
                     <h1 className="lg:text-xl text-lg  font-semibold mb-4">
-                      Hello {orderData?.userDetails?.full_name}, here is Your Cart
+                      Hello {orderData?.userDetails?.full_name}, here is Your
+                      Cart
                     </h1>
                     <p className="text-sm text-gray-600 mb-6">
-                      Here is a summary of your recent order made on {formattedDate}. You can also view your order in the{" "}
+                      Here is a summary of your recent order made on{" "}
+                      {formattedDate}. You can also view your order in the{" "}
                       <span className="font-bold text-primary ">Purchases</span>{" "}
                       section of your account.
                     </p>
@@ -213,7 +203,7 @@ const formattedDate = date.toLocaleDateString("en-US", {
                     >
                       <div className="flex  gap-4 lg:gap-0">
                         <img
-                          src={imagePath(item.variant?.variant_image[0].image)}
+                          src={imagePath(item?.variant?.variant_image[0]?.image)}
                           alt={item.title}
                           className="w-16 h-16 object-cover rounded"
                         />
@@ -256,9 +246,9 @@ const formattedDate = date.toLocaleDateString("en-US", {
                               ৳{item.total_price}
                             </span>
                           </p>
-                          <RegularButton className="py-0 lg:h-11  bg-secondary  border h-8  hover:border-secondary text-white lg:bg-secondary  lg:text-md text-xs rounded-xl">
+                          {/* <RegularButton className="py-0 lg:h-11  bg-secondary  border h-8  hover:border-secondary text-white lg:bg-secondary  lg:text-md text-xs rounded-xl">
                             Read More
-                          </RegularButton>
+                          </RegularButton> */}
                         </div>
                       </div>
                     </div>
@@ -304,7 +294,10 @@ const formattedDate = date.toLocaleDateString("en-US", {
                   {/* Order Confirmation */}
                   <div className="mt-6 text-center">
                     <p className="text-sm  text-gray-600">
-                      Your order <span className="font-medium">#{orderData?.order?.invoice_number}</span>{" "}
+                      Your order{" "}
+                      <span className="font-medium">
+                        #{orderData?.order?.invoice_number}
+                      </span>{" "}
                       has been placed!
                     </p>
                     <p className="text-sm text-gray-600">
@@ -337,11 +330,15 @@ const formattedDate = date.toLocaleDateString("en-US", {
                   <h3 className="font-semibold text-orange-500">
                     Shipping Address
                   </h3>
-                  <p className="text-gray-700">{orderData?.userDetails?.full_name}</p>
+                  <p className="text-gray-700">
+                    {orderData?.userDetails?.full_name}
+                  </p>
                   <p className="text-gray-500">
                     {orderData?.userDetails?.address}
                   </p>
-                  <p className="text-gray-700">{orderData?.userDetails?.phone_number}</p>
+                  <p className="text-gray-700">
+                    {orderData?.userDetails?.phone_number}
+                  </p>
                 </div>
                 {/* Billing Details */}
                 <div className="text-center md:text-left border-0 md:border-[1px] md:border-e-0  border-[#D3D8E3]   p-5">
@@ -357,8 +354,10 @@ const formattedDate = date.toLocaleDateString("en-US", {
                   <h3 className="font-semibold text-orange-500">
                     Billing Details
                   </h3>
-               
-                  <p className="text-gray-700">{orderData?.userDetails?.phone_number}</p>
+
+                  <p className="text-gray-700">
+                    {orderData?.userDetails?.phone_number}
+                  </p>
                 </div>
                 {/* Shipping Method */}
                 <div className="text-center md:text-left border-0 md:border-[1px] border-[#D3D8E3]  p-5">
@@ -371,9 +370,10 @@ const formattedDate = date.toLocaleDateString("en-US", {
                     Shipping Method
                   </h3>
                   <p className="text-gray-700 ">Preferred Method:</p>
-                  <p className="text-gray-500">{
-                    orderData?.billingInfo?.active_payment_method === "COD" && "Cash on Delivery"
-                    }</p>
+                  <p className="text-gray-500">
+                    {orderData?.billingInfo?.active_payment_method === "COD" &&
+                      "Cash on Delivery"}
+                  </p>
                   <p className="text-gray-500">
                     (normally 4-5 business days, unless otherwise noted)
                   </p>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import avatarPlaceholder from "../../../assets/img/user-profile/user.jpg";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
 import { FaCamera } from "react-icons/fa";
@@ -49,18 +49,18 @@ const EditAccount = () => {
         : "";
 
       const userData = {
-        name: data?.user?.name || "",
+        full_name: data?.user?.name || "",
         email: data?.user?.email || "",
         address: data?.userDetails?.address || "",
         country: data?.userDetails?.country || "",
-        region: data?.userDetails?.city || "",
-        zone: data?.userDetails?.police_station || "",
-        postalCode: data?.userDetails?.postal_code || "",
-        phone: formattedPhone,
+        city: data?.userDetails?.city || "",
+        police_station: data?.userDetails?.police_station || "",
+        postal_code: data?.userDetails?.postal_code || "",
+        phone_number: formattedPhone,
       };
       reset(userData);
-      if (data.userDetails?.image) {
-        setImagePreview(data.userDetails.image); // Use userDetails.image
+      if (data?.userDetails?.image) {
+        setImagePreview(data?.userDetails?.image); // Use userDetails.image
       }
     }
   }, [data, reset]);
@@ -83,62 +83,6 @@ const EditAccount = () => {
     }
   };
 
-  // Handle form submission
-  // const onSubmit = async (formData) => {
-  //   // console.log("User ID:", userID);
-  //   if (!userID) {
-  //     toast.error("User ID is not available. Please log in again.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const payload = {
-  //       id: userID,
-  //       full_name: formData.name,
-  //       email: formData.email,
-  //       address: formData.address,
-  //       country: formData.country,
-  //       city: formData.region,
-  //       police_station: formData.zone,
-  //       postal_code: formData.postalCode,
-  //       phone_number: formData.phone,
-  //     };
-
-  //     let response;
-  //     if (imageFile) {
-  //       const formDataToSend = new FormData();
-  //       Object.entries(payload).forEach(([key, value]) => {
-  //         formDataToSend.append(key, value);
-  //       });
-  //       formDataToSend.append("image", imageFile);
-  //       // console.log("Sending FormData:", [...formDataToSend]);
-  //       response = await updateUser({
-  //         id: userID,
-  //         ...Object.fromEntries(formDataToSend),
-  //         // body: formData,
-  //       }).unwrap();
-  //     } else {
-  //       // console.log("Sending JSON payload:", payload);
-  //       response = await updateUser(payload).unwrap();
-  //     }
-
-  //     // console.log("API Response:", response);
-  //     // toast.success("User information updated successfully!");
-  //     if (response.user?.image) {
-  //       setImagePreview(response.user.image);
-  //     } else {
-  //       // console.log("No image URL in response");
-  //     }
-  //   } catch (err) {
-  //     console.error("Update error:", err);
-  //     const errorMessage = err?.data?.message || "Failed to update user";
-  //     const fieldErrors = err?.data?.errors || {};
-  //     toast.error(errorMessage);
-  //     Object.entries(fieldErrors).forEach(([field, messages]) => {
-  //       toast.error(`${field}: ${messages.join(", ")}`);
-  //     });
-  //   }
-  // };
   const onSubmit = async (formData) => {
     if (!userID) {
       toast.error("User ID is not available. Please log in again.");
@@ -160,11 +104,6 @@ const EditAccount = () => {
       if (imageFile) {
         formDataToSend.append("image", imageFile);
       }
-
-      for (let [key, value] of formDataToSend.entries()) {
-        console.log(key, value);
-      }
-
       const response = await updateUser({
         id: userID,
         ...Object.fromEntries(formDataToSend),
@@ -238,24 +177,21 @@ const EditAccount = () => {
         <div>
           <div className="my-4">
             <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
-              Name
+              Full Name
             </label>
             <input
-              {...register("name", {
-                required: "Name is required",
+              {...register("full_name", {
+                required: "Full name is required",
                 minLength: {
                   value: 2,
-                  message: "Name must be at least 2 characters",
+                  message: "Full name must be at least 2 characters",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.name ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.full_name ? "border-red-500" : "border-hr-thin"
+                }`}
             />
-            {errors.name && (
-              <span className="text-red-500 text-sm">
-                {errors.name.message}
-              </span>
+            {errors.full_name && (
+              <span className="text-red-500 text-sm">{errors.full_name.message}</span>
             )}
           </div>
 
@@ -271,14 +207,11 @@ const EditAccount = () => {
                   message: "Address must be at least 5 characters",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.address ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.address ? "border-red-500" : "border-hr-thin"
+                }`}
             />
             {errors.address && (
-              <span className="text-red-500 text-sm">
-                {errors.address.message}
-              </span>
+              <span className="text-red-500 text-sm">{errors.address.message}</span>
             )}
           </div>
         </div>
@@ -290,36 +223,30 @@ const EditAccount = () => {
             </label>
             <input
               {...register("country", { required: "Country is required" })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.country ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.country ? "border-red-500" : "border-hr-thin"
+                }`}
             />
             {errors.country && (
-              <span className="text-red-500 text-sm">
-                {errors.country.message}
-              </span>
+              <span className="text-red-500 text-sm">{errors.country.message}</span>
             )}
           </div>
 
           <div className="my-4">
             <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
-              Province/Region
+              City
             </label>
             <select
-              {...register("region", { required: "Region is required" })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.region ? "border-red-500" : "border-hr-thin"
-              }`}
+              {...register("city", { required: "City is required" })}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.city ? "border-red-500" : "border-hr-thin"
+                }`}
             >
               <option value="Dhaka">Dhaka</option>
               <option value="Chattogram">Chattogram</option>
               <option value="Rajshahi">Rajshahi</option>
               <option value="Sylhet">Sylhet</option>
             </select>
-            {errors.region && (
-              <span className="text-red-500 text-sm">
-                {errors.region.message}
-              </span>
+            {errors.city && (
+              <span className="text-red-500 text-sm">{errors.city.message}</span>
             )}
           </div>
 
@@ -328,15 +255,12 @@ const EditAccount = () => {
               Zone
             </label>
             <input
-              {...register("zone", { required: "Zone is required" })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.zone ? "border-red-500" : "border-hr-thin"
-              }`}
+              {...register("police_station", { required: "Zone is required" })}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.police_station ? "border-red-500" : "border-hr-thin"
+                }`}
             />
-            {errors.zone && (
-              <span className="text-red-500 text-sm">
-                {errors.zone.message}
-              </span>
+            {errors.police_station && (
+              <span className="text-red-500 text-sm">{errors.police_station.message}</span>
             )}
           </div>
 
@@ -345,17 +269,14 @@ const EditAccount = () => {
               Postal Code
             </label>
             <input
-              {...register("postalCode", {
+              {...register("postal_code", {
                 required: "Postal code is required",
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.postalCode ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.postal_code ? "border-red-500" : "border-hr-thin"
+                }`}
             />
-            {errors.postalCode && (
-              <span className="text-red-500 text-sm">
-                {errors.postalCode.message}
-              </span>
+            {errors.postal_code && (
+              <span className="text-red-500 text-sm">{errors.postal_code.message}</span>
             )}
           </div>
         </div>
@@ -379,14 +300,11 @@ const EditAccount = () => {
                   message: "Invalid email address",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
-                errors.email ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${errors.email ? "border-red-500" : "border-hr-thin"
+                }`}
             />
             {errors.email && (
-              <span className="text-red-500 text-sm">
-                {errors.email.message}
-              </span>
+              <span className="text-red-500 text-sm">{errors.email.message}</span>
             )}
           </div>
 
@@ -395,29 +313,25 @@ const EditAccount = () => {
               Phone Number
             </label>
             <input
-              {...register("phone", {
+              {...register("phone_number", {
                 required: "Phone number is required",
                 pattern: {
                   value: /^0[0-9]{9,}$/,
-                  message:
-                    "Phone number must start with 0 and be at least 10 digits",
+                  message: "Phone number must start with 0 and be at least 10 digits",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
-                errors.phone ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${errors.phone_number ? "border-red-500" : "border-hr-thin"
+                }`}
               onChange={(e) => {
                 let value = e.target.value;
                 if (value && !value.startsWith("0")) {
                   value = `0${value}`;
-                  setValue("phone", value);
+                  setValue("phone_number", value);
                 }
               }}
             />
-            {errors.phone && (
-              <span className="text-red-500 text-sm">
-                {errors.phone.message}
-              </span>
+            {errors.phone_number && (
+              <span className="text-red-500 text-sm">{errors.phone_number.message}</span>
             )}
           </div>
         </div>
@@ -425,11 +339,8 @@ const EditAccount = () => {
         <button
           type="submit"
           disabled={isUpdating}
-          className={`block w-full px-6 py-4 lg:px-8 lg:py-6 rounded-md text-lg font-normal font-encode text-white transition ${
-            isUpdating
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-secondary hover:bg-secondary-dark"
-          }`}
+          className={`block w-full px-6 py-4 lg:px-8 lg:py-6 rounded-md text-lg font-normal font-encode text-white transition ${isUpdating ? "bg-gray-400 cursor-not-allowed" : "bg-secondary hover:bg-secondary-dark"
+            }`}
         >
           {isUpdating ? "Saving..." : "Save Changes"}
         </button>

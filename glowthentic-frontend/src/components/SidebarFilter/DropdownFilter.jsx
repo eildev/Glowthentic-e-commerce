@@ -67,8 +67,11 @@ const DropdownFilter = () => {
   const { data: categoryData, isLoading, refetch } = useGetCategoryQuery();
   const { data: brandData, isLoading: isBrandLoading } = useGetBrandQuery();
   const { data: tagsData, isLoading: isTagsLoading } = useGetTagsQuery();
-  const { data: productData, error, isLoading: isProductsLoading } =
-    useGetProductsQuery();
+  const {
+    data: productData,
+    error,
+    isLoading: isProductsLoading,
+  } = useGetProductsQuery();
 
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
@@ -124,13 +127,6 @@ const DropdownFilter = () => {
 
   useEffect(() => {
     if (productData?.data && !isProductsLoading) {
-      console.log("Re-filtering products due to filter change:", {
-        filteredCategories,
-        filteredTags,
-        filteredBrands,
-        filteredPrices,
-        filteredSearchQuery,
-      });
       dispatch(setFilteredProducts(productData.data));
     }
   }, [
@@ -158,19 +154,17 @@ const DropdownFilter = () => {
 
   const handleCategoriesCheckboxChange = (categoryName, categoryId) => {
     const isSelected = filteredCategories.includes(String(categoryId));
-    console.log(
-      `Category ${categoryName} (ID: ${categoryId}) isSelected: ${isSelected}`
-    );
     if (isSelected) {
       dispatch(removeCategoryByName(categoryName));
     } else {
-      dispatch(addCategoryWithName({ id: String(categoryId), name: categoryName }));
+      dispatch(
+        addCategoryWithName({ id: String(categoryId), name: categoryName })
+      );
     }
   };
 
   const handleTagsCheckboxChange = (tagName, tagId) => {
     const isSelected = filteredTags.includes(String(tagId));
-    console.log(`Tag ${tagName} (ID: ${tagId}) isSelected: ${isSelected}`);
     if (isSelected) {
       dispatch(removeTag(tagName));
     } else {
@@ -180,7 +174,6 @@ const DropdownFilter = () => {
 
   const handleBrandsCheckboxChange = (brandName, brandId) => {
     const isSelected = filteredBrands.includes(String(brandId));
-    console.log(`Brand ${brandName} (ID: ${brandId}) isSelected: ${isSelected}`);
     if (isSelected) {
       dispatch(removeBrand(brandName));
     } else {
@@ -189,29 +182,21 @@ const DropdownFilter = () => {
   };
 
   const handleClearFilters = () => {
-    console.log("Clearing all filters");
     dispatch(clearAllFilters());
     if (productData?.data) {
       dispatch(setFilteredProducts(productData.data));
     }
   };
 
-  if (
-    isLoading ||
-    isBrandLoading ||
-    isTagsLoading ||
-    isProductsLoading
-  ) {
+  if (isLoading || isBrandLoading || isTagsLoading || isProductsLoading) {
     return <div className="text-gray-500">Loading filters...</div>;
   }
-  if (
-    error ||
-    !categoryData ||
-    !brandData ||
-    !tagsData ||
-    !productData
-  ) {
-    return <div className="text-red-500">Error loading filters. Please try again.</div>;
+  if (error || !categoryData || !brandData || !tagsData || !productData) {
+    return (
+      <div className="text-red-500">
+        Error loading filters. Please try again.
+      </div>
+    );
   }
 
   return (
@@ -220,12 +205,7 @@ const DropdownFilter = () => {
 
       {/* Price Range Slider Section */}
       <div className="collapse collapse-arrow bg-white mb-2">
-        <input
-          type="checkbox"
-          className="peer"
-          id="price"
-          defaultChecked
-        />
+        <input type="checkbox" className="peer" id="price" defaultChecked />
         <label
           className="collapse-title text-secondary font-bold"
           htmlFor="price"
@@ -243,9 +223,7 @@ const DropdownFilter = () => {
               allowCross={false}
               className="custom-slider"
               disabled={
-                isProductsLoading ||
-                minPrice === 0 ||
-                maxPrice === 1000
+                isProductsLoading || minPrice === 0 || maxPrice === 1000
               }
               step={1}
             />
@@ -263,12 +241,7 @@ const DropdownFilter = () => {
 
       {/* Category Section */}
       <div className="collapse collapse-arrow bg-white mb-2">
-        <input
-          type="checkbox"
-          className="peer"
-          id="category"
-          defaultChecked
-        />
+        <input type="checkbox" className="peer" id="category" defaultChecked />
         <label
           className="collapse-title text-secondary font-bold"
           htmlFor="category"
@@ -310,11 +283,7 @@ const DropdownFilter = () => {
 
       {/* Skin Condition (Tags) Section */}
       <div className="collapse collapse-arrow bg-white mb-2">
-        <input
-          type="checkbox"
-          className="peer"
-          id="skin-condition"
-        />
+        <input type="checkbox" className="peer" id="skin-condition" />
         <label
           className="collapse-title text-secondary font-bold"
           htmlFor="skin-condition"
@@ -323,10 +292,7 @@ const DropdownFilter = () => {
         </label>
         <div className="collapse-content">
           {tagsData?.categories?.map((tag) => (
-            <div
-              key={tag.id || tag.tagName}
-              className="flex items-center py-2"
-            >
+            <div key={tag.id || tag.tagName} className="flex items-center py-2">
               <Checkbox
                 className="checkbox-sm"
                 checked={filteredTags.includes(String(tag.id))}
@@ -346,12 +312,7 @@ const DropdownFilter = () => {
 
       {/* Brands Section */}
       <div className="collapse collapse-arrow bg-white mb-2">
-        <input
-          type="checkbox"
-          className="peer"
-          id="brands"
-          defaultChecked
-        />
+        <input type="checkbox" className="peer" id="brands" defaultChecked />
         <label
           className="collapse-title text-secondary font-bold"
           htmlFor="brands"

@@ -27,6 +27,12 @@ import reviewGetApi from "./features/api/review/reviewGetApi";
 import brandApi from "./features/api/brand/brandApi";
 import blogApi from "./features/api/blog/blogApi";
 import blogCategoryApi from "./features/api/blogCategory/blogCategoryApi";
+import userTrackApi from "./features/api/track/userTrackApi";
+import blogCommentsApi from "./features/api/blogComments/blogCommentsApi";
+import blogCommentsGetApi from "./features/api/blogComments/blogCommentsGetApi";
+import blogLikesApi from "./features/api/blogComments/blogLikesApi";
+import blogLikesGetApi from "./features/api/blogComments/blogLikesGetApi";
+
 
 // import orderGetApi from "./features/api/orderApi/orderGetApi";
 // import orderHistoryApi from "./features/api/orderApi/orderHistoryApi";
@@ -55,6 +61,10 @@ const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [checkoutApi.reducerPath]: checkoutApi.reducer,
         [registerApi.reducerPath]: registerApi.reducer,
+        [blogCommentsApi.reducerPath]: blogCommentsApi.reducer,
+        [blogLikesApi.reducerPath]: blogLikesApi.reducer,
+        [blogCommentsGetApi.reducerPath]: blogCommentsGetApi.reducer,
+        [blogLikesGetApi.reducerPath]: blogLikesGetApi.reducer,
         [orderAPI.reducerPath]: orderAPI.reducer,
         [homeBannerApi.reducerPath]: homeBannerApi.reducer,
         [featuresApi.reducerPath]: featuresApi.reducer,
@@ -63,6 +73,7 @@ const store = configureStore({
         [couponApi.reducerPath]: couponApi.reducer,
         [reviewApi.reducerPath]: reviewApi.reducer,
         [reviewGetApi.reducerPath]: reviewGetApi.reducer,
+        [userTrackApi.reducerPath]: userTrackApi.reducer,
 
     },
     middleware: (getDefaultMiddleware) =>getDefaultMiddleware().concat(productApi.middleware)
@@ -79,6 +90,10 @@ const store = configureStore({
             .concat(authApi.middleware)
             .concat(checkoutApi.middleware)
             .concat(registerApi.middleware)
+            .concat(blogCommentsApi.middleware)
+            .concat(blogLikesApi.middleware)
+            .concat(blogCommentsGetApi.middleware)
+            .concat(blogLikesGetApi.middleware)
             .concat(orderAPI.middleware)
             .concat(homeBannerApi.middleware)
             .concat(featuresApi.middleware)
@@ -87,6 +102,7 @@ const store = configureStore({
             .concat(couponApi.middleware)
             .concat(reviewApi.middleware)
             .concat(reviewGetApi.middleware)
+            .concat(userTrackApi.middleware)
 
 });
 

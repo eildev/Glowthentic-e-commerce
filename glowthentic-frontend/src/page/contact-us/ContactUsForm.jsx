@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useSendContactMessageMutation } from "../../redux/features/api/contactUsApi/contactUsApi";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const ContactUsForm = () => {
   const [sendContactMessage, { isLoading, error, isSuccess }] =
@@ -17,9 +18,7 @@ const ContactUsForm = () => {
   const [agreePolicy, setAgreePolicy] = useState(false);
 
   const handleChange = (e) => {
-    // console.log(e.target.value );
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // console.log(formData);
   };
 
   const handleSubmit = async (e) => {
@@ -39,23 +38,27 @@ const ContactUsForm = () => {
       return;
     }
     const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+    // console.log(fullName);
     try {
-      await sendContactMessage({
+      const result = await sendContactMessage({
         ...formData,
         name: fullName,
       });
       setFormData({
         name: "",
-
         email: "",
         subject: "",
         message: "",
         phone: "",
-        category: "",
       });
-      // console.log(formData);
       setAgreePolicy(false);
+      if (result?.data?.status === 200) {
+        toast.success(result.message || "Your message sent Successfully");
+      } else {
+        toast.error("Something Went Wrong");
+      }
     } catch (err) {
+      console.log(err);
       console.error(
         "Submission Error:",
         err?.data?.message || "Something went wrong"
@@ -79,6 +82,7 @@ const ContactUsForm = () => {
             className="outline-none border-b border-b-gray w-full h-[48px] lg:h-[56px] text-md lg:text-xl text-gray font-encode font-light px-4 mb-4"
             type="text"
             placeholder="Title"
+            name="title"
           />
           <div className="flex flex-col lg:flex-row lg:justify-between gap-4 mb-4">
             <input

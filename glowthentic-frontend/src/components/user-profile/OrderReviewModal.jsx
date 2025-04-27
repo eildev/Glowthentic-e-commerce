@@ -25,8 +25,6 @@ function getRating(rating) {
 }
 
 const OrderReviewModal = ({ item, setReviewItem }) => {
-  // console.log(item);
-
   const { user } = useSelector((state) => state.auth);
   const [selectedIndex, setSelectedIndex] = useState("all");
   // const [selectedItem, setSelectedItem] = useState(null);
@@ -35,8 +33,6 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
     hasMultipleProducts && selectedIndex !== "all"
       ? item?.order_details[selectedIndex]
       : item?.order_details[0];
-
-  // console.log(selectedProduct);
 
   const userID = user?.id;
   const [rating, setRating] = useState(3);
@@ -73,8 +69,6 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
     if (!reviewText.trim()) {
       return; // Prevent form submission
     }
-
-    // console.log(item?.order_details);
 
     const reviewData = {
       user_id: userID,
