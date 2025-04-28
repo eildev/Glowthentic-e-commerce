@@ -28,11 +28,18 @@ const orderAPI = createApi({
       }),
       invalidatesTags: ["order"], // Invalidate order cache on tracking
     }),
+    getTrackingOrder: builder.query({
+      query: (id) => {
+        return `/get-order/tracking/${id}`;
+      },
+    })
+
   }),
 });
 
 export const {
-  useOrderTrackMutation, // Hook for order tracking
+  useOrderTrackMutation,
+  useGetTrackingOrderQuery // Hook for order tracking
 } = orderAPI;
 
 export default orderAPI;

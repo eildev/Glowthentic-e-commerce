@@ -295,7 +295,7 @@ const ProductDetails = () => {
                     <img
                       src={
                         "http://127.0.0.1:8000/" +
-                          variant.variant_image[0].image ||
+                          variant?.variant_image[0]?.image ||
                         "https://via.placeholder.com/150"
                       }
                       alt={variant.variant_name || "Variant"}

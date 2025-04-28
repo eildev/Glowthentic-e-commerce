@@ -256,6 +256,7 @@ const CheckoutPage = () => {
                     setDistrictId={setDistrictId}
                     upazilaId={upazilaId}
                     setUpazilaId={setUpazilaId}
+                    trigger={trigger}
                   />
                   <PaymentOption register={register} errors={errors} />
                 </div>

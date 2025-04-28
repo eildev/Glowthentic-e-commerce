@@ -101,6 +101,13 @@ const authApi = createApi({
                 body: data,
             }),
         }),
+        verifyOTP: builder.mutation({
+            query: (data) => ({
+                url: "/verify-otp",
+                method: "POST",
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -115,7 +122,8 @@ export const {
     useGetGoogleAuthUrlQuery,
     useGetFacebookAuthUrlQuery,
     useForgotPasswordMutation,
-    useResetPasswordMutation
+    useResetPasswordMutation,
+    useVerifyOTPMutation,
 } = authApi;
 
 export default authApi;
