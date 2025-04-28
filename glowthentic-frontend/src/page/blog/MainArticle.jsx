@@ -2,9 +2,7 @@ import React from "react";
 import CommentSection from "./CommentSection";
 
 const MainArticle = ({ selectedBlog }) => {
-  // console.log("main article page", selectedBlog);
   const blogId = selectedBlog?.id;
-  // console.log("blog id", blogId);
   return (
     <div>
       <div className="mt-5 md:mt-16">

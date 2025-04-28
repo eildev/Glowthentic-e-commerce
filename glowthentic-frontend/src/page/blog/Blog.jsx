@@ -8,7 +8,7 @@ import { useGetBlogQuery } from "../../redux/features/api/blog/blogApi";
 const Blog = () => {
   const { data, isLoading, isError } = useGetBlogQuery();
   const [selectedBlogId, setSelectedBlogId] = useState(null);
-  //   console.log("main blog data", data);
+
   if (isLoading) {
     return <div className="text-center py-10">Loading blog data...</div>;
   }

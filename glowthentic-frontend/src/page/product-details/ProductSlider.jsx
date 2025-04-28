@@ -9,9 +9,6 @@ import { X } from "lucide-react";
 import Panzoom from "@panzoom/panzoom";
 
 const ProductSlider = ({ data, variantId }) => {
-
-  console.log(variantId);
-
   const images = variantId
     ? data?.data?.variants?.find((variant) => variant.id === variantId)
         ?.variant_image || []
@@ -87,7 +84,7 @@ const ProductSlider = ({ data, variantId }) => {
                 onMouseLeave={handleMouseLeave}
               >
                 <img
-                  src={`https://backend.glowthentic.store/${image?.image}`}
+                  src={`http://127.0.0.1:8000/${image?.image}`}
                   className="zoom-image object-cover max-h-[605px]"
                 />
               </div>
@@ -126,7 +123,7 @@ const ProductSlider = ({ data, variantId }) => {
                 className="min-w-[75px] min-h-[78px] cursor-pointer"
               >
                 <img
-                  src={`https://backend.glowthentic.store/${image?.image}`}
+                  src={`http://127.0.0.1:8000/${image?.image}`}
                   className="min-h-[74px] max-h-[75px] w-full object-cover"
                 />
               </SwiperSlide>
@@ -170,7 +167,7 @@ const ProductSlider = ({ data, variantId }) => {
             <SwiperSlide key={index}>
               <img
                 onClick={() => openModal(index)}
-                src={`https://backend.glowthentic.store/${image?.image}`}
+                src={`http://127.0.0.1:8000/${image?.image}`}
                 className="cursor-zoom-in"
               />
             </SwiperSlide>
@@ -194,7 +191,7 @@ const ProductSlider = ({ data, variantId }) => {
                 className="min-w-[80px] max-h-[80px] border-2 border-transparent cursor-pointer"
               >
                 <img
-                  src={`https://backend.glowthentic.store/${image?.image}`}
+                  src={`http://127.0.0.1:8000/${image?.image}`}
                   className="max-h-[74px] w-full object-cover"
                 />
               </SwiperSlide>
@@ -233,7 +230,7 @@ const ProductSlider = ({ data, variantId }) => {
                   className="flex items-center justify-center"
                 >
                   <img
-                    src={`https://backend.glowthentic.store/${image?.image}`}
+                    src={`http://127.0.0.1:8000/${image?.image}`}
                     className="max-w-[95vw] max-h-[90vh] object-contain select-none"
                     draggable="false"
                   />
