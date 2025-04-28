@@ -151,7 +151,7 @@ const ProductDetails = () => {
       navigate("/checkout");
     }
   };
-  
+
 
   console.log(data?.data);
 
@@ -223,7 +223,7 @@ const ProductDetails = () => {
             <ShowPrice selectedVariant={selectedVariant} />
 
             {/* Select price */}
-      
+
 
             <hr className="text-gray-bold" />
             {/* Select price end */}
@@ -291,24 +291,24 @@ const ProductDetails = () => {
                   </p>
                 </div>
               )}
-                    <div className="flex items-center justify-between my-3">
-              <div className="flex flex-wrap gap-2">
+            <div className="flex items-center justify-between my-3">
+              <div className="flex flex-wrap gap-2 mx-auto">
                 {data?.data?.variants?.map((variant) => (
                   <div
                     key={variant.id}
                     className={`cursor-pointer p-2 rounded-lg transition-all ${selectedVariant?.id === variant.id
-                        ? "border-2 border-orange-500 bg-orange-50"
-                        : "border border-transparent hover:border-orange-300"
+                      ? "border-2 border-orange-500 bg-orange-50"
+                      : "border border-transparent hover:border-orange-300"
                       }`}
                     onClick={() => setSelectedVariant(variant)}
                   >
                     <img
-                         src={'https://backend.glowthentic.store/'+variant.variant_image[0].image || "https://via.placeholder.com/150"}
+                      src={'https://backend.glowthentic.store/' + variant.variant_image[0].image || "https://via.placeholder.com/150"}
                       alt={variant.variant_name || "Variant"}
                       className="w-20 h-16 object-cover rounded-md"
                     />
                     <p className="text-xs text-center mt-1 text-gray-600">
-                      {variant.size}
+                      {variant.variant_name}
                     </p>
                   </div>
                 ))}
@@ -332,7 +332,7 @@ const ProductDetails = () => {
               </span> */}
             </div>
           </div>
-          
+
           {/* Right Section End */}
         </div>
 
