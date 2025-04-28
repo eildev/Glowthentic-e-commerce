@@ -2,7 +2,6 @@ import Container from "../../components/Container";
 import { useEffect, useRef, useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { FiMinus } from "react-icons/fi";
-
 import "swiper/css/pagination";
 import "./ProductDetails.css";
 import HeadTitle from "../../components/typography/HeadTitle";
@@ -12,7 +11,7 @@ import ProductReviews from "./ProductReviews";
 import ProductSlider from "./pRODUCTsLIDER.JSX";
 import RecommendedSlider from "./RecommendedSlider";
 import ProductQueryNevigation from "./ProductQueryNevigation";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom"; // Added useLocation
 import { useGetProductByDetailsQuery } from "../../redux/features/api/product-api/productApi.js";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/features/slice/cartSlice";
@@ -27,6 +26,7 @@ const TagElement = ({ value }) => {
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const location = useLocation(); // Added to access query parameters
   const cartItems = useSelector((state) => state.cart.cartItems);
   const { data, isLoading, error } = useGetProductByDetailsQuery(id);
   const { token, user } = useSelector((state) => state.auth);
@@ -40,20 +40,30 @@ const ProductDetails = () => {
   });
 
   const categoryId = data?.data?.category_id;
-
   const navigate = useNavigate();
 
   const stockAvailable = data?.data?.product_stock?.[0]?.StockQuantity > 0;
   const [itemCount, setItemCount] = useState(1);
-
-  // const [variant, setVariant] = useState([0]);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
+  // Extract variant from query parameter
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const variantName = searchParams.get("variant");
+
     if (data?.data?.variants?.length > 0) {
-      setSelectedVariant(data?.data?.variants[0]);
+      if (variantName) {
+        // Find variant by variant_name matching the query parameter
+        const matchedVariant = data.data.variants.find(
+          (v) => v.variant_name.toLowerCase() === variantName.toLowerCase()
+        );
+        setSelectedVariant(matchedVariant || data.data.variants[0]);
+      } else {
+        // Default to first variant if no query param
+        setSelectedVariant(data.data.variants[0]);
+      }
     }
-  }, [data]);
+  }, [data, location.search]); // Re-run when data or query params change
 
   const handleVariantChange = (e) => {
     const variantId = e.target.value;
@@ -99,25 +109,6 @@ const ProductDetails = () => {
     setItemCount(1);
   };
 
-  // const [openIndex, setOpenIndex] = useState(0);
-  // const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  // const mainSwiperRef = useRef(null);
-  // const thumbsSwiperRef = useRef(null);
-
-  // const [expanded, setExpanded] = useState({
-  //   productDetails: false,
-  //   howToApply: false,
-  //   ingredient: false,
-  //   productSpecification: false,
-  // });
-
-  // const toggleReadMore = (key) => {
-  //   setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
-  // };
-
-  // const truncateText = (text, limit, isExpanded) =>
-  //   isExpanded ? text : `${text.substring(0, limit)}...`;
-
   const handleCheckOut = () => {
     const stockLimit =
       matchedItem?.product_stock?.StockQuantity ||
@@ -151,7 +142,6 @@ const ProductDetails = () => {
       navigate("/checkout");
     }
   };
-
 
   console.log(data?.data);
 
@@ -190,7 +180,7 @@ const ProductDetails = () => {
 
           {/* Right Section */}
           <div className="sm:col-span-3 md:pt-7 md:pl-4">
-            {/* Show on big device, hidden on small device */}
+            {/* Show on big device, hidden on атрил device */}
             <div className="hidden sm:block w-full">
               <HeadTitle className="mb-2">
                 {data?.data?.product_name ?? ""}
@@ -221,9 +211,6 @@ const ProductDetails = () => {
               </div>
             )}
             <ShowPrice selectedVariant={selectedVariant} />
-
-            {/* Select price */}
-
 
             <hr className="text-gray-bold" />
             {/* Select price end */}
@@ -313,26 +300,8 @@ const ProductDetails = () => {
                   </div>
                 ))}
               </div>
-
-              {/* <span className="text-lg font-semibold text-gray">
-                {selectedVariant
-                  ? `৳${selectedVariant?.product_variant_promotion?.coupon
-                    ? selectedVariant?.product_variant_promotion?.coupon.discount_type ===
-                      "fixed"
-                      ? selectedVariant?.regular_price -
-                      selectedVariant?.product_variant_promotion?.coupon.discount_value
-                      : selectedVariant?.regular_price -
-                      (selectedVariant?.regular_price *
-                        selectedVariant?.product_variant_promotion?.coupon
-                          .discount_value) /
-                      100
-                    : selectedVariant?.regular_price
-                  }`
-                  : "Loading..."}
-              </span> */}
             </div>
           </div>
-
           {/* Right Section End */}
         </div>
 
