@@ -16,10 +16,10 @@ const userTrackApi = createApi({
     }),
     endpoints: (builder) => ({
         trackUser: builder.mutation({
-            query: (data) => ({
-                url: `/track-user`,
-                method: "POST",
-                body: data,
+            query: (trackerData) => ({
+                url: '/user-tracker',
+                method: 'POST',
+                body: trackerData,
             }),
         }),
     }),

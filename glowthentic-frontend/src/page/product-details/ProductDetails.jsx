@@ -18,6 +18,7 @@ import { addToCart } from "../../redux/features/slice/cartSlice";
 import toast from "react-hot-toast";
 import ShowPrice from "./ShowPrice.jsx";
 import IncrementDecrement from "../../components/typography/IncrementDecrement.jsx";
+import ProductHelmet from "../../components/helmet/ProductHelmet";
 
 const TagElement = ({ value }) => {
   return <p>{value?.tagName ?? "No Value"}</p>;
@@ -145,6 +146,7 @@ const ProductDetails = () => {
 
   return (
     <div>
+      <ProductHelmet product={data?.data} />
       <Container>
         <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
           {/* Small Device Right Section Start */}

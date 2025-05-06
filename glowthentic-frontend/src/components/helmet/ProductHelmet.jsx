@@ -2,7 +2,12 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 const ProductHelmet = ({ product }) => {
+  console.log(product);
   const { description, title, keywords, url, img } = product;
+
+  const keywordsString = Array.isArray(keywords)
+    ? keywords.join(", ")
+    : keywords || "";
   return (
     <Helmet>
       {/* Title */}
@@ -10,7 +15,7 @@ const ProductHelmet = ({ product }) => {
 
       {/* Meta Tags */}
       <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
+      <meta name="keywords" content={keywordsString} />
       <meta name="author" content="Glowthentic Store" />
 
       {/* Open Graph Meta Tags (For Social Media) */}
