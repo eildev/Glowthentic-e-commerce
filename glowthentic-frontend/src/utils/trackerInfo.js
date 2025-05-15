@@ -4,7 +4,7 @@ export const getGeoInfo = async () => {
         const data = await response.json();
         return data.country || 'Unknown';
     } catch (error) {
-        console.error('Error fetching geo info:', error);
+        // console.error('Error fetching geo info:', error);
         return 'Unknown';
     }
 };

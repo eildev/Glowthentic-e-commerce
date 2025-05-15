@@ -144,6 +144,7 @@ const ProductDetails = () => {
     }
   };
 
+  console.log("product Data", data?.data);
   return (
     <div>
       <ProductHelmet product={data?.data} />
