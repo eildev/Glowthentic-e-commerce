@@ -48,7 +48,7 @@ const SearchBar = ({ className }) => {
         !isClickInsideSuggestions &&
         isSuggestionsVisible
       ) {
-        dispatch(setSuggestionsVisible(false)); // Hide suggestions only
+        dispatch(setSuggestionsVisible(false));
       }
     };
 

@@ -45,6 +45,7 @@ const CategorySection = () => {
               .map((category, index) => (
                 <Link
                   to="/products"
+                  state={{ categoryId: category.id }}
                   key={index}
                   className="items-center justify-center"
                   onClick={() =>

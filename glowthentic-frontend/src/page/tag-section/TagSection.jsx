@@ -18,6 +18,10 @@ const TagSection = () => {
 
   // if (isLoading) {
   //   return <span>Loading...</span>;
+
+
+
+  
   // }
   if (error) {
     return <span>Error</span>;
@@ -39,6 +43,7 @@ const TagSection = () => {
               <Link
                 to="/products"
                 key={index}
+                state={{ categoryId: tags.id }}
                 className="items-center justify-center"
                 onClick={() => handleTagClick(tags.id)}
               >

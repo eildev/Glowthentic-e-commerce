@@ -199,6 +199,8 @@ const DropdownFilter = () => {
     );
   }
 
+  console.log(filteredCategories);
+
   return (
     <div className="p-4">
       <style>{sliderStyles}</style>
