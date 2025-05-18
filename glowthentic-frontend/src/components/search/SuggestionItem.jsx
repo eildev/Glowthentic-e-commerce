@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSuggestionsVisible } from "../../redux/features/slice/searchSlice";
 import { imagePath } from "../../utils/imagePath";
+import toast from "react-hot-toast";
 
 const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
   const { product_name, thumbnail, variants, slug, variant_image } = item;
