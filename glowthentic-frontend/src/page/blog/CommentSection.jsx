@@ -31,7 +31,6 @@ const CommentSection = ({ blogId }) => {
 
   // Log likesData for debugging
   // useEffect(() => {
-  //   console.log('likesData:', likesData, 'likesError:', likesError, 'blogId:', blogId);
   //   if (likesData?.likes) {
   //     const likesForBlog = likesData.likes.filter(like => like.blog_id === Number(blogId));
   //     setLikeCount(likesForBlog.length);

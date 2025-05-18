@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://backend.glowthentic.store/api",
+        baseUrl: "http://127.0.0.1:8000/api",
         credentials: "include",
         prepareHeaders: (headers, { getState, endpoint }) => {
             const csrfToken = Cookies.get("XSRF-TOKEN");
@@ -101,6 +101,13 @@ const authApi = createApi({
                 body: data,
             }),
         }),
+        verifyOTP: builder.mutation({
+            query: (data) => ({
+                url: "/verify-otp",
+                method: "POST",
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -115,7 +122,8 @@ export const {
     useGetGoogleAuthUrlQuery,
     useGetFacebookAuthUrlQuery,
     useForgotPasswordMutation,
-    useResetPasswordMutation
+    useResetPasswordMutation,
+    useVerifyOTPMutation,
 } = authApi;
 
 export default authApi;

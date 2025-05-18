@@ -38,7 +38,7 @@ const ContactUsForm = () => {
       return;
     }
     const fullName = `${formData.firstName} ${formData.lastName}`.trim();
-    // console.log(fullName);
+
     try {
       const result = await sendContactMessage({
         ...formData,
@@ -58,7 +58,6 @@ const ContactUsForm = () => {
         toast.error("Something Went Wrong");
       }
     } catch (err) {
-      console.log(err);
       console.error(
         "Submission Error:",
         err?.data?.message || "Something went wrong"

@@ -30,7 +30,6 @@ const OrderSummary = ({
   carts?.forEach((item) => {
     totalWeight += parseFloat(item.weight * item.quantity); // or parseInt() if weight is always whole numbers
   });
-  console.log("setShipping charge", shippingCharge);
 
   const preventClick =
     selectedDistrict && selectedUpazila

@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const userTrackApi = createApi({
     reducerPath: "userTrackApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://backend.glowthentic.store/api",
+        baseUrl: "http://127.0.0.1:8000/api",
         credentials: "include",
         prepareHeaders: (headers) => {
             const csrfToken = Cookies.get("XSRF-TOKEN");
@@ -16,10 +16,10 @@ const userTrackApi = createApi({
     }),
     endpoints: (builder) => ({
         trackUser: builder.mutation({
-            query: (data) => ({
-                url: `/track-user`,
-                method: "POST",
-                body: data,
+            query: (trackerData) => ({
+                url: '/user-tracker',
+                method: 'POST',
+                body: trackerData,
             }),
         }),
     }),

@@ -18,6 +18,7 @@ import { addToCart } from "../../redux/features/slice/cartSlice";
 import toast from "react-hot-toast";
 import ShowPrice from "./ShowPrice.jsx";
 import IncrementDecrement from "../../components/typography/IncrementDecrement.jsx";
+import ProductHelmet from "../../components/helmet/ProductHelmet";
 
 const TagElement = ({ value }) => {
   return <p>{value?.tagName ?? "No Value"}</p>;
@@ -143,10 +144,10 @@ const ProductDetails = () => {
     }
   };
 
-  console.log(data?.data);
-
+  console.log("product Data", data?.data);
   return (
     <div>
+      <ProductHelmet product={data?.data} />
       <Container>
         <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
           {/* Small Device Right Section Start */}
@@ -161,7 +162,8 @@ const ProductDetails = () => {
               <span className="font-thin text-sm text-gray">
                 {data?.data?.product_tags.map(
                   (tagData, index) =>
-                    `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""
+                    `${tagData?.tag?.tagName ?? ""}${
+                      index < data.data.product_tags.length - 1 ? " | " : ""
                     }`
                 )}
               </span>
@@ -195,7 +197,8 @@ const ProductDetails = () => {
                 <span className="font-thin text-sm text-gray">
                   {data?.data?.product_tags.map(
                     (tagData, index) =>
-                      `${tagData?.tag?.tagName ?? ""}${index < data.data.product_tags.length - 1 ? " | " : ""
+                      `${tagData?.tag?.tagName ?? ""}${
+                        index < data.data.product_tags.length - 1 ? " | " : ""
                       }`
                   )}
                 </span>
@@ -228,20 +231,22 @@ const ProductDetails = () => {
               <RegularButton
                 isLoading={isLoading}
                 isDisabled={!stockAvailable}
-                className={`block text-sm text-nowrap justify-between ${stockAvailable
-                  ? "bg-orange-500 hover:bg-orange-600"
-                  : "bg-gray-gradient cursor-not-allowed"
-                  }`}
+                className={`block text-sm text-nowrap justify-between ${
+                  stockAvailable
+                    ? "bg-orange-500 hover:bg-orange-600"
+                    : "bg-gray-gradient cursor-not-allowed"
+                }`}
                 onClick={handleAddToCart}
               >
                 Add To Cart
               </RegularButton>
               <RegularButton
                 isLoading={isLoading}
-                className={`block text-sm text-nowrap justify-between ${stockAvailable
-                  ? "bg-orange-500 hover:bg-orange-600"
-                  : "bg-gray-gradient cursor-not-allowed"
-                  }`}
+                className={`block text-sm text-nowrap justify-between ${
+                  stockAvailable
+                    ? "bg-orange-500 hover:bg-orange-600"
+                    : "bg-gray-gradient cursor-not-allowed"
+                }`}
                 onClick={handleCheckOut}
                 isDisabled={!stockAvailable}
               >
@@ -283,14 +288,19 @@ const ProductDetails = () => {
                 {data?.data?.variants?.map((variant) => (
                   <div
                     key={variant.id}
-                    className={`cursor-pointer p-2 rounded-lg transition-all ${selectedVariant?.id === variant.id
-                      ? "border-2 border-orange-500 bg-orange-50"
-                      : "border border-transparent hover:border-orange-300"
-                      }`}
+                    className={`cursor-pointer p-2 rounded-lg transition-all ${
+                      selectedVariant?.id === variant.id
+                        ? "border-2 border-orange-500 bg-orange-50"
+                        : "border border-transparent hover:border-orange-300"
+                    }`}
                     onClick={() => setSelectedVariant(variant)}
                   >
                     <img
-                      src={'https://backend.glowthentic.store/' + variant.variant_image[0].image || "https://via.placeholder.com/150"}
+                      src={
+                        "http://127.0.0.1:8000/" +
+                          variant?.variant_image[0]?.image ||
+                        "https://via.placeholder.com/150"
+                      }
                       alt={variant.variant_name || "Variant"}
                       className="w-20 h-16 object-cover rounded-md"
                     />

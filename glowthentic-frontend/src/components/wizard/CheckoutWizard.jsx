@@ -127,6 +127,7 @@ const CheckoutWizard = ({
             setDistrictId={setDistrictId}
             upazilaId={upazilaId}
             setUpazilaId={setUpazilaId}
+            trigger={trigger}
           />
         );
       case 1:

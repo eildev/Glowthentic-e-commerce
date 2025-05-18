@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const orderAPI = createApi({
   reducerPath: "orderAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://backend.glowthentic.store/api",
+    baseUrl: "http://127.0.0.1:8000/api",
     credentials: "include", // Include cookies in requests (needed for CSRF)
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token; // Bearer token for authentication
@@ -28,11 +28,18 @@ const orderAPI = createApi({
       }),
       invalidatesTags: ["order"], // Invalidate order cache on tracking
     }),
+    getTrackingOrder: builder.query({
+      query: (id) => {
+        return `/get-order/tracking/${id}`;
+      },
+    })
+
   }),
 });
 
 export const {
-  useOrderTrackMutation, // Hook for order tracking
+  useOrderTrackMutation,
+  useGetTrackingOrderQuery // Hook for order tracking
 } = orderAPI;
 
 export default orderAPI;

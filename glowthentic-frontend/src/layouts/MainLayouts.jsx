@@ -7,6 +7,7 @@ import { useState } from "react";
 import ScrollTop from "../components/ScrollTop";
 import RedirectTop from "../components/RedirectTop";
 import TrackPageViews from "../components/TrackPageViews";
+import UserTracker from "./UserTracker";
 
 const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -15,6 +16,7 @@ const MainLayouts = () => {
   return (
     <div>
       <TrackPageViews />
+      <UserTracker />
       <RedirectTop />
       <div className="fixed top-0 left-0 w-full z-50">
         {/*--------- Header -----------*/}
