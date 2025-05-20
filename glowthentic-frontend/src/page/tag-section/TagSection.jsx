@@ -27,6 +27,9 @@ const TagSection = () => {
     return <span>Error</span>;
   }
 
+
+  console.log(data);
+
   return (
     <div>
       <HeadTitle className="text-center mt-8">CARE BY CONCERN</HeadTitle>
@@ -43,7 +46,7 @@ const TagSection = () => {
               <Link
                 to="/products"
                 key={index}
-                state={{ categoryId: tags.id }}
+                state={{ tagId: tags.id }}
                 className="items-center justify-center"
                 onClick={() => handleTagClick(tags.id)}
               >
