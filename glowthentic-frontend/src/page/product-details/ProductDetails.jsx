@@ -253,6 +253,7 @@ const ProductDetails = () => {
                 Buy Now
               </RegularButton>
             </div>
+
             <p className="text-sm mt-2 mb-5 lg:text-left lg:ml-3 text-center">
               Max Product Stock{" "}
               <span className="text-secondary font-semibold">
