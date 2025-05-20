@@ -127,8 +127,8 @@ const AllProduct = () => {
           )}
         </div>
         <div className="flex flex-wrap gap-2">
-          {allSelectedFilters.length > 0 ? (
-            allSelectedFilters.map((item, index) => (
+          {selectedCategories.length > 0 ? (
+            selectedCategories.map((item, index) => (
               <div
                 key={index}
                 className="text-[#0C0C0C] flex gap-2 items-center text-sm border border-[#DFDFDF] p-2 rounded"
