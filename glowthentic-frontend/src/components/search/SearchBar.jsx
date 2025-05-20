@@ -35,31 +35,39 @@ const SearchBar = ({ className }) => {
     return () => debouncedSearch.cancel();
   }, [query, debouncedSearch, dispatch]);
 
-  // Handle clicks outside the search bar and suggestions
+  // Handle clicks outside the search bar
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const suggestionsContainer = document.querySelector(".suggestions-container");
-      const isClickInsideSuggestions =
-        suggestionsContainer && suggestionsContainer.contains(event.target);
+      console.log("Click outside triggered", {
+        target: event.target,
+        targetClass: event.target.className,
+        targetId: event.target.id,
+        searchRef: searchRef.current,
+        isSuggestionsVisible,
+      });
 
       if (
         searchRef.current &&
         !searchRef.current.contains(event.target) &&
-        !isClickInsideSuggestions &&
         isSuggestionsVisible
       ) {
+        console.log("Closing suggestions due to outside click");
         dispatch(setSuggestionsVisible(false));
+      } else {
+        console.log("Not closing suggestions: click inside or suggestions not visible");
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    // Use 'click' event for reliability
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, [dispatch, isSuggestionsVisible]);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && query.trim()) {
+      console.log("Enter pressed, navigating with query:", query);
       dispatch(setSuggestionsVisible(false));
       navigate("/products", { state: { searchQuery: query } });
     }
@@ -67,15 +75,17 @@ const SearchBar = ({ className }) => {
 
   const handleSearchClick = () => {
     if (query.trim()) {
+      console.log("Search icon clicked, navigating with query:", query);
       dispatch(setSuggestionsVisible(false));
       navigate("/products", { state: { searchQuery: query } });
     }
   };
 
   const handleInputClick = (e) => {
-    e.stopPropagation(); // Prevent input click from triggering outside click handlers
+    e.stopPropagation();
     if (query.length > 0) {
-      dispatch(setSuggestionsVisible(true)); // Show suggestions if query exists
+      console.log("Input clicked, showing suggestions");
+      dispatch(setSuggestionsVisible(true));
     }
   };
 
@@ -113,7 +123,9 @@ const SearchBar = ({ className }) => {
         />
       </div>
       {isSuggestionsVisible && (
-        <div className="absolute left-0 right-0 pt-5 -mt-[14px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30 suggestions-container">
+        <div
+          className="absolute left-0 right-0 pt-5 -mt-[14px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30 suggestions-container"
+        >
           {renderedSuggestions}
         </div>
       )}

@@ -7,11 +7,15 @@ import SearchItemSkeleton from "./SearchItemSkeleton";
 
 const RenderSuggestion = ({ isLoading, error, productData }) => {
   const dispatch = useDispatch();
-  const handleHideSuggestions = () => {
+
+  const handleHideSuggestions = (type, id) => {
+    console.log(`Hiding suggestions on ${type} click, id: ${id}`);
     dispatch(setSuggestionsVisible(false));
   };
+
   const handleSuggestionClick = (e) => {
-    e.stopPropagation(); // Prevent suggestion click from bubbling up
+    console.log("Suggestion container clicked", e.target);
+    e.stopPropagation(); // Prevent suggestion click from bubbling
   };
 
   if (isLoading) {
@@ -46,6 +50,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
                 showDivider={
                   index !== productData?.products.slice(0, 10).length - 1
                 }
+                onClick={() => handleHideSuggestions("product", item.id)}
               />
             ))}
           </div>
@@ -64,7 +69,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
                 <Link
                   to="/products"
                   state={{ categoryId: item?.id }}
-                  onClick={handleHideSuggestions}
+                  onClick={() => handleHideSuggestions("category", item.id)}
                   className="w-full"
                 >
                   {item?.categoryName ?? "NA"}
@@ -87,7 +92,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
                 <Link
                   to="/products"
                   state={{ brandId: item.id }}
-                  onClick={handleHideSuggestions}
+                  onClick={() => handleHideSuggestions("brand", item.id)}
                   className="w-full"
                 >
                   {item?.BrandName ?? "NA"}
