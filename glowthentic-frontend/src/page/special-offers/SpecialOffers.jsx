@@ -9,8 +9,6 @@ import image5 from "../../assets/img/special-offer/test.webp";
 const SpecialOffers = () => {
   return (
     <div>
-      {/* <DynamicHelmet title="Special Offers" /> */}
-
       <div className="flex flex-wrap mt-3">
         <div className="w-full">
           <picture>
