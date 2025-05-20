@@ -8,20 +8,8 @@ import { imagePath } from "../../utils/imagePath";
 import { Link } from "react-router-dom";
 
 const CartItem = ({ item, handleDelete }) => {
-  const regularPrice = item?.regular_price;
-  const discountValue = item?.product_variant_promotion?.coupon?.discount_value;
-  const discountType = item?.product_variant_promotion?.coupon?.discount_type;
-
-  let finalPrice = regularPrice;
-
-  if (discountType === "fixed") {
-    finalPrice = regularPrice - discountValue;
-  } else if (discountType === "percentage") {
-    finalPrice = regularPrice - (regularPrice * discountValue) / 100;
-  }
-
   const [itemCount, setItemCount] = useState(item?.quantity || 1);
-  const [total, setTotal] = useState(finalPrice * itemCount);
+  const [total, setTotal] = useState(0); // Define total state with setTotal
   const dispatch = useDispatch();
   const selectedItems = useSelector((state) => state.selectCart.selectedItems);
   const isSelected = selectedItems.includes(item.id);
@@ -30,8 +18,30 @@ const CartItem = ({ item, handleDelete }) => {
     dispatch(toggleItemSelection(item.id));
   };
 
+  // Get regular price
+  const regularPrice = Math.round(item?.regular_price || 0);
+
+  // Determine which promotion to use: product-level or variant-level
+  const promotion = item?.product?.promotionproduct?.[0]?.coupon || item?.product_variant_promotion?.coupon;
+
+  // Calculate discounted price and badge text
+  let finalPrice = regularPrice;
+  let badgeText = null;
+
+  if (promotion && promotion.status === "Active" && new Date(promotion.end_date) >= new Date()) {
+    const discountValue = parseFloat(promotion.discount_value);
+    if (promotion.discount_type === "percentage") {
+      finalPrice = Math.round(regularPrice - (regularPrice * discountValue) / 100);
+      badgeText = `${discountValue}% Off`;
+    } else if (promotion.discount_type === "fixed") {
+      finalPrice = Math.round(regularPrice - discountValue);
+      badgeText = `৳${discountValue} Off`;
+    }
+  }
+
+  // Update total price
   useEffect(() => {
-    setTotal(finalPrice * itemCount);
+    setTotal(Math.round(finalPrice * itemCount));
   }, [itemCount, finalPrice]);
 
   return (
@@ -40,11 +50,12 @@ const CartItem = ({ item, handleDelete }) => {
         <Checkbox checked={isSelected} onChange={handleCheckboxChange} />
       </th>
       <td>
-        <div className="flex gap-3">
+        <div className="flex gap-3 relative">
+
           <div className="avatar">
             <div className="mask rounded-xl h-[64px] w-[62px]">
               <img
-                src={imagePath(item?.variant_image[0]?.image)}
+                src={imagePath(item?.variant_image[0]?.image) || defaultImage}
                 alt="Avatar Tailwind CSS Component"
               />
             </div>
@@ -58,7 +69,6 @@ const CartItem = ({ item, handleDelete }) => {
             </div>
             <Link
               to={`/product/${item?.product?.slug}?variant=${encodeURIComponent(item?.variant_name)}`}
-
             >
               <div className="text-[#FA8232] flex items-center gap-2 cursor-pointer">
                 <svg
@@ -93,7 +103,6 @@ const CartItem = ({ item, handleDelete }) => {
                     strokeLinejoin="round"
                   />
                 </svg>
-
                 <span>Edit</span>
               </div>
             </Link>
@@ -153,18 +162,10 @@ const CartItem = ({ item, handleDelete }) => {
           </div>
         </div>
       </td>
-      {finalPrice === item.regular_price ? (
-        <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
-          ৳{item.regular_price ?? 0}
-        </td>
-      ) : (
-        <td className="text-[#191818] font-semibold h-fit text-center pb-8">
-          <span className="block text-2xl">৳{finalPrice ?? 0}</span>
-          <del className="block text-sm text-gray-thin mt-2">
-            ৳{item.regular_price ?? 0}
-          </del>
-        </td>
-      )}
+      <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center flex flex-col justify-center items-center gap-1 pt-5">
+        ৳{finalPrice}
+        <span className="text-[14px] line-through">${regularPrice}</span>
+      </td>
       <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
         ৳{total}
       </td>

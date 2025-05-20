@@ -18,9 +18,34 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
   };
 
   const image = imagePath(item?.variant_image[0]?.image);
+
+  // Get regular price
+  const regularPrice = item?.regular_price || 0;
+
+  // Determine which promotion to use: product-level or variant-level
+  const promotion = item?.product?.promotionproduct?.[0]?.coupon || item?.product_variant_promotion?.coupon;
+
+  // Calculate discounted price and badge text
+  let discountPrice = null;
+  let badgeText = null;
+
+  if (promotion && promotion.status === "Active" && new Date(promotion.end_date) >= new Date()) {
+    const discountValue = parseFloat(promotion.discount_value);
+    if (promotion.discount_type === "percentage") {
+      discountPrice = regularPrice - (regularPrice * discountValue) / 100;
+      badgeText = `${discountValue}% Off`;
+    } else if (promotion.discount_type === "fixed") {
+      discountPrice = regularPrice - discountValue;
+      badgeText = `৳${discountValue} Off`;
+    }
+  }
+
+  // Determine the price to display (discounted or regular)
+  const displayPrice = discountPrice ? Math.round(discountPrice) : regularPrice;
+
   return (
     <tr className="border-none">
-      <div>
+      <div className="relative">
         <th>
           <Checkbox checked={isSelected} onChange={handleCheckboxChange} />
         </th>
@@ -84,48 +109,12 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
         <td>
           <div className="flex flex-col justify-center items-center">
             <div className="w-20 h-8">
-              <IncrementDecrement setItemCount={setItemCount} item={item} status={'cart'}/>
+              <IncrementDecrement setItemCount={setItemCount} item={item} status={'cart'} />
             </div>
             <div
               onClick={() => handleDelete(item?.id)}
               className="flex items-center gap-2 pt-2"
             >
-              {/* <svg
-                width="11"
-                height="11"
-                viewBox="0 0 26 26"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.65096 23.1615H15.7996C20.9235 23.1615 22.973 21.112 22.973 15.9881V9.83944C22.973 4.71557 20.9235 2.66602 15.7996 2.66602H9.65096C4.52709 2.66602 2.47754 4.71557 2.47754 9.83944V15.9881C2.47754 21.112 4.52709 23.1615 9.65096 23.1615Z"
-                  stroke="#FF342D"
-                  strokeWidth="1.02477"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M18.7701 9.89091C16.5361 9.66546 14.2816 9.55273 12.0373 9.55273C10.7051 9.55273 9.37289 9.62447 8.05093 9.75769L6.67773 9.89091"
-                  stroke="#FF342D"
-                  strokeWidth="1.02477"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M10.3779 9.21462L10.5214 8.33331C10.6239 7.69795 10.7059 7.21631 11.8434 7.21631H13.606C14.7435 7.21631 14.8254 7.71844 14.9279 8.33331L15.0714 9.20437"
-                  stroke="#FF342D"
-                  strokeWidth="1.02477"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M17.326 9.97266L16.8854 16.7362C16.8136 17.7917 16.7521 18.6115 14.8768 18.6115H10.5625C8.68715 18.6115 8.62566 17.7917 8.55393 16.7362L8.11328 9.97266"
-                  stroke="#FF342D"
-                  strokeWidth="1.02477"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg> */}
               <Icon
                 icon="lets-icons:trash-light"
                 className="text-[#FF342D]"
@@ -137,12 +126,14 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
           </div>
         </td>
         <td className="text-[#191818] flex items-center font-semibold text-xl">
-          <span>$</span>
-          {item.regular_price ?? 0}
+          <div className="flex flex-col justify-center items-center">
+            <span className="block">৳{displayPrice}</span>
+            <span className="line-through text-[12px] block">৳{regularPrice}</span>
+          </div>
         </td>
         <td className="text-[#191818] flex items-center font-semibold text-xl">
-          <span>$</span>
-          {item.regular_price * itemCount}
+          <span>৳</span>
+          {displayPrice * itemCount}
         </td>
       </div>
     </tr>
