@@ -36,7 +36,10 @@ const HomeSlider = () => {
         className="mySwiper"
       >
         {data?.banners?.map((banner) => (
-          <SwiperSlide key={banner.id} className="h-[537px] w-full">
+          <SwiperSlide
+            key={banner.id}
+            className="h-[250px] md:h-[350px] lg:h-[465px] w-full"
+          >
             <HomeBannerImage banner={banner}></HomeBannerImage>
           </SwiperSlide>
         ))}
