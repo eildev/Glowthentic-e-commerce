@@ -14,8 +14,6 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import CartItem from "../../components/cart/CartItem";
 import { useDispatch, useSelector } from "react-redux";
-// import { IoCloseSharp } from "react-icons/io5";
-// import IncrementDecrement from "../../components/typography/IncrementDecrement";
 import {
   clearCart,
   removeFromCart,
@@ -67,7 +65,7 @@ const CartPage = () => {
           const response = await checkCoupon({
             coupon_code: urlCoupon,
           }).unwrap();
-          const discountValue = Math.round(response?.data?.discount_value);
+          const discountValue = Math.round(response?.data?.discount_value); // Ensure integer
           setDiscountPrice(discountValue);
           setCouponData(response.data);
         } catch (error) {
@@ -80,11 +78,12 @@ const CartPage = () => {
 
   useEffect(() => {
     const total = filteredCartItems.reduce((sum, item) => {
-      const regularPrice = item?.regular_price;
-      const quantity = item?.quantity || 1;
+      const regularPrice = Math.round(item?.regular_price || 0); // Ensure integer
+      const quantity = Math.round(item?.quantity || 1); // Ensure integer
 
-      const discountValue =
-        item?.product_variant_promotion?.coupon?.discount_value || 0;
+      const discountValue = Math.round(
+        item?.product_variant_promotion?.coupon?.discount_value || 0
+      ); // Ensure integer
       const discountType =
         item?.product_variant_promotion?.coupon?.discount_type;
 
@@ -93,7 +92,7 @@ const CartPage = () => {
       if (discountType === "fixed") {
         finalPrice = regularPrice - discountValue;
       } else if (discountType === "percentage") {
-        finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+        finalPrice = Math.round(regularPrice - (regularPrice * discountValue) / 100); // Round to integer
       }
 
       // Ensure finalPrice is not negative
@@ -102,7 +101,7 @@ const CartPage = () => {
       return sum + finalPrice * quantity;
     }, 0);
 
-    setSubTotalPrice(total);
+    setSubTotalPrice(Math.round(total)); // Ensure integer
   }, [filteredCartItems]);
 
   const handleDelete = (id) => {
@@ -147,26 +146,25 @@ const CartPage = () => {
   };
 
   const Shipping = filteredCartItems.reduce(
-    (sum, cartItem) => sum + cartItem.quantity,
+    (sum, cartItem) => sum + Math.round(cartItem.quantity), // Ensure integer
     0
   );
 
   const shippingPrice =
     filteredCartItems.length <= 1 ? 80 : 80 + (Shipping - 1) * 20;
 
-  // let discountPrice = 0;
+  const tax = Math.round(subTotalPrice * (2 / 100)); // Ensure integer
 
-  const tax = parseFloat(subTotalPrice * (2 / 100)).toFixed(0);
-
-  const totalPrice =
+  const totalPrice = Math.round(
     Number(subTotalPrice) -
-    Number(
-      discountPrice
-        ? couponData.discount_type == "fixed"
-          ? discountPrice
-          : (discountPrice * subTotalPrice) / 100
-        : 0
-    );
+      Number(
+        discountPrice
+          ? couponData.discount_type === "fixed"
+            ? discountPrice
+            : Math.round((discountPrice * subTotalPrice) / 100) // Round percentage discount
+          : 0
+      )
+  ); // Ensure integer
 
   const handleApply = async () => {
     if (coupon_code.trim() === "") {
@@ -178,11 +176,11 @@ const CartPage = () => {
     try {
       const response = await checkCoupon({ coupon_code }).unwrap();
 
-      const discountValue = Math.round(response?.data?.discount_value);
+      const discountValue = Math.round(response?.data?.discount_value); // Ensure integer
       setDiscountPrice(discountValue);
 
       if (response.data) {
-        if (response.data.status == "Active") {
+        if (response.data.status === "Active") {
           toast.success(
             `You Got ${discountValue}${
               response?.data?.discount_type === "percentage" ? "%" : "৳"
@@ -203,10 +201,6 @@ const CartPage = () => {
     }
   };
 
-  // if (isLoading) {
-  //   return <p>Loading...</p>;
-  // }
-
   const cartCount = filteredCartItems.length;
 
   return (
@@ -223,7 +217,7 @@ const CartPage = () => {
       <Container>
         <div
           className={`lg:grid-cols-3 gap-4 ${
-            cartCount.length == 0 ? "hidden" : "grid"
+            cartCount.length === 0 ? "hidden" : "grid"
           }`}
         >
           <div className="md:bg-white p-5 lg:col-span-2">
@@ -261,9 +255,9 @@ const CartPage = () => {
                     {cartItems
                       .filter((item) => {
                         if (user?.id) {
-                          return item.user_id == user.id; // user login thakle
+                          return item.user_id == user.id;
                         } else {
-                          return item.user_id == null; // user login na thakle
+                          return item.user_id == null;
                         }
                       })
                       .map((item, index) => (
@@ -283,9 +277,9 @@ const CartPage = () => {
                   {cartItems
                     .filter((item) => {
                       if (user?.id) {
-                        return item.user_id == user.id; // user login thakle
+                        return item.user_id == user.id;
                       } else {
-                        return item.user_id == null; // user login na thakle
+                        return item.user_id == null;
                       }
                     })
                     .map((item, index) => (
@@ -347,15 +341,9 @@ const CartPage = () => {
                   <ul className="flex justify-between">
                     <li className="text-[11px] text-[#5F6C72]">Sub-total</li>
                     <li className="text-[11px] text-[#191C1F] font-bold">
-                      {Number(subTotalPrice) || 0} <span>৳</span>
+                      {subTotalPrice} <span>৳</span>
                     </li>
                   </ul>
-                  {/* <ul className="flex justify-between text-[11px] text-[#5F6C72]">
-                    <li className="text-[11px] text-[#5F6C72]">Shipping</li>
-                    <li className="text-[11px] text-[#191C1F] font-bold">
-                      {shippingPrice} <span>৳</span>
-                    </li>
-                  </ul> */}
                   {isLoading ? (
                     <p className="text-[11px] my-1">Loading...</p>
                   ) : (
@@ -365,24 +353,11 @@ const CartPage = () => {
                           Discount ({couponData ? couponData?.cupon_code : ""})
                         </li>
                         <li className="text-[11px] font-bold">
-                          {discountPrice ? discountPrice : 0}{" "}
-                          <span>
-                            {discountPrice
-                              ? couponData?.discount_type == "fixed"
-                                ? "৳"
-                                : "%"
-                              : "৳"}
-                          </span>
+                          {discountPrice} <span>{couponData?.discount_type === "fixed" ? "৳" : "%"}</span>
                         </li>
                       </ul>
                     )
                   )}
-                  {/* <ul className="flex justify-between text-[11px] text-[#5F6C72]">
-                    <li className="text-[11px] text-[#5F6C72]">Tax</li>
-                    <li className="text-[11px] text-[#191C1F] font-bold">
-                      {tax} <span>৳</span>
-                    </li>
-                  </ul> */}
                 </div>
                 <div className="pb-3">
                   <ul className="flex justify-between">
@@ -417,7 +392,7 @@ const CartPage = () => {
             <div className="h-auto w-full bg-white fixed bottom-0 rounded-t-xl px-3 py-5">
               <div>
                 <h1 className="text-[#1C1B1B]">Voucher Code</h1>
-                <input
+                =                <input
                   type="text"
                   placeholder="Enter Voucher Code"
                   className="p-4 border border-[#F4F5FD] rounded-lg mt-4 w-full placeholder:text-xs placeholder:font-normal"
@@ -438,7 +413,6 @@ const CartPage = () => {
             </div>
           </div>
         )}
-        {/* New Confirmation Modal */}
         {showModal && (
           <div className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[100]">
             <div className="w-full max-w-md bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl px-5 py-8">

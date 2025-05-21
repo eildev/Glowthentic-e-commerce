@@ -44,10 +44,10 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
     const discountValue = parseFloat(promotion.discount_value);
     if (promotion.discount_type === "percentage") {
       discountPrice = regularPrice - (regularPrice * discountValue) / 100;
-      badgeText = `${discountValue}% Off`;
+      badgeText = `${Math.floor(discountValue)}% Off`;
     } else if (promotion.discount_type === "fixed") {
       discountPrice = regularPrice - discountValue;
-      badgeText = `৳${discountValue} Off`;
+      badgeText = `৳${Math.floor(discountValue)} Off`;
     }
   }
 
@@ -59,7 +59,7 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
       >
         {/* Discount Badge */}
         {badgeText && (
-          <div className="absolute top-1 right-1 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
+          <div className="absolute top-1 right-1 bg-secondary text-white text-xs font-semibold px-2 py-1 rounded">
             {badgeText}
           </div>
         )}
@@ -72,11 +72,13 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
         <div onClick={(e) => handleItemClick(e)}>
           <p className="font-medium text-sm text-black">{product_name || "Unknown"}</p>
           <div className="flex items-center gap-2">
-            <p className="text-xs font-medium text-[#A27754] line-through">
-              ৳ {regularPrice}
-            </p>
+            {badgeText && (
+              <p className="text-xs font-medium text-[#A27754] line-through">
+                ৳ {Math.floor(regularPrice)}
+              </p>
+            )}
             <p className="text-xs font-medium text-[#A27754]">
-              ৳ {discountPrice ? Math.round(discountPrice) : regularPrice}
+              ৳ {discountPrice ? Math.floor(discountPrice) : Math.floor(regularPrice)}
             </p>
           </div>
         </div>

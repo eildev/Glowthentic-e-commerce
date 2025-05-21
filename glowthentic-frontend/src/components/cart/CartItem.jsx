@@ -164,7 +164,7 @@ const CartItem = ({ item, handleDelete }) => {
       </td>
       <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center flex flex-col justify-center items-center gap-1 pt-5">
         ৳{finalPrice}
-        <span className="text-[14px] line-through">${regularPrice}</span>
+        {badgeText && <span className="text-[14px] line-through">${regularPrice}</span>}
       </td>
       <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
         ৳{total}

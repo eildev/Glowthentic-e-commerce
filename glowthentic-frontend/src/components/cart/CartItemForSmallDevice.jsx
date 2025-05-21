@@ -125,13 +125,13 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
             </div>
           </div>
         </td>
-        <td className="text-[#191818] flex items-center font-semibold text-xl">
+        <td className="text-[#191818] flex items-center font-semibold text-xl mb-8">
           <div className="flex flex-col justify-center items-center">
             <span className="block">৳{displayPrice}</span>
-            <span className="line-through text-[12px] block">৳{regularPrice}</span>
+            {badgeText && <span className="text-[12px] block line-through">${regularPrice}</span>}
           </div>
         </td>
-        <td className="text-[#191818] flex items-center font-semibold text-xl">
+        <td className="text-[#191818] flex items-center font-semibold text-xl mb-8">
           <span>৳</span>
           {displayPrice * itemCount}
         </td>
