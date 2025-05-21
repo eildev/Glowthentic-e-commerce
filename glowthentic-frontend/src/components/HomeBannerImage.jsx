@@ -4,7 +4,7 @@ const HomeBannerImage = ({ banner }) => {
   return (
     <picture className="w-full">
       <source
-        media="(min-width: 1920px)"
+        media="(min-width: 1140px)"
         srcSet={imagePath(banner.extra_large_image)}
       />
       <source
