@@ -92,7 +92,9 @@ const CartPage = () => {
       if (discountType === "fixed") {
         finalPrice = regularPrice - discountValue;
       } else if (discountType === "percentage") {
-        finalPrice = Math.round(regularPrice - (regularPrice * discountValue) / 100); // Round to integer
+        finalPrice = Math.round(
+          regularPrice - (regularPrice * discountValue) / 100
+        ); // Round to integer
       }
 
       // Ensure finalPrice is not negative
@@ -353,7 +355,10 @@ const CartPage = () => {
                           Discount ({couponData ? couponData?.cupon_code : ""})
                         </li>
                         <li className="text-[11px] font-bold">
-                          {discountPrice} <span>{couponData?.discount_type === "fixed" ? "৳" : "%"}</span>
+                          {discountPrice}{" "}
+                          <span>
+                            {couponData?.discount_type === "fixed" ? "৳" : "%"}
+                          </span>
                         </li>
                       </ul>
                     )
@@ -392,7 +397,8 @@ const CartPage = () => {
             <div className="h-auto w-full bg-white fixed bottom-0 rounded-t-xl px-3 py-5">
               <div>
                 <h1 className="text-[#1C1B1B]">Voucher Code</h1>
-                =                <input
+                ={" "}
+                <input
                   type="text"
                   placeholder="Enter Voucher Code"
                   className="p-4 border border-[#F4F5FD] rounded-lg mt-4 w-full placeholder:text-xs placeholder:font-normal"
