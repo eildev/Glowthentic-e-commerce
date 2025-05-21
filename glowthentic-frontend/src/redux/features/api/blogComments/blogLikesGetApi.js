@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const blogLikesGetApi = createApi({
   reducerPath: 'blogLikesGetApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://127.0.0.1:8000/api',
+    baseUrl: 'https://backend.glowthentic.store/api',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {

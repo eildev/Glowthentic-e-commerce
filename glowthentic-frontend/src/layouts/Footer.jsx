@@ -130,7 +130,7 @@ const Footer = () => {
                     By submitting your email, you agree to receive advertising
                     emails from Glowthentic. Please review our Privacy Policy,
                     which includes our Financial Incentive Notice for CA
-                    residents.
+                    residents<span title="this website is created by omor, fardus and shahin">.</span>
                   </Paragraph>
                 </div>
               </fieldset>

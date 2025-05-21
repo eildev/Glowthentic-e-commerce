@@ -7,64 +7,83 @@ import { imagePath } from "../../utils/imagePath";
 import toast from "react-hot-toast";
 
 const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
-  const { product_name, thumbnail, variants, slug, variant_image } = item;
+  const { product_name, thumbnail, variants, slug, variant_image, promotionproduct, variants: [{ product_variant_promotion }] } = item;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // Safe image access
-  const product_image =
-    thumbnail || imagePath(variant_image && variant_image[0]?.image);
+  const product_image = thumbnail || imagePath(variant_image && variant_image[0]?.image);
 
   // Log the component mounting and the item data
   useEffect(() => {}, [slug]);
 
   const handleItemClick = (e) => {
-    e.preventDefault(); // Prevent default behavior
-    e.stopPropagation(); // Prevent click from bubbling up to document
+    e.preventDefault();
+    e.stopPropagation();
 
-    // Check if slug exists before navigating
     if (slug) {
       navigate(`/product/${slug}`);
     } else {
-      // console.error("Missing slug for product:", product_name);
-      toast.error("Something went wrong Please Be patient");
+      toast.error("Something went wrong. Please be patient");
     }
 
-    // Close suggestions after attempting navigation
     dispatch(setSuggestionsVisible(false));
   };
 
-  // Add a direct click handler to the image and text separately
+  // Get regular price
+  const regularPrice = variants?.[0]?.regular_price || "N/A";
+
+  // Determine which promotion to use: product-level or variant-level
+  const promotion = promotionproduct?.[0]?.coupon || product_variant_promotion?.coupon;
+
+  // Calculate discounted price and badge text
+  let discountPrice = null;
+  let badgeText = null;
+
+  if (promotion && promotion.status === "Active" && new Date(promotion.end_date) >= new Date()) {
+    const discountValue = parseFloat(promotion.discount_value);
+    if (promotion.discount_type === "percentage") {
+      discountPrice = regularPrice - (regularPrice * discountValue) / 100;
+      badgeText = `${Math.floor(discountValue)}% Off`;
+    } else if (promotion.discount_type === "fixed") {
+      discountPrice = regularPrice - discountValue;
+      badgeText = `৳${Math.floor(discountValue)} Off`;
+    }
+  }
+
   return (
     <div>
       <div
-        className="px-4 py-2 hover:bg-gray-100 hover:rounded-b-3xl cursor-pointer flex items-center gap-4"
+        className="px-4 py-2 hover:bg-gray-100 hover:rounded-b-3xl cursor-pointer flex items-center gap-4 relative"
         onClick={handleItemClick}
       >
+        {/* Discount Badge */}
+        {badgeText && (
+          <div className="absolute top-1 right-1 bg-secondary text-white text-xs font-semibold px-2 py-1 rounded">
+            {badgeText}
+          </div>
+        )}
         <img
           src={product_image || defaultImage}
           alt={product_name || "Product"}
           className="w-10 h-10 object-cover rounded"
-          onClick={(e) => {
-            handleItemClick(e);
-          }}
+          onClick={(e) => handleItemClick(e)}
         />
-        <div
-          onClick={(e) => {
-            handleItemClick(e);
-          }}
-        >
-          <p className="font-medium text-sm text-black">
-            {product_name || "Unknown"}
-          </p>
-          <p className="text-xs font-medium text-[#A27754]">
-            ৳ {variants?.[0]?.regular_price || "N/A"}
-          </p>
+        <div onClick={(e) => handleItemClick(e)}>
+          <p className="font-medium text-sm text-black">{product_name || "Unknown"}</p>
+          <div className="flex items-center gap-2">
+            {badgeText && (
+              <p className="text-xs font-medium text-[#A27754] line-through">
+                ৳ {Math.floor(regularPrice)}
+              </p>
+            )}
+            <p className="text-xs font-medium text-[#A27754]">
+              ৳ {discountPrice ? Math.floor(discountPrice) : Math.floor(regularPrice)}
+            </p>
+          </div>
         </div>
       </div>
-      {showDivider && (
-        <div className="my-2 h-[1px] bg-[#00000042] w-full"></div>
-      )}
+      {showDivider && <div className="my-2 h-[1px] bg-[#00000042] w-full"></div>}
     </div>
   );
 });
