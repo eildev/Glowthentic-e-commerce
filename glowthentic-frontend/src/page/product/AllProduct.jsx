@@ -1,6 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Product from "../../components/product_card/Product";
-import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFilteredProducts,
@@ -11,14 +10,28 @@ import {
 } from "../../redux/features/slice/filterSlice";
 import ProductSkeleton from "../../components/product_card/ProductSkeleton";
 import { IoMdClose } from "react-icons/io";
+import { useGetComboProductsQuery } from "../../redux/features/api/comboProductApi/comboProductApi";
+import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
+
+
 
 const AllProduct = () => {
   const dispatch = useDispatch();
+
+
   const {
-    data,
-    isLoading,
-    error,
-  } = useGetProductsQuery();
+    data: productsData,
+    isLoading: productsLoading,
+    error: productsError,
+  } = useGetProductsQuery(); 
+
+
+  const {
+    data: comboData,
+    isLoading: comboLoading,
+    error: comboError,
+  } = useGetComboProductsQuery();
+
   const {
     filteredCategories,
     filteredTags,
@@ -40,23 +53,33 @@ const AllProduct = () => {
     filteredFeatures.length > 0 ||
     filteredSearchQuery !== "";
 
-  useEffect(() => {
-    if (data?.data) {
-      dispatch(setFilteredProducts(data.data));
-    }
-  }, [
-    data,
-    dispatch,
-    filteredCategories,
-    filteredTags,
-    filteredPrices,
-    filteredBrands,
-    filteredFeatures,
-    filteredSearchQuery,
-    sortOption,
-  ]);
 
-  // Reuse the removeFilter logic from SidebarFilter
+  const [regularProducts, setRegularProducts] = useState([]);
+  const [comboProducts, setComboProducts] = useState([]);
+
+  useEffect(() => {
+    if (productsData?.data) {
+      console.log("Regular Products Data:", productsData.data);
+      setRegularProducts(productsData.data);
+      dispatch(setFilteredProducts(productsData.data));
+    } else {
+      console.log("No regular products data available");
+    }
+    if (productsError) {
+      console.error("Error fetching regular products:", productsError);
+    }
+  }, [productsData, productsError, dispatch, filteredCategories, filteredTags, filteredPrices, filteredBrands, filteredFeatures, filteredSearchQuery, sortOption]);
+
+  useEffect(() => {
+    if (comboData?.comboProduct) {
+      console.log("Combo Products Data:", comboData.comboProduct);
+      setComboProducts(comboData.comboProduct);
+    }
+    if (comboError) {
+      console.error("Error fetching combo products:", comboError);
+    }
+  }, [comboData, comboError]);
+
   const removeFilter = (itemToRemove) => {
     const idToRemove = Object.keys(selectedCategoryMap).find(
       (id) => selectedCategoryMap[id] === itemToRemove
@@ -74,15 +97,17 @@ const AllProduct = () => {
     }
   };
 
-  // Handle clear all filters
   const handleClearAllFilters = () => {
     dispatch(clearAllFilters());
-    if (data?.data) {
-      dispatch(setFilteredProducts(data.data));
+    if (productsData?.data) {
+      setRegularProducts(productsData.data);
+      dispatch(setFilteredProducts(productsData.data));
+    }
+    if (comboData?.comboProduct) {
+      setComboProducts(comboData.comboProduct);
     }
   };
 
-  // Combine all selected filters for display
   const allSelectedFilters = [
     ...selectedCategories,
     ...filteredTags.map((tagId) =>
@@ -93,21 +118,13 @@ const AllProduct = () => {
     ),
   ];
 
-  if (isLoading) {
+  if (productsLoading || comboLoading) {
     return (
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 my-3 px-5 w-full">
         {Array.from({ length: 9 }).map((_, index) => (
           <ProductSkeleton key={index} />
         ))}
       </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <p className="text-red-500 text-center my-5">
-        Error: {error.message || "Failed to load products"}
-      </p>
     );
   }
 
@@ -145,22 +162,54 @@ const AllProduct = () => {
         </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="transition-all duration-500 ease-in-out animate-fadeIn"
-            >
-              <Product product={product} />
-            </div>
-          ))
+      {/* Regular Products Section */}
+      <div className="mb-10">
+        <h2 className="text-xl lg:text-2xl font-semibold mb-5 text-center">Products</h2>
+        {productsError ? (
+          <p className="text-red-500 text-center my-5">
+            Error fetching regular products: {productsError.message || "Unknown error"}
+          </p>
+        ) : regularProducts.length > 0 ? (
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5">
+            {regularProducts.map((product) => (
+              <div
+                key={product.id}
+                className="transition-all duration-500 ease-in-out animate-fadeIn"
+              >
+                <Product product={product} />
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="col-span-full text-center text-gray-500 my-10">
             {isAnyFilterApplied
               ? "No products matched your filters"
-              : "No products found"}
+              : "No regular products found"}
+          </div>
+        )}
+      </div>
+
+      {/* Combo Products Section */}
+      <div className="mb-10">
+        <h2 className="text-xl lg:text-2xl font-semibold mb-5 text-center">Combo Offers</h2>
+        {comboError ? (
+          <p className="text-red-500 text-center my-5">
+            Error fetching combo products: {comboError.message || "Unknown error"}
+          </p>
+        ) : comboProducts.length > 0 ? (
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5">
+            {comboProducts.map((comboProduct) => (
+              <div
+                key={comboProduct.id}
+                className="transition-all duration-500 ease-in-out animate-fadeIn"
+              >
+                <Product product={comboProduct} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="col-span-full text-center text-gray-500 my-10">
+            No combo products found
           </div>
         )}
       </div>
