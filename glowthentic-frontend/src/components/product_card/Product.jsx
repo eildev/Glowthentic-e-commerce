@@ -27,13 +27,12 @@ const Product = ({ product, isDark }) => {
     useAddToWishlistMutation();
   const isMobile = useMediaQuery("(max-width: 767px)");
 
-  // Destructure properties for regular products
+
   const { id, product_name, productdetails, variants, price } = product;
 
-  // Determine if the product is a combo product
+ 
   const isComboProduct = product?.comboproduct && !product?.variants;
 
-  // For regular products
   const defaultVariant = !isComboProduct && product.variants?.find(
     (variant) => variant.status === "Default"
   );
@@ -44,7 +43,7 @@ const Product = ({ product, isDark }) => {
       variant?.product_variant_promotion?.coupon?.discount_type === "fixed"
   );
 
-  // For combo products
+
   const comboImage = isComboProduct && product.comboimage?.[0]?.image;
   const offerPrice = isComboProduct && parseInt(product.offerd_price) || 0;
 
@@ -58,10 +57,10 @@ const Product = ({ product, isDark }) => {
 
   const promotion = !isComboProduct && variantWithPromotion?.product_variant_promotion?.coupon;
 
-  // Get current date
+
   const currentDate = new Date();
 
-  // Check promotion validity based on start_date and end_date
+ 
   let isPromotionValid = false;
   if (promotion && promotion.start_date && promotion.end_date) {
     const startDate = new Date(promotion.start_date);
@@ -73,9 +72,9 @@ const Product = ({ product, isDark }) => {
   let finalPrice = !isComboProduct ? (defaultVariant?.regular_price || product.variants?.[0]?.regular_price || 0) : offerPrice;
   finalPrice = parseInt(finalPrice);
   let stockStatus = !isComboProduct && (product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock");
-  let badgeText = null; // Variable for badge text
+  let badgeText = null; 
 
-  // Apply promotion only if valid for regular products
+
   if (!isComboProduct && isPromotionValid && promotion) {
     if (promotion.discount_type === "percentage") {
       discountPercentage = Math.round(promotion.discount_value);
@@ -89,7 +88,6 @@ const Product = ({ product, isDark }) => {
     }
   }
 
-  // Set badge text to "Combo" for combo products
   if (isComboProduct) {
     badgeText = "Combo";
   }
