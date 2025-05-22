@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
   const { subcategories, brands, tags, product_feature } = data;
 
+
+console.log(data);
+
+
   return (
     <div
       className={`bg-white w-full text-black absolute top-[100%] left-0 z-20 shadow-lg 
@@ -19,7 +23,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
         <div className="grid grid-cols-5 gap-5 py-10">
           <div>
             <ul className="font-semibold text-sm xxl:text-lg grid gap-2">
-              {product_feature.slice(0, 10).map((feature) => (
+              {product_feature?.slice(0, 10).map((feature) => (
                 <li
                   key={feature?.slug}
                   className="cursor-pointer hover:text-secondary capitalize"
@@ -41,7 +45,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
               By Subcategory
             </h2>
             <ul className="grid gap-2 text-sm xxl:text-lg">
-              {subcategories.slice(0, 10).map((subcategory) => (
+              {subcategories?.slice(0, 10).map((subcategory) => (
                 <li
                   className="font-normal hover:text-secondary capitalize"
                   key={subcategory.slug}
@@ -62,7 +66,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
               By Brands
             </h2>
             <ul className="grid gap-2 text-sm xxl:text-lg">
-              {brands.slice(0, 10).map((brand) => (
+              {brands?.slice(0, 10).map((brand) => (
                 <li
                   className="font-normal hover:text-secondary capitalize"
                   key={brand?.slug}
@@ -83,14 +87,14 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
               By Skin Condition
             </h2>
             <ul className="grid gap-2 text-sm xxl:text-lg">
-              {tags.slice(0, 10).map((tag) => (
+              {tags?.slice(0, 10).map((tag) => (
                 <li
                   className="font-normal hover:text-secondary capitalize"
-                  key={tag.id}
+                  key={tag?.id}
                 >
                   <Link
                     to="/products"
-                    state={{ tagId: tag.id }}
+                    state={{ tagId: tag?.id }}
                     onClick={onHideMegaMenu}
                   >
                     {tag?.tagName}

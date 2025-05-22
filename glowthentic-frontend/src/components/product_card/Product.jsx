@@ -49,29 +49,35 @@ const Product = ({ product, isDark }) => {
 
   const promotion = variantWithPromotion?.product_variant_promotion?.coupon;
 
+  // Get current date
+  const currentDate = new Date();
+
+  // Check promotion validity based on start_date and end_date
+  let isPromotionValid = false;
+  if (promotion && promotion.start_date && promotion.end_date) {
+    const startDate = new Date(promotion.start_date);
+    const endDate = new Date(promotion.end_date);
+    isPromotionValid = currentDate >= startDate && currentDate <= endDate;
+  }
+
   let discountPercentage = 0;
-  let finalPrice = variants[0]?.regular_price;
+  let finalPrice = defaultVariant?.regular_price || variants[0]?.regular_price || 0;
   finalPrice = parseInt(finalPrice);
   let stockStatus =
     product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock";
+  let promotionLabel = null; // Separate variable for promotion text
 
-  if (promotion) {
+  // Apply promotion only if valid
+  if (isPromotionValid && promotion) {
     if (promotion.discount_type === "percentage") {
       discountPercentage = Math.round(promotion.discount_value);
-      const discountAmount =
-        (discountPercentage * variants[0].regular_price) / 100;
-      finalPrice = Math.round(variants[0].regular_price - discountAmount);
-      stockStatus =
-        product?.product_stock?.length > 0
-          ? `${discountPercentage}% Off`
-          : "Out Of Stock";
-    } else {
+      const discountAmount = (discountPercentage * finalPrice) / 100;
+      finalPrice = Math.round(finalPrice - discountAmount);
+      promotionLabel = `${discountPercentage}% Off`;
+    } else if (promotion.discount_type === "fixed") {
       discountPercentage = promotion.discount_value;
-      finalPrice = Math.round(
-        variants[0].regular_price - promotion.discount_value
-      );
-      stockStatus =
-        product?.product_stock?.length > 0 ? "Flat Discount" : "Out Of Stock";
+      finalPrice = Math.round(finalPrice - promotion.discount_value);
+      promotionLabel = "Flat Discount";
     }
   }
 
@@ -130,20 +136,6 @@ const Product = ({ product, isDark }) => {
     }
   };
 
-  // Calculate discount and final price based on promotion
-  // let discountPercentage = 0;
-  // let finalPrice = variants[0].regular_price; // Default to first variant's price
-  // let stockStatus = "In Stock";
-
-  // if (promotion && promotion.cupon) {
-  //   if (promotion.cupon.discount_type === "percentage") {
-  //     discountPercentage = promotion.cupon.discount_value;
-  //     const discountAmount = (discountPercentage * variants[0].regular_price) / 100;
-  //     finalPrice = (variants[0].regular_price - discountAmount).toFixed(2);
-  //     stockStatus = `${discountPercentage}%`;
-  //   }
-  // }
-
   const productName = product_name + " " + variants[0]?.variant_name;
 
   return (
@@ -165,7 +157,7 @@ const Product = ({ product, isDark }) => {
             stock <= 0 ? "opacity-100" : "hover:opacity-75"
           }`}
         >
-          {stock <= 0 ? "Stock Out" : stockStatus}
+          {stock <= 0 ? "Stock Out" : promotionLabel || stockStatus}
         </span>
 
         <ProductIcon
@@ -197,18 +189,18 @@ const Product = ({ product, isDark }) => {
             product?.product_stock[0]?.StockQuantity > 0
               ? handleAddToCart
               : () => {}
-          } // Prevent action if stock is 0
+          }
           name={"cart"}
           defaultVariant={defaultVariant}
         />
       </figure>
 
       <div
-        className={`card-body h-[200px] px-2 md:px-4  rounded-b-2xl flex flex-col justify-center  transition-colors duration-300 ${
+        className={`card-body h-[200px] px-2 md:px-4 rounded-b-2xl flex flex-col justify-center transition-colors duration-300 ${
           isDark
             ? "bg-primary text-white text-center"
             : "bg-white text-primary text-left"
-        }`} // Use flex-col and justify-between to control alignment
+        }`}
       >
         <Link to={`/product/${product.slug}`}>
           <HeadTitle
@@ -222,23 +214,14 @@ const Product = ({ product, isDark }) => {
           </HeadTitle>
         </Link>
         {isMobile ? (
-          <Paragraph className="text-xs  min-h-[40px] transition-opacity duration-200 hover:opacity-80">
+          <Paragraph className="text-xs min-h-[40px] transition-opacity duration-200 hover:opacity-80">
             {productdetails?.short_description?.slice(0, 40)}
           </Paragraph>
         ) : (
-          <Paragraph className="text-sm lg:mt-2  line-clamp-2 min-h-[44px] transition-opacity duration-200 hover:opacity-80">
+          <Paragraph className="text-sm lg:mt-2 line-clamp-2 min-h-[44px] transition-opacity duration-200 hover:opacity-80">
             {productdetails?.short_description?.slice(0, 60)}
           </Paragraph>
         )}
-
-        {/* <Paragraph
-  className="text-xs md:text-sm lg:mt-2 mb-2 hidden line-clamp-1 md:line-clamp-2 min-h-[40px] md:min-h-[44px] transition-opacity duration-200 hover:opacity-80"
->
-  {window.innerWidth <= 768 // Check if the device width is mobile-sized
-    ? productdetails[0]?.short_description.slice(0, 20) + "..." // Display 10 characters followed by '...'
-    : productdetails[0]?.short_description ??
-      "Plumping Gloss - Instant and Long-Term Volume Effect - 24h Hydration"}
-</Paragraph> */}
 
         <div
           className={`flex gap-1 sm:gap-2 md:gap-3 justify-start items-center w-full ${
@@ -246,7 +229,7 @@ const Product = ({ product, isDark }) => {
           }`}
         >
           <Paragraph
-            className={`text-sm sm:text-base md:text-lg lg:text-xl mx-0 px-0 md:w-0  transition-transform duration-200 hover:scale-105 ${
+            className={`text-sm sm:text-base md:text-lg lg:text-xl mx-0 px-0 md:w-0 transition-transform duration-200 hover:scale-105 ${
               isDark
                 ? "text-white border-gray-700"
                 : "text-secondary border-gray-300"
@@ -256,18 +239,18 @@ const Product = ({ product, isDark }) => {
               ৳ {finalPrice}
             </span>
           </Paragraph>
-          {discountPercentage > 0 && (
+          {isPromotionValid && discountPercentage > 0 && (
             <Paragraph
-              className={`text-xs sm:text-sm md:text-base px-0  transition-opacity duration-200 hover:opacity-60 ${
+              className={`text-xs sm:text-sm md:text-base px-0 transition-opacity duration-200 hover:opacity-60 ${
                 isDark
                   ? "text-gray-300 border-gray-700 ml-1 sm:ml-2 md:ml-3"
                   : "text-gray-400 border-gray-300 ml-1 sm:ml-2 md:ml-3"
               }`}
             >
               <del
-                aria-label={`Original price: ${variants[0].regular_price} Bangladeshi Taka`}
+                aria-label={`Original price: ${defaultVariant?.regular_price} Bangladeshi Taka`}
               >
-                ৳ {variants[0].regular_price}
+                ৳ {defaultVariant?.regular_price}
               </del>
             </Paragraph>
           )}

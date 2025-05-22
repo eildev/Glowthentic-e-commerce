@@ -2,7 +2,7 @@ import { memo, useEffect } from "react";
 import defaultImage from "../../assets/img/Product/20.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setSuggestionsVisible } from "../../redux/features/slice/searchSlice";
+import { setSuggestionsVisible, clearQuery } from "../../redux/features/slice/searchSlice";
 import { imagePath } from "../../utils/imagePath";
 import toast from "react-hot-toast";
 
@@ -23,6 +23,7 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
 
     if (slug) {
       navigate(`/product/${slug}`);
+      dispatch(clearQuery()); // Clear the search query
     } else {
       toast.error("Something went wrong. Please be patient");
     }
@@ -58,11 +59,11 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
         onClick={handleItemClick}
       >
         {/* Discount Badge */}
-        {badgeText && (
+        {/* {badgeText && (
           <div className="absolute top-1 right-1 bg-secondary text-white text-xs font-semibold px-2 py-1 rounded">
             {badgeText}
           </div>
-        )}
+        )} */}
         <img
           src={product_image || defaultImage}
           alt={product_name || "Product"}

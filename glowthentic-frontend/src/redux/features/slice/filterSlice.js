@@ -57,8 +57,8 @@ const filterSlice = createSlice({
     addTag(state, action) {
       const { id, name } = action.payload;
       const stringId = String(id); // Ensure ID is a string
-      if (!state.filteredTags.includes(stringId)) {
-        state.filteredTags.push(stringId);
+      if (!state.filteredTags?.includes(stringId)) {
+        state.filteredTags?.push(stringId);
         state.filterOrder.push({
           type: "tag",
           id: stringId,
@@ -77,7 +77,7 @@ const filterSlice = createSlice({
         (id) => state.selectedCategoryMap[id] === nameToRemove
       );
       if (idToRemove) {
-        state.filteredTags = state.filteredTags.filter(
+        state.filteredTags = state?.filteredTags?.filter(
           (id) => id !== idToRemove
         );
         state.filterOrder = state.filterOrder.filter(
@@ -200,7 +200,7 @@ const filterSlice = createSlice({
         anyFilterApplied = true;
         filtered = filtered.filter((product) =>
           product.product_tags?.some((tag) =>
-            state.filteredTags.includes(String(tag.tag_id))
+            state.filteredTags?.includes(String(tag.tag_id))
           )
         );
       }
@@ -414,6 +414,7 @@ const filterSlice = createSlice({
     },
     setFilteredTags: (state, action) => {
       state.filteredTags = action.payload.map(String); // Ensure IDs are strings
+      console.log(state.filteredTags );
       // Update filterOrder
       state.filterOrder = state.filterOrder.filter(
         (filter) => filter.type !== "tag" || action.payload.includes(filter.id)
