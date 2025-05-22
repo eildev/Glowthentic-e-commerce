@@ -298,7 +298,7 @@ const ProductDetails = () => {
                   >
                     <img
                       src={
-                        "https://backend.glowthentic.store/" +
+                        "http://127.0.0.1:8000/" +
                           variant?.variant_image[0]?.image ||
                         "https://via.placeholder.com/150"
                       }

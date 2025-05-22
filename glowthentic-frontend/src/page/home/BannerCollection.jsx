@@ -18,7 +18,7 @@ const bannerImages = [
   bannerImg4,
   bannerImg5,
 ];
-const baseURL = "https://backend.glowthentic.store/";
+const baseURL = "http://127.0.0.1:8000/";
 
 const sliderSettings = {
   dots: true,
@@ -115,15 +115,6 @@ const BannerCollection = () => {
             </div>
           ))}
         </Slider>
-
-        {/* <div className="absolute inset-0 flex flex-col justify-center items-start text-white px-3 sm:translate-y-[-10%] py-1 w-[82px] md:w-[217px] pointer-events-none ">
-          <Link
-            to={cart1?.link}
-            className="font-normal text-[7px] md:text-xl leading-3 md:leading-7 px-2 md:pxz-4 py-1 md:py-2 bg-white text-black rounded-full pointer-events-auto"
-          >
-            {cart1?.link_button}
-          </Link>
-        </div> */}
       </div>
       <div className="mt-5 grid grid-cols-5 gap-4 lg:hidden">
         {/* Left Side (50% width) */}
@@ -154,7 +145,7 @@ const BannerCollection = () => {
           </div>
         </div>
       </div>
-      <div className="relative lg:hidden text-white p-4 rounded-lg w-full mt-5 h-[200px] md:h-[500px] flex flex-col justify-center items-start">
+      <div className="relative lg:hidden text-white p-4 rounded-lg w-full mt-5 h-[200px] md:h-[300px] flex flex-col justify-center items-start">
         <img
           // src={`${baseURL + cart3.image}`}
           src={imagePath(cart3.image)}

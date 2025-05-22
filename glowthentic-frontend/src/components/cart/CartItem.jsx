@@ -22,16 +22,24 @@ const CartItem = ({ item, handleDelete }) => {
   const regularPrice = Math.round(item?.regular_price || 0);
 
   // Determine which promotion to use: product-level or variant-level
-  const promotion = item?.product?.promotionproduct?.[0]?.coupon || item?.product_variant_promotion?.coupon;
+  const promotion =
+    item?.product?.promotionproduct?.[0]?.coupon ||
+    item?.product_variant_promotion?.coupon;
 
   // Calculate discounted price and badge text
   let finalPrice = regularPrice;
   let badgeText = null;
 
-  if (promotion && promotion.status === "Active" && new Date(promotion.end_date) >= new Date()) {
+  if (
+    promotion &&
+    promotion.status === "Active" &&
+    new Date(promotion.end_date) >= new Date()
+  ) {
     const discountValue = parseFloat(promotion.discount_value);
     if (promotion.discount_type === "percentage") {
-      finalPrice = Math.round(regularPrice - (regularPrice * discountValue) / 100);
+      finalPrice = Math.round(
+        regularPrice - (regularPrice * discountValue) / 100
+      );
       badgeText = `${discountValue}% Off`;
     } else if (promotion.discount_type === "fixed") {
       finalPrice = Math.round(regularPrice - discountValue);
@@ -51,7 +59,6 @@ const CartItem = ({ item, handleDelete }) => {
       </th>
       <td>
         <div className="flex gap-3 relative">
-
           <div className="avatar">
             <div className="mask rounded-xl h-[64px] w-[62px]">
               <img
@@ -68,7 +75,9 @@ const CartItem = ({ item, handleDelete }) => {
               {item?.variant_name ?? ""}
             </div>
             <Link
-              to={`/product/${item?.product?.slug}?variant=${encodeURIComponent(item?.variant_name)}`}
+              to={`/product/${item?.product?.slug}?variant=${encodeURIComponent(
+                item?.variant_name
+              )}`}
             >
               <div className="text-[#FA8232] flex items-center gap-2 cursor-pointer">
                 <svg
@@ -164,7 +173,9 @@ const CartItem = ({ item, handleDelete }) => {
       </td>
       <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center flex flex-col justify-center items-center gap-1 pt-5">
         ৳{finalPrice}
-        {badgeText && <span className="text-[14px] line-through">${regularPrice}</span>}
+        {badgeText && (
+          <span className="text-[14px] line-through">${regularPrice}</span>
+        )}
       </td>
       <td className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
         ৳{total}
