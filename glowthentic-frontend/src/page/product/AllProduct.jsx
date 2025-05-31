@@ -14,11 +14,9 @@ import { IoMdClose } from "react-icons/io";
 
 const AllProduct = () => {
   const dispatch = useDispatch();
-  const {
-    data,
-    isLoading,
-    error,
-  } = useGetProductsQuery();
+  const { data, isLoading, error } = useGetProductsQuery();
+
+  console.log("All products", data);
   const {
     filteredCategories,
     filteredTags,
@@ -85,11 +83,15 @@ const AllProduct = () => {
   // Combine all selected filters for display
   const allSelectedFilters = [
     ...selectedCategories,
-    ...filteredTags.map((tagId) =>
-      Object.values(selectedCategoryMap).find((name) => name === tagId) || tagId
+    ...filteredTags.map(
+      (tagId) =>
+        Object.values(selectedCategoryMap).find((name) => name === tagId) ||
+        tagId
     ),
-    ...filteredBrands.map((brandId) =>
-      Object.values(selectedCategoryMap).find((name) => name === brandId) || brandId
+    ...filteredBrands.map(
+      (brandId) =>
+        Object.values(selectedCategoryMap).find((name) => name === brandId) ||
+        brandId
     ),
   ];
 
