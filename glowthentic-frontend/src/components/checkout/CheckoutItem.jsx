@@ -9,12 +9,17 @@ const CheckoutItem = ({ item }) => {
   let finalPrice = regularPrice;
   let discountBadge = null;
 
-  if (discountType === "fixed") {
-    finalPrice = regularPrice - discountValue;
-    discountBadge = `৳${Math.floor(discountValue)} OFF`;
-  } else if (discountType === "percentage") {
-    finalPrice = regularPrice - (regularPrice * discountValue) / 100;
-    discountBadge = `${Math.floor(discountValue)}% OFF`;
+  if (
+    item?.product_variant_promotion?.coupon?.status === "Active" &&
+    new Date(item?.product_variant_promotion?.coupon?.end_date) >= new Date()
+  ) {
+    if (discountType === "fixed") {
+      finalPrice = regularPrice - discountValue;
+      discountBadge = `৳${Math.floor(discountValue)} OFF`;
+    } else if (discountType === "percentage") {
+      finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+      discountBadge = `${Math.floor(discountValue)}% OFF`;
+    }
   }
 
   // Round final price to avoid decimal places
@@ -38,7 +43,9 @@ const CheckoutItem = ({ item }) => {
           </span>
           {discountBadge && (
             <>
-              <span className="line-through text-gray-500">৳{regularPrice}</span>
+              <span className="line-through text-gray-500">
+                ৳{regularPrice}
+              </span>
               <span className="bg-secondary text-white text-xs font-medium px-2 py-0.5 rounded">
                 {discountBadge}
               </span>

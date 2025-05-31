@@ -178,11 +178,16 @@ const CartPage = () => {
     try {
       const response = await checkCoupon({ coupon_code }).unwrap();
 
+      // console.log("coupon", response);
+
       const discountValue = Math.round(response?.data?.discount_value); // Ensure integer
       setDiscountPrice(discountValue);
 
       if (response.data) {
-        if (response.data.status === "Active") {
+        if (
+          response.data.status === "Active" &&
+          new Date(response?.data?.end_date) >= new Date()
+        ) {
           toast.success(
             `You Got ${discountValue}${
               response?.data?.discount_type === "percentage" ? "%" : "৳"
@@ -396,8 +401,7 @@ const CartPage = () => {
           <div className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[90]">
             <div className="h-auto w-full bg-white fixed bottom-0 rounded-t-xl px-3 py-5">
               <div>
-                <h1 className="text-[#1C1B1B]">Voucher Code</h1>
-                ={" "}
+                <h1 className="text-[#1C1B1B]">Voucher Code</h1>={" "}
                 <input
                   type="text"
                   placeholder="Enter Voucher Code"

@@ -38,13 +38,13 @@ const SearchBar = ({ className }) => {
   // Handle clicks outside the search bar
   useEffect(() => {
     const handleClickOutside = (event) => {
-      console.log("Click outside triggered", {
-        target: event.target,
-        targetClass: event.target.className,
-        targetId: event.target.id,
-        searchRef: searchRef.current,
-        isSuggestionsVisible,
-      });
+      // console.log("Click outside triggered", {
+      //   target: event.target,
+      //   targetClass: event.target.className,
+      //   targetId: event.target.id,
+      //   searchRef: searchRef.current,
+      //   isSuggestionsVisible,
+      // });
 
       if (
         searchRef.current &&
@@ -54,7 +54,9 @@ const SearchBar = ({ className }) => {
         console.log("Closing suggestions due to outside click");
         dispatch(setSuggestionsVisible(false));
       } else {
-        console.log("Not closing suggestions: click inside or suggestions not visible");
+        console.log(
+          "Not closing suggestions: click inside or suggestions not visible"
+        );
       }
     };
 
@@ -123,9 +125,7 @@ const SearchBar = ({ className }) => {
         />
       </div>
       {isSuggestionsVisible && (
-        <div
-          className="absolute left-0 right-0 pt-5 -mt-[14px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30 suggestions-container"
-        >
+        <div className="absolute left-0 right-0 pt-5 -mt-[14px] bg-white rounded-b-xl max-h-[500px] overflow-y-auto shadow-xl z-30 suggestions-container">
           {renderedSuggestions}
         </div>
       )}

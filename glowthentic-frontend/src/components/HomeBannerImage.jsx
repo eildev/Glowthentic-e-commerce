@@ -17,7 +17,7 @@ const HomeBannerImage = ({ banner }) => {
       />
       <img
         src={imagePath(banner.small_image)}
-        className="w-full h-[465px] object-cover"
+        className="w-full h-[465px]"
         alt="Slider Image"
         loading="lazy"
       />

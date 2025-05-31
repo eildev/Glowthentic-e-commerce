@@ -231,10 +231,10 @@ const DropdownFilter = () => {
             />
             <div className="flex justify-between mt-4">
               <span className="text-sm font-medium">
-                ${priceRange[0].toFixed(2)}
+                ৳{priceRange[0].toFixed(2)}
               </span>
               <span className="text-sm font-medium">
-                ${priceRange[1].toFixed(2)}
+                ৳{priceRange[1].toFixed(2)}
               </span>
             </div>
           </div>

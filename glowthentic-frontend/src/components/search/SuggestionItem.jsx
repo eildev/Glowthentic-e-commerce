@@ -2,17 +2,29 @@ import { memo, useEffect } from "react";
 import defaultImage from "../../assets/img/Product/20.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setSuggestionsVisible, clearQuery } from "../../redux/features/slice/searchSlice";
+import {
+  setSuggestionsVisible,
+  clearQuery,
+} from "../../redux/features/slice/searchSlice";
 import { imagePath } from "../../utils/imagePath";
 import toast from "react-hot-toast";
 
 const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
-  const { product_name, thumbnail, variants, slug, variant_image, promotionproduct, variants: [{ product_variant_promotion }] } = item;
+  const {
+    product_name,
+    thumbnail,
+    variants,
+    slug,
+    variant_image,
+    promotionproduct,
+    variants: [{ product_variant_promotion }],
+  } = item;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // Safe image access
-  const product_image = thumbnail || imagePath(variant_image && variant_image[0]?.image);
+  const product_image =
+    thumbnail || imagePath(variant_image && variant_image[0]?.image);
 
   // Log the component mounting and the item data
   useEffect(() => {}, [slug]);
@@ -35,13 +47,19 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
   const regularPrice = variants?.[0]?.regular_price || "N/A";
 
   // Determine which promotion to use: product-level or variant-level
-  const promotion = promotionproduct?.[0]?.coupon || product_variant_promotion?.coupon;
+  const promotion =
+    promotionproduct?.[0]?.coupon || product_variant_promotion?.coupon;
+  console.log("offer", promotion);
 
   // Calculate discounted price and badge text
   let discountPrice = null;
   let badgeText = null;
 
-  if (promotion && promotion.status === "Active" && new Date(promotion.end_date) >= new Date()) {
+  if (
+    promotion &&
+    promotion.status === "Active" &&
+    new Date(promotion.end_date) >= new Date()
+  ) {
     const discountValue = parseFloat(promotion.discount_value);
     if (promotion.discount_type === "percentage") {
       discountPrice = regularPrice - (regularPrice * discountValue) / 100;
@@ -71,7 +89,9 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
           onClick={(e) => handleItemClick(e)}
         />
         <div onClick={(e) => handleItemClick(e)}>
-          <p className="font-medium text-sm text-black">{product_name || "Unknown"}</p>
+          <p className="font-medium text-sm text-black">
+            {product_name || "Unknown"}
+          </p>
           <div className="flex items-center gap-2">
             {badgeText && (
               <p className="text-xs font-medium text-[#A27754] line-through">
@@ -79,12 +99,17 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
               </p>
             )}
             <p className="text-xs font-medium text-[#A27754]">
-              ৳ {discountPrice ? Math.floor(discountPrice) : Math.floor(regularPrice)}
+              ৳{" "}
+              {discountPrice
+                ? Math.floor(discountPrice)
+                : Math.floor(regularPrice)}
             </p>
           </div>
         </div>
       </div>
-      {showDivider && <div className="my-2 h-[1px] bg-[#00000042] w-full"></div>}
+      {showDivider && (
+        <div className="my-2 h-[1px] bg-[#00000042] w-full"></div>
+      )}
     </div>
   );
 });

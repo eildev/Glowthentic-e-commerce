@@ -104,10 +104,14 @@ const EditAccount = () => {
       if (imageFile) {
         formDataToSend.append("image", imageFile);
       }
+
+      console.log(formDataToSend);
       const response = await updateUser({
         id: userID,
         ...Object.fromEntries(formDataToSend),
       }).unwrap();
+
+      console.log("response", response);
 
       toast.success("User information updated successfully!");
       if (response.user?.image) {
@@ -187,11 +191,14 @@ const EditAccount = () => {
                   message: "Full name must be at least 2 characters",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.full_name ? "border-red-500" : "border-hr-thin"
-                }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+                errors.full_name ? "border-red-500" : "border-hr-thin"
+              }`}
             />
             {errors.full_name && (
-              <span className="text-red-500 text-sm">{errors.full_name.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.full_name.message}
+              </span>
             )}
           </div>
 
@@ -207,11 +214,14 @@ const EditAccount = () => {
                   message: "Address must be at least 5 characters",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.address ? "border-red-500" : "border-hr-thin"
-                }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+                errors.address ? "border-red-500" : "border-hr-thin"
+              }`}
             />
             {errors.address && (
-              <span className="text-red-500 text-sm">{errors.address.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.address.message}
+              </span>
             )}
           </div>
         </div>
@@ -223,11 +233,14 @@ const EditAccount = () => {
             </label>
             <input
               {...register("country", { required: "Country is required" })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.country ? "border-red-500" : "border-hr-thin"
-                }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+                errors.country ? "border-red-500" : "border-hr-thin"
+              }`}
             />
             {errors.country && (
-              <span className="text-red-500 text-sm">{errors.country.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.country.message}
+              </span>
             )}
           </div>
 
@@ -237,8 +250,9 @@ const EditAccount = () => {
             </label>
             <select
               {...register("city", { required: "City is required" })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.city ? "border-red-500" : "border-hr-thin"
-                }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+                errors.city ? "border-red-500" : "border-hr-thin"
+              }`}
             >
               <option value="Dhaka">Dhaka</option>
               <option value="Chattogram">Chattogram</option>
@@ -246,7 +260,9 @@ const EditAccount = () => {
               <option value="Sylhet">Sylhet</option>
             </select>
             {errors.city && (
-              <span className="text-red-500 text-sm">{errors.city.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.city.message}
+              </span>
             )}
           </div>
 
@@ -256,11 +272,14 @@ const EditAccount = () => {
             </label>
             <input
               {...register("police_station", { required: "Zone is required" })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.police_station ? "border-red-500" : "border-hr-thin"
-                }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+                errors.police_station ? "border-red-500" : "border-hr-thin"
+              }`}
             />
             {errors.police_station && (
-              <span className="text-red-500 text-sm">{errors.police_station.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.police_station.message}
+              </span>
             )}
           </div>
 
@@ -272,11 +291,14 @@ const EditAccount = () => {
               {...register("postal_code", {
                 required: "Postal code is required",
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.postal_code ? "border-red-500" : "border-hr-thin"
-                }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
+                errors.postal_code ? "border-red-500" : "border-hr-thin"
+              }`}
             />
             {errors.postal_code && (
-              <span className="text-red-500 text-sm">{errors.postal_code.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.postal_code.message}
+              </span>
             )}
           </div>
         </div>
@@ -300,11 +322,14 @@ const EditAccount = () => {
                   message: "Invalid email address",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${errors.email ? "border-red-500" : "border-hr-thin"
-                }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
+                errors.email ? "border-red-500" : "border-hr-thin"
+              }`}
             />
             {errors.email && (
-              <span className="text-red-500 text-sm">{errors.email.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.email.message}
+              </span>
             )}
           </div>
 
@@ -317,11 +342,13 @@ const EditAccount = () => {
                 required: "Phone number is required",
                 pattern: {
                   value: /^0[0-9]{9,}$/,
-                  message: "Phone number must start with 0 and be at least 10 digits",
+                  message:
+                    "Phone number must start with 0 and be at least 10 digits",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${errors.phone_number ? "border-red-500" : "border-hr-thin"
-                }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
+                errors.phone_number ? "border-red-500" : "border-hr-thin"
+              }`}
               onChange={(e) => {
                 let value = e.target.value;
                 if (value && !value.startsWith("0")) {
@@ -331,7 +358,9 @@ const EditAccount = () => {
               }}
             />
             {errors.phone_number && (
-              <span className="text-red-500 text-sm">{errors.phone_number.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.phone_number.message}
+              </span>
             )}
           </div>
         </div>
@@ -339,8 +368,11 @@ const EditAccount = () => {
         <button
           type="submit"
           disabled={isUpdating}
-          className={`block w-full px-6 py-4 lg:px-8 lg:py-6 rounded-md text-lg font-normal font-encode text-white transition ${isUpdating ? "bg-gray-400 cursor-not-allowed" : "bg-secondary hover:bg-secondary-dark"
-            }`}
+          className={`block w-full px-6 py-4 lg:px-8 lg:py-6 rounded-md text-lg font-normal font-encode text-white transition ${
+            isUpdating
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-secondary hover:bg-secondary-dark"
+          }`}
         >
           {isUpdating ? "Saving..." : "Save Changes"}
         </button>

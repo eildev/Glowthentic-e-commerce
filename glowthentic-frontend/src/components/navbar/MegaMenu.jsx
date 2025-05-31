@@ -1,13 +1,12 @@
 import Container from "../Container";
 import image from "../../assets/img/navbar/navbar.jpg";
 import { Link } from "react-router-dom";
+import capitalizeText from "../../utils/capitalizeText";
 
 const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
   const { subcategories, brands, tags, product_feature } = data;
 
-
-console.log(data);
-
+  console.log(data);
 
   return (
     <div
@@ -34,7 +33,7 @@ console.log(data);
                     onClick={onHideMegaMenu}
                     className="capitalize"
                   >
-                    {feature?.slug ?? ""}
+                    {capitalizeText(feature?.slug ?? "")}
                   </Link>
                 </li>
               ))}
@@ -55,7 +54,7 @@ console.log(data);
                     state={{ subcategoryId: subcategory.id }}
                     onClick={onHideMegaMenu}
                   >
-                    {subcategory?.categoryName ?? ""}
+                    {capitalizeText(subcategory?.categoryName ?? "")}
                   </Link>
                 </li>
               ))}
@@ -76,7 +75,7 @@ console.log(data);
                     state={{ brandId: brand.id }}
                     onClick={onHideMegaMenu}
                   >
-                    {brand?.brandName}
+                    {capitalizeText(brand?.brandName)}
                   </Link>
                 </li>
               ))}
@@ -97,7 +96,7 @@ console.log(data);
                     state={{ tagId: tag?.id }}
                     onClick={onHideMegaMenu}
                   >
-                    {tag?.tagName}
+                    {capitalizeText(tag?.tagName)}
                   </Link>
                 </li>
               ))}

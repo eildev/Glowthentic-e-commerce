@@ -116,6 +116,7 @@ const AllProduct = () => {
     );
   }
 
+  console.log("comboProduct", comboData);
   return (
     <div className="w-full px-5 my-3">
       {/* Filter Chips Section - Visible only on small devices */}

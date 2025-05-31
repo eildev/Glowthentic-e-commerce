@@ -37,7 +37,6 @@ const CheckoutPage = () => {
   const [districtId, setDistrictId] = useState("");
   const [upazilaId, setUpazilaId] = useState("");
   const [shippingCharge, setShippingCharge] = useState(0); // Add state for shipping charge
- 
 
   const filteredCartItems = cartItems.filter((item) => {
     if (user?.id) {
@@ -77,10 +76,16 @@ const CheckoutPage = () => {
         cartItem?.product_variant_promotion?.coupon?.discount_type;
 
       let finalPrice = regularPrice;
-      if (discountType === "fixed") {
-        finalPrice = regularPrice - discountValue;
-      } else if (discountType === "percentage") {
-        finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+      if (
+        cartItem?.product_variant_promotion?.coupon?.status === "Active" &&
+        new Date(cartItem?.product_variant_promotion?.coupon?.end_date) >=
+          new Date()
+      ) {
+        if (discountType === "fixed") {
+          finalPrice = regularPrice - discountValue;
+        } else if (discountType === "percentage") {
+          finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+        }
       }
       finalPrice = Math.max(finalPrice, 0);
       return sum + finalPrice * quantity;
@@ -153,10 +158,16 @@ const CheckoutPage = () => {
           item?.product_variant_promotion?.coupon?.discount_type;
 
         let finalPrice = regularPrice;
-        if (discountType === "fixed") {
-          finalPrice = regularPrice - discountValue;
-        } else if (discountType === "percentage") {
-          finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+        if (
+          item?.product_variant_promotion?.coupon?.status === "Active" &&
+          new Date(item?.product_variant_promotion?.coupon?.end_date) >=
+            new Date()
+        ) {
+          if (discountType === "fixed") {
+            finalPrice = regularPrice - discountValue;
+          } else if (discountType === "percentage") {
+            finalPrice = regularPrice - (regularPrice * discountValue) / 100;
+          }
         }
 
         return {

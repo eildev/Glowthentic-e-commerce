@@ -158,7 +158,7 @@ const BannerCollection = () => {
       <div className="hidden lg:block mt-8 space-y-8">
         <div className="flex gap-8">
           {/* Left: Slider */}
-          <div className="relative w-[765px] h-[543px] rounded-lg overflow-hidden">
+          <div className="relative w-[765px] h-[343px] rounded-lg overflow-hidden">
             <Slider {...sliderSettings} className="pointer-events-auto">
               {cart1?.images?.map((image, index) => (
                 <div key={index} className="relative w-full">
@@ -186,7 +186,7 @@ const BannerCollection = () => {
           </div>
 
           {/* Right: Beauty & Care Section */}
-          <div className="relative p-8 rounded-lg flex flex-col justify-between items-center w-[420px] h-[543px]">
+          <div className="relative p-8 rounded-lg flex flex-col justify-between items-center w-[420px] h-[343px]">
             <img
               // src={`${baseURL + cart2.image}`}
               src={imagePath(cart2.image)}
