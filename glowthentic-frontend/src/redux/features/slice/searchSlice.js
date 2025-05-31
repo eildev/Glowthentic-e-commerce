@@ -1,4 +1,3 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const searchSlice = createSlice({
@@ -14,8 +13,11 @@ const searchSlice = createSlice({
     setSuggestionsVisible: (state, action) => {
       state.isSuggestionsVisible = action.payload;
     },
+    clearQuery: (state) => {
+      state.query = "";
+    },
   },
 });
 
-export const { setQuery, setSuggestionsVisible } = searchSlice.actions;
+export const { setQuery, setSuggestionsVisible, clearQuery } = searchSlice.actions;
 export default searchSlice.reducer;

@@ -11,12 +11,18 @@ import {
 } from "../../redux/features/slice/filterSlice";
 import ProductSkeleton from "../../components/product_card/ProductSkeleton";
 import { IoMdClose } from "react-icons/io";
+import { useGetComboProductsQuery } from "../../redux/features/api/comboProductApi/comboProductApi";
 
 const AllProduct = () => {
   const dispatch = useDispatch();
   const { data, isLoading, error } = useGetProductsQuery();
 
-  console.log("All products", data);
+  const {
+    data: comboData,
+    isLoading: comboLoading,
+    error: comboError,
+  } = useGetComboProductsQuery();
+
   const {
     filteredCategories,
     filteredTags,
@@ -54,7 +60,6 @@ const AllProduct = () => {
     sortOption,
   ]);
 
-  // Reuse the removeFilter logic from SidebarFilter
   const removeFilter = (itemToRemove) => {
     const idToRemove = Object.keys(selectedCategoryMap).find(
       (id) => selectedCategoryMap[id] === itemToRemove
@@ -72,7 +77,6 @@ const AllProduct = () => {
     }
   };
 
-  // Handle clear all filters
   const handleClearAllFilters = () => {
     dispatch(clearAllFilters());
     if (data?.data) {
@@ -80,7 +84,6 @@ const AllProduct = () => {
     }
   };
 
-  // Combine all selected filters for display
   const allSelectedFilters = [
     ...selectedCategories,
     ...filteredTags.map(
@@ -148,6 +151,9 @@ const AllProduct = () => {
       </div>
 
       {/* Product Grid */}
+      <h2 className="text-xl lg:text-2xl font-semibold mb-5 text-center">
+        Products
+      </h2>
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
@@ -163,6 +169,30 @@ const AllProduct = () => {
             {isAnyFilterApplied
               ? "No products matched your filters"
               : "No products found"}
+          </div>
+        )}
+      </div>
+
+      {/* Combo Products Section */}
+      <div className="my-10">
+        <h2 className="text-xl lg:text-2xl font-semibold mb-5 text-center">
+          Combo Offers
+        </h2>
+        {comboError ? (
+          <p className="text-red-500 text-center my-5">
+            Error fetching combo products:{" "}
+            {comboError.message || "Unknown error"}
+          </p>
+        ) : (
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5">
+            {comboData?.comboProduct?.map((comboProduct) => (
+              <div
+                key={comboProduct.id}
+                className="transition-all duration-500 ease-in-out animate-fadeIn"
+              >
+                <Product product={comboProduct} />
+              </div>
+            ))}
           </div>
         )}
       </div>

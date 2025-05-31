@@ -32,6 +32,7 @@ import blogCommentsApi from "./features/api/blogComments/blogCommentsApi";
 import blogCommentsGetApi from "./features/api/blogComments/blogCommentsGetApi";
 import blogLikesApi from "./features/api/blogComments/blogLikesApi";
 import blogLikesGetApi from "./features/api/blogComments/blogLikesGetApi";
+import { comboProductApi } from "./features/api/comboProductApi/comboProductApi";
 
 
 // import orderGetApi from "./features/api/orderApi/orderGetApi";
@@ -74,6 +75,7 @@ const store = configureStore({
         [reviewApi.reducerPath]: reviewApi.reducer,
         [reviewGetApi.reducerPath]: reviewGetApi.reducer,
         [userTrackApi.reducerPath]: userTrackApi.reducer,
+        [comboProductApi.reducerPath]: comboProductApi.reducer,
 
     },
     middleware: (getDefaultMiddleware) =>getDefaultMiddleware().concat(productApi.middleware)
@@ -103,6 +105,7 @@ const store = configureStore({
             .concat(reviewApi.middleware)
             .concat(reviewGetApi.middleware)
             .concat(userTrackApi.middleware)
+            .concat(comboProductApi.middleware)
 
 });
 
