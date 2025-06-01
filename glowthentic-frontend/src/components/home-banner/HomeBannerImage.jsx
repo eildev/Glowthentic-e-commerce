@@ -1,4 +1,5 @@
-import { imagePath } from "../utils/imagePath";
+import { imagePath } from "../../utils/imagePath";
+import "./HomeBanner.css";
 
 const HomeBannerImage = ({ banner }) => {
   return (
@@ -17,7 +18,7 @@ const HomeBannerImage = ({ banner }) => {
       />
       <img
         src={imagePath(banner.small_image)}
-        className="w-full h-[465px]"
+        className="w-full image-responsive object-cover"
         alt="Slider Image"
         loading="lazy"
       />

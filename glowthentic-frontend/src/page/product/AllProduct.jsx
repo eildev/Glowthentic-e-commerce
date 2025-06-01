@@ -175,7 +175,7 @@ const AllProduct = () => {
       </div>
 
       {/* Combo Products Section */}
-      <div className="my-10">
+      {/* <div className="my-10">
         <h2 className="text-xl lg:text-2xl font-semibold mb-5 text-center">
           Combo Offers
         </h2>
@@ -196,7 +196,7 @@ const AllProduct = () => {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

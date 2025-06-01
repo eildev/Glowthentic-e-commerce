@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import MegaMenu from "./MegaMenu";
 import { useGetNavbarCategoryQuery } from "../../redux/features/api/category/categoryApi";
+import capitalizeText from "../../utils/capitalizeText";
 
 const NavbarForLargeDevice = () => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -37,11 +38,7 @@ const NavbarForLargeDevice = () => {
                 }`}
               >
                 <p className="capitalize">
-                  {data?.categoryName
-                    ? data.categoryName
-                        .toLowerCase()
-                        .replace(/(^|\s)\w/g, (letter) => letter.toUpperCase())
-                    : ""}
+                  {data?.categoryName ? capitalizeText(data?.categoryName) : ""}
                 </p>
                 <Icon
                   className={data?.isButton ? "hidden" : "block"}

@@ -1,16 +1,16 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import image from "../../assets/img/homeslider/Hero.png";
-import image2 from "../../assets/img/homeslider/banner-2.jpg";
-import image3 from "../../assets/img/homeslider/banner-4.jpg";
-import image4 from "../../assets/img/homeslider/banner-5.jpg";
+// import image from "../../assets/img/homeslider/Hero.png";
+// import image2 from "../../assets/img/homeslider/banner-2.jpg";
+// import image3 from "../../assets/img/homeslider/banner-4.jpg";
+// import image4 from "../../assets/img/homeslider/banner-5.jpg";
 import "swiper/css/pagination";
 
 import "./HomeSlider.css";
 // import required modules
 import { Autoplay, Pagination } from "swiper/modules";
 import { useGetBannersQuery } from "../../redux/features/api/homeBannerApi/homeBannerApi";
-import HomeBannerImage from "../../components/HomeBannerImage";
+import HomeBannerImage from "../../components/home-banner/HomeBannerImage";
 const HomeSlider = () => {
   const { data, error, isLoading } = useGetBannersQuery();
   // if (isLoading) {
