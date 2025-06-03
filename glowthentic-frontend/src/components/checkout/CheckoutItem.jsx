@@ -1,5 +1,6 @@
 import React from "react";
 import { imagePath } from "../../utils/imagePath";
+import capitalizeText from "../../utils/capitalizeText";
 
 const CheckoutItem = ({ item }) => {
   const regularPrice = item?.regular_price;
@@ -27,15 +28,20 @@ const CheckoutItem = ({ item }) => {
 
   const image = imagePath(item?.variant_image[0]?.image);
 
+  console.log("item", item);
+
   return (
     <div className="flex items-center">
       <img
         src={image}
-        alt={item?.product_name ?? ""}
+        alt={item?.product?.product_name ?? ""}
         className="w-12 h-12 object-cover rounded"
       />
       <div className="flex-1 ml-4 text-xs">
-        <span>{item?.product_name ?? ""}</span>
+        <span>
+          {capitalizeText(item?.product?.product_name) ?? ""} (
+          {capitalizeText(item?.variant_name) ?? ""})
+        </span>
         <div className="flex items-center gap-2">
           <span>
             {item?.quantity ?? 0} x{" "}

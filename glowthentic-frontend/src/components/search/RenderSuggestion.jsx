@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { setSuggestionsVisible } from "../../redux/features/slice/searchSlice";
 import { Link } from "react-router-dom";
 import SearchItemSkeleton from "./SearchItemSkeleton";
+import capitalizeText from "../../utils/capitalizeText";
 
 const RenderSuggestion = ({ isLoading, error, productData }) => {
   const dispatch = useDispatch();
@@ -35,6 +36,8 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
       </p>
     );
   }
+
+  console.log("productData", productData);
 
   return (
     <div onClick={handleSuggestionClick}>
@@ -72,7 +75,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
                   onClick={() => handleHideSuggestions("category", item.id)}
                   className="w-full"
                 >
-                  {item?.categoryName ?? "NA"}
+                  {capitalizeText(item?.categoryName) ?? "NA"}
                 </Link>
               </li>
             ))}
@@ -95,7 +98,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
                   onClick={() => handleHideSuggestions("brand", item.id)}
                   className="w-full"
                 >
-                  {item?.BrandName ?? "NA"}
+                  {capitalizeText(item?.BrandName) ?? "NA"}
                 </Link>
               </li>
             ))}

@@ -6,6 +6,7 @@ import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice"
 import { imagePath } from "../../utils/imagePath";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import capitalizeText from "../../utils/capitalizeText";
 
 const CartItemForSmallDevice = ({ item, handleDelete }) => {
   const [itemCount, setItemCount] = useState(item?.quantity || 1);
@@ -23,13 +24,19 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
   const regularPrice = item?.regular_price || 0;
 
   // Determine which promotion to use: product-level or variant-level
-  const promotion = item?.product?.promotionproduct?.[0]?.coupon || item?.product_variant_promotion?.coupon;
+  const promotion =
+    item?.product?.promotionproduct?.[0]?.coupon ||
+    item?.product_variant_promotion?.coupon;
 
   // Calculate discounted price and badge text
   let discountPrice = null;
   let badgeText = null;
 
-  if (promotion && promotion.status === "Active" && new Date(promotion.end_date) >= new Date()) {
+  if (
+    promotion &&
+    promotion.status === "Active" &&
+    new Date(promotion.end_date) >= new Date()
+  ) {
     const discountValue = parseFloat(promotion.discount_value);
     if (promotion.discount_type === "percentage") {
       discountPrice = regularPrice - (regularPrice * discountValue) / 100;
@@ -58,9 +65,13 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
             </div>
             <div>
               <div className="font-semibold text-xs">
-                {item?.product?.product_name ?? ""}
+                {item?.product?.product_name
+                  ? capitalizeText(item?.product?.product_name)
+                  : ""}
               </div>
-              <div className="text-sm opacity-50 mb-1">{item?.variant_name ?? ""}</div>
+              <div className="text-sm opacity-50 mb-1">
+                {item?.variant_name ? capitalizeText(item?.variant_name) : ""}
+              </div>
               <div className="text-[#FA8232] flex items-center gap-2">
                 <svg
                   width="14"
@@ -109,7 +120,11 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
         <td>
           <div className="flex flex-col justify-center items-center">
             <div className="w-20 h-8">
-              <IncrementDecrement setItemCount={setItemCount} item={item} status={'cart'} />
+              <IncrementDecrement
+                setItemCount={setItemCount}
+                item={item}
+                status={"cart"}
+              />
             </div>
             <div
               onClick={() => handleDelete(item?.id)}
@@ -128,7 +143,11 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
         <td className="text-[#191818] flex items-center font-semibold text-xl mb-8">
           <div className="flex flex-col justify-center items-center">
             <span className="block">৳{displayPrice}</span>
-            {badgeText && <span className="text-[12px] block line-through">${regularPrice}</span>}
+            {badgeText && (
+              <span className="text-[12px] block line-through">
+                ${regularPrice}
+              </span>
+            )}
           </div>
         </td>
         <td className="text-[#191818] flex items-center font-semibold text-xl mb-8">

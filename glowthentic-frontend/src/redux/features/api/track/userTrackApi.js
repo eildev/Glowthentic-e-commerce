@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const userTrackApi = createApi({
     reducerPath: "userTrackApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api",
+        baseUrl: "https://backend.glowthentic.store/api",
         credentials: "include",
         prepareHeaders: (headers) => {
             const csrfToken = Cookies.get("XSRF-TOKEN");

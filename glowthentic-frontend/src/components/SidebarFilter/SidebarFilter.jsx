@@ -13,6 +13,7 @@ import {
 } from "../../redux/features/slice/filterSlice";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import { useEffect } from "react";
+import capitalizeText from "../../utils/capitalizeText";
 
 const SidebarFilter = ({ className }) => {
   const dispatch = useDispatch();
@@ -84,7 +85,7 @@ const SidebarFilter = ({ className }) => {
                   key={index}
                   className="text-[#0C0C0C] flex gap-2 items-center text-sm border border-[#DFDFDF] p-2"
                 >
-                  {item}
+                  {capitalizeText(item)}
                   <button onClick={() => removeFilter(item)}>
                     <IoMdClose />
                   </button>

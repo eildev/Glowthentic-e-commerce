@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import ShowPrice from "./ShowPrice.jsx";
 import IncrementDecrement from "../../components/typography/IncrementDecrement.jsx";
 import ProductHelmet from "../../components/helmet/ProductHelmet";
+import capitalizeText from "../../utils/capitalizeText";
 
 const TagElement = ({ value }) => {
   return <p>{value?.tagName ?? "No Value"}</p>;
@@ -152,8 +153,8 @@ const ProductDetails = () => {
         <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
           {/* Small Device Right Section Start */}
           <div className="sm:hidden block mt-4 p-2">
-            <HeadTitle className="mb-2">
-              {data?.data?.product_name ?? ""}
+            <HeadTitle className="mb-2 text-capitalize">
+              {capitalizeText(data?.data?.product_name) ?? ""}
             </HeadTitle>
             <h4 className="font-bold line-clamp-3">
               {data?.data?.productdetails?.short_description}
@@ -185,7 +186,7 @@ const ProductDetails = () => {
             {/* Show on big device, hidden on атрил device */}
             <div className="hidden sm:block w-full">
               <HeadTitle className="mb-2">
-                {data?.data?.product_name ?? ""}
+                {capitalizeText(data?.data?.product_name) ?? ""}
               </HeadTitle>
               <h4
                 className="font-bold line-clamp-3"
@@ -298,7 +299,7 @@ const ProductDetails = () => {
                   >
                     <img
                       src={
-                        "http://127.0.0.1:8000/" +
+                        "https://backend.glowthentic.store/" +
                           variant?.variant_image[0]?.image ||
                         "https://via.placeholder.com/150"
                       }

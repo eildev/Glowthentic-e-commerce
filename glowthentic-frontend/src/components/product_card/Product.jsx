@@ -15,6 +15,7 @@ import {
 import { useAddToWishlistMutation } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import { imagePath } from "../../utils/imagePath";
 import useMediaQuery from "./useMediaQuery";
+import capitalizeText from "../../utils/capitalizeText";
 
 const Product = ({ product, isDark }) => {
   const navigate = useNavigate();
@@ -27,25 +28,24 @@ const Product = ({ product, isDark }) => {
     useAddToWishlistMutation();
   const isMobile = useMediaQuery("(max-width: 767px)");
 
-
   const { id, product_name, productdetails, variants, price } = product;
 
- 
   const isComboProduct = product?.comboproduct && !product?.variants;
 
-  const defaultVariant = !isComboProduct && product.variants?.find(
-    (variant) => variant.status === "Default"
-  );
-  const variantWithPromotion = !isComboProduct && product.variants?.find(
-    (variant) =>
-      variant?.product_variant_promotion?.coupon?.discount_type ===
-        "percentage" ||
-      variant?.product_variant_promotion?.coupon?.discount_type === "fixed"
-  );
-
+  const defaultVariant =
+    !isComboProduct &&
+    product.variants?.find((variant) => variant.status === "Default");
+  const variantWithPromotion =
+    !isComboProduct &&
+    product.variants?.find(
+      (variant) =>
+        variant?.product_variant_promotion?.coupon?.discount_type ===
+          "percentage" ||
+        variant?.product_variant_promotion?.coupon?.discount_type === "fixed"
+    );
 
   const comboImage = isComboProduct && product.comboimage?.[0]?.image;
-  const offerPrice = isComboProduct && parseInt(product.offerd_price) || 0;
+  const offerPrice = (isComboProduct && parseInt(product.offerd_price)) || 0;
 
   const filteredCartItems = cartItems.filter((item) => {
     if (user?.id) {
@@ -55,12 +55,11 @@ const Product = ({ product, isDark }) => {
     }
   });
 
-  const promotion = !isComboProduct && variantWithPromotion?.product_variant_promotion?.coupon;
-
+  const promotion =
+    !isComboProduct && variantWithPromotion?.product_variant_promotion?.coupon;
 
   const currentDate = new Date();
 
- 
   let isPromotionValid = false;
   if (promotion && promotion.start_date && promotion.end_date) {
     const startDate = new Date(promotion.start_date);
@@ -69,11 +68,14 @@ const Product = ({ product, isDark }) => {
   }
 
   let discountPercentage = 0;
-  let finalPrice = !isComboProduct ? (defaultVariant?.regular_price || product.variants?.[0]?.regular_price || 0) : offerPrice;
+  let finalPrice = !isComboProduct
+    ? defaultVariant?.regular_price || product.variants?.[0]?.regular_price || 0
+    : offerPrice;
   finalPrice = parseInt(finalPrice);
-  let stockStatus = !isComboProduct && (product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock");
-  let badgeText = null; 
-
+  let stockStatus =
+    !isComboProduct &&
+    (product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock");
+  let badgeText = null;
 
   if (!isComboProduct && isPromotionValid && promotion) {
     if (promotion.discount_type === "percentage") {
@@ -96,17 +98,23 @@ const Product = ({ product, isDark }) => {
     const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
     setIsFav(favourite.some((item) => item.id === product.id));
     setIsInCart(
-      filteredCartItems.some((item) => item.id === (isComboProduct ? product.id : defaultVariant?.id))
+      filteredCartItems.some(
+        (item) => item.id === (isComboProduct ? product.id : defaultVariant?.id)
+      )
     );
   }, [product.id, filteredCartItems, defaultVariant, isComboProduct]);
 
-  const productImage = !isComboProduct ? imagePath(product.variants?.[0]?.variant_image?.[0]?.image) : imagePath(comboImage);
+  const productImage = !isComboProduct
+    ? imagePath(product.variants?.[0]?.variant_image?.[0]?.image)
+    : imagePath(comboImage);
 
   const handleAddToCart = (productItem) => {
     if (isInCart) {
       dispatch(removeFromCart(productItem.id));
       toast.error(
-        `${productItem?.product_name ?? productItem?.name ?? ""} removed from Cart!`
+        `${
+          productItem?.product_name ?? productItem?.name ?? ""
+        } removed from Cart!`
       );
     } else {
       const newProduct = {
@@ -136,9 +144,17 @@ const Product = ({ product, isDark }) => {
       const result = await addToWishlist(wishlistData).unwrap();
       if (result.status === 200) {
         setIsFav(true);
-        toast.success(`${productItem?.product_name ?? productItem?.name} added to your wishlist!`);
+        toast.success(
+          `${
+            productItem?.product_name ?? productItem?.name
+          } added to your wishlist!`
+        );
       } else {
-        toast.error(`Failed to add ${productItem?.product_name ?? productItem?.name} to wishlist.`);
+        toast.error(
+          `Failed to add ${
+            productItem?.product_name ?? productItem?.name
+          } to wishlist.`
+        );
       }
     } catch (error) {
       toast.error(
@@ -147,7 +163,11 @@ const Product = ({ product, isDark }) => {
     }
   };
 
-  const productName = isComboProduct ? product.name : (product.product_name + " " + (defaultVariant?.variant_name || product.variants?.[0]?.variant_name));
+  const productName = isComboProduct
+    ? product.name
+    : product.product_name +
+      " " +
+      (defaultVariant?.variant_name || product.variants?.[0]?.variant_name);
 
   return (
     <div
@@ -165,10 +185,14 @@ const Product = ({ product, isDark }) => {
         </Link>
         <span
           className={`bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold transition-opacity duration-300 ${
-            !isComboProduct && product?.stock <= 0 ? "opacity-100" : "hover:opacity-75"
+            !isComboProduct && product?.stock <= 0
+              ? "opacity-100"
+              : "hover:opacity-75"
           }`}
         >
-          {(!isComboProduct && product?.stock <= 0) ? "Stock Out" : badgeText || stockStatus || "In Stock"}
+          {!isComboProduct && product?.stock <= 0
+            ? "Stock Out"
+            : badgeText || stockStatus || "In Stock"}
         </span>
 
         <ProductIcon
@@ -190,14 +214,17 @@ const Product = ({ product, isDark }) => {
           } ${
             isInCart
               ? "bg-secondary text-white"
-              : ((!isComboProduct && stockStatus === "In Stock") || isComboProduct)
+              : (!isComboProduct && stockStatus === "In Stock") ||
+                isComboProduct
               ? "bg-primary text-white"
               : "bg-gray text-white"
           }`}
           imgClassName=""
           product={product}
           handleAddToCart={
-            (!isComboProduct && product?.product_stock?.[0]?.StockQuantity > 0) || isComboProduct
+            (!isComboProduct &&
+              product?.product_stock?.[0]?.StockQuantity > 0) ||
+            isComboProduct
               ? handleAddToCart
               : () => {}
           }
@@ -219,20 +246,30 @@ const Product = ({ product, isDark }) => {
               isDark ? "text-white" : "text-primary"
             }`}
           >
-            {productName || "Beautya Capture Total Dreamskin Care & Perfect"}
+            {capitalizeText(productName) || "N/A"}
           </HeadTitle>
         </Link>
         {isMobile ? (
           <Paragraph className="text-xs min-h-[40px] transition-opacity duration-200 hover:opacity-80">
-            {(!isComboProduct && productdetails?.short_description?.slice(0, 40)) || 
-             (isComboProduct && product?.comboproduct?.[0]?.product?.productdetails?.short_description?.slice(0, 40)) || 
-             ""}
+            {(!isComboProduct &&
+              productdetails?.short_description?.slice(0, 40)) ||
+              (isComboProduct &&
+                product?.comboproduct?.[0]?.product?.productdetails?.short_description?.slice(
+                  0,
+                  40
+                )) ||
+              ""}
           </Paragraph>
         ) : (
           <Paragraph className="text-sm lg:mt-2 line-clamp-2 min-h-[44px] transition-opacity duration-200 hover:opacity-80">
-            {(!isComboProduct && productdetails?.short_description?.slice(0, 60)) || 
-             (isComboProduct && product?.comboproduct?.[0]?.product?.productdetails?.short_description?.slice(0, 60)) || 
-             ""}
+            {(!isComboProduct &&
+              productdetails?.short_description?.slice(0, 60)) ||
+              (isComboProduct &&
+                product?.comboproduct?.[0]?.product?.productdetails?.short_description?.slice(
+                  0,
+                  60
+                )) ||
+              ""}
           </Paragraph>
         )}
 

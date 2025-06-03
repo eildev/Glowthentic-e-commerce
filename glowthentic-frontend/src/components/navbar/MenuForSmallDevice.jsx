@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Container from "../Container";
 import { Link } from "react-router-dom";
+import capitalizeText from "../../utils/capitalizeText";
 
 const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
   const [openSection, setOpenSection] = useState(null);
@@ -33,7 +34,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
           />
         </svg>
         <span className="text-[#0C0C0C] text-sm font-semibold capitalize">
-          {item?.categoryName}
+          {capitalizeText(item?.categoryName ?? "")}
         </span>
       </span>
 
@@ -73,7 +74,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
                         state={{ subcategoryId: subcategory.id }}
                         onClick={onHideNavbar}
                       >
-                        {subcategory.categoryName}
+                        {capitalizeText(subcategory.categoryName ?? "")}
                       </Link>
                     </li>
                   ))}
@@ -114,7 +115,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
                         state={{ brandId: brand.id }}
                         onClick={onHideNavbar}
                       >
-                        {brand?.brandName ?? ""}
+                        {capitalizeText(brand?.brandName ?? "")}
                       </Link>
                     </li>
                   ))}
@@ -129,7 +130,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
                   onClick={() => toggleSection("collection")}
                   className="bg-white py-[10px] px-2 border-t border-gray-light font-semibold cursor-pointer text-sm flex justify-between capitalize"
                 >
-                  {"By Skin Condition"}
+                  {"By Concern"}
                   <Icon
                     icon={
                       openSection === "collection"
@@ -155,7 +156,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
                         state={{ tagId: tag.id }}
                         onClick={onHideNavbar}
                       >
-                        {tag?.tagName}
+                        {capitalizeText(tag?.tagName ?? "")}
                       </Link>
                     </li>
                   ))}
@@ -175,7 +176,7 @@ const MenuForSmallDevice = ({ item, setItem, onHideNavbar }) => {
                     state={{ featureSlug: feature.slug }}
                     onClick={onHideNavbar}
                   >
-                    {feature?.slug ?? ""}
+                    {capitalizeText(feature?.slug ?? "")}
                   </Link>
                 </li>
               ))}

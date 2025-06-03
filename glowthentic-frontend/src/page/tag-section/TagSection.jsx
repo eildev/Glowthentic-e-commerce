@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setFilteredTags } from "../../redux/features/slice/filterSlice";
 import { imagePath } from "../../utils/imagePath";
 import TagSkeleton from "./TagSkeleton";
+import textUppercase from "../../utils/textUppercase";
 
 const TagSection = () => {
   const { data, isLoading, error } = useGetTagsQuery();
@@ -19,21 +20,16 @@ const TagSection = () => {
   // if (isLoading) {
   //   return <span>Loading...</span>;
 
-  
-
-
-  
   // }
   if (error) {
     return <span>Error</span>;
   }
 
-
-  console.log(data);
-
   return (
     <div>
-      <HeadTitle className="text-center mt-8">CARE BY CONCERN</HeadTitle>
+      <HeadTitle className="text-center mt-8 lg:text-2xl text-lg">
+        CARE BY CONCERN
+      </HeadTitle>
       <Container>
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[44px]">
@@ -57,7 +53,7 @@ const TagSection = () => {
                   className="w-full object-cover rounded"
                 />
                 <h3 className="text-sm text-gray-600 mt-2 text-center">
-                  {tags.tagName}
+                  {tags?.tagName ? textUppercase(tags?.tagName) : ""}
                 </h3>
               </Link>
             ))}

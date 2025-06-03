@@ -19,6 +19,7 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import _ from "lodash";
+import capitalizeText from "../../utils/capitalizeText";
 
 // Slider styles
 const sliderStyles = `
@@ -275,36 +276,7 @@ const DropdownFilter = () => {
                   )
                 }
               >
-                {category.categoryName}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <hr className="text-hr-thin my-2" />
-
-      {/* Skin Condition (Tags) Section */}
-      <div className="collapse collapse-arrow bg-white mb-2">
-        <input type="checkbox" className="peer" id="skin-condition" />
-        <label
-          className="collapse-title text-secondary font-bold"
-          htmlFor="skin-condition"
-        >
-          Skin Condition
-        </label>
-        <div className="collapse-content">
-          {tagsData?.categories?.map((tag) => (
-            <div key={tag.id || tag.tagName} className="flex items-center py-2">
-              <Checkbox
-                className="checkbox-sm"
-                checked={filteredTags.includes(String(tag.id))}
-                onChange={() => handleTagsCheckboxChange(tag?.tagName, tag.id)}
-              />
-              <span
-                className="ml-3 font-normal mb-1 cursor-pointer"
-                onClick={() => handleTagsCheckboxChange(tag?.tagName, tag.id)}
-              >
-                {tag.tagName}
+                {capitalizeText(category.categoryName ?? "")}
               </span>
             </div>
           ))}
@@ -340,7 +312,36 @@ const DropdownFilter = () => {
                   handleBrandsCheckboxChange(brand.BrandName, brand.id)
                 }
               >
-                {brand.BrandName}
+                {capitalizeText(brand.BrandName ?? "")}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <hr className="text-hr-thin my-2" />
+
+      {/* Skin Condition (Tags) Section */}
+      <div className="collapse collapse-arrow bg-white mb-2">
+        <input type="checkbox" className="peer" id="skin-condition" />
+        <label
+          className="collapse-title text-secondary font-bold"
+          htmlFor="skin-condition"
+        >
+          Concern By
+        </label>
+        <div className="collapse-content">
+          {tagsData?.categories?.map((tag) => (
+            <div key={tag.id || tag.tagName} className="flex items-center py-2">
+              <Checkbox
+                className="checkbox-sm"
+                checked={filteredTags.includes(String(tag.id))}
+                onChange={() => handleTagsCheckboxChange(tag?.tagName, tag.id)}
+              />
+              <span
+                className="ml-3 font-normal mb-1 cursor-pointer"
+                onClick={() => handleTagsCheckboxChange(tag?.tagName, tag.id)}
+              >
+                {capitalizeText(tag?.tagName ?? "")}
               </span>
             </div>
           ))}

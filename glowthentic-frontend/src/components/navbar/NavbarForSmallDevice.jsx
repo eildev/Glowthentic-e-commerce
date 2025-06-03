@@ -4,6 +4,7 @@ import MenuForSmallDevice from "./MenuForSmallDevice";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useGetNavbarCategoryQuery } from "../../redux/features/api/category/categoryApi";
+import capitalizeText from "../../utils/capitalizeText";
 
 const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
   const [menu, setMenu] = useState(null);
@@ -38,7 +39,9 @@ const NavbarForSmallDevice = ({ showMobileMenu, setShowMobileMenu }) => {
                     className="capitalize"
                     onClick={handleHideNavbar}
                   >
-                    {data?.categoryName ?? ""}
+                    {data?.categoryName
+                      ? capitalizeText(data?.categoryName)
+                      : ""}
                   </Link>
                   {data?.subcategories?.length > 0 ? (
                     <div

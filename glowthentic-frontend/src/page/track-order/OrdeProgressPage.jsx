@@ -10,13 +10,18 @@ import ProgressProductTitle from "../../components/track-order/order-progress/Pr
 import { useLocation } from "react-router-dom";
 import { useGetTrackingOrderQuery } from "../../redux/features/api/orderApi/orderApi";
 import { imagePath } from "../../utils/imagePath";
+import capitalizeText from "../../utils/capitalizeText";
 
 const OrdeProgressPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const orderId = queryParams.get("orderId");
   // const orderData = useSelector((state) => state.order?.orderData);
-  const { data: orderData, isLoading, isError } = useGetTrackingOrderQuery(orderId);
+  const {
+    data: orderData,
+    isLoading,
+    isError,
+  } = useGetTrackingOrderQuery(orderId);
   console.log("orderData", orderData);
   const isoDate = orderData?.billingInfo?.created_at;
   const date = new Date(isoDate);
@@ -43,6 +48,8 @@ const OrdeProgressPage = () => {
     if (!phone) return "";
     return phone.startsWith("0") ? phone : `0${phone}`;
   };
+
+  // console.log("orderData", orderData);
   return (
     <div>
       <div className="bg-primary h-[250px]"></div>
@@ -66,16 +73,17 @@ const OrdeProgressPage = () => {
                 {/* Step 1: Ordered */}
                 <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
                   <div
-                    className={`w-8 h-8 ${orderData?.order_tracking_status === "Ordered" ||
-                      orderData?.order_tracking_status === "Shipped" ||
-                      orderData?.order_tracking_status === "Completed"
-                      ? "bg-orange-500"
-                      : "bg-dark"
-                      } text-white flex items-center justify-center rounded-full mb-2`}
+                    className={`w-8 h-8 ${
+                      orderData?.order?.status === "pending" ||
+                      orderData?.order?.status === "approve" ||
+                      orderData?.order?.status === "processing"
+                        ? "bg-orange-500"
+                        : "bg-dark"
+                    } text-white flex items-center justify-center rounded-full mb-2`}
                   >
-                    {orderData?.order_tracking_status === "Ordered" ||
-                      orderData?.order_tracking_status === "Shipped" ||
-                      orderData?.order_tracking_status === "Completed"
+                    {orderData?.order?.status === "pending" ||
+                    orderData?.order?.status === "approve" ||
+                    orderData?.order?.status === "In processing"
                       ? "✓"
                       : "🔒"}
                   </div>
@@ -84,16 +92,17 @@ const OrdeProgressPage = () => {
                     <div className="flex w-full lg:w-auto justify-between lg:flex-col flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
                       <p className="font-semibold text-gray-700">Ordered</p>
                       <p
-                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${orderData?.order_tracking_status === "Ordered" ||
-                          orderData?.order_tracking_status === "Shipped" ||
-                          orderData?.order_tracking_status === "Completed"
-                          ? "text-orange-500 bg-[#FA82321A]"
-                          : "text-purple-500 bg-[#F4F1FF]"
-                          }`}
+                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
+                          orderData?.order?.status === "pending" ||
+                          orderData?.order?.status === "approve" ||
+                          orderData?.order?.status === "processing"
+                            ? "text-orange-500 bg-[#FA82321A]"
+                            : "text-purple-500 bg-[#F4F1FF]"
+                        }`}
                       >
-                        {orderData?.order_tracking_status === "Ordered" ||
-                          orderData?.order_tracking_status === "Shipped" ||
-                          orderData?.order_tracking_status === "Completed"
+                        {orderData?.order?.status === "pending" ||
+                        orderData?.order?.status === "approve" ||
+                        orderData?.order?.status === "processing"
                           ? "Completed"
                           : "In Progress"}
                       </p>
@@ -107,14 +116,17 @@ const OrdeProgressPage = () => {
                 {/* Step 2: Shipped */}
                 <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
                   <div
-                    className={`w-8 h-8 ${orderData?.order_tracking_status === "Shipped" ||
-                      orderData?.order_tracking_status === "Completed"
-                      ? "bg-orange-500"
-                      : "bg-dark"
-                      } text-white flex items-center justify-center rounded-full mb-2`}
+                    className={`w-8 h-8 ${
+                      orderData?.order?.status === "Delivering" ||
+                      orderData?.order?.status === "shipping" ||
+                      orderData?.order?.status === "In Transit"
+                        ? "bg-orange-500"
+                        : "bg-dark"
+                    } text-white flex items-center justify-center rounded-full mb-2`}
                   >
-                    {orderData?.order_tracking_status === "Shipped" ||
-                      orderData?.order_tracking_status === "Completed"
+                    {orderData?.order?.status === "Delivering" ||
+                    orderData?.order?.status === "shipping" ||
+                    orderData?.order?.status === "In Transit"
                       ? "✓"
                       : "🔒"}
                   </div>
@@ -123,14 +135,17 @@ const OrdeProgressPage = () => {
                     <div className="flex lg:flex-col justify-between w-full lg:w-auto flex-row ps-2 lg:ps-0 gap-3 lg:gap-0">
                       <p className="font-semibold text-gray-700">Shipped</p>
                       <p
-                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${orderData?.order_tracking_status === "Shipped" ||
-                          orderData?.order_tracking_status === "Completed"
-                          ? "text-orange-500 bg-[#FA82321A]"
-                          : "text-purple-500 bg-[#F4F1FF]"
-                          }`}
+                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
+                          orderData?.order?.status === "Delivering" ||
+                          orderData?.order?.status === "shipping" ||
+                          orderData?.order?.status === "In Transit"
+                            ? "text-orange-500 bg-[#FA82321A]"
+                            : "text-purple-500 bg-[#F4F1FF]"
+                        }`}
                       >
-                        {orderData?.order_tracking_status === "Shipped" ||
-                          orderData?.order_tracking_status === "Completed"
+                        {orderData?.order?.status === "Delivering" ||
+                        orderData?.order?.status === "shipping" ||
+                        orderData?.order?.status === "In Transit"
                           ? "Completed"
                           : "In Progress"}
                       </p>
@@ -144,26 +159,26 @@ const OrdeProgressPage = () => {
                 {/* Step 3: Completed */}
                 <div className="flex flex-row w-full lg:w-auto lg:flex-col lg:items-center">
                   <div
-                    className={`w-8 h-8 ${orderData?.order_tracking_status === "Completed"
-                      ? "bg-orange-500"
-                      : "bg-dark"
-                      } text-white flex items-center justify-center rounded-full mb-2`}
+                    className={`w-8 h-8 ${
+                      orderData?.order?.status === "completed"
+                        ? "bg-orange-500"
+                        : "bg-dark"
+                    } text-white flex items-center justify-center rounded-full mb-2`}
                   >
-                    {orderData?.order_tracking_status === "Completed"
-                      ? "✓"
-                      : "🔒"}
+                    {orderData?.order?.status === "completed" ? "✓" : "🔒"}
                   </div>
                   <div className="w-full lg:w-auto">
                     <p className="text-xs text-gray ps-2 lg:ps-0">STEP 3</p>
                     <div className="flex w-full lg:w-auto lg:flex-col justify-between ps-2 lg:ps-0 gap-3 lg:gap-0">
                       <p className="font-semibold text-gray-700">Completed</p>
                       <p
-                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${orderData?.order_tracking_status === "Completed"
-                          ? "text-orange-500 bg-[#FA82321A]"
-                          : "text-purple-500 bg-[#F4F1FF]"
-                          }`}
+                        className={`text-xs px-3 py-1 rounded-3xl lg:mt-2 ${
+                          orderData?.order?.status === "completed"
+                            ? "text-orange-500 bg-[#FA82321A]"
+                            : "text-purple-500 bg-[#F4F1FF]"
+                        }`}
                       >
-                        {orderData?.order_tracking_status === "Completed"
+                        {orderData?.order?.status === "completed"
                           ? "Completed"
                           : "In Progress"}
                       </p>
@@ -189,8 +204,8 @@ const OrdeProgressPage = () => {
                 <div className=" mx-auto bg-white rounded-lg  p-6">
                   <div className="text-center">
                     <h1 className="lg:text-xl text-lg  font-semibold mb-4">
-                      Hello {orderData?.userDetails?.full_name}, here is Your
-                      Cart
+                      Hello {orderData?.userDetails?.full_name ?? "N/A"}, here
+                      is Your Cart
                     </h1>
                     <p className="text-sm text-gray-600 mb-6">
                       Here is a summary of your recent order made on{" "}
@@ -208,13 +223,20 @@ const OrdeProgressPage = () => {
                     >
                       <div className="flex  gap-4 lg:gap-0">
                         <img
-                          src={imagePath(item?.variant?.variant_image[0]?.image)}
+                          src={imagePath(
+                            item?.variant?.variant_image[0]?.image
+                          )}
                           alt={item.title}
                           className="w-16 h-16 object-cover rounded"
                         />
                         <div className="lg:hidden">
                           <ProgressProductTitle
-                            title={item?.product.product_name}
+                            title={
+                              item?.product?.product_name
+                                ? capitalizeText(item?.product?.product_name)
+                                : ""
+                            }
+                            sku={item?.product?.sku ?? ""}
                           ></ProgressProductTitle>
                         </div>
                       </div>
@@ -223,13 +245,18 @@ const OrdeProgressPage = () => {
                         <div className="hidden lg:block">
                           {" "}
                           <ProgressProductTitle
-                            title={item.product.product_name}
+                            title={
+                              item?.product?.product_name
+                                ? capitalizeText(item?.product?.product_name)
+                                : ""
+                            }
+                            sku={item?.product?.sku ?? ""}
                           ></ProgressProductTitle>
                         </div>
 
                         <div className="text-left">
                           <p className="text-sm text-justify text-gray-500 mt-1">
-                            {item.description}
+                            {}
                           </p>
                         </div>
                         <div className="flex mt-2 justify-between text-left">
@@ -266,7 +293,7 @@ const OrdeProgressPage = () => {
                         Order Summary
                       </HeadTitle>
                       <HeadTitle className="text-md lg:text-xl">
-                        Payment Status : {" "}
+                        Payment Status :{" "}
                         <span className="font-normal text-md lg:text-xl">
                           {/* {orderData?.billingInfo?.active_payment_method === "COD"
                             ? "Cash"
@@ -292,7 +319,12 @@ const OrdeProgressPage = () => {
                     </div>
                     <div className="flex justify-end text-lg mt-4">
                       <p className="px-4">
-                        Total ({Array.isArray(orderItems) ? orderItems.length : 0} {Array.isArray(orderItems) && orderItems.length === 1 ? "Item" : "Items"}):
+                        Total (
+                        {Array.isArray(orderItems) ? orderItems.length : 0}{" "}
+                        {Array.isArray(orderItems) && orderItems.length === 1
+                          ? "Item"
+                          : "Items"}
+                        ):
                       </p>
                       <p className="font-bold text-gray-900 ">
                         ৳{totalEstimated} tk
@@ -322,7 +354,6 @@ const OrdeProgressPage = () => {
               {/* Order  End*/}
             </div>
 
-
             <div className="bg-gray-100">
               {/* Address and Shipping Details */}
               <div className="grid grid-cols-1 md:grid-cols-3 bg-white p-6 rounded-lg">
@@ -330,30 +361,54 @@ const OrdeProgressPage = () => {
                 <div className="text-center md:text-left border-0 md:border-[1px] md:border-e-0 border-[#D3D8E3] p-5">
                   <div className="flex justify-center md:justify-start items-center mb-2">
                     <span className="text-secondary">
-                      <Icon icon="mingcute:location-2-fill" width="2em" height="2em" />
+                      <Icon
+                        icon="mingcute:location-2-fill"
+                        width="2em"
+                        height="2em"
+                      />
                     </span>
                   </div>
-                  <h3 className="font-semibold text-orange-500">Shipping Address</h3>
-                  <p className="text-gray-700">{orderData?.userDetails?.full_name || "N/A"}</p>
-                  <p className="text-gray-500">{orderData?.userDetails?.address || "N/A"}</p>
+                  <h3 className="font-semibold text-orange-500">
+                    Shipping Address
+                  </h3>
+                  <p className="text-gray-700">
+                    {orderData?.userDetails?.full_name || "N/A"}
+                  </p>
+                  <p className="text-gray-500">
+                    {orderData?.userDetails?.address || "N/A"}
+                  </p>
                 </div>
 
                 {/* Billing Details */}
                 <div className="text-center md:text-left border-0 md:border-[1px] md:border-e-0 border-[#D3D8E3] p-5">
                   <div className="flex justify-center md:justify-start items-center mb-2">
                     <span className="text-secondary">
-                      <Icon icon="mdi:credit-card-outline" width="2em" height="2em" />
+                      <Icon
+                        icon="mdi:credit-card-outline"
+                        width="2em"
+                        height="2em"
+                      />
                     </span>
                   </div>
-                  <h3 className="font-semibold text-orange-500">Billing Details</h3>
+                  <h3 className="font-semibold text-orange-500">
+                    Billing Details
+                  </h3>
                   <p className="text-gray-700">
-                    Phone: {formatPhoneNumber(orderData?.userDetails?.phone_number) || "N/A"}
+                    Phone:{" "}
+                    {formatPhoneNumber(orderData?.userDetails?.phone_number) ||
+                      "N/A"}
                   </p>
                   <p className="text-gray-700">
-                    Email: {orderData?.userDetails?.user?.email ? orderData?.userDetails?.user?.email : orderData?.userDetails?.secondary_email ?? ""}
+                    Email:{" "}
+                    {orderData?.userDetails?.user?.email
+                      ? orderData?.userDetails?.user?.email
+                      : orderData?.userDetails?.secondary_email ?? ""}
                   </p>
                   <p className="text-gray-700">
-                    Payment Method: {orderData?.billingInfo?.active_payment_method === "COD" ? "Cash on Delivery" : "N/A"}
+                    Payment Method:{" "}
+                    {orderData?.billingInfo?.active_payment_method === "COD"
+                      ? "Cash on Delivery"
+                      : "N/A"}
                   </p>
                 </div>
 
@@ -364,10 +419,15 @@ const OrdeProgressPage = () => {
                       <Icon icon="mdi:bus" width="2em" height="2em" />
                     </span>
                   </div>
-                  <h3 className="font-semibold text-orange-500">Shipping Method</h3>
-                  <p className="text-gray-700">Method: Standard Courier Delivery</p>
+                  <h3 className="font-semibold text-orange-500">
+                    Shipping Method
+                  </h3>
+                  <p className="text-gray-700">
+                    Method: Standard Courier Delivery
+                  </p>
                   <p className="text-gray-500">
-                    Delivery Time: 4-5 business days (delays may occur in remote areas or during holidays)
+                    Delivery Time: 4-5 business days (delays may occur in remote
+                    areas or during holidays)
                   </p>
                   <p className="text-gray-700">
                     Shipping Charge: ৳{orderData?.order?.shipping_charge || 0}

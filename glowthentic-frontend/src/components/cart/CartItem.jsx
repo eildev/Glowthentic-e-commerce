@@ -6,6 +6,7 @@ import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice"
 import { useEffect, useState } from "react";
 import { imagePath } from "../../utils/imagePath";
 import { Link } from "react-router-dom";
+import capitalizeText from "../../utils/capitalizeText";
 
 const CartItem = ({ item, handleDelete }) => {
   const [itemCount, setItemCount] = useState(item?.quantity || 1);
@@ -52,6 +53,8 @@ const CartItem = ({ item, handleDelete }) => {
     setTotal(Math.round(finalPrice * itemCount));
   }, [itemCount, finalPrice]);
 
+  // console.log(capitalizeText(item?.product?.product_name));
+
   return (
     <tr className="border-none">
       <th>
@@ -69,10 +72,12 @@ const CartItem = ({ item, handleDelete }) => {
           </div>
           <div>
             <div className="font-bold mb-1">
-              {item?.product?.product_name ?? ""}
+              {item?.product?.product_name
+                ? capitalizeText(item?.product?.product_name)
+                : ""}
             </div>
             <div className="text-sm opacity-50 mb-1">
-              {item?.variant_name ?? ""}
+              {item?.variant_name ? capitalizeText(item?.variant_name) : ""}
             </div>
             <Link
               to={`/product/${item?.product?.slug}?variant=${encodeURIComponent(

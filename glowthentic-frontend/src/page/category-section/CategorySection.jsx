@@ -10,6 +10,7 @@ import {
 } from "../../redux/features/slice/filterSlice";
 import CategorySkeleton from "./CategorySkeleton";
 import { imagePath } from "../../utils/imagePath";
+import textUppercase from "../../utils/textUppercase";
 
 const CategorySection = () => {
   const { data, isLoading, error } = useGetCategoryQuery();
@@ -28,7 +29,7 @@ const CategorySection = () => {
   return (
     <div>
       <HeadTitle className="text-center mt-8 lg:text-2xl text-lg">
-        SHOP BY CONCERN
+        SHOP BY CATEGORY
       </HeadTitle>
       <Container>
         {isLoading ? (
@@ -59,7 +60,9 @@ const CategorySection = () => {
                     className="w-full object-cover rounded"
                   />
                   <h3 className="text-sm text-gray-600 mt-2 text-center uppercase">
-                    {category?.categoryName ?? ""}
+                    {category?.categoryName
+                      ? textUppercase(category?.categoryName)
+                      : ""}
                   </h3>
                 </Link>
               ))}

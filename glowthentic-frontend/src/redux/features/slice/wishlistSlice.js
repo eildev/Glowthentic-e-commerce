@@ -6,7 +6,7 @@ export const addToWishlist = createAsyncThunk(
   "wishlist/addToWishlist",
   async ({ session_id, product_id, variant_id }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/wishlist/add", {
+      const response = await axios.post("https://backend.glowthentic.store/api/wishlist/add", {
         session_id,
         product_id,
         variant_id,

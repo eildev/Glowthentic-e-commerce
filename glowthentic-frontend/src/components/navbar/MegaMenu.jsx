@@ -83,7 +83,7 @@ const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
           </div>
           <div>
             <h2 className="font-semibold mb-2 text-sm xxl:text-lg">
-              By Skin Condition
+              By Concern
             </h2>
             <ul className="grid gap-2 text-sm xxl:text-lg">
               {tags?.slice(0, 10).map((tag) => (

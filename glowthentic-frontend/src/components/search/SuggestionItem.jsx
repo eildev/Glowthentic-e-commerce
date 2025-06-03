@@ -8,6 +8,7 @@ import {
 } from "../../redux/features/slice/searchSlice";
 import { imagePath } from "../../utils/imagePath";
 import toast from "react-hot-toast";
+import capitalizeText from "../../utils/capitalizeText";
 
 const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
   const {
@@ -90,7 +91,7 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
         />
         <div onClick={(e) => handleItemClick(e)}>
           <p className="font-medium text-sm text-black">
-            {product_name || "Unknown"}
+            {product_name ? capitalizeText(product_name) : "Unknown"}
           </p>
           <div className="flex items-center gap-2">
             {badgeText && (

@@ -100,7 +100,7 @@ const EditAccount = () => {
       formDataToSend.append("police_station", formData.zone);
       formDataToSend.append("postal_code", formData.postalCode);
       formDataToSend.append("phone_number", formData.phone);
-
+      console.log("formData", formDataToSend.name);
       if (imageFile) {
         formDataToSend.append("image", imageFile);
       }

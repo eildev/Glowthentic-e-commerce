@@ -116,7 +116,6 @@ const AllProduct = () => {
     );
   }
 
-  console.log("comboProduct", comboData);
   return (
     <div className="w-full px-5 my-3">
       {/* Filter Chips Section - Visible only on small devices */}
@@ -152,9 +151,9 @@ const AllProduct = () => {
       </div>
 
       {/* Product Grid */}
-      <h2 className="text-xl lg:text-2xl font-semibold mb-5 text-center">
+      {/* <h2 className="text-xl lg:text-2xl font-semibold mb-5 text-center">
         Products
-      </h2>
+      </h2> */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (

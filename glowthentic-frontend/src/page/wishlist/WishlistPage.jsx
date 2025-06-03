@@ -14,6 +14,7 @@ import {
   useGetWishlistByUserIdQuery,
 } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import { imagePath } from "../../utils/imagePath";
+import capitalizeText from "../../utils/capitalizeText";
 
 const WishlistPage = () => {
   const { token, user } = useSelector((state) => state.auth);
@@ -125,7 +126,11 @@ const WishlistPage = () => {
                             </div>
                             <div>
                               <div className="text-[13px] text-[#475156]">
-                                {item?.wishlist_product?.product_name ?? ""}
+                                {item?.wishlist_product?.product_name
+                                  ? capitalizeText(
+                                      item?.wishlist_product?.product_name
+                                    )
+                                  : ""}
                               </div>
                             </div>
                           </div>
@@ -182,7 +187,11 @@ const WishlistPage = () => {
                             </div>
                             <div>
                               <div className="font-bold">
-                                {item?.wishlist_product?.product_name ?? ""}
+                                {item?.wishlist_product?.product_name
+                                  ? capitalizeText(
+                                      item?.wishlist_product?.product_name
+                                    )
+                                  : ""}
                               </div>
                               <div className="mt-2">
                                 <h1 className="text-[#FA8232] text-xs font-semibold">

@@ -20,11 +20,16 @@ const ProfileMenu = () => {
   const userImage = userData?.userDetails?.image ?? avatar;
 
   const totalOrder = data?.order?.length ?? 0;
-  // const completedOrder = data?.order?.filter(order =>
-  //   order.status === "Delivering" || order.status === "completed"
-  // ).length ?? 0;
-  const completedOrder = 10;
-  const activeOrder = totalOrder - completedOrder;
+  const completedOrder =
+    data?.order?.filter((order) => order.status === "completed").length ?? 0;
+  const activeOrder =
+    data?.order?.filter(
+      (order) =>
+        order.status === "approve" ||
+        order.status === "Delivering" ||
+        order.status === "shipping" ||
+        order.status === "In Transit"
+    ).length ?? 0;
 
   return (
     <div className="lg:w-[350px] lg:mt-0 p-4 mt-4">
