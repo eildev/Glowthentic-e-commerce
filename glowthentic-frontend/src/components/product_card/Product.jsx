@@ -74,7 +74,12 @@ const Product = ({ product, isDark }) => {
   finalPrice = parseInt(finalPrice);
   let stockStatus =
     !isComboProduct &&
-    (product?.product_stock?.length > 0 ? "In Stock" : "Out Of Stock");
+    (product.product_stock.reduce(
+      (total, item) => total + (item.StockQuantity || 0),
+      0
+    ) > 0
+      ? "In Stock"
+      : "Out Of Stock");
   let badgeText = null;
 
   if (!isComboProduct && isPromotionValid && promotion) {

@@ -16,6 +16,7 @@ import { useGetComboProductsQuery } from "../../redux/features/api/comboProductA
 const AllProduct = () => {
   const dispatch = useDispatch();
   const { data, isLoading, error } = useGetProductsQuery();
+  // console.log(data);
 
   const {
     data: comboData,
