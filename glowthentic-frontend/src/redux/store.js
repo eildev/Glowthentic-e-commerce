@@ -33,6 +33,7 @@ import blogCommentsGetApi from "./features/api/blogComments/blogCommentsGetApi";
 import blogLikesApi from "./features/api/blogComments/blogLikesApi";
 import blogLikesGetApi from "./features/api/blogComments/blogLikesGetApi";
 import { comboProductApi } from "./features/api/comboProductApi/comboProductApi";
+import concernApi from "./features/api/concern/concernApi";
 
 
 // import orderGetApi from "./features/api/orderApi/orderGetApi";
@@ -76,36 +77,38 @@ const store = configureStore({
         [reviewGetApi.reducerPath]: reviewGetApi.reducer,
         [userTrackApi.reducerPath]: userTrackApi.reducer,
         [comboProductApi.reducerPath]: comboProductApi.reducer,
+        [concernApi.reducerPath]: concernApi.reducer,
 
     },
-    middleware: (getDefaultMiddleware) =>getDefaultMiddleware().concat(productApi.middleware)
-            .concat(offerBannerApi.middleware)
-            .concat(categoryApi.middleware)
-            .concat(blogApi.middleware)
-            .concat(blogCategoryApi.middleware)
-            .concat(brandApi.middleware)
-            .concat(tagViewApi.middleware)
-            .concat(subscriptionApi.middleware)
-            .concat(contactUsApi.middleware)
-            .concat(wishListApi.middleware)
-            .concat(wishlistByUserAPI.middleware)
-            .concat(authApi.middleware)
-            .concat(checkoutApi.middleware)
-            .concat(registerApi.middleware)
-            .concat(blogCommentsApi.middleware)
-            .concat(blogLikesApi.middleware)
-            .concat(blogCommentsGetApi.middleware)
-            .concat(blogLikesGetApi.middleware)
-            .concat(orderAPI.middleware)
-            .concat(homeBannerApi.middleware)
-            .concat(featuresApi.middleware)
-            .concat(orderGetApi.middleware)
-            .concat(orderHistoryApi.middleware)
-            .concat(couponApi.middleware)
-            .concat(reviewApi.middleware)
-            .concat(reviewGetApi.middleware)
-            .concat(userTrackApi.middleware)
-            .concat(comboProductApi.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productApi.middleware)
+        .concat(offerBannerApi.middleware)
+        .concat(categoryApi.middleware)
+        .concat(blogApi.middleware)
+        .concat(blogCategoryApi.middleware)
+        .concat(brandApi.middleware)
+        .concat(tagViewApi.middleware)
+        .concat(subscriptionApi.middleware)
+        .concat(contactUsApi.middleware)
+        .concat(wishListApi.middleware)
+        .concat(wishlistByUserAPI.middleware)
+        .concat(authApi.middleware)
+        .concat(checkoutApi.middleware)
+        .concat(registerApi.middleware)
+        .concat(blogCommentsApi.middleware)
+        .concat(blogLikesApi.middleware)
+        .concat(blogCommentsGetApi.middleware)
+        .concat(blogLikesGetApi.middleware)
+        .concat(orderAPI.middleware)
+        .concat(homeBannerApi.middleware)
+        .concat(featuresApi.middleware)
+        .concat(orderGetApi.middleware)
+        .concat(orderHistoryApi.middleware)
+        .concat(couponApi.middleware)
+        .concat(reviewApi.middleware)
+        .concat(reviewGetApi.middleware)
+        .concat(userTrackApi.middleware)
+        .concat(comboProductApi.middleware)
+        .concat(concernApi.middleware)
 
 });
 

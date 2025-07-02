@@ -8,6 +8,7 @@ import TopProductsSection from "./TopProductsSection";
 import DynamicHelmet from "../../components/helmet/DynamicHelmet";
 import BannerCollection from "./BannerCollection";
 import { useSelector } from "react-redux";
+import ConcernSection from "./ConcernSection";
 const HomePage = () => {
   return (
     <div>
@@ -21,7 +22,9 @@ const HomePage = () => {
         {/*--------- Banner Section -----------*/}
         <CategorySection />
         {/* <LatestBannerSection /> */}
-        <TagSection />
+        {/* Care by Concern  */}
+        <ConcernSection />
+
         <div className="my-10 lg:my-20">
           <TopProductsSection></TopProductsSection>
         </div>
