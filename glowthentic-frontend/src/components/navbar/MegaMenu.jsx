@@ -6,8 +6,6 @@ import capitalizeText from "../../utils/capitalizeText";
 const MegaMenu = ({ showMegaMenu, data, onHideMegaMenu }) => {
   const { subcategories, brands, tags, product_feature } = data;
 
-  console.log(data);
-
   return (
     <div
       className={`bg-white w-full text-black absolute top-[100%] left-0 z-20 shadow-lg 

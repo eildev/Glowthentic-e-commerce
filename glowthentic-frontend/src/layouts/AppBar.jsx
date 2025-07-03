@@ -1,24 +1,31 @@
 import { NavLink } from "react-router-dom";
 import Container from "../components/Container";
 import { Icon } from "@iconify/react";
-import CartIcon from "../components/navbar/CartIcon";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetWishlistByUserIdQuery } from "../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
-import WishIcon from "../components/navbar/WishIcon";
 import cn from "../utils/cn";
+import { triggerScrollToTop } from "../redux/features/slice/scrollSlice";
 
 const AppBar = () => {
+  const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const {
     data: wishlist,
     error,
     isLoading,
-  } = useGetWishlistByUserIdQuery(user?.data?.id);
-  const wishListCount = wishlist?.wishlist.length;
+  } = useGetWishlistByUserIdQuery(user?.data?.id, {
+    skip: !user?.data?.id,
+  });
+  const wishListCount = wishlist?.wishlist?.length ?? 0;
   const userRoute = token ? "/profile-mobile" : "/login";
   const wishlistRoute = token ? "/wishlist" : "/login";
 
   const cartLength = useSelector((state) => state.cart.cartItems.length);
+
+  const handleHomeClick = () => {
+    dispatch(triggerScrollToTop());
+  };
+
   return (
     <div className="fixed bottom-1 bg-white w-full right-0 lg:hidden rounded-3xl drop-shadow-xl border border-secondary z-20">
       <Container>
@@ -26,6 +33,8 @@ const AppBar = () => {
           <li>
             <NavLink
               to="/"
+              onClick={handleHomeClick}
+              F
               className={({ isActive }) =>
                 isActive ? "text-secondary" : "text-gray-thin"
               }

@@ -34,6 +34,7 @@ import blogLikesApi from "./features/api/blogComments/blogLikesApi";
 import blogLikesGetApi from "./features/api/blogComments/blogLikesGetApi";
 import { comboProductApi } from "./features/api/comboProductApi/comboProductApi";
 import concernApi from "./features/api/concern/concernApi";
+import scrollReducer from "./features/slice/scrollSlice";
 
 
 // import orderGetApi from "./features/api/orderApi/orderGetApi";
@@ -47,6 +48,7 @@ const store = configureStore({
         filters: filterReducer,
         selectCart: selectCartReducer,
         order: orderReducer,
+        scroll: scrollReducer,
 
         // all api
         [productApi.reducerPath]: productApi.reducer,

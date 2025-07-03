@@ -1,4 +1,3 @@
-
 import { Icon } from "@iconify/react";
 import Container from "../components/Container";
 import { Link } from "react-router-dom";
@@ -9,9 +8,17 @@ import CartIcon from "../components/navbar/CartIcon";
 import { useSelector, useDispatch } from "react-redux";
 import { useGetWishlistByUserIdQuery } from "../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import WishIcon from "../components/navbar/WishIcon";
-import { setQuery, setSuggestionsVisible } from "../redux/features/slice/searchSlice";
+import {
+  setQuery,
+  setSuggestionsVisible,
+} from "../redux/features/slice/searchSlice";
 
-const Header = ({ setShowMobileMenu, showMobileMenu, showSearchBar, setShowSearchBar }) => {
+const Header = ({
+  setShowMobileMenu,
+  showMobileMenu,
+  showSearchBar,
+  setShowSearchBar,
+}) => {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
 
@@ -19,10 +26,10 @@ const Header = ({ setShowMobileMenu, showMobileMenu, showSearchBar, setShowSearc
     data: wishlist,
     error,
     isLoading,
-  } = useGetWishlistByUserIdQuery(user?.id, {
-    skip: !user?.id,
+  } = useGetWishlistByUserIdQuery(user?.data?.id, {
+    skip: !user?.data?.id,
   });
-  const wishListCount = wishlist?.wishlist.length;
+  const wishListCount = wishlist?.wishlist?.length ?? 0;
   const cartLength = useSelector((state) => state.cart.cartItems.length);
 
   // Create a ref for the search bar

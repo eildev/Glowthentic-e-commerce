@@ -99,7 +99,7 @@ const BannerCollection = () => {
   const cart5 =
     data?.offerbanners?.find((item) => item.status == "cart5") || {};
 
-  console.log("cart1", cart1);
+  // console.log("cart1", cart1);
 
   return (
     <div className=" mx-auto">

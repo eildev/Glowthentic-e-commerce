@@ -1,17 +1,33 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
 import Navbar from "./Navbar";
 import AppBar from "./AppBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScrollTop from "../components/ScrollTop";
 import RedirectTop from "../components/RedirectTop";
 import TrackPageViews from "../components/TrackPageViews";
 import UserTracker from "./UserTracker";
+import { useDispatch, useSelector } from "react-redux";
+import { resetScrollTrigger } from "../redux/features/slice/scrollSlice";
 
 const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
+
+  // scroll top functionality implement
+  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const { shouldScrollToTop } = useSelector((state) => state.scroll);
+
+  useEffect(() => {
+    if (shouldScrollToTop || pathname) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (shouldScrollToTop) {
+        dispatch(resetScrollTrigger());
+      }
+    }
+  }, [pathname, shouldScrollToTop, dispatch]);
 
   return (
     <div>
