@@ -16,6 +16,12 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      "/geo-api": {
+        target: "https://ipapi.co",
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/geo-api/, ""),
+      },
     },
 
     // host: "127.0.0.1", // This allows access from any network interface

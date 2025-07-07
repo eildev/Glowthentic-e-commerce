@@ -11,7 +11,7 @@ import RenderSuggestion from "./RenderSuggestion";
 import debounce from "../../utils/debounce";
 import { useNavigate } from "react-router-dom";
 
-const SearchBar = ({ className }) => {
+const SearchBar = ({ className, setShowSearchBar }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { query, isSuggestionsVisible } = useSelector((state) => state.search);
@@ -38,25 +38,16 @@ const SearchBar = ({ className }) => {
   // Handle clicks outside the search bar
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // console.log("Click outside triggered", {
-      //   target: event.target,
-      //   targetClass: event.target.className,
-      //   targetId: event.target.id,
-      //   searchRef: searchRef.current,
-      //   isSuggestionsVisible,
-      // });
-
       if (
         searchRef.current &&
         !searchRef.current.contains(event.target) &&
         isSuggestionsVisible
       ) {
-        console.log("Closing suggestions due to outside click");
+        // console.log("Closing suggestions due to outside click");
         dispatch(setSuggestionsVisible(false));
-      } else {
-        console.log(
-          "Not closing suggestions: click inside or suggestions not visible"
-        );
+        // Hide search bar on mobile
+
+        setShowSearchBar(false);
       }
     };
 
@@ -69,24 +60,34 @@ const SearchBar = ({ className }) => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && query.trim()) {
-      console.log("Enter pressed, navigating with query:", query);
+      // console.log("Enter pressed, navigating with query:", query);
       dispatch(setSuggestionsVisible(false));
+
+      setShowSearchBar(false);
+
       navigate("/products", { state: { searchQuery: query } });
+
+      // console.log("setShowSearchBar in handle key press", setShowSearchBar);
     }
   };
 
   const handleSearchClick = () => {
     if (query.trim()) {
-      console.log("Search icon clicked, navigating with query:", query);
+      // console.log("Search icon clicked, navigating with query:", query);
       dispatch(setSuggestionsVisible(false));
+
+      setShowSearchBar(false); // Hide search bar on mobile
+
       navigate("/products", { state: { searchQuery: query } });
+
+      // console.log("setShowSearchBar in handle search click", setShowSearchBar);
     }
   };
 
   const handleInputClick = (e) => {
     e.stopPropagation();
     if (query.length > 0) {
-      console.log("Input clicked, showing suggestions");
+      // console.log("Input clicked, showing suggestions");
       dispatch(setSuggestionsVisible(true));
     }
   };
@@ -97,6 +98,7 @@ const SearchBar = ({ className }) => {
         isLoading={isLoading}
         error={error}
         productData={productData}
+        setShowSearchBar={setShowSearchBar}
       />
     );
   }, [isLoading, error, productData]);

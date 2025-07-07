@@ -66,7 +66,7 @@ const ResetPassword = () => {
         password: data.password,
         password_confirmation: data.password_confirmation,
       }).unwrap();
-      console.log(result);
+      // console.log(result);
       if (result.status === 200) {
         setSuccessMessage(result.message);
         toast.success(result.message);
@@ -83,7 +83,7 @@ const ResetPassword = () => {
         toast.error(result.message || "Failed to reset password");
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       const errorData = err?.data;
       if (errorData?.errors) {
         Object.keys(errorData.errors).forEach((field) => {
@@ -115,8 +115,9 @@ const ResetPassword = () => {
             type="email"
             name="email"
             placeholder="Email"
-            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${errors.email ? "border-red-500" : ""
-              }`}
+            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+              errors.email ? "border-red-500" : ""
+            }`}
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -136,8 +137,9 @@ const ResetPassword = () => {
             type="text"
             name="token"
             placeholder="Token"
-            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${errors.token ? "border-red-500" : ""
-              }`}
+            className={`w-full p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+              errors.token ? "border-red-500" : ""
+            }`}
             {...register("token", {
               required: "Token is required",
             })}
@@ -154,8 +156,9 @@ const ResetPassword = () => {
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="New Password"
-              className={`w-full p-3 pr-12 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${errors.password ? "border-red-500" : ""
-                }`}
+              className={`w-full p-3 pr-12 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+                errors.password ? "border-red-500" : ""
+              }`}
               {...register("password", {
                 required: "Password is required",
                 minLength: {
@@ -189,8 +192,9 @@ const ResetPassword = () => {
               type={showConfirmPassword ? "text" : "password"}
               name="password_confirmation"
               placeholder="Confirm New Password"
-              className={`w-full p-3 pr-12 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${errors.password_confirmation ? "border-red-500" : ""
-                }`}
+              className={`w-full p-3 pr-12 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-none border border-gray-300 ${
+                errors.password_confirmation ? "border-red-500" : ""
+              }`}
               {...register("password_confirmation", {
                 required: "Confirm Password is required",
                 validate: (value) =>

@@ -1,6 +1,7 @@
 export const getGeoInfo = async () => {
     try {
         const response = await fetch('https://ipapi.co/json/');
+        // const response = await fetch('/geo-api/json/');
         const data = await response.json();
         return data.country || 'Unknown';
     } catch (error) {

@@ -28,7 +28,7 @@ const CheckoutItem = ({ item }) => {
 
   const image = imagePath(item?.variant_image[0]?.image);
 
-  console.log("item", item);
+  // console.log("item", item);
 
   return (
     <div className="flex items-center">

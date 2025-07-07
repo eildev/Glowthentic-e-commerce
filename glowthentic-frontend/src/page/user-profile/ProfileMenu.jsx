@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import avatar from "../../assets/img/user-profile/user.jpg";
 import Logout from "../../components/logout/Logout";
 import { useSelector } from "react-redux";
@@ -95,7 +95,7 @@ const ProfileMenu = () => {
             }
           >
             <p className="flex items-center justify-between text-base lg:text-xl lg:font-bold font-encode">
-              Edit Account
+              Profile
               <Icon
                 className="w-6 lg:w-8 h-6 lg:h-8 text-gray"
                 icon="mdi-light:chevron-right"

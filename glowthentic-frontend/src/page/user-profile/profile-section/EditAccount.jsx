@@ -100,18 +100,18 @@ const EditAccount = () => {
       formDataToSend.append("police_station", formData.zone);
       formDataToSend.append("postal_code", formData.postalCode);
       formDataToSend.append("phone_number", formData.phone);
-      console.log("formData", formDataToSend.name);
+      // console.log("formData", formDataToSend.name);
       if (imageFile) {
         formDataToSend.append("image", imageFile);
       }
 
-      console.log(formDataToSend);
+      // console.log(formDataToSend);
       const response = await updateUser({
         id: userID,
         ...Object.fromEntries(formDataToSend),
       }).unwrap();
 
-      console.log("response", response);
+      // console.log("response", response);
 
       toast.success("User information updated successfully!");
       if (response.user?.image) {
@@ -166,7 +166,7 @@ const EditAccount = () => {
             src={imagePreview}
             alt="User Avatar"
           />
-          {/* <label className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <label className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
             <FaCamera className="text-white text-2xl cursor-pointer" />
             <input
               type="file"
@@ -174,7 +174,7 @@ const EditAccount = () => {
               className="hidden"
               onChange={handleImageChange}
             />
-          </label> */}
+          </label>
         </div>
 
         {/* Form Inputs */}
@@ -337,6 +337,42 @@ const EditAccount = () => {
             <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               Phone Number
             </label>
+            <div className="flex items-center w-full border rounded-md border-hr-thin focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary">
+              <span className="px-4 py-2 text-lg font-encode text-dark bg-gray-light rounded-l-md">
+                +880
+              </span>
+              <input
+                {...register("phone_number", {
+                  required: "Phone number is required",
+                  pattern: {
+                    value: /^0[0-9]{9,}$/,
+                    message:
+                      "Phone number must start with 0 and be at least 10 digits",
+                  },
+                })}
+                className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 rounded-r-md outline-none ${
+                  errors.phone_number ? "border-red-500" : "border-none"
+                }`}
+                placeholder="17xxxxxxxx"
+                onChange={(e) => {
+                  let value = e.target.value;
+                  if (value && !value.startsWith("0")) {
+                    value = `0${value}`;
+                    setValue("phone_number", value, { shouldValidate: true });
+                  }
+                }}
+              />
+            </div>
+            {errors.phone_number && (
+              <span className="text-red-500 text-sm">
+                {errors.phone_number.message}
+              </span>
+            )}
+          </div>
+          {/* <div className="my-4">
+            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
+              Phone Number
+            </label>
             <input
               {...register("phone_number", {
                 required: "Phone number is required",
@@ -362,7 +398,7 @@ const EditAccount = () => {
                 {errors.phone_number.message}
               </span>
             )}
-          </div>
+          </div> */}
         </div>
 
         <button
@@ -374,7 +410,7 @@ const EditAccount = () => {
               : "bg-secondary hover:bg-secondary-dark"
           }`}
         >
-          {isUpdating ? "Saving..." : "Save Changes"}
+          {isUpdating ? "Updating..." : "Update"}
         </button>
       </form>
     </div>

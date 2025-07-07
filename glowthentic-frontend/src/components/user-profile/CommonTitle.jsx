@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CommonTitle = ({ title }) => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center mb-2">
       <Link to="/profile-mobile">
         <Icon
           className="w-8 h-8 text-gray md:hidden"

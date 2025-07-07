@@ -155,7 +155,7 @@ export default function ProductQueryNavigation({ data }) {
               ref={(el) => (sectionRefs.current[tab.id] = el)}
             >
               <h2 className="text-xl text-[#0C0C0C] font-bold">{tab.label}</h2>
-              <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
+              <div className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
                   className="custom-html-content mt-4 text-lg font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
@@ -164,7 +164,7 @@ export default function ProductQueryNavigation({ data }) {
                       : contentData[tab.id].short,
                   }}
                 />
-              </p>
+              </div>
               <button
                 className="text-[#0C0C0C] text-base font-normal mt-4 flex items-center gap-2"
                 onClick={() => handleSeeMoreClick(tab.id)}

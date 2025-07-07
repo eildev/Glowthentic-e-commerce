@@ -6,16 +6,22 @@ import { Link } from "react-router-dom";
 import SearchItemSkeleton from "./SearchItemSkeleton";
 import capitalizeText from "../../utils/capitalizeText";
 
-const RenderSuggestion = ({ isLoading, error, productData }) => {
+const RenderSuggestion = ({
+  isLoading,
+  error,
+  productData,
+  setShowSearchBar,
+}) => {
   const dispatch = useDispatch();
 
   const handleHideSuggestions = (type, id) => {
-    console.log(`Hiding suggestions on ${type} click, id: ${id}`);
+    // console.log(`Hiding suggestions on ${type} click, id: ${id}`);
     dispatch(setSuggestionsVisible(false));
+    setShowSearchBar(false);
   };
 
   const handleSuggestionClick = (e) => {
-    console.log("Suggestion container clicked", e.target);
+    // console.log("Suggestion container clicked", e.target);
     e.stopPropagation(); // Prevent suggestion click from bubbling
   };
 
@@ -37,7 +43,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
     );
   }
 
-  console.log("productData", productData);
+  // console.log("productData", productData);
 
   return (
     <div onClick={handleSuggestionClick}>
@@ -54,6 +60,7 @@ const RenderSuggestion = ({ isLoading, error, productData }) => {
                   index !== productData?.products.slice(0, 10).length - 1
                 }
                 onClick={() => handleHideSuggestions("product", item.id)}
+                setShowSearchBar={setShowSearchBar}
               />
             ))}
           </div>

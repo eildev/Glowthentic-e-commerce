@@ -10,6 +10,9 @@ const TopProductsSection = () => {
   const { data, isLoading, error } = useGetProductsQuery();
 
   if (error) return <p>Error: {error}</p>;
+
+  const enableLoop = data?.data?.length >= 5;
+
   return (
     <>
       <HeadTitle className="text-center mb-10 lg:text-3xl">
@@ -26,7 +29,7 @@ const TopProductsSection = () => {
           <Swiper
             slidesPerView={2}
             spaceBetween={20}
-            loop={true}
+            loop={enableLoop}
             autoplay={{
               delay: 2500,
               disableOnInteraction: false,

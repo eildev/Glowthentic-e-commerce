@@ -13,6 +13,8 @@ const RecommendedSlider = ({ categoryId }) => {
 
   if (isLoading) return <Loading />;
   if (error) return <p>Error: {error}</p>;
+
+  const enableLoop = simillerCategoryData?.length >= 5;
   return (
     <div>
       <HeadTitle className="text-center pt-4 pb-1">
@@ -24,7 +26,7 @@ const RecommendedSlider = ({ categoryId }) => {
             delay: 3000,
             disableOnInteraction: false,
           }}
-          loop={true}
+          loop={enableLoop}
           navigation={{
             nextEl: ".button-next2",
             prevEl: ".button-prev2",

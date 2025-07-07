@@ -13,12 +13,8 @@ import {
   setSuggestionsVisible,
 } from "../redux/features/slice/searchSlice";
 
-const Header = ({
-  setShowMobileMenu,
-  showMobileMenu,
-  showSearchBar,
-  setShowSearchBar,
-}) => {
+const Header = ({ setShowMobileMenu, showMobileMenu }) => {
+  const [showSearchBar, setShowSearchBar] = useState(false);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
 
@@ -30,7 +26,6 @@ const Header = ({
     skip: !user?.data?.id,
   });
   const wishListCount = wishlist?.wishlist?.length ?? 0;
-  const cartLength = useSelector((state) => state.cart.cartItems.length);
 
   // Create a ref for the search bar
   const searchBarRef = useRef(null);
@@ -38,6 +33,7 @@ const Header = ({
   // Handle clicks outside the search bar to close it and clear query
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // console.log("click handle outside");
       // Check if the click is outside the search bar and if the search bar is visible
       if (
         showSearchBar &&
@@ -58,6 +54,11 @@ const Header = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showSearchBar, setShowSearchBar, dispatch]);
+
+  // Log showSearchBar value when it changes
+  useEffect(() => {
+    // console.log("showSearchBar updated:", showSearchBar);
+  }, [showSearchBar]);
 
   const userRoute = token ? "/user-profile" : "/login";
 
@@ -108,7 +109,10 @@ const Header = ({
 
           {/*--------- large Device Search bar Start -----------*/}
           <div className="navbar-center hidden lg:flex">
-            <SearchBar className="w-[600px]" />
+            <SearchBar
+              setShowSearchBar={setShowSearchBar}
+              className="w-[600px]"
+            />
           </div>
           {/*--------- large Device Search bar End -----------*/}
 
@@ -121,7 +125,7 @@ const Header = ({
                 : "opacity-0 invisible -translate-y-5"
             }`}
           >
-            <SearchBar className="w-full" />
+            <SearchBar setShowSearchBar={setShowSearchBar} className="w-full" />
           </div>
           {/*--------- Search bar show in small Device End -----------*/}
 

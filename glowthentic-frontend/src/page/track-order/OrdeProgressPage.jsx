@@ -22,7 +22,7 @@ const OrdeProgressPage = () => {
     isLoading,
     isError,
   } = useGetTrackingOrderQuery(orderId);
-  console.log("orderData", orderData);
+  // console.log("orderData", orderData);
   const isoDate = orderData?.billingInfo?.created_at;
   const date = new Date(isoDate);
   const formattedDate = date.toLocaleDateString("en-US", {

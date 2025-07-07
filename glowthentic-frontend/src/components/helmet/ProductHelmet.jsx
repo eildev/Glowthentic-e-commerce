@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { imagePath } from "../../utils/imagePath";
 
 const ProductHelmet = ({ product }) => {
-  console.log(product);
+  // console.log(product);
   if (!product) {
     return null;
   }

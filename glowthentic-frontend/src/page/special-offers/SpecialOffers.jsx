@@ -1,11 +1,6 @@
-import Container from "../../components/Container";
-
-import image1 from "../../assets/img/special-offer/13.png";
-import image2 from "../../assets/img/special-offer/14.png";
 import image3 from "../../assets/img/special-offer/Eves-Banner.jpg";
 import image4 from "../../assets/img/special-offer/Eves-Banner-2.jpg";
-import image5 from "../../assets/img/special-offer/test.webp";
-// import DynamicHelmet from "../../components/helmet/DynamicHelmet";
+
 const SpecialOffers = () => {
   return (
     <div>

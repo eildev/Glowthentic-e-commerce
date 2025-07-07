@@ -10,7 +10,11 @@ import { imagePath } from "../../utils/imagePath";
 import toast from "react-hot-toast";
 import capitalizeText from "../../utils/capitalizeText";
 
-const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
+const SuggestionItem = memo(function SuggestionItem({
+  item,
+  showDivider,
+  setShowSearchBar,
+}) {
   const {
     product_name,
     thumbnail,
@@ -37,6 +41,7 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
     if (slug) {
       navigate(`/product/${slug}`);
       dispatch(clearQuery()); // Clear the search query
+      setShowSearchBar(false);
     } else {
       toast.error("Something went wrong. Please be patient");
     }
@@ -50,7 +55,7 @@ const SuggestionItem = memo(function SuggestionItem({ item, showDivider }) {
   // Determine which promotion to use: product-level or variant-level
   const promotion =
     promotionproduct?.[0]?.coupon || product_variant_promotion?.coupon;
-  console.log("offer", promotion);
+  // console.log("offer", promotion);
 
   // Calculate discounted price and badge text
   let discountPrice = null;

@@ -56,12 +56,13 @@ const ProductSlider = ({ data, variantId }) => {
     }
   }, [showModal, images]);
 
+  const enableLoop = images?.length >= 2;
   return (
     <>
       {/* Large Device */}
       <div className="lg:flex hidden flex-row-reverse gap-6 items-center">
         <Swiper
-          loop={true}
+          loop={enableLoop}
           spaceBetween={10}
           autoplay={{
             delay: 3000,
@@ -108,7 +109,7 @@ const ProductSlider = ({ data, variantId }) => {
           </div>
           <Swiper
             onSwiper={setThumbsSwiper}
-            loop={true}
+            loop={enableLoop}
             spaceBetween={24}
             slidesPerView={5.5}
             direction="vertical"
@@ -149,7 +150,7 @@ const ProductSlider = ({ data, variantId }) => {
       {/* Mobile */}
       <div className="lg:hidden flex flex-col gap-2 items-center justify-center">
         <Swiper
-          loop={true}
+          loop={enableLoop}
           spaceBetween={10}
           autoplay={{
             delay: 3000,
@@ -177,7 +178,7 @@ const ProductSlider = ({ data, variantId }) => {
         <div className="overflow-auto w-[100vw]">
           <Swiper
             onSwiper={setThumbsSwiper2}
-            loop={true}
+            loop={enableLoop}
             spaceBetween={8}
             slidesPerView={4.5}
             freeMode={true}
@@ -213,6 +214,7 @@ const ProductSlider = ({ data, variantId }) => {
 
           {/* Swiper */}
           <Swiper
+            loop={enableLoop}
             initialSlide={activeIndex}
             spaceBetween={10}
             slidesPerView={1}

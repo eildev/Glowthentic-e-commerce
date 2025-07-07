@@ -13,7 +13,6 @@ import { resetScrollTrigger } from "../redux/features/slice/scrollSlice";
 
 const MainLayouts = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showSearchBar, setShowSearchBar] = useState(false);
 
   // scroll top functionality implement
   const { pathname } = useLocation();
@@ -32,7 +31,7 @@ const MainLayouts = () => {
   return (
     <div>
       <RedirectTop />
-      <UserTracker />
+      {/* <UserTracker /> */}
       <TrackPageViews />
       <div className="fixed top-0 left-0 w-full z-50">
         {/*--------- Header -----------*/}
@@ -40,8 +39,6 @@ const MainLayouts = () => {
           <Header
             setShowMobileMenu={setShowMobileMenu}
             showMobileMenu={showMobileMenu}
-            setShowSearchBar={setShowSearchBar}
-            showSearchBar={showSearchBar}
           />
         </div>
         {/*--------- Navbar -----------*/}

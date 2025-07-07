@@ -34,7 +34,6 @@ const AppBar = () => {
             <NavLink
               to="/"
               onClick={handleHomeClick}
-              F
               className={({ isActive }) =>
                 isActive ? "text-secondary" : "text-gray-thin"
               }

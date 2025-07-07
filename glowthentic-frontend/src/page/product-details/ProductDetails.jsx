@@ -8,7 +8,6 @@ import HeadTitle from "../../components/typography/HeadTitle";
 import RegularButton from "../../components/typography/RegularButton";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ProductReviews from "./ProductReviews";
-import ProductSlider from "./pRODUCTsLIDER.JSX";
 import RecommendedSlider from "./RecommendedSlider";
 import ProductQueryNevigation from "./ProductQueryNevigation";
 import { useNavigate, useParams, useLocation } from "react-router-dom"; // Added useLocation
@@ -20,6 +19,7 @@ import ShowPrice from "./ShowPrice.jsx";
 import IncrementDecrement from "../../components/typography/IncrementDecrement.jsx";
 import ProductHelmet from "../../components/helmet/ProductHelmet";
 import capitalizeText from "../../utils/capitalizeText";
+import ProductSlider from "./ProductSlider";
 
 const TagElement = ({ value }) => {
   return <p>{value?.tagName ?? "No Value"}</p>;
@@ -145,7 +145,7 @@ const ProductDetails = () => {
     }
   };
 
-  console.log("product Data", data?.data);
+  // console.log("product Data", data?.data);
   return (
     <div>
       <ProductHelmet product={data?.data} />
@@ -329,14 +329,14 @@ const ProductDetails = () => {
               Product Details
             </div>
             <div className="collapse-content font-normal text-sm text-justify">
-              <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
+              <div className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
                   className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: productDetails,
                   }}
                 />
-              </p>
+              </div>
             </div>
           </div>
           <div className="collapse collapse-plus bg-base-200">
@@ -345,28 +345,28 @@ const ProductDetails = () => {
               How To Apply
             </div>
             <div className="collapse-content font-normal text-sm text-justify">
-              <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
+              <div className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
                   className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: apply,
                   }}
                 />
-              </p>
+              </div>
             </div>
           </div>
           <div className="collapse collapse-plus bg-base-200">
             <input type="checkbox" />
             <div className="collapse-title text-lg font-medium">Ingredient</div>
             <div className="collapse-content font-normal text-sm text-justify">
-              <p className="mt-4 text-lg font-normal text-[#0C0C0C]">
+              <div className="mt-4 text-lg font-normal text-[#0C0C0C]">
                 <div
                   className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
                   dangerouslySetInnerHTML={{
                     __html: ingredients,
                   }}
                 />
-              </p>
+              </div>
             </div>
           </div>
         </div>

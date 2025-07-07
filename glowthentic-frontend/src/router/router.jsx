@@ -35,9 +35,10 @@ import PrivacyPolicy from "../page/privacy-policy/PrivacyPolicy";
 import ProtectCheckout from "./ProtectCheckout";
 import AuthCallback from "../components/auth/AuthCallback";
 import ResetPassword from "../page/auth/ResetPassword";
+import Profile from "../page/user-profile/profile-section/Profile";
 
 const ErrorBoundary = ({ error }) => {
-  console.error("Error caught:", error);
+  console.log("Error caught:", error);
   return <Page404 />;
 };
 
@@ -137,6 +138,10 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
+            element: <Profile />,
+          },
+          {
+            path: "edit-profile",
             element: <EditAccount />,
           },
           {

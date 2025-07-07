@@ -107,54 +107,70 @@ const BannerCollection = () => {
       <div className=" mt-6 block lg:hidden relative w-full h-[200px] md:h-[350px] rounded-md overflow-hidden">
         <Slider {...sliderSettings} className="pointer-events-auto">
           {cart1.images?.map((image, index) => (
-            <div key={index} className="relative w-full">
+            <Link
+              to={`${cart1.link ?? "#"}`}
+              key={index}
+              className="relative w-full"
+            >
               <img
                 // src={`${baseURL + image?.image}`}
                 src={imagePath(image?.image)}
                 alt={`Banner ${index + 1}`}
                 className="w-full h-[200px] md:h-[350px] object-cover"
               />
-            </div>
+            </Link>
           ))}
         </Slider>
       </div>
       <div className="mt-5 grid grid-cols-5 gap-4 lg:hidden">
         {/* Left Side (50% width) */}
-        <div className="relative rounded-lg col-span-3">
+        <Link
+          to={`${cart2.link ?? "#"}`}
+          className="relative rounded-lg col-span-3"
+        >
           <img
             src={imagePath(cart2.image)}
             alt="Beauty & Care"
             className=" w-full h-full object-cover rounded-lg"
           />
-        </div>
+        </Link>
 
         {/* Right Side (50% width) - 2 stacked boxes */}
         <div className="flex flex-col gap-4 col-span-2">
-          <div className="relative text-white rounded-lg flex flex-col justify-center items-start">
+          <Link
+            to={`${cart4.link ?? "#"}`}
+            className="relative text-white rounded-lg flex flex-col justify-center items-start"
+          >
             <img
               src={imagePath(cart4.image)}
               alt="Check This Out"
               className="w-full h-full object-cover rounded-lg"
             />
-          </div>
+          </Link>
 
-          <div className="relative text-white rounded-lg flex flex-col justify-center items-start">
+          <Link
+            to={`${cart5.link ?? "#"}`}
+            className="relative text-white rounded-lg flex flex-col justify-center items-start"
+          >
             <img
               src={imagePath(cart5.image)}
               alt="Body Lotion"
               className="w-full h-full object-cover rounded-lg"
             />
-          </div>
+          </Link>
         </div>
       </div>
-      <div className="relative lg:hidden text-white rounded-lg w-full mt-5 flex flex-col justify-center items-start">
+      <Link
+        to={`${cart3.link ?? "#"}`}
+        className="relative lg:hidden text-white rounded-lg w-full mt-5 flex flex-col justify-center items-start"
+      >
         <img
           // src={`${baseURL + cart3.image}`}
           src={imagePath(cart3.image)}
           alt="Discount"
           className="w-full h-full object-cover rounded-lg"
         />
-      </div>
+      </Link>
 
       {/* Large Screens View */}
       <div className="hidden lg:block mt-8 space-y-8">
@@ -163,69 +179,73 @@ const BannerCollection = () => {
           <div className="relative w-[765px] h-[343px] rounded-lg overflow-hidden">
             <Slider {...sliderSettings} className="pointer-events-auto">
               {cart1?.images?.map((image, index) => (
-                <div key={index} className="relative w-full">
+                <Link
+                  to={`${cart1.link ?? "#"}`}
+                  key={index}
+                  className="relative w-full"
+                >
                   <img
                     // src={`${baseURL + image?.image}`}
                     src={imagePath(image?.image)}
                     alt={`Banner ${index + 1}`}
                     className="w-full h-[343px] object-cover"
                   />
-                </div>
+                </Link>
               ))}
             </Slider>
-
-            {/* <div className="absolute inset-0 flex flex-col justify-center items-start text-white p-8 w-[217px] pointer-events-none">
-              <h2 className="custome-font leading-[46px] text-5xl font-bold mb-32">
-                {cart1?.head}
-              </h2>
-              <Link
-                to={cart1?.link}
-                className="mt-4 px-4 py-2 bg-white text-black rounded-full pointer-events-auto"
-              >
-                {cart1?.link_button}
-              </Link>
-            </div> */}
           </div>
 
           {/* Right: Beauty & Care Section */}
-          <div className="relative p-8 rounded-lg flex flex-col justify-between items-center w-[420px] h-[343px]">
+          <Link
+            to={`${cart2.link ?? "#"}`}
+            className="relative p-8 rounded-lg flex flex-col justify-between items-center w-[420px] h-[343px]"
+          >
             <img
               // src={`${baseURL + cart2.image}`}
               src={imagePath(cart2.image)}
               alt="Beauty & Care"
               className="absolute inset-0 w-full h-full object-cover rounded-lg"
             />
-          </div>
+          </Link>
         </div>
 
         {/* Bottom Row */}
         <div className="flex gap-8">
-          <div className="relative text-white rounded-lg w-[676px] flex flex-col justify-center items-start">
+          <Link
+            to={`${cart3.link ?? "#"}`}
+            className="relative text-white rounded-lg w-[676px] flex flex-col justify-center items-start"
+          >
             <img
               // src={`${baseURL + cart3.image}`}
               src={imagePath(cart3.image)}
               alt="Discount"
               className="transform w-full h-full object-cover rounded-lg"
             />
-          </div>
+          </Link>
 
-          <div className="relative text-white rounded-lg w-[238px] flex flex-col justify-center items-start">
+          <Link
+            to={`${cart4.link ?? "#"}`}
+            className="relative text-white rounded-lg w-[238px] flex flex-col justify-center items-start"
+          >
             <img
               // src={`${baseURL + cart4.image}`}
               src={imagePath(cart4.image)}
               alt="Check This Out"
               className="w-full h-full object-cover rounded-lg"
             />
-          </div>
+          </Link>
 
-          <div className="relative text-white rounded-lg w-[238px] flex flex-col justify-center items-start">
+          <Link
+            to={`${cart5.link ?? "#"}`}
+            className="relative text-white rounded-lg w-[238px] flex flex-col justify-center items-start"
+          >
             <img
               // src={`${baseURL + cart5.image}`}
               src={imagePath(cart5.image)}
               alt="Body Lotion"
               className="w-full h-full object-cover rounded-lg"
             />
-          </div>
+          </Link>
         </div>
       </div>
     </div>

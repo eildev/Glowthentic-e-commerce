@@ -13,12 +13,17 @@ import { useGetBannersQuery } from "../../redux/features/api/homeBannerApi/homeB
 import HomeBannerImage from "../../components/home-banner/HomeBannerImage";
 const HomeSlider = () => {
   const { data, error, isLoading } = useGetBannersQuery();
-  // if (isLoading) {
-  //   return <span>Loading...</span>;
-  // }
+  if (isLoading) {
+    return (
+      <div className="skeleton inset-0 bg-slate-200 animate-pulse w-full h-[400px]"></div>
+    );
+  }
   if (error) {
     return <span>Error</span>;
   }
+
+  const enableLoop = data?.banners?.length >= 2;
+
   return (
     <div className="relative w-full h-fit">
       <Swiper
@@ -27,7 +32,7 @@ const HomeSlider = () => {
           el: ".custom-pagination",
         }}
         spaceBetween={10}
-        loop={true}
+        loop={enableLoop}
         autoplay={{
           delay: 5000,
           disableOnInteraction: false,

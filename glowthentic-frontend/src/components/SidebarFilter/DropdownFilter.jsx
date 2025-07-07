@@ -200,7 +200,7 @@ const DropdownFilter = () => {
     );
   }
 
-  console.log(filteredCategories);
+  // console.log(filteredCategories);
 
   return (
     <div className="p-4">

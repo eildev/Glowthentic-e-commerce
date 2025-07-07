@@ -414,7 +414,7 @@ const filterSlice = createSlice({
     },
     setFilteredTags: (state, action) => {
       state.filteredTags = action.payload.map(String); // Ensure IDs are strings
-      console.log(state.filteredTags );
+      // console.log(state.filteredTags );
       // Update filterOrder
       state.filterOrder = state.filterOrder.filter(
         (filter) => filter.type !== "tag" || action.payload.includes(filter.id)
