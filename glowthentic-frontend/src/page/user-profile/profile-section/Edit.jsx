@@ -183,7 +183,7 @@ const Edit = () => {
   console.log("errors", errors);
 
   return (
-    <div className={cn("px-4 py-6 bg-body min-h-screen")}>
+    <div className="min-h-screen">
       <CommonTitle title="Edit Profile" />
 
       {/* Loading state */}
@@ -196,7 +196,7 @@ const Edit = () => {
       {/* Form container */}
       {!isFetching && (
         <form
-          className={cn("w-full max-w-2xl mx-auto")}
+          className={cn("w-full mx-auto bg-white rounded-lg shadow-md px-10 py-5 animate-fadeIn")}
           encType="multipart/form-data"
           onSubmit={handleSubmit}
         >
@@ -248,7 +248,7 @@ const Edit = () => {
           {/* Input fields grid */}
           <div className={cn("grid lg:grid-cols-2 grid-cols-1 gap-5")}>
             {/* Full Name */}
-            <div className={cn("col-span-2")}>
+            <div className={cn("lg:col-span-2")}>
               <InputField
                 label="Full Name"
                 name="full_name"
@@ -261,7 +261,7 @@ const Edit = () => {
             </div>
 
             {/* Email */}
-            <div className={cn("col-span-2")}>
+            <div className={cn("lg:col-span-2")}>
               <InputField
                 label="Email"
                 name="email"
@@ -274,7 +274,7 @@ const Edit = () => {
             </div>
 
             {/* Address */}
-            <div className={cn("col-span-2")}>
+            <div className={cn("lg:col-span-2")}>
               <InputField
                 label="Address"
                 name="address"

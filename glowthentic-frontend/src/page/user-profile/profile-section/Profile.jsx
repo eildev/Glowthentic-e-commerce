@@ -2,10 +2,15 @@ import { Link } from "react-router-dom";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
 import coverImage from "../../../assets/img/user-profile/user-grid-bg.jpg";
 import avatar from "../../../assets/img/user-profile/user.jpg";
-import { useGetUserInfoQuery } from "../../../redux/features/api/auth/authApi";
+import { useGetUserInfoQuery, useGetUserQuery } from "../../../redux/features/api/auth/authApi";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import ProfileSkeleton from "./ProfileSkeleton";
 
 const Profile = () => {
+
+  // const { data: myUser } = useGetUserQuery();
+  // console.log("myUser", myUser);
   const { user } = useSelector((state) => state.auth);
 
   const { data, isLoading, isError } = useGetUserInfoQuery(user?.id, {
@@ -15,10 +20,17 @@ const Profile = () => {
   const myInfo = data?.userDetails ?? data?.user;
 
   // const email = myInfo?.email ?? myInfo?.secondary_email ?? "N/A";
+  // console.log(myInfo);
+  if (isLoading) {
+    return <ProfileSkeleton />;
+  }
+  if (isError) {
+    return <p>Something Went Wrong</p>;
+  }
 
   return (
-    <div className="min-h-screen bg-body py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen">
+    
         {/* Common Title */}
         <CommonTitle title="My Profile" />
 
@@ -80,7 +92,7 @@ const Profile = () => {
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-bold">City</p>
+              <p className="text-sm text-gray-bold">District</p>
               <p className="text-lg font-encode text-primary">
                 {myInfo?.city ?? "N/A"}
               </p>
@@ -92,7 +104,7 @@ const Profile = () => {
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-bold">Police Station</p>
+              <p className="text-sm text-gray-bold">Upzilla</p>
               <p className="text-lg font-encode text-primary">
                 {myInfo?.police_station ?? "N/A"}
               </p>
@@ -127,7 +139,6 @@ const Profile = () => {
             Change Password
           </Link>
         </div>
-      </div>
     </div>
   );
 };

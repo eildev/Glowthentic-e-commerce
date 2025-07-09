@@ -107,6 +107,13 @@ const authApi = createApi({
                 body: data,
             }),
         }),
+        changePassword: builder.mutation({
+            query: (data) => ({
+                url: "/password-change",
+                method: "POST",
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -122,6 +129,7 @@ export const {
     useGetFacebookAuthUrlQuery,
     useForgotPasswordMutation,
     useResetPasswordMutation,
+    useChangePasswordMutation,
     useVerifyOTPMutation,
 } = authApi;
 

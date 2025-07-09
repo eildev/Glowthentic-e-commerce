@@ -5,9 +5,9 @@ import Container from "../../components/Container";
 const UserProfileLayout = () => {
   return (
     <Container>
-      <div className="w-full mx-auto py-10 lg:py-20 px-5 lg:px-0">
+      <div className="w-full mx-auto py-10 px-5 lg:px-0">
         <div className="flex justify-between gap-5">
-          <div className="hidden lg:block lg:w-[350px]">
+          <div className="hidden lg:block lg:w-[350px] mt-10">
             <ProfileMenu />
           </div>
           <div className="w-full">
