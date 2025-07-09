@@ -14,7 +14,7 @@ const Profile = () => {
 
   const myInfo = data?.userDetails ?? data?.user;
 
-  const email = myInfo?.email ?? myInfo?.secondary_email ?? "N/A";
+  // const email = myInfo?.email ?? myInfo?.secondary_email ?? "N/A";
 
   return (
     <div className="min-h-screen bg-body py-6 px-4 sm:px-6 lg:px-8">
@@ -48,7 +48,9 @@ const Profile = () => {
               <h2 className="text-2xl sm:text-3xl font-encode font-semibold text-gray-bold">
                 {myInfo?.full_name ?? myInfo?.name ?? "N/A"}
               </h2>
-              <p className="text-base text-gray-bold mt-1">{email ?? "N/A"}</p>
+              <p className="text-base text-gray-bold mt-1">
+                {data?.user?.email ?? "N/A"}
+              </p>
             </div>
           </div>
         </div>
@@ -62,7 +64,7 @@ const Profile = () => {
             <div>
               <p className="text-sm text-gray-bold">Email</p>
               <p className="text-lg font-encode text-primary">
-                {email ?? "N/A"}
+                {data?.user?.email ?? "N/A"}
               </p>
             </div>
             <div>
@@ -99,6 +101,12 @@ const Profile = () => {
               <p className="text-sm text-gray-bold">Country</p>
               <p className="text-lg font-encode text-primary">
                 {myInfo?.country ?? "N/A"}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-bold">Secondary Email</p>
+              <p className="text-lg font-encode text-primary">
+                {myInfo?.secondary_email ?? "N/A"}
               </p>
             </div>
           </div>

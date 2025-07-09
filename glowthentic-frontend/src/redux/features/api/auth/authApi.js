@@ -16,9 +16,7 @@ const authApi = createApi({
             if (token) {
                 headers.set("Authorization", `Bearer ${token}`);
             }
-            if (endpoint === "updateUser" && getState().auth.body instanceof FormData) {
-
-            } else {
+            if (endpoint !== "updateUser") {
                 headers.set("Content-Type", "application/json");
             }
             headers.set("Accept", "application/json");
@@ -67,13 +65,21 @@ const authApi = createApi({
             providesTags: ["UserDetails"],
         }),
         updateUser: builder.mutation({
-            query: ({ id, ...data }) => ({
+            query: ({ id, body }) => ({
                 url: `/user/details/update/${id}`,
                 method: "POST",
-                body: data, // JSON বা FormData
+                body: body,
             }),
             invalidatesTags: ["User", "UserDetails"],
         }),
+        // updateUser: builder.mutation({
+        //     query: ({ id, ...data }) => ({
+        //         url: `/user/details/update/${id}`,
+        //         method: "POST",
+        //         body: data, // JSON বা FormData
+        //     }),
+        //     invalidatesTags: ["User", "UserDetails"],
+        // }),
         getGoogleAuthUrl: builder.query({
             query: () => '/auth/google',
         }),

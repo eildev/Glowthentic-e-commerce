@@ -10,10 +10,15 @@ import {
   useUpdateUserMutation,
 } from "../../../redux/features/api/auth/authApi";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import SelectWithSearch from "../../../components/select/SelectWithSearch";
+import districtsData from "../../../components/checkout/DistrictUpozila.json";
 
 const Edit = () => {
+  // console.log(districtsData?.districts);
   const [imagePreview, setImagePreview] = useState(avatarPlaceholder);
   const [errors, setErrors] = useState({});
+  const [upazilas, setUpazilas] = useState([]);
 
   const { user } = useSelector((state) => state.auth);
   const { data, isLoading: isFetching } = useGetUserInfoQuery(user?.id, {
@@ -22,6 +27,22 @@ const Edit = () => {
 
   const [updateUser, { isLoading: isUpdating, error: updateError }] =
     useUpdateUserMutation();
+
+  const navigate = useNavigate();
+
+  // Form state
+  const [formData, setFormData] = useState({
+    full_name: "",
+    email: "",
+    secondary_email: "",
+    phone_number: "",
+    address: "",
+    city: "",
+    postal_code: "",
+    police_station: "",
+    country: "",
+    image: null,
+  });
 
   // Handle image selection for preview
   const handleImageChange = (e) => {
@@ -37,21 +58,9 @@ const Edit = () => {
       }
       const imageUrl = URL.createObjectURL(file);
       setImagePreview(imageUrl);
+      setFormData((prev) => ({ ...prev, image: file }));
     }
   };
-
-  // Form state
-  const [formData, setFormData] = useState({
-    full_name: "",
-    email: "",
-    secondary_email: "",
-    phone_number: "",
-    address: "",
-    city: "",
-    postal_code: "",
-    country: "",
-    image: null,
-  });
 
   // Populate form with user data
   useEffect(() => {
@@ -64,6 +73,7 @@ const Edit = () => {
         address: data.userDetails.address || "",
         city: data.userDetails.city || "",
         postal_code: data.userDetails.postal_code || "",
+        police_station: data.userDetails.police_station || "",
         country: data.userDetails.country || "",
         image: null,
       });
@@ -76,6 +86,59 @@ const Edit = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // console.log(!validateForm());
+    if (!validateForm()) {
+      toast.error("Please fix the errors in the form");
+      return;
+    }
+
+    try {
+      const dataToSend = new FormData();
+      dataToSend.append("full_name", formData.full_name);
+      if (formData.email) dataToSend.append("email", formData.email);
+      if (formData.secondary_email)
+        dataToSend.append("secondary_email", formData.secondary_email);
+      if (formData.phone_number)
+        dataToSend.append("phone_number", formData.phone_number);
+      if (formData.address) dataToSend.append("address", formData.address);
+      if (formData.city) dataToSend.append("city", formData.city);
+      if (formData.postal_code)
+        dataToSend.append("postal_code", formData.postal_code);
+      if (formData.police_station)
+        dataToSend.append("police_station", formData.police_station);
+      if (formData.country) dataToSend.append("country", formData.country);
+      if (formData.image) dataToSend.append("image", formData.image);
+
+      for (let [key, value] of dataToSend.entries()) {
+        console.log(`${key}:`, value);
+      }
+      // console.log("submit form Data", dataToSend.entries());
+
+      // const result = await updateUser({ id: user.id, ...dataToSend }).unwrap();
+      const result = await updateUser({
+        id: user.id,
+        body: dataToSend,
+      }).unwrap();
+      console.log("result", result);
+      if (result.status === 200) {
+        toast.success(result.message || "Profile updated successfully");
+        // Update image preview if new image is returned
+        if (result.user.image) {
+          setImagePreview(result.user.image);
+        }
+        navigate("/user");
+      }
+    } catch (error) {
+      toast.error(error.data?.message || "Failed to update profile");
+      if (error.data?.errors) {
+        setErrors(error.data.errors);
+      }
+    }
   };
 
   // Frontend validation
@@ -100,52 +163,12 @@ const Edit = () => {
       newErrors.phone_number =
         "Please enter a valid phone number (e.g., 017xxxxxxxx)";
     }
+    if (formData.police_station && formData.police_station.length > 100) {
+      newErrors.police_station = "Upazila must not exceed 100 characters";
+    }
+    console.log("Validation Errors:", newErrors);
     setErrors(newErrors);
-    return Object.keys(newErrors) === 0;
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // console.log(!validateForm());
-    if (errors.length > 0) {
-      validateForm();
-      toast.error("Please fix the errors in the form");
-      return;
-    }
-
-    try {
-      const dataToSend = new FormData();
-      dataToSend.append("full_name", formData.full_name);
-      if (formData.email) dataToSend.append("email", formData.email);
-      if (formData.secondary_email)
-        dataToSend.append("secondary_email", formData.secondary_email);
-      if (formData.phone_number)
-        dataToSend.append("phone_number", formData.phone_number);
-      if (formData.address) dataToSend.append("address", formData.address);
-      if (formData.city) dataToSend.append("city", formData.city);
-      if (formData.postal_code)
-        dataToSend.append("postal_code", formData.postal_code);
-      if (formData.country) dataToSend.append("country", formData.country);
-      if (formData.image) dataToSend.append("image", formData.image);
-
-      const result = await updateUser({ id: user.id, ...dataToSend }).unwrap();
-      console.log("result", result);
-      if (result.status === 200) {
-        toast.success(result.message || "Profile updated successfully");
-        // Update image preview if new image is returned
-        if (result.user.image) {
-          setImagePreview(result.user.image);
-        } else {
-          toast.error("something went Wrong!");
-        }
-      }
-    } catch (error) {
-      toast.error(error.data?.message || "Failed to update profile");
-      if (error.data?.errors) {
-        setErrors(error.data.errors);
-      }
-    }
+    return Object.keys(newErrors).length === 0;
   };
 
   // Handle API errors
@@ -263,29 +286,35 @@ const Edit = () => {
               />
             </div>
 
-            {/* Country */}
+            {/* District */}
             <div>
-              <InputField
-                label="Country"
-                name="country"
-                type="text"
-                placeholder="Enter your country"
-                value={formData.country}
-                onChange={handleInputChange}
-                error={errors.country}
+              {/* District */}
+              <SelectWithSearch
+                label="District"
+                name="city"
+                optionData={districtsData?.districts ?? []}
+                error={errors.city}
+                placeholder="Select District"
+                value={formData.city}
+                setUpazilas={setUpazilas}
+                onChange={(newValue) =>
+                  setFormData((prev) => ({ ...prev, city: newValue }))
+                }
               />
             </div>
 
-            {/* City */}
+            {/* Upazila */}
             <div>
-              <InputField
-                label="City"
-                name="city"
-                type="text"
-                placeholder="Enter your city"
-                value={formData.city}
-                onChange={handleInputChange}
-                error={errors.city}
+              <SelectWithSearch
+                label="Upazila"
+                name="police_station"
+                optionData={upazilas}
+                error={errors.police_station}
+                placeholder="Select Upazila"
+                value={formData.police_station}
+                onChange={(newValue) =>
+                  setFormData((prev) => ({ ...prev, police_station: newValue }))
+                }
               />
             </div>
 
@@ -299,6 +328,19 @@ const Edit = () => {
                 value={formData.postal_code}
                 onChange={handleInputChange}
                 error={errors.postal_code}
+              />
+            </div>
+
+            {/* Country */}
+            <div>
+              <InputField
+                label="Country"
+                name="country"
+                type="text"
+                placeholder="Enter your country"
+                value={formData.country}
+                onChange={handleInputChange}
+                error={errors.country}
               />
             </div>
 

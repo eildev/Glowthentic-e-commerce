@@ -20,30 +20,32 @@ const InputField = ({
         {label}
       </label>
       {prefix ? (
-        <div
-          className={cn(
-            "flex items-center w-full border rounded-md border-hr-thin focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary"
-          )}
-        >
-          <span
+        <>
+          <div
             className={cn(
-              "px-3 py-2 text-base font-encode text-dark bg-gray-light rounded-l-md"
+              "flex items-center w-full border rounded-md border-hr-thin focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary"
             )}
           >
-            {prefix}
-          </span>
-          <input
-            type={type}
-            name={name}
-            className={cn(
-              "block w-full text-base text-dark font-normal font-encode px-3 py-2 rounded-r-md outline-none"
-            )}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-          />
+            <span
+              className={cn(
+                "px-3 py-2 text-base font-encode text-dark bg-gray-light rounded-l-md"
+              )}
+            >
+              {prefix}
+            </span>
+            <input
+              type={type}
+              name={name}
+              className={cn(
+                "block w-full text-base text-dark font-normal font-encode px-3 py-2 rounded-r-md outline-none"
+              )}
+              placeholder={placeholder}
+              value={value}
+              onChange={onChange}
+            />
+          </div>
           {error && <span className="text-red-500 text-sm">{error}</span>}
-        </div>
+        </>
       ) : (
         <>
           <input

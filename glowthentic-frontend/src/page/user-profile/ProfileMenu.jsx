@@ -17,6 +17,7 @@ const ProfileMenu = () => {
     skip: !user?.id,
   });
 
+  console.log("userData", userData);
   const userImage = userData?.userDetails?.image ?? avatar;
 
   const totalOrder = data?.order?.length ?? 0;
@@ -44,13 +45,10 @@ const ProfileMenu = () => {
         </div>
         <div>
           <h3 className="text-xl sm:text-2xl lg:text-3xl text-dark font-bold font-encode">
-            {user?.name ?? ""}
+            {userData?.userDetails?.full_name ?? userData?.user?.name ?? ""}
           </h3>
-          {/* <h5 className="hidden lg:block text-sm sm:text-md text-gray font-normal font-encode">
-            Member Since 2024
-          </h5> */}
           <h5 className="text-sm sm:text-md text-gray font-normal font-encode">
-            {user?.email ?? ""}
+            {userData?.user?.email ?? ""}
           </h5>
         </div>
       </div>
