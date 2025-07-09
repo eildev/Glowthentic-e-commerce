@@ -10,7 +10,7 @@ const CommonTitle = ({ title }) => {
           icon={"mdi-light:arrow-left"}
         />
       </Link>
-      <h2 className="ml-2 text-2xl md:text-4xl text-secondary font-bold font-encode">
+      <h2 className="ml-2 text-xl md:text-2xl text-secondary font-bold font-encode">
         {title}
       </h2>
     </div>

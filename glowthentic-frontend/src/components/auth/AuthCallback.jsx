@@ -26,9 +26,7 @@ const AuthCallback = () => {
 
       // Redirect based on user role
       const redirectPath =
-        user.role === "superadmin" || user.role === "admin"
-          ? "/user-profile"
-          : "/";
+        user.role === "superadmin" || user.role === "admin" ? "/user" : "/";
       navigate(redirectPath);
     } else {
       // Redirect to login page if login fails

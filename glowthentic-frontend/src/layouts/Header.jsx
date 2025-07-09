@@ -60,7 +60,7 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
     // console.log("showSearchBar updated:", showSearchBar);
   }, [showSearchBar]);
 
-  const userRoute = token ? "/user-profile" : "/login";
+  const userRoute = token ? "/user" : "/login";
 
   return (
     <div className="bg-primary border-b border-[rgba(255,255,255,0.25)]">

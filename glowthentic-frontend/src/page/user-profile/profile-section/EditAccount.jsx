@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import avatarPlaceholder from "../../../assets/img/user-profile/user.jpg";
 import CommonTitle from "../../../components/user-profile/CommonTitle";
 import { FaCamera } from "react-icons/fa";
@@ -9,8 +9,14 @@ import {
 } from "../../../redux/features/api/auth/authApi";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import districtsData from "../../../components/checkout/DistrictUpozila.json";
 
 const EditAccount = () => {
+  const [districtId, setDistrictId] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const dropdownRef = useRef(null);
+
   const { user } = useSelector((state) => state.auth);
   const userID = user?.id;
 
@@ -26,6 +32,17 @@ const EditAccount = () => {
       error,
     },
   ] = useUpdateUserMutation();
+
+  const filteredDistricts = districtsData.districts;
+
+  console.log(filteredDistricts);
+
+  const handleDistrictChange = (districtId, districtName) => {
+    setDistrictId(districtId);
+    setValue("district", districtId);
+    setSearchTerm("");
+    setIsDropdownOpen(false);
+  };
 
   const {
     register,
@@ -244,7 +261,7 @@ const EditAccount = () => {
             )}
           </div>
 
-          <div className="my-4">
+          {/* <div className="my-4">
             <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
               City
             </label>
@@ -264,6 +281,89 @@ const EditAccount = () => {
                 {errors.city.message}
               </span>
             )}
+          </div> */}
+
+          {/* City */}
+          <div className="my-4">
+            <div ref={dropdownRef}>
+              <label
+                htmlFor="district"
+                className="text-sm font-medium text-gray-700 py-2 block"
+              >
+                City
+              </label>
+              <div className="relative">
+                <input
+                  {...register("district", {
+                    required: "District is required",
+                  })}
+                  type="hidden"
+                  value={districtId}
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="w-full p-2 border border-gray-thin rounded text-left bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 flex justify-between items-center"
+                >
+                  <span>
+                    {districtId
+                      ? districtsData.districts.find((d) => d.id === districtId)
+                          ?.name || "Select City"
+                      : "Select City"}
+                  </span>
+                  <svg
+                    className={`w-5 h-5 transform ${
+                      isDropdownOpen ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute z-10 w-full mt-1 bg-white border border-gray-thin rounded shadow-lg max-h-60 overflow-y-auto">
+                    <input
+                      type="text"
+                      placeholder="Search District..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full p-2 border-b border-gray-thin focus:outline-none"
+                      autoFocus
+                    />
+                    {filteredDistricts.length > 0 ? (
+                      filteredDistricts.map((district) => (
+                        <div
+                          key={district.id}
+                          onClick={() =>
+                            handleDistrictChange(district?.id, district?.name)
+                          }
+                          className="p-2 hover:bg-gray-100 cursor-pointer"
+                        >
+                          {district?.name ?? ""}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-2 text-gray-500">
+                        No districts found
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+              {errors.district && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.district.message}
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="my-4">
@@ -356,7 +456,7 @@ const EditAccount = () => {
                 placeholder="17xxxxxxxx"
                 onChange={(e) => {
                   let value = e.target.value;
-                  if (value && !value.startsWith("0")) {
+                  if (value && !value.startsWith("1")) {
                     value = `0${value}`;
                     setValue("phone_number", value, { shouldValidate: true });
                   }
@@ -369,36 +469,6 @@ const EditAccount = () => {
               </span>
             )}
           </div>
-          {/* <div className="my-4">
-            <label className="block lg:text-xl text-xs text-dark font-normal font-encode mb-2">
-              Phone Number
-            </label>
-            <input
-              {...register("phone_number", {
-                required: "Phone number is required",
-                pattern: {
-                  value: /^0[0-9]{9,}$/,
-                  message:
-                    "Phone number must start with 0 and be at least 10 digits",
-                },
-              })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
-                errors.phone_number ? "border-red-500" : "border-hr-thin"
-              }`}
-              onChange={(e) => {
-                let value = e.target.value;
-                if (value && !value.startsWith("0")) {
-                  value = `0${value}`;
-                  setValue("phone_number", value);
-                }
-              }}
-            />
-            {errors.phone_number && (
-              <span className="text-red-500 text-sm">
-                {errors.phone_number.message}
-              </span>
-            )}
-          </div> */}
         </div>
 
         <button

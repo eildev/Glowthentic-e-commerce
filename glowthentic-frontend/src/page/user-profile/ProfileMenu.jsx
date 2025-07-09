@@ -84,7 +84,7 @@ const ProfileMenu = () => {
       <div className="mt-6">
         <div className="bg-secondary bg-opacity-5 lg:bg-transparent rounded-lg">
           <NavLink
-            to="/user-profile"
+            to="/user"
             end
             className={({ isActive }) =>
               `group block px-2 lg:px-0 py-3 rounded-sm lg:rounded-[4px] hover:rounded-t-lg lg:hover:rounded-t-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
@@ -103,7 +103,7 @@ const ProfileMenu = () => {
             </p>
           </NavLink>
           <NavLink
-            to="/user-profile/orders"
+            to="/user/orders"
             className={({ isActive }) =>
               `group block px-2 lg:px-0 py-3 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-2 transition-all duration-300 ${
                 isActive
@@ -121,7 +121,7 @@ const ProfileMenu = () => {
             </p>
           </NavLink>
           <NavLink
-            to="/user-profile/favorites"
+            to="/user/favorites"
             className={({ isActive }) =>
               `group block px-2 lg:px-0 py-3 rounded-sm lg:rounded-[4px] border-b border-b-gray-light lg:border-none hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
                 isActive
@@ -139,7 +139,7 @@ const ProfileMenu = () => {
             </p>
           </NavLink>
           <NavLink
-            to="/user-profile/settings"
+            to="/user/settings"
             className={({ isActive }) =>
               `group block px-2 lg:px-0 py-3 rounded-sm lg:rounded-[4px] hover:rounded-b-lg lg:hover:rounded-b-[4px] hover:bg-secondary-gradient-1 hover:px-4 transition-all duration-300 ${
                 isActive

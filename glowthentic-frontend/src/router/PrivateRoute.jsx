@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
 
   if (!token) {
     // If user was on 'user-profile' page when logged out, redirect to home
-    if (currentPath.includes("user-profile")) {
+    if (currentPath.includes("user")) {
       return <Navigate to="/" replace />;
     }
     // For other routes, go to login

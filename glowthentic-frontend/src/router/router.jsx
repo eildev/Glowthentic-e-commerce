@@ -21,8 +21,6 @@ import OrderConfirmation from "../page/orderConfirmation/OrderConfirmation";
 import OrdeProgressPage from "../page/track-order/OrdeProgressPage";
 import UserProfileLayout from "../page/user-profile/UserProfileLayout";
 import EditAccount from "../page/user-profile/profile-section/EditAccount";
-import Favorites from "../page/user-profile/profile-section/Favorites";
-import Settings from "../page/user-profile/profile-section/Settings";
 import OrderProfile from "../page/user-profile/order/OrderProfile";
 import OrderOngoing from "../page/user-profile/order/order-section/OrderOngoing";
 import OrderHistory from "../page/user-profile/order/order-section/OrderHistory";
@@ -35,7 +33,14 @@ import PrivacyPolicy from "../page/privacy-policy/PrivacyPolicy";
 import ProtectCheckout from "./ProtectCheckout";
 import AuthCallback from "../components/auth/AuthCallback";
 import ResetPassword from "../page/auth/ResetPassword";
+
+import PasswordChange from "../page/user-profile/profile-section/PasswordChange";
+
+import Favorites from "../page/user-profile/favorite/Favorites";
+import Settings from "../page/user-profile/setting/Settings";
+import ProfileTab from "../page/user-profile/profile-section/ProfileTab";
 import Profile from "../page/user-profile/profile-section/Profile";
+import Edit from "../page/user-profile/profile-section/Edit";
 
 const ErrorBoundary = ({ error }) => {
   console.log("Error caught:", error);
@@ -129,7 +134,7 @@ const router = createBrowserRouter([
         element: <Blog></Blog>,
       },
       {
-        path: "/user-profile",
+        path: "/user",
         element: (
           <PrivateRoute>
             <UserProfileLayout />
@@ -139,10 +144,28 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <Profile />,
+            // children: [
+            //   {
+            //     path: "",
+            //     element: <Profile />,
+            //   },
+            //   {
+            //     path: "edit",
+            //     element: <EditAccount />,
+            //   },
+            //   {
+            //     path: "change-password",
+            //     element: <PasswordChange />,
+            //   },
+            // ],
           },
           {
-            path: "edit-profile",
-            element: <EditAccount />,
+            path: "edit",
+            element: <Edit />,
+          },
+          {
+            path: "change-password",
+            element: <PasswordChange />,
           },
           {
             path: "favorites",

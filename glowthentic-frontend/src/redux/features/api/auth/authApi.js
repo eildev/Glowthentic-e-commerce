@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
 
+
 const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
@@ -65,14 +66,6 @@ const authApi = createApi({
             },
             providesTags: ["UserDetails"],
         }),
-        // updateUser: builder.mutation({
-        //     query: ({ id, ...data }) => ({
-        //         url: `/user/details/update/${id}`,
-        //         method: "POST",
-        //         body: data, // Can be JSON or FormData
-        //     }),
-        //     invalidatesTags: ["User", "UserDetails"],
-        // }),
         updateUser: builder.mutation({
             query: ({ id, ...data }) => ({
                 url: `/user/details/update/${id}`,

@@ -40,13 +40,13 @@ const Profile = () => {
             <div className="relative">
               <img
                 src={myInfo?.image ?? avatar}
-                alt={myInfo.full_name ?? myInfo.name ?? "Profile Image"}
+                alt={myInfo?.full_name ?? myInfo?.name ?? "Profile Image"}
                 className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-md object-cover"
               />
             </div>
             <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
               <h2 className="text-2xl sm:text-3xl font-encode font-semibold text-gray-bold">
-                {myInfo.full_name ?? myInfo.name ?? "N/A"}
+                {myInfo?.full_name ?? myInfo?.name ?? "N/A"}
               </h2>
               <p className="text-base text-gray-bold mt-1">{email ?? "N/A"}</p>
             </div>
@@ -105,12 +105,18 @@ const Profile = () => {
         </div>
 
         {/* Edit Profile Button */}
-        <div className="flex justify-center sm:justify-start">
+        <div className="flex justify-center sm:justify-start gap-3">
           <Link
-            to="edit-profile"
+            to="edit"
             className="px-6 py-2 sm:px-8 sm:py-3 rounded-md text-lg font-normal font-encode text-white bg-secondary hover:bg-secondary-dark transition-all duration-300 shadow-md flex items-center gap-2"
           >
             Edit Profile
+          </Link>
+          <Link
+            to="change-password"
+            className="px-6 py-2 sm:px-8 sm:py-3 rounded-md text-lg font-normal font-encode text-white bg-secondary hover:bg-secondary-dark transition-all duration-300 shadow-md flex items-center gap-2"
+          >
+            Change Password
           </Link>
         </div>
       </div>
