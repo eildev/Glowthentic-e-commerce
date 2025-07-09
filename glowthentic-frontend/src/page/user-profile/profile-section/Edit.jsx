@@ -158,10 +158,10 @@ const Edit = () => {
     }
     if (
       formData.phone_number &&
-      !/^01[3-9]\d{8}$/.test(formData.phone_number)
+      !/^1[3-9]\d{8}$/.test(formData.phone_number)
     ) {
       newErrors.phone_number =
-        "Please enter a valid phone number (e.g., 017xxxxxxxx)";
+        "Please enter a valid phone number (e.g., 17xxxxxxxx)";
     }
     if (formData.police_station && formData.police_station.length > 100) {
       newErrors.police_station = "Upazila must not exceed 100 characters";

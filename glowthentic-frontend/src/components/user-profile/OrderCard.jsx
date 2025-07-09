@@ -80,12 +80,12 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
         )
       ) : historyLoad ? (
         <p className="text-center text-gray-500">Loading history...</p>
-      ) : !history?.data ||
-        !Array.isArray(history?.data) ||
-        history?.data.length === 0 ? ( // অ্যারে কিনা চেক করুন
+      ) : !history ||
+        !Array.isArray(history) ||
+        history?.length === 0 ? ( // অ্যারে কিনা চেক করুন
         <p className="text-center text-gray-500">You have no order history.</p>
       ) : (
-        [...(history?.data || [])] // ডিফল্ট খালি অ্যারে
+        [...(history || [])] // ডিফল্ট খালি অ্যারে
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
           .map((item, i) => {
             const formattedDate = new Date(item.created_at).toLocaleString(

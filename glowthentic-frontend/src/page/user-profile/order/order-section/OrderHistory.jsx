@@ -1,19 +1,18 @@
 import { useSelector } from "react-redux";
 import OrderCard from "../../../../components/user-profile/OrderCard";
-import { useGetOrderHistoryQuery } from "../../../../redux/features/api/orderApi/orderHistoryApi";
+import { useGetOrderInfoQuery } from "../../../../redux/features/api/orderApi/orderGetApi";
 
 const OrderHistory = () => {
   const { user } = useSelector((state) => state.auth);
-  const userID = user?.id;
-  const {
-    data,
-    isLoading: historyLoad,
-    error,
-  } = useGetOrderHistoryQuery(userID);
+  const { data, isLoading: orderLoad, error } = useGetOrderInfoQuery(user?.id);
+
+  const historyData = data?.order?.filter((order) => order.status === "completed");
+
+  console.log("historyData", historyData);
 
   return (
     <div>
-      <OrderCard history={data} historyLoad={historyLoad} status={"history"} />
+      <OrderCard history={historyData} historyLoad={orderLoad} status={"history"} />
     </div>
   );
 };

@@ -17,7 +17,6 @@ const ProfileMenu = () => {
     skip: !user?.id,
   });
 
-  console.log("userData", userData);
   const userImage = userData?.userDetails?.image ?? avatar;
 
   const totalOrder = data?.order?.length ?? 0;
@@ -26,6 +25,8 @@ const ProfileMenu = () => {
   const activeOrder =
     data?.order?.filter(
       (order) =>
+        order.status === "pending" ||
+        order.status === "processing" ||
         order.status === "approve" ||
         order.status === "Delivering" ||
         order.status === "shipping" ||
