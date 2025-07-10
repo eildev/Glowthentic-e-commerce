@@ -23,12 +23,12 @@ const Product = ({ product, isDark }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
-  const { token, user } = useSelector((state) => state.auth);
-  const [addToWishlist, { isLoading, isError, isSuccess, data }] =
+  const { user } = useSelector((state) => state.auth);
+  const [addToWishlist] =
     useAddToWishlistMutation();
   const isMobile = useMediaQuery("(max-width: 767px)");
 
-  const { id, product_name, productdetails, variants, price } = product;
+  const {  productdetails } = product;
 
   const isComboProduct = product?.comboproduct && !product?.variants;
 

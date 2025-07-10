@@ -4,13 +4,13 @@ import { useGetOrderInfoQuery } from "../../../../redux/features/api/orderApi/or
 
 const OrderHistory = () => {
   const { user } = useSelector((state) => state.auth);
-  const { data, isLoading: orderLoad, error } = useGetOrderInfoQuery(user?.id);
+  const { data, isLoading: orderLoad, error, refetch } = useGetOrderInfoQuery(user?.id);
 
   const historyData = data?.order?.filter(
     (order) => order.status === "completed"
   );
 
-  console.log("historyData", historyData);
+  // console.log("historyData", historyData);
 
   return (
     <div className="grid gap-5 mt-5">
@@ -18,6 +18,7 @@ const OrderHistory = () => {
         history={historyData}
         historyLoad={orderLoad}
         status={"history"}
+        refetch={refetch}
       />
     </div>
   );

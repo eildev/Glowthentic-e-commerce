@@ -34,7 +34,7 @@ const PasswordChange = () => {
     e.preventDefault();
     try {
       const response = await changePassword(formData).unwrap();
-      console.log(response);
+      // console.log(response);
       if (response.status) {
         toast.success(response.message);
         setFormData({

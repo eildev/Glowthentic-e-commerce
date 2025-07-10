@@ -1,13 +1,11 @@
 // export default OrderCard;
 import { Icon } from "@iconify/react";
-import OrderReviewModal from "../user-profile/OrderReviewModal";
 import { useEffect, useState } from "react";
-import { useGetReviewInfoQuery } from "../../redux/features/api/review/reviewGetApi";
-import { useSelector } from "react-redux";
 import OrderCardSkeleton from "./OrderCardSkeleton";
 import { Link } from "react-router-dom";
+import OrderReviewModal from "./OrderReviewModal";
 
-const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
+const OrderCard = ({ status, order, history, historyLoad, orderLoad, refetch }) => {
   const [reviewItem, setReviewItem] = useState(null);
 
   const clickHandle = (item) => {
@@ -20,7 +18,7 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
     }
   }, [reviewItem]);
 
-  // console.log(history);
+  // console.log("History", history);
   return (
     <>
       {status === "order" ? (
@@ -33,7 +31,7 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
           !Array.isArray(order?.data) ||
           order?.data.length === 0 ? ( // অ্যারে কিনা চেক করুন
           <p className="text-center text-gray-500">
-            You haven't placed any order yet.
+            You haven`t placed any order yet.
           </p>
         ) : (
           [...(order?.data || [])] // ডিফল্ট খালি অ্যারে
@@ -158,11 +156,10 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
                     </Link>
                     <button
                       className={`
-                          text-white ${
-                            item?.reviews?.length > 0
-                              ? "bg-gray"
-                              : "bg-secondary"
-                          }
+                          text-white ${item?.reviews?.length > 0
+                          ? "bg-gray"
+                          : "bg-secondary"
+                        }
                       w-full uppercase rounded-md md:rounded-none py-3 text-sm md:text-md`}
                       onClick={() => clickHandle(item)}
                       disabled={item?.reviews?.length > 0 ? true : false}
@@ -176,6 +173,7 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad }) => {
                   <OrderReviewModal
                     item={reviewItem}
                     setReviewItem={setReviewItem}
+                    refetch={refetch}
                   />
                 </div>
               </div>

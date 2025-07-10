@@ -1,7 +1,11 @@
 import { Icon } from "@iconify/react";
 import { imagePath } from "../../../utils/imagePath";
-import { Rating, Star } from "@smastrom/react-rating";
 import { Link } from "react-router-dom";
+import ShowRating from "../../../components/rating/ShowRating";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../../../redux/features/slice/cartSlice";
+import toast from "react-hot-toast";
 
 const FavoriteCard = ({ item }) => {
   const categories = item.wishlist_product.product_category ?? [];
@@ -10,17 +14,35 @@ const FavoriteCard = ({ item }) => {
   const rating =
     reviews.length > 0
       ? reviews.reduce(
-          (accumulator, currentValue) =>
-            accumulator + (currentValue.rating || 0),
-          0
-        ) / reviews.length
+        (accumulator, currentValue) =>
+          accumulator + (currentValue.rating || 0),
+        0
+      ) / reviews.length
       : 0;
 
-  const customStyles = {
-    itemShapes: Star,
-    boxBorderWidth: 0,
-    activeFillColor: "#FA8232",
-    inactiveFillColor: "#AFAFAF",
+  const { user } = useSelector((state) => state.auth);
+
+  const [isInCart, setIsInCart] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (productItem) => {
+    if (isInCart) {
+      dispatch(removeFromCart(productItem.id));
+      toast.error(
+        `${productItem?.product_name ?? productItem?.name ?? ""
+        } removed from Cart!`
+      );
+    } else {
+      const newProduct = {
+        ...productItem,
+        quantity: 1,
+        user_id: user?.id || null,
+      };
+      dispatch(addToCart(newProduct));
+      toast.success(
+        `${productItem?.product_name ?? productItem?.name ?? ""} added to Cart!`
+      );
+    }
   };
 
   return (
@@ -53,28 +75,26 @@ const FavoriteCard = ({ item }) => {
               </p>
             ))}
           </div>
-          <p className="flex items-center text-sm lg:text-lg gap-2 text-dark font-semibold font-encode">
-            <Rating
-              value={rating}
-              style={{ maxWidth: 100 }}
-              itemStyles={customStyles}
-              readOnly
-            />{" "}
-            {rating}
-          </p>
+          <ShowRating rating={rating} width={100} />
         </div>
 
         <div className="w-full flex justify-between items-center mt-5">
           <p className="text-sm lg:text-xl text-dark font-semibold font-encode">
             ৳ {item?.variant?.regular_price ?? 0}
           </p>
-          <Link
-            to={`/product/${item?.wishlist_product?.slug}`}
-            className="text-white bg-secondary rounded-md px-5 py-2 text-lg md:text-xl"
-            title="View Product"
-          >
-            <Icon icon="lucide:move-right" />
-          </Link>
+          <div className="flex gap-3">
+            <button onClick={() => handleAddToCart(item?.wishlist_product)} className="text-white bg-secondary rounded-md px-5 py-2 text-lg md:text-xl">
+              {/* <Icon icon="mynaui:cart-plus" /> */}
+              <Icon icon="icon-park-outline:shopping-cart" />
+            </button>
+            <Link
+              to={`/product/${item?.wishlist_product?.slug}`}
+              className="text-white bg-primary rounded-md px-5 py-2 text-lg md:text-xl"
+              title="View Product"
+            >
+              <Icon icon="lucide:move-right" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
