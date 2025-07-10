@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import { useGetTrackingOrderQuery } from "../../redux/features/api/orderApi/orderApi";
 import { imagePath } from "../../utils/imagePath";
 import capitalizeText from "../../utils/capitalizeText";
+import OrderProgressSkeleton from "./OrderProgressSkeleton";
 
 const OrdeProgressPage = () => {
   const location = useLocation();
@@ -30,8 +31,7 @@ const OrdeProgressPage = () => {
     month: "long",
     day: "numeric",
   });
-  if (!orderData)
-    return <div>No order data available. Please track your order again.</div>;
+  if (!orderData) return <OrderProgressSkeleton />;
 
   const orderItems = orderData?.orderDetails || [];
   // const totalQuantity = orderItems.reduce((sum, item) => sum + (Number(item.product_quantity) || 0), 0);

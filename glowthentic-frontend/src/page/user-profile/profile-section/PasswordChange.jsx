@@ -4,9 +4,9 @@ import { useChangePasswordMutation } from "../../../redux/features/api/auth/auth
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import PasswordChangeSkeleton from "./PasswordChangeSkeleton";
 
 const PasswordChange = () => {
-
   const [changePassword, { isLoading }] = useChangePasswordMutation();
   const [formData, setFormData] = useState({
     current_password: "",
@@ -42,7 +42,7 @@ const PasswordChange = () => {
           new_password: "",
           new_password_confirmation: "",
         });
-        navigate('/user');
+        navigate("/user");
       }
     } catch (error) {
       if (error.data?.errors) {
@@ -57,11 +57,13 @@ const PasswordChange = () => {
 
   return (
     <div className="min-h-screen">
-
       {/* Common Title */}
       <CommonTitle title="Change Password" />
 
-      <form onSubmit={handleSubmit} className="w-full mx-auto bg-white rounded-lg shadow-md px-10 py-5 animate-fadeIn">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full mx-auto bg-white rounded-lg shadow-md px-10 py-5 animate-fadeIn"
+      >
         <div className="grid gap-5">
           {/* Current Password */}
           <div className="relative">
@@ -148,12 +150,10 @@ const PasswordChange = () => {
             disabled={isLoading}
             className="w-full bg-secondary text-white font-medium font-encode py-2 rounded-md hover:bg-opacity-90 transition duration-300 disabled:bg-gray-400"
           >
-            {isLoading ? "Changing..." : "Change Password"}
+            {isLoading ? "Loading" : "Change Password"}
           </button>
         </div>
-
       </form>
-
     </div>
   );
 };

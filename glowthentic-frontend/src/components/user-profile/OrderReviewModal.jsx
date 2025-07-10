@@ -2,10 +2,9 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { Rating, Star } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import f4 from "../../assets/img/user-profile/f4.jpeg";
-import { useReviewInfoMutation } from "../../redux/features/api/review/reviewApi";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { useReviewProductMutation } from "../../redux/features/api/review/reviewApi";
 
 function getRating(rating) {
   switch (rating) {
@@ -42,7 +41,7 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
   const [review, setReview] = useState(false);
 
   const [postReview, { isLoading, isError, isSuccess }] =
-    useReviewInfoMutation();
+    useReviewProductMutation();
 
   const customStyles = {
     itemShapes: Star,
@@ -70,18 +69,25 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
       return; // Prevent form submission
     }
 
-    const reviewData = {
-      user_id: userID,
-      product_id: selectedIndex == "all" ? null : selectedProduct?.product.id,
-      order_id: item?.id,
-      rating: rating,
-      review: reviewText,
-      images: imagesFile,
-      status: 1,
-    };
+    const formData = new FormData();
+    formData.append("user_id", userID);
+    formData.append(
+      "product_id",
+      selectedIndex === "all" ? "" : selectedProduct?.product.id
+    );
+    formData.append("order_id", item?.id);
+    formData.append("rating", rating);
+    formData.append("review", reviewText);
+    formData.append("status", 1);
+    imagesFile.forEach((file, index) => {
+      formData.append(`images[${index}]`, file);
+    });
+
+    console.log("formData", [...formData.entries()]);
 
     try {
-      await postReview(reviewData).unwrap();
+      const response = await postReview(formData).unwrap();
+      console.log("isSuccess", response);
       toast.success("Review submitted successfully!");
       setReviewText("");
       setImages([]);
@@ -91,6 +97,7 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
       setReviewItem(null);
       setSelectedIndex("all");
     } catch (error) {
+      console.log("error", error);
       console.error("Failed to submit review:", error);
       // toast.error("Failed to submit review.");
     }
@@ -129,11 +136,11 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
               </div>
               <div className="pl-4 md:pl-0 md:mt-4">
                 <h5 className="text-sm md:text-lg text-dark font-bold font-encode">
-                  {selectedProduct?.product?.product_name}
+                  {selectedProduct?.product?.product_name ?? ""}
                 </h5>
                 <div className="flex justify-between items-center">
                   <p className="text-sm md:text-md text-gray font-normal font-encode">
-                    {selectedProduct?.product?.category?.categoryName}
+                    {selectedProduct?.product?.category?.categoryName ?? ""}
                   </p>
                   <p className="flex items-center text-sm md:text-md text-dark font-semibold font-encode">
                     <Icon
@@ -144,7 +151,7 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
                   </p>
                 </div>
                 <p className="text-sm md:text-xl text-dark font-semibold font-encode">
-                  ৳ {selectedProduct?.variant?.regular_price}
+                  ৳ {selectedProduct?.variant?.regular_price ?? ""}
                 </p>
               </div>
             </div>
@@ -155,7 +162,7 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
               selectedIndex !== "all" || !hasMultipleProducts ? "md:pl-8" : ""
             } mt-4 md:mt-0`}
           >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
               <div className="flex justify-between items-center">
                 {/* products select */}
                 {hasMultipleProducts && (
@@ -166,7 +173,7 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
                     <option value="all">All Products</option>
                     {item?.order_details.map((detail, index) => (
                       <option key={index} value={index}>
-                        {detail.product.product_name}
+                        {detail.product.product_name ?? ""}
                       </option>
                     ))}
                   </select>

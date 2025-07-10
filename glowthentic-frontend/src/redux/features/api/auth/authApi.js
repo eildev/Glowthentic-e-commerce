@@ -72,14 +72,6 @@ const authApi = createApi({
             }),
             invalidatesTags: ["User", "UserDetails"],
         }),
-        // updateUser: builder.mutation({
-        //     query: ({ id, ...data }) => ({
-        //         url: `/user/details/update/${id}`,
-        //         method: "POST",
-        //         body: data, // JSON বা FormData
-        //     }),
-        //     invalidatesTags: ["User", "UserDetails"],
-        // }),
         getGoogleAuthUrl: builder.query({
             query: () => '/auth/google',
         }),

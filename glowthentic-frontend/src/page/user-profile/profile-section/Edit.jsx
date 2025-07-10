@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import SelectWithSearch from "../../../components/select/SelectWithSearch";
 import districtsData from "../../../components/checkout/DistrictUpozila.json";
+import EditSkeleton from "./EditSkeleton";
 
 const Edit = () => {
   // console.log(districtsData?.districts);
@@ -156,10 +157,7 @@ const Edit = () => {
     ) {
       newErrors.secondary_email = "Please enter a valid secondary email";
     }
-    if (
-      formData.phone_number &&
-      !/^1[3-9]\d{8}$/.test(formData.phone_number)
-    ) {
+    if (formData.phone_number && !/^1[3-9]\d{8}$/.test(formData.phone_number)) {
       newErrors.phone_number =
         "Please enter a valid phone number (e.g., 17xxxxxxxx)";
     }
@@ -187,16 +185,14 @@ const Edit = () => {
       <CommonTitle title="Edit Profile" />
 
       {/* Loading state */}
-      {isFetching && (
-        <div className={cn("text-center text-base text-dark font-encode")}>
-          Loading...
-        </div>
-      )}
+      {isFetching && <EditSkeleton />}
 
       {/* Form container */}
       {!isFetching && (
         <form
-          className={cn("w-full mx-auto bg-white rounded-lg shadow-md px-10 py-5 animate-fadeIn")}
+          className={cn(
+            "w-full mx-auto bg-white rounded-lg shadow-md px-10 py-5 animate-fadeIn"
+          )}
           encType="multipart/form-data"
           onSubmit={handleSubmit}
         >
