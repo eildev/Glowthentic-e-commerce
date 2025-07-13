@@ -14,7 +14,7 @@ const HomeBannerImage = ({ banner }) => {
     <Link to={`${banner?.link ?? "#"}`} className="relative w-full h-full">
       {/* Skeleton Loader */}
       {!isImageLoaded && (
-        <div className="skeleton bg-slate-200 animate-pulse w-full h-[400px]"></div>
+        <div className="skeleton inset-0 bg-slate-200 animate-pulse w-full h-[400px]"></div>
       )}
 
       {/* Image */}

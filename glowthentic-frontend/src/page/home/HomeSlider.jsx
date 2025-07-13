@@ -15,7 +15,7 @@ const HomeSlider = () => {
   const { data, error, isLoading } = useGetBannersQuery();
   if (isLoading) {
     return (
-      <div className="skeleton inset-0 bg-slate-200 animate-pulse w-full h-[400px]"></div>
+      <div className="skeleton inset-0 bg-slate-200 transition-all duration-300 ease-in-out animate-pulse w-full h-[400px]"></div>
     );
   }
   if (error) {
