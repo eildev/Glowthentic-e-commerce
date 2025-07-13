@@ -115,17 +115,13 @@ const Edit = () => {
       if (formData.country) dataToSend.append("country", formData.country);
       if (formData.image) dataToSend.append("image", formData.image);
 
-      for (let [key, value] of dataToSend.entries()) {
-        console.log(`${key}:`, value);
-      }
-      // console.log("submit form Data", dataToSend.entries());
 
       // const result = await updateUser({ id: user.id, ...dataToSend }).unwrap();
       const result = await updateUser({
         id: user.id,
         body: dataToSend,
       }).unwrap();
-      console.log("result", result);
+      // console.log("result", result);
       if (result.status === 200) {
         toast.success(result.message || "Profile updated successfully");
         // Update image preview if new image is returned
@@ -164,7 +160,7 @@ const Edit = () => {
     if (formData.police_station && formData.police_station.length > 100) {
       newErrors.police_station = "Upazila must not exceed 100 characters";
     }
-    console.log("Validation Errors:", newErrors);
+    // console.log("Validation Errors:", newErrors);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -178,7 +174,7 @@ const Edit = () => {
     }
   }, [updateError]);
 
-  console.log("errors", errors);
+  // console.log("errors", errors);
 
   return (
     <div className="min-h-screen">

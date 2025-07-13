@@ -2,9 +2,11 @@ import CommonTitle from "../../../components/user-profile/CommonTitle";
 import { useSelector } from "react-redux";
 import { useGetWishlistByUserIdQuery } from "../../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import FavoriteCard from "./FavoriteCard";
+import FavoriteCardSkeleton from "./FavoriteCardSkeleton";
+
 
 const Favorites = () => {
-  const { token, user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const {
     data: wishlist,
     error,
@@ -13,7 +15,12 @@ const Favorites = () => {
     skip: !user?.id,
   });
 
-  // console.log(wishlist?.wishlist);
+
+
+  if (error) return <p>Some Error Happening</p>;
+  if (isLoading) return <FavoriteCardSkeleton />;
+
+
   return (
     <div className="w-full mx-auto">
       <CommonTitle title={"Favorites Product"} />

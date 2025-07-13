@@ -35,7 +35,7 @@ const EditAccount = () => {
 
   const filteredDistricts = districtsData.districts;
 
-  console.log(filteredDistricts);
+  // console.log(filteredDistricts);
 
   const handleDistrictChange = (districtId, districtName) => {
     setDistrictId(districtId);
@@ -208,9 +208,8 @@ const EditAccount = () => {
                   message: "Full name must be at least 2 characters",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.full_name ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.full_name ? "border-red-500" : "border-hr-thin"
+                }`}
             />
             {errors.full_name && (
               <span className="text-red-500 text-sm">
@@ -231,9 +230,8 @@ const EditAccount = () => {
                   message: "Address must be at least 5 characters",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.address ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.address ? "border-red-500" : "border-hr-thin"
+                }`}
             />
             {errors.address && (
               <span className="text-red-500 text-sm">
@@ -250,9 +248,8 @@ const EditAccount = () => {
             </label>
             <input
               {...register("country", { required: "Country is required" })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.country ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.country ? "border-red-500" : "border-hr-thin"
+                }`}
             />
             {errors.country && (
               <span className="text-red-500 text-sm">
@@ -308,13 +305,12 @@ const EditAccount = () => {
                   <span>
                     {districtId
                       ? districtsData.districts.find((d) => d.id === districtId)
-                          ?.name || "Select City"
+                        ?.name || "Select City"
                       : "Select City"}
                   </span>
                   <svg
-                    className={`w-5 h-5 transform ${
-                      isDropdownOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-5 h-5 transform ${isDropdownOpen ? "rotate-180" : ""
+                      }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -372,9 +368,8 @@ const EditAccount = () => {
             </label>
             <input
               {...register("police_station", { required: "Zone is required" })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.police_station ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.police_station ? "border-red-500" : "border-hr-thin"
+                }`}
             />
             {errors.police_station && (
               <span className="text-red-500 text-sm">
@@ -391,9 +386,8 @@ const EditAccount = () => {
               {...register("postal_code", {
                 required: "Postal code is required",
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${
-                errors.postal_code ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 capitalize border rounded-md outline-secondary ${errors.postal_code ? "border-red-500" : "border-hr-thin"
+                }`}
             />
             {errors.postal_code && (
               <span className="text-red-500 text-sm">
@@ -422,9 +416,8 @@ const EditAccount = () => {
                   message: "Invalid email address",
                 },
               })}
-              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${
-                errors.email ? "border-red-500" : "border-hr-thin"
-              }`}
+              className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 border rounded-md outline-secondary ${errors.email ? "border-red-500" : "border-hr-thin"
+                }`}
             />
             {errors.email && (
               <span className="text-red-500 text-sm">
@@ -450,9 +443,8 @@ const EditAccount = () => {
                       "Phone number must start with 0 and be at least 10 digits",
                   },
                 })}
-                className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 rounded-r-md outline-none ${
-                  errors.phone_number ? "border-red-500" : "border-none"
-                }`}
+                className={`block w-full lg:text-xl text-sm text-dark font-normal font-encode px-4 py-2 rounded-r-md outline-none ${errors.phone_number ? "border-red-500" : "border-none"
+                  }`}
                 placeholder="17xxxxxxxx"
                 onChange={(e) => {
                   let value = e.target.value;
@@ -474,11 +466,10 @@ const EditAccount = () => {
         <button
           type="submit"
           disabled={isUpdating}
-          className={`block w-full px-6 py-4 lg:px-8 lg:py-6 rounded-md text-lg font-normal font-encode text-white transition ${
-            isUpdating
+          className={`block w-full px-6 py-4 lg:px-8 lg:py-6 rounded-md text-lg font-normal font-encode text-white transition ${isUpdating
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-secondary hover:bg-secondary-dark"
-          }`}
+            }`}
         >
           {isUpdating ? "Updating..." : "Update"}
         </button>

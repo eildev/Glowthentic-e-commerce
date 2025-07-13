@@ -1,10 +1,10 @@
-import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { Rating, Star } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useReviewProductMutation } from "../../redux/features/api/review/reviewApi";
+import ReviewProductItem from "./ReviewProductItem";
 
 function getRating(rating) {
   switch (rating) {
@@ -23,7 +23,7 @@ function getRating(rating) {
   }
 }
 
-const OrderReviewModal = ({ item, setReviewItem }) => {
+const OrderReviewModal = ({ item, setReviewItem, refetch }) => {
   const { user } = useSelector((state) => state.auth);
   const [selectedIndex, setSelectedIndex] = useState("all");
   // const [selectedItem, setSelectedItem] = useState(null);
@@ -83,19 +83,24 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
       formData.append(`images[${index}]`, file);
     });
 
-    console.log("formData", [...formData.entries()]);
+    // console.log("formData", [...formData.entries()]);
 
     try {
-      const response = await postReview(formData).unwrap();
-      console.log("isSuccess", response);
-      toast.success("Review submitted successfully!");
-      setReviewText("");
-      setImages([]);
-      setRating(3);
-      setReview(false);
-      document.getElementById("my_modal_3").close();
-      setReviewItem(null);
-      setSelectedIndex("all");
+      const result = await postReview(formData).unwrap();
+      console.log("first", result);
+      if (result.status === 200) {
+        toast.success("Review submitted successfully!");
+        setReviewText("");
+        setImages([]);
+        setRating(3);
+        setReview(false);
+        document.getElementById("my_modal_3").close();
+        setReviewItem(null);
+        setSelectedIndex("all");
+        refetch();
+      } else {
+        toast.error("Something went Wrong");
+      }
     } catch (error) {
       console.log("error", error);
       console.error("Failed to submit review:", error);
@@ -126,41 +131,12 @@ const OrderReviewModal = ({ item, setReviewItem }) => {
 
         <div className="flex flex-col items-center md:flex-row">
           {selectedIndex !== "all" || !hasMultipleProducts ? (
-            <div className="flex flex-row md:flex-col w-[280px]">
-              <div className="w-[280px]">
-                <img
-                  className="object-cover h-[350px] w-[280px]"
-                  src={`http://127.0.0.1:8000/${selectedProduct?.variant?.variant_image[0]?.image}`}
-                  alt=""
-                />
-              </div>
-              <div className="pl-4 md:pl-0 md:mt-4">
-                <h5 className="text-sm md:text-lg text-dark font-bold font-encode">
-                  {selectedProduct?.product?.product_name ?? ""}
-                </h5>
-                <div className="flex justify-between items-center">
-                  <p className="text-sm md:text-md text-gray font-normal font-encode">
-                    {selectedProduct?.product?.category?.categoryName ?? ""}
-                  </p>
-                  <p className="flex items-center text-sm md:text-md text-dark font-semibold font-encode">
-                    <Icon
-                      className="w-4 h-4 md:w-6 md:h-6 text-secondary"
-                      icon={"mdi:star"}
-                    />
-                    4.5
-                  </p>
-                </div>
-                <p className="text-sm md:text-xl text-dark font-semibold font-encode">
-                  ৳ {selectedProduct?.variant?.regular_price ?? ""}
-                </p>
-              </div>
-            </div>
+            <ReviewProductItem selectedProduct={selectedProduct} />
           ) : null}
 
           <div
-            className={`w-full ${
-              selectedIndex !== "all" || !hasMultipleProducts ? "md:pl-8" : ""
-            } mt-4 md:mt-0`}
+            className={`w-full ${selectedIndex !== "all" || !hasMultipleProducts ? "md:pl-8" : ""
+              } mt-4 md:mt-0`}
           >
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               <div className="flex justify-between items-center">
