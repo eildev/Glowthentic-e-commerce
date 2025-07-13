@@ -5,22 +5,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetWishlistByUserIdQuery } from "../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import cn from "../utils/cn";
 import { triggerScrollToTop } from "../redux/features/slice/scrollSlice";
+import WishIcon from "../components/navbar/WishIcon";
 
 const AppBar = () => {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
-  const {
-    data: wishlist,
-    error,
-    isLoading,
-  } = useGetWishlistByUserIdQuery(user?.data?.id, {
-    skip: !user?.data?.id,
+  const { data: wishlist } = useGetWishlistByUserIdQuery(user?.id, {
+    skip: !user?.id,
   });
   const wishListCount = wishlist?.wishlist?.length ?? 0;
   const userRoute = token ? "/profile-mobile" : "/login";
-  const wishlistRoute = token ? "/wishlist" : "/login";
+  const wishlistRoute = token ? "/user/favorites" : "/login";
 
-  const cartLength = useSelector((state) => state.cart.cartItems.length);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
+  const filteredCartItems = cartItems.filter((item) => {
+    if (user?.id) {
+      return item.user_id == user.id;
+    } else {
+      return item.user_id == null;
+    }
+  });
+
+  const cartLength = filteredCartItems.length;
 
   const handleHomeClick = () => {
     dispatch(triggerScrollToTop());
@@ -63,7 +70,7 @@ const AppBar = () => {
               <span
                 className={cn(
                   "absolute -top-1 -right-1 border-2 bg-white w-5 h-5 rounded-full text-[10px]",
-                  cartLength > 0 ? "block" : "hidden",
+                  cartLength > 0 ? "block text-secondary" : "hidden",
                   "flex justify-center items-center"
                 )}
               >
@@ -82,7 +89,7 @@ const AppBar = () => {
               <span
                 className={cn(
                   "absolute -top-1 -right-1 border-2 bg-white w-5 h-5 rounded-full text-[10px]",
-                  wishListCount > 0 ? "block" : "hidden",
+                  wishListCount > 0 ? "block text-secondary" : "hidden",
                   "flex justify-center items-center"
                 )}
               >

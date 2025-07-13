@@ -4,17 +4,17 @@ import cn from "../../utils/cn";
 import { useSelector } from "react-redux";
 
 const CartIcon = ({ className }) => {
-   const cartItems = useSelector((state) => state.cart.cartItems);
-  const { user } = useSelector(state => state.auth);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const { user } = useSelector((state) => state.auth);
 
-  const filteredCartItems = cartItems.filter(item => {
+  const filteredCartItems = cartItems.filter((item) => {
     if (user?.id) {
       return item.user_id == user.id;
     } else {
       return item.user_id == null;
     }
   });
-  
+
   const cartCount = filteredCartItems.length;
 
   return (

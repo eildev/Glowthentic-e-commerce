@@ -212,8 +212,8 @@ const CartPage = () => {
 
   return (
     <div className="md:py-10">
-      <DynamicHelmet title="Cart Page" />
-      <div className="flex justify-between px-4 py-2 bg-white md:hidden">
+      <DynamicHelmet title="Shopping Cart" />
+      <div className="flex justify-between px-4 py-2 bg-white lg:hidden">
         <button onClick={() => navigate(-1)}>
           <PreviousPage title={"My Cart"}></PreviousPage>
         </button>
@@ -227,35 +227,36 @@ const CartPage = () => {
             cartCount.length === 0 ? "hidden" : "grid"
           }`}
         >
-          <div className="md:bg-white p-5 lg:col-span-2">
-            <div className="flex justify-between border-b border-[#D7D7D7]">
-              <HeadTitle className="md:bg-white p-5 font-medium text-base md:text-2xl leading-[24px] md:leading-[36px]">
+          <div className="lg:bg-white p-5 lg:col-span-2 rounded-md shadow-md">
+            <div className="flex justify-between items-center border-b border-[#D7D7D7]">
+              <HeadTitle className="lg:bg-white p-5 font-bold text-base md:text-xl leading-[24px] md:leading-[36px]">
                 My Shopping Cart
               </HeadTitle>
-              <a
-                href="#"
-                className="text-secondary p-5 font-medium text-[12.78px] leading-5 cursor-pointer"
-                onClick={handleRemoveAll}
-              >
-                Remove all
-              </a>
+              <div className="">
+                <button
+                  className="bg-secondary p-3 py-2 font-medium text-white leading-5 cursor-pointer rounded-sm text-sm"
+                  onClick={handleRemoveAll}
+                >
+                  Remove all
+                </button>
+              </div>
             </div>
             <div className="max-h-[500px] overflow-y-auto">
               {/* For large device */}
-              <div className="hidden md:block">
+              <div className="hidden lg:block">
                 <table className="table w-full">
                   <thead className="w-full">
                     <tr className="uppercase border-none mx-auto text-[#7A7A7A]">
+                      <th>Product</th>
+                      <th className="text-center">Quantity</th>
+                      <th className="text-center">Price</th>
+                      <th className="text-center">Products Total</th>
                       <th>
                         <Checkbox
                           checked={allSelected}
                           onChange={handleToggleAll}
                         />
                       </th>
-                      <th>Product</th>
-                      <th className="text-center">Quantity</th>
-                      <th className="text-center">Price</th>
-                      <th className="text-center">Products Total</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -279,7 +280,7 @@ const CartPage = () => {
               </div>
 
               {/* For small device */}
-              <table className="table border-t border-[#D7D7D7] block md:hidden">
+              <table className="table border-t border-[#D7D7D7] block lg:hidden">
                 <tbody>
                   {cartItems
                     .filter((item) => {

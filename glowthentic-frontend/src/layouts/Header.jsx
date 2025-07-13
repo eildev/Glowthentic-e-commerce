@@ -16,16 +16,7 @@ import {
 const Header = ({ setShowMobileMenu, showMobileMenu }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const dispatch = useDispatch();
-  const { token, user } = useSelector((state) => state.auth);
-
-  const {
-    data: wishlist,
-    error,
-    isLoading,
-  } = useGetWishlistByUserIdQuery(user?.data?.id, {
-    skip: !user?.data?.id,
-  });
-  const wishListCount = wishlist?.wishlist?.length ?? 0;
+  const { token } = useSelector((state) => state.auth);
 
   // Create a ref for the search bar
   const searchBarRef = useRef(null);
@@ -153,10 +144,7 @@ const Header = ({ setShowMobileMenu, showMobileMenu }) => {
             {/* Wishlist */}
             {token && (
               <div className="px-2">
-                <WishIcon
-                  wishListCount={wishListCount}
-                  className="border-primary text-primary flex justify-center items-center"
-                ></WishIcon>
+                <WishIcon className="border-primary text-primary flex justify-center items-center"></WishIcon>
               </div>
             )}
             {/* user */}

@@ -1,5 +1,3 @@
-
-
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -74,7 +72,7 @@ const IncrementDecrement = ({ setItemCount, item, status, itemCount }) => {
             <Icon icon="majesticons:minus" width="15" height="15" />
           </button>
           <input
-            className="text-sm text-center font-medium w-6 bg-transparent"
+            className="text-sm text-center font-medium bg-transparent outline-none focus:outline-none border-0 focus:border-0 w-6 h-full"
             value={count1}
             readOnly
           />
@@ -97,9 +95,9 @@ const IncrementDecrement = ({ setItemCount, item, status, itemCount }) => {
             <Icon icon="majesticons:minus" width="15" height="15" />
           </button>
           <input
-            className="text-sm text-center font-medium w-6 bg-transparent"
+            className="text-sm text-center font-medium bg-transparent outline-none focus:outline-none border-0 focus:border-0 w-6 h-full"
             value={count}
-            readOnly
+            // readOnly
           />
           <button
             type="button"
