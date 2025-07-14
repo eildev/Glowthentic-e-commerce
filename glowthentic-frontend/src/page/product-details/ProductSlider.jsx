@@ -5,8 +5,8 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
-import { X } from "lucide-react";
 import Panzoom from "@panzoom/panzoom";
+import { Icon } from "@iconify/react";
 
 const ProductSlider = ({ data, variantId }) => {
   const images = variantId
@@ -209,7 +209,7 @@ const ProductSlider = ({ data, variantId }) => {
             onClick={closeModal}
             className="absolute top-4 right-4 z-50 bg-white border border-gray-300 text-black p-2 rounded-full"
           >
-            <X />
+            <Icon icon="akar-icons:cross" width="24" height="24" />
           </button>
 
           {/* Swiper */}
