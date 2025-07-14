@@ -1,15 +1,10 @@
 import Checkbox from "../typography/Checkbox";
-
-import IncrementDecrement from "../typography/IncrementDecrement";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleItemSelection } from "../../redux/features/slice/selectCartSlice";
 import { useEffect, useState } from "react";
-import { imagePath } from "../../utils/imagePath";
-import { Link } from "react-router-dom";
-import capitalizeText from "../../utils/capitalizeText";
-import { Icon } from "@iconify/react";
 import CartProductInfoOne from "./CartProductInfoOne";
 import CartProductInfoTwo from "./CartProductInfoTwo";
+import CartItemPrice from "./CartItemPrice";
 
 const CartItem = ({ item, handleDelete }) => {
   const [itemCount, setItemCount] = useState(item?.quantity || 1);
@@ -70,15 +65,10 @@ const CartItem = ({ item, handleDelete }) => {
         />
       </td>
       <td>
-        <div className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center flex flex-col justify-center items-center gap-1">
-          ৳{finalPrice}
-          {badgeText && (
-            <span className="text-[14px] line-through">${regularPrice}</span>
-          )}
-        </div>
+        <CartItemPrice finalPrice={finalPrice} badgeText={badgeText} regularPrice={regularPrice} />
       </td>
       <td>
-        <div className="text-[#191818] font-semibold text-2xl pb-12 h-fit text-center">
+        <div className="text-[#191818] font-normal text-2xl h-fit text-center">
           ৳{total}
         </div>
       </td>

@@ -89,22 +89,22 @@ const IncrementDecrement = ({ setItemCount, item, status, itemCount }) => {
         <>
           <button
             type="button"
-            className="cursor-pointer border-r bg-gray-200 border-gray-thin text-lg font-thin hover:bg-gray-300 p-2"
+            className="cursor-pointer border-r bg-gray-200 border-gray-thin text-sm lg:text-lg font-thin hover:bg-gray-300 p-2"
             onClick={handleDecrement}
           >
-            <Icon icon="majesticons:minus" width="15" height="15" />
+            <Icon icon="majesticons:minus" />
           </button>
           <input
             className="text-sm text-center font-medium bg-transparent outline-none focus:outline-none border-0 focus:border-0 w-6 h-full"
             value={count}
-            // readOnly
+            readOnly
           />
           <button
             type="button"
-            className="cursor-pointer border-l bg-gray-200 border-gray-thin text-lg font-thin hover:bg-gray-300 p-2"
+            className="cursor-pointer border-l bg-gray-200 border-gray-thin text-sm lg:text-lg font-thin hover:bg-gray-300 p-2"
             onClick={handleIncrement}
           >
-            <Icon icon="lucide:plus" width="15" height="15" />
+            <Icon icon="lucide:plus" />
           </button>
         </>
       )}

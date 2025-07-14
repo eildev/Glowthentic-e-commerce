@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 
-const DeleteModal = ({ title, message, confirmDelete, cancelDelete }) => {
+const DeleteModal = ({ title, message, confirmDelete, cancelDelete, isRemoveAll, totalItems }) => {
   return (
     <div className="h-[100vh] w-full bg-[#1C1B1B] bg-opacity-60 fixed top-0 left-0 z-[100]">
       <div className="w-full max-w-md bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl px-5 py-8">
@@ -14,7 +14,7 @@ const DeleteModal = ({ title, message, confirmDelete, cancelDelete }) => {
           </div>
         </div>
         <div className="text-center">
-          <h1 className="text-[#1C1B1B] text-lg font-semibold">{title}</h1>
+          <h1 className="text-[#1C1B1B] text-lg font-semibold">{isRemoveAll ? `Remove ${totalItems} Items` : title}</h1>
           <p className="text-[#5F6C72] mt-2">{message}</p>
         </div>
         <div className="flex justify-center gap-4 mt-6">
