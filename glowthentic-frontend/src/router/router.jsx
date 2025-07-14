@@ -5,7 +5,6 @@ import AboutPage from "../page/about/AboutPage";
 import Blog from "../page/blog/Blog";
 import SignUp from "../page/auth/SignUp";
 import ForgetPassword from "../page/auth/ForgetPassword";
-import Page404 from "../page/error/Page404";
 import AllProductPage from "../page/product/AllProductPage";
 import ProductDetails from "../page/product-details/ProductDetails";
 import WishlistPage from "../page/wishlist/WishlistPage";
@@ -20,7 +19,6 @@ import AllComponents from "../page/components/AllComponents";
 import OrderConfirmation from "../page/orderConfirmation/OrderConfirmation";
 import OrdeProgressPage from "../page/track-order/OrdeProgressPage";
 import UserProfileLayout from "../page/user-profile/UserProfileLayout";
-import EditAccount from "../page/user-profile/profile-section/EditAccount";
 import OrderProfile from "../page/user-profile/order/OrderProfile";
 import OrderOngoing from "../page/user-profile/order/order-section/OrderOngoing";
 import OrderHistory from "../page/user-profile/order/order-section/OrderHistory";
@@ -33,25 +31,18 @@ import PrivacyPolicy from "../page/privacy-policy/PrivacyPolicy";
 import ProtectCheckout from "./ProtectCheckout";
 import AuthCallback from "../components/auth/AuthCallback";
 import ResetPassword from "../page/auth/ResetPassword";
-
 import PasswordChange from "../page/user-profile/profile-section/PasswordChange";
-
 import Favorites from "../page/user-profile/favorite/Favorites";
 import Settings from "../page/user-profile/setting/Settings";
-import ProfileTab from "../page/user-profile/profile-section/ProfileTab";
 import Profile from "../page/user-profile/profile-section/Profile";
 import Edit from "../page/user-profile/profile-section/Edit";
-
-const ErrorBoundary = ({ error }) => {
-  console.log("Error caught:", error);
-  return <Page404 />;
-};
+import ErrorBoundary from "./ErrorBoundary";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
-    errorElement: <ErrorBoundary />, // Error Boundary
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: "/",

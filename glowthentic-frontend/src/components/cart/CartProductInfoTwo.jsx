@@ -3,7 +3,7 @@ import IncrementDecrement from "../typography/IncrementDecrement";
 
 const CartProductInfoTwo = ({ setItemCount, item, status, handleDelete }) => {
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="grid">
       <div>
         <IncrementDecrement
           setItemCount={setItemCount}
@@ -13,10 +13,10 @@ const CartProductInfoTwo = ({ setItemCount, item, status, handleDelete }) => {
       </div>
       <button
         onClick={() => handleDelete(item?.id)}
-        className="flex items-center gap-2 pt-2 cursor-pointer text-[#FF342D]"
+        className="flex items-center gap-2 lg:pt-2 cursor-pointer text-lg lg:text-xl text-[#FF342D]"
       >
-        <Icon icon="cuida:trash-outline" width="24" height="24" />
-        <h1 className=" text-base font-medium">Remove</h1>
+        <Icon icon="cuida:trash-outline" />
+        <h1 className="text-sm lg:text-base font-medium">Remove</h1>
       </button>
     </div>
   );
