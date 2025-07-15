@@ -15,12 +15,16 @@ const FavoriteCard = ({ item }) => {
 
   const rating =
     reviews.length > 0
-      ? reviews.reduce(
-          (accumulator, currentValue) =>
-            accumulator + (currentValue.rating || 0),
-          0
-        ) / reviews.length
-      : 0;
+      ? parseFloat(
+          (
+            reviews.reduce(
+              (accumulator, currentValue) =>
+                accumulator + (currentValue.rating || 0),
+              0
+            ) / reviews.length
+          ).toFixed(2)
+        )
+      : 0.0;
   const { user, token } = useSelector((state) => state.auth);
 
   const { cartItems } = useSelector((state) => state.cart);
@@ -102,15 +106,15 @@ const FavoriteCard = ({ item }) => {
 
   return (
     <>
-      <div className="relative flex items-center pr-5 bg-white rounded-md overflow-hidden">
+      <div className="relative flex flex-col sm:flex-row items-center pr-2 md:pr-5 bg-white rounded-md overflow-hidden">
         <div
           onClick={() => setShowConfirmModal(true)}
-          className="absolute top-5 right-8 h-7 sm:h-8 lg:h-10 w-7 sm:w-8 lg:w-10 rounded-full bg-primary text-white z-10 flex justify-center items-center cursor-pointer text-sm lg:text-xl font-bold"
+          className="absolute top-3 lg:top-5 right-3 lg:right-5 h-7 sm:h-8 lg:h-10 w-7 sm:w-8 lg:w-10 rounded-full bg-primary text-white z-10 flex justify-center items-center cursor-pointer text-sm lg:text-xl font-bold"
           title="Remove Item"
         >
           <Icon icon="radix-icons:cross-2" />
         </div>
-        <div className="w-5/12 lg:w-3/12 bg-light relative">
+        <div className="w-full sm:w-3/12 bg-light relative">
           <img
             className="w-full object-cover"
             src={imagePath(item?.variant?.variant_image[0]?.image)}
@@ -123,11 +127,11 @@ const FavoriteCard = ({ item }) => {
             />
           </div>
         </div>
-        <div className="w-7/12 lg:w-9/12 p-4">
+        <div className="w-full sm:w-9/12 py-8 lg:py-4 pl-2">
           <h5 className="text-sm lg:text-xl text-dark font-bold font-encode">
             {item?.wishlist_product?.product_name ?? ""}
           </h5>
-          <div className="flex justify-between items-center my-2">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center my-2">
             <div className="flex justify-start gap-1">
               {categories.map((category, i) => (
                 <p
@@ -138,7 +142,7 @@ const FavoriteCard = ({ item }) => {
                 </p>
               ))}
             </div>
-            <ShowRating rating={rating} width={100} />
+            <ShowRating rating={rating} width={100} length={reviews?.length} />
           </div>
 
           <div className="w-full flex justify-between items-center mt-5">

@@ -31,7 +31,6 @@ const productApi = createApi({
                 body: { q: product },
             }),
         }),
-
     })
 })
 

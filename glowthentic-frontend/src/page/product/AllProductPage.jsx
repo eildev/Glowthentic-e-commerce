@@ -93,7 +93,9 @@ const AllProductPage = () => {
 
     if (categoryId) {
       const name =
-        categoryName || findCategoryName(categoryId) || `Category ${categoryId}`;
+        categoryName ||
+        findCategoryName(categoryId) ||
+        `Category ${categoryId}`;
       dispatch(addCategoryWithName({ id: categoryId, name }));
     }
 

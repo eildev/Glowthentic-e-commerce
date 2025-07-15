@@ -4,8 +4,6 @@ const reviewGetApi = createApi({
     reducerPath: 'reviewGetApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://127.0.0.1:8000/api'
-        // baseUrl: 'http://127.0.0.1:8000/api'
-
     }),
     endpoints: builder => ({
         getReviewInfo: builder.query({

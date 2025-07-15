@@ -4,8 +4,18 @@ import { useEffect, useState } from "react";
 import OrderCardSkeleton from "./OrderCardSkeleton";
 import { Link } from "react-router-dom";
 import OrderReviewModal from "./OrderReviewModal";
+import EmptyOrder from "./EmptyOrder";
+import orderImage1 from "../../assets/img/order-confirmation/Online-shopping.png";
+import orderImage2 from "../../assets/img/order-confirmation/no-order.webp";
 
-const OrderCard = ({ status, order, history, historyLoad, orderLoad, refetch }) => {
+const OrderCard = ({
+  status,
+  order,
+  history,
+  historyLoad,
+  orderLoad,
+  refetch,
+}) => {
   const [reviewItem, setReviewItem] = useState(null);
 
   const clickHandle = (item) => {
@@ -29,12 +39,15 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad, refetch }) 
           </>
         ) : !order?.data ||
           !Array.isArray(order?.data) ||
-          order?.data.length === 0 ? ( // অ্যারে কিনা চেক করুন
-          <p className="text-center text-gray-500">
-            You haven`t placed any order yet.
-          </p>
+          order?.data.length === 0 ? (
+          <EmptyOrder
+            message="You haven't placed any order yet."
+            ctaText="Browse Products"
+            ctaLink="/products"
+            image={orderImage1}
+          />
         ) : (
-          [...(order?.data || [])] // ডিফল্ট খালি অ্যারে
+          [...(order?.data || [])]
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((item, i) => {
               const formattedDate = new Date(item.created_at).toLocaleString(
@@ -98,10 +111,15 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad, refetch }) 
           <OrderCardSkeleton history={true} />
           <OrderCardSkeleton history={true} />
         </>
-      ) : !history || !Array.isArray(history) || history?.length === 0 ? ( // অ্যারে কিনা চেক করুন
-        <p className="text-center text-gray-500">You have no order history.</p>
+      ) : !history || !Array.isArray(history) || history?.length === 0 ? (
+        <EmptyOrder
+          message="You have no order history."
+          ctaText="Shop Now"
+          ctaLink="/products"
+          image={orderImage2}
+        />
       ) : (
-        [...(history || [])] // ডিফল্ট খালি অ্যারে
+        [...(history || [])]
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
           .map((item, i) => {
             const formattedDate = new Date(item.created_at).toLocaleString(
@@ -156,10 +174,11 @@ const OrderCard = ({ status, order, history, historyLoad, orderLoad, refetch }) 
                     </Link>
                     <button
                       className={`
-                          text-white ${item?.reviews?.length > 0
-                          ? "bg-gray"
-                          : "bg-secondary"
-                        }
+                          text-white ${
+                            item?.reviews?.length > 0
+                              ? "bg-gray"
+                              : "bg-secondary"
+                          }
                       w-full uppercase rounded-md md:rounded-none py-3 text-sm md:text-md`}
                       onClick={() => clickHandle(item)}
                       disabled={item?.reviews?.length > 0 ? true : false}

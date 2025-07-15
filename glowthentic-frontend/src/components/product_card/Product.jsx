@@ -12,7 +12,10 @@ import {
   addToCart,
   removeFromCart,
 } from "../../redux/features/slice/cartSlice";
-import { useAddToWishlistMutation } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
+import {
+  useAddToWishlistMutation,
+  useGetWishlistByUserIdQuery,
+} from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import { imagePath } from "../../utils/imagePath";
 import useMediaQuery from "./useMediaQuery";
 import capitalizeText from "../../utils/capitalizeText";
@@ -24,11 +27,14 @@ const Product = ({ product, isDark }) => {
   const [isFav, setIsFav] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const [addToWishlist] =
-    useAddToWishlistMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
+
+  const { data: favorite } = useGetWishlistByUserIdQuery(user?.id, {
+    skip: !user?.id,
+  });
   const isMobile = useMediaQuery("(max-width: 767px)");
 
-  const {  productdetails } = product;
+  const { productdetails } = product;
 
   const isComboProduct = product?.comboproduct && !product?.variants;
 
@@ -100,8 +106,10 @@ const Product = ({ product, isDark }) => {
   }
 
   useEffect(() => {
-    const favourite = JSON.parse(localStorage.getItem("favourite")) || [];
-    setIsFav(favourite.some((item) => item.id === product.id));
+    // const favorite = JSON.parse(localStorage.getItem("favourite")) || [];
+    setIsFav(
+      favorite?.wishlist?.some((item) => item.product_id === product.id)
+    );
     setIsInCart(
       filteredCartItems.some(
         (item) => item.id === (isComboProduct ? product.id : defaultVariant?.id)

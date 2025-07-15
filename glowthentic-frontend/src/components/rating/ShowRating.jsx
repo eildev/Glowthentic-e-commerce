@@ -1,6 +1,6 @@
 import { Rating, Star } from "@smastrom/react-rating";
 
-const ShowRating = ({ rating, width }) => {
+const ShowRating = ({ rating, width, length }) => {
   const customStyles = {
     itemShapes: Star,
     boxBorderWidth: 0,
@@ -8,15 +8,21 @@ const ShowRating = ({ rating, width }) => {
     inactiveFillColor: "#AFAFAF",
   };
   return (
-    <div className="flex items-center text-sm lg:text-lg gap-2 text-dark font-semibold font-encode">
-      <Rating
-        value={rating}
-        style={{ maxWidth: width }}
-        itemStyles={customStyles}
-        readOnly
-      />{" "}
-      {rating}
-    </div>
+    <>
+      {length > 0 ? (
+        <div className="flex items-center text-xs lg:text-sm gap-2 text-primary font-semibold font-encode">
+          <Rating
+            value={rating}
+            style={{ maxWidth: width }}
+            itemStyles={customStyles}
+            readOnly
+          />{" "}
+          {rating} <span className="text-gray"> | {length} Reviews</span>
+        </div>
+      ) : (
+        ""
+      )}
+    </>
   );
 };
 

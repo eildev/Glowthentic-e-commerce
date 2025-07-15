@@ -1,12 +1,7 @@
 import Container from "../../components/Container";
-import { useEffect, useRef, useState } from "react";
-import { FiPlus } from "react-icons/fi";
-import { FiMinus } from "react-icons/fi";
+import { useEffect, useState } from "react";
 import "swiper/css/pagination";
 import "./ProductDetails.css";
-import HeadTitle from "../../components/typography/HeadTitle";
-import RegularButton from "../../components/typography/RegularButton";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import ProductReviews from "./ProductReviews";
 import RecommendedSlider from "./RecommendedSlider";
 import ProductQueryNevigation from "./ProductQueryNevigation";
@@ -15,11 +10,11 @@ import { useGetProductByDetailsQuery } from "../../redux/features/api/product-ap
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/features/slice/cartSlice";
 import toast from "react-hot-toast";
-import ShowPrice from "./ShowPrice.jsx";
-import IncrementDecrement from "../../components/typography/IncrementDecrement.jsx";
 import ProductHelmet from "../../components/helmet/ProductHelmet";
-import capitalizeText from "../../utils/capitalizeText";
-import ProductSlider from "./ProductSlider";
+import ProductDetailsTopSection from "./ProductDetailsTopSection";
+import ComboProductSection from "./ComboProductSection";
+import ProductDescriptionForSmallDevice from "./ProductDescriptionForSmallDevice";
+import ProductVideoSection from "./ProductVideoSection";
 
 const TagElement = ({ value }) => {
   return <p>{value?.tagName ?? "No Value"}</p>;
@@ -150,231 +145,29 @@ const ProductDetails = () => {
     <div>
       <ProductHelmet product={data?.data} />
       <Container>
-        <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
-          {/* Small Device Right Section Start */}
-          <div className="sm:hidden block mt-4 p-2">
-            <HeadTitle className="mb-2 text-capitalize">
-              {capitalizeText(data?.data?.product_name) ?? ""}
-            </HeadTitle>
-            <h4 className="font-bold line-clamp-3">
-              {data?.data?.productdetails?.short_description}
-            </h4>
-            <p>
-              <span className="font-thin text-sm text-gray">
-                {data?.data?.product_tags.map(
-                  (tagData, index) =>
-                    `${tagData?.tag?.tagName ?? ""}${
-                      index < data.data.product_tags.length - 1 ? " | " : ""
-                    }`
-                )}
-              </span>
-            </p>
-          </div>
-          {/* Small Device Right Section End */}
+        <ProductDetailsTopSection data={data} isLoading={isLoading} />
 
-          {/* Slide Start */}
-          <div className="sm:col-span-7 my-[35px]">
-            <ProductSlider
-              data={data}
-              variantId={selectedVariant?.id}
-            ></ProductSlider>
-          </div>
-          {/* Slide End */}
-
-          {/* Right Section */}
-          <div className="sm:col-span-3 md:pt-7 md:pl-4">
-            {/* Show on big device, hidden on атрил device */}
-            <div className="hidden sm:block w-full">
-              <HeadTitle className="mb-2">
-                {capitalizeText(data?.data?.product_name) ?? ""}
-              </HeadTitle>
-              <h4
-                className="font-bold line-clamp-3"
-                dangerouslySetInnerHTML={{
-                  __html: data?.data?.productdetails?.short_description,
-                }}
-              ></h4>
-              <p>
-                <span className="font-thin text-sm text-gray">
-                  {data?.data?.product_tags.map(
-                    (tagData, index) =>
-                      `${tagData?.tag?.tagName ?? ""}${
-                        index < data.data.product_tags.length - 1 ? " | " : ""
-                      }`
-                  )}
-                </span>
-              </p>
-            </div>
-            {/* End of big device section */}
-            {/* Out of Stock Badge */}
-            {!stockAvailable && (
-              <div className="mt-2 mb-2">
-                <span className="bg-secondary text-white text-xs md:text-sm px-3 py-1 rounded-full font-semibold">
-                  Out of Stock
-                </span>
-              </div>
-            )}
-            <ShowPrice selectedVariant={selectedVariant} />
-
-            <hr className="text-gray-bold" />
-            {/* Select price end */}
-
-            {/* Buttons */}
-            <div className="mt-4 flex flex-wrap justify-evenly items-center gap-3">
-              <div>
-                <IncrementDecrement
-                  setItemCount={setItemCount}
-                  item={selectedVariantData}
-                  itemCount={itemCount}
-                  status={"details"}
-                />
-              </div>
-              <RegularButton
-                isLoading={isLoading}
-                isDisabled={!stockAvailable}
-                className={`block text-sm text-nowrap justify-between ${
-                  stockAvailable
-                    ? "bg-orange-500 hover:bg-orange-600"
-                    : "bg-gray-gradient cursor-not-allowed"
-                }`}
-                onClick={handleAddToCart}
-              >
-                Add To Cart
-              </RegularButton>
-              <RegularButton
-                isLoading={isLoading}
-                className={`block text-sm text-nowrap justify-between ${
-                  stockAvailable
-                    ? "bg-orange-500 hover:bg-orange-600"
-                    : "bg-gray-gradient cursor-not-allowed"
-                }`}
-                onClick={handleCheckOut}
-                isDisabled={!stockAvailable}
-              >
-                Buy Now
-              </RegularButton>
-            </div>
-
-            <p className="text-sm mt-2 mb-5 lg:text-left lg:ml-3 text-center">
-              Max Product Stock{" "}
-              <span className="text-secondary font-semibold">
-                {selectedVariantData?.product_stock?.StockQuantity || 0}
-              </span>
-            </p>
-            {/* Buttons End */}
-
-            {/* Conditionally Render Shipping/Policy Section */}
-            {data?.data?.shipping_charge === "free" &&
-              data?.data?.productdetails?.product_policy && (
-                <div className="bg-[#fbeff2] p-2 font-normal text-sm mt-4">
-                  <p className="flex items-center py-1">
-                    <Icon icon="mdi:wallet-giftcard" width="2em" height="2em" />
-                    <span className="ps-2">
-                      <h1>Free Shipping</h1>
-                    </span>
-                  </p>
-                  <p className="flex items-center py-1">
-                    <Icon
-                      icon="ic:baseline-discount"
-                      width="2em"
-                      height="2em"
-                    />
-                    <span className="ps-2 line-clamp-3">
-                      {data?.data?.productdetails.product_policy}
-                    </span>
-                  </p>
-                </div>
-              )}
-            <div className="flex items-center justify-between my-3">
-              <div className="flex flex-wrap gap-2 mx-auto">
-                {data?.data?.variants?.map((variant) => (
-                  <div
-                    key={variant.id}
-                    className={`cursor-pointer p-2 rounded-lg transition-all ${
-                      selectedVariant?.id === variant.id
-                        ? "border-2 border-orange-500 bg-orange-50"
-                        : "border border-transparent hover:border-orange-300"
-                    }`}
-                    onClick={() => setSelectedVariant(variant)}
-                  >
-                    <img
-                      src={
-                        "http://127.0.0.1:8000/" +
-                          variant?.variant_image[0]?.image ||
-                        "https://via.placeholder.com/150"
-                      }
-                      alt={variant.variant_name || "Variant"}
-                      className="w-20 h-16 object-cover rounded-md"
-                    />
-                    <p className="text-xs text-center mt-1 text-gray-600">
-                      {variant.variant_name}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          {/* Right Section End */}
-        </div>
+        {/* combo product section  */}
+        <ComboProductSection data={data} />
 
         {/* Product Description Big Device */}
         <div className="hidden sm:block">
           <ProductQueryNevigation data={data}></ProductQueryNevigation>
         </div>
         {/* Product Description Small Device */}
-        <div className="block lg:hidden">
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              Product Details
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <div className="mt-4 text-lg font-normal text-[#0C0C0C]">
-                <div
-                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
-                  dangerouslySetInnerHTML={{
-                    __html: productDetails,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">
-              How To Apply
-            </div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <div className="mt-4 text-lg font-normal text-[#0C0C0C]">
-                <div
-                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
-                  dangerouslySetInnerHTML={{
-                    __html: apply,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="collapse collapse-plus bg-base-200">
-            <input type="checkbox" />
-            <div className="collapse-title text-lg font-medium">Ingredient</div>
-            <div className="collapse-content font-normal text-sm text-justify">
-              <div className="mt-4 text-lg font-normal text-[#0C0C0C]">
-                <div
-                  className="custom-html-content mt-4 text-sm md:text-[16px] font-normal text-[#0C0C0C]"
-                  dangerouslySetInnerHTML={{
-                    __html: ingredients,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <ProductDescriptionForSmallDevice
+          productDetails={productDetails}
+          apply={apply}
+          ingredients={ingredients}
+        />
         {/* Review Section Start */}
         <div>
           <ProductReviews data={data}></ProductReviews>
         </div>
         {/* Review Section End */}
+
+        {/* Product video section  */}
+        <ProductVideoSection data={data} />
 
         {/* Recommended Products Slider */}
         <RecommendedSlider categoryId={categoryId}></RecommendedSlider>
