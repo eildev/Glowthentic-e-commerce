@@ -170,7 +170,10 @@ const ProductDetails = () => {
         <ProductVideoSection data={data} />
 
         {/* Recommended Products Slider */}
-        <RecommendedSlider categoryId={categoryId}></RecommendedSlider>
+        <RecommendedSlider
+          categoryId={categoryId}
+          productData={data}
+        ></RecommendedSlider>
       </Container>
     </div>
   );

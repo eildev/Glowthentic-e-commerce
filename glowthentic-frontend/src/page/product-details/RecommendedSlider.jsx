@@ -5,7 +5,10 @@ import Product from "../../components/product_card/Product";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import Loading from "../../components/spinners/Loading";
 
-const RecommendedSlider = ({ categoryId }) => {
+const RecommendedSlider = ({ categoryId, productData }) => {
+  console.log("productData", productData);
+  const brandId = productData?.data?.brand_id;
+  const product_tags = productData?.data?.product_tags ?? [];
   const { data, isLoading, error } = useGetProductsQuery();
   const simillerCategoryData = data?.data?.filter(
     (product) => product.category_id === categoryId

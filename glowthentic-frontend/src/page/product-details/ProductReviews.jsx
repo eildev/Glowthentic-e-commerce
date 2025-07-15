@@ -14,7 +14,7 @@ const ProductReviews = ({ data }) => {
   } = useGetReviewInfoQuery(data?.data?.id);
 
   // console.log("product id", data?.data?.id);
-  console.log("reviews", reviews);
+  // console.log("reviews", reviews);
 
   return (
     <>
