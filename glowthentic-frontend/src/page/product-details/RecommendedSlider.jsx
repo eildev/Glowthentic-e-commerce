@@ -8,11 +8,23 @@ import Loading from "../../components/spinners/Loading";
 const RecommendedSlider = ({ categoryId, productData }) => {
   console.log("productData", productData);
   const brandId = productData?.data?.brand_id;
-  const product_tags = productData?.data?.product_tags ?? [];
+  const productTags = productData?.data?.product_tags ?? [];
+  const tagIds = productTags.map((tag) => tag.tag_id);
   const { data, isLoading, error } = useGetProductsQuery();
-  const simillerCategoryData = data?.data?.filter(
-    (product) => product.category_id === categoryId
-  );
+  // const simillerCategoryData = data?.data?.filter(
+  //   (product) => product.category_id === categoryId
+  // );
+  const simillerCategoryData = data?.data?.filter((product) => {
+    const productTagIds = product.product_tags?.map((tag) => tag.tag_id) || [];
+    return (
+      product.category_id === categoryId || // Match category_id
+      product.brand_id === brandId || // Match brand_id
+      productTagIds.some((tagId) => tagIds.includes(tagId)) // At least one tag_id matches
+    );
+  });
+
+  console.log("brandId", brandId);
+  console.log("product_tags", productTags);
 
   if (isLoading) return <Loading />;
   if (error) return <p>Error: {error}</p>;

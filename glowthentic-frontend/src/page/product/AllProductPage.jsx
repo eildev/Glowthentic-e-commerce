@@ -26,6 +26,7 @@ import {
 } from "../../redux/features/api/category/categoryApi";
 import { useGetBrandQuery } from "../../redux/features/api/brand/brandApi";
 import { useGetTagsQuery } from "../../redux/features/api/tagViewApi/tagViewApi";
+import AllProductPageSkeleton from "../../components/product_card/AllProductPageSkeleton";
 
 const AllProductPage = () => {
   const dispatch = useDispatch();
@@ -33,10 +34,12 @@ const AllProductPage = () => {
   const location = useLocation();
 
   // Fetch categories, brands, and tags
-  const { data: categoryData } = useGetCategoryQuery();
-  const { data: navbarCategoryData } = useGetNavbarCategoryQuery();
-  const { data: brandData } = useGetBrandQuery();
-  const { data: tagsData } = useGetTagsQuery();
+  const { data: categoryData, isLoading: isCategoryLoading } =
+    useGetCategoryQuery();
+  const { data: navbarCategoryData, isLoading: isNavbarCategoryLoading } =
+    useGetNavbarCategoryQuery();
+  const { data: brandData, isLoading: isBrandLoading } = useGetBrandQuery();
+  const { data: tagsData, isLoading: isTagsLoading } = useGetTagsQuery();
 
   useEffect(() => {
     const {
@@ -136,6 +139,15 @@ const AllProductPage = () => {
   const handleSortChange = (e) => {
     dispatch(setSortOption(e.target.value));
   };
+  // Show skeleton if any data is loading
+  if (
+    isCategoryLoading ||
+    isNavbarCategoryLoading ||
+    isBrandLoading ||
+    isTagsLoading
+  ) {
+    return <AllProductPageSkeleton />;
+  }
 
   return (
     <Container>
