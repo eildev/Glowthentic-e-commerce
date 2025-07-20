@@ -1,10 +1,5 @@
-import defaultImage from "../../assets/img/Product/20.png";
-import Paragraph from "../typography/Paragraph";
-import HeadTitle from "../typography/HeadTitle";
 import { Link, useNavigate } from "react-router-dom";
-import heartIcon from "../../assets/img/Product/heart.svg";
 import cartIcon from "../../assets/img/Product/cart.svg";
-import ProductIcon from "./ProductIcon";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,8 +13,8 @@ import {
 } from "../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import { imagePath } from "../../utils/imagePath";
 import useMediaQuery from "./useMediaQuery";
-import capitalizeText from "../../utils/capitalizeText";
-import formatPrice from "../../utils/formatPrice";
+import ProductCardImage from "./ProductCardImage";
+import ProductCardDetails from "./ProductCardDetails";
 
 const Product = ({ product, isDark }) => {
   const navigate = useNavigate();
@@ -189,133 +184,27 @@ const Product = ({ product, isDark }) => {
         isDark ? "min-h-[320px] lg:min-h-[500px]" : ""
       }`}
     >
-      <figure className="relative overflow-hidden min-h-[180px] md:min-h-[380px] lg:h-[380px]">
-        <Link to={`/product/${product.slug || `combo/${product.id}`}`}>
-          <img
-            className="lg:h-[380px] min-h-[250px] md:min-h-[280px] object-cover transition-transform duration-500 hover:scale-105"
-            src={productImage ?? defaultImage}
-            alt={productName ?? "product image"}
-          />
-        </Link>
-        <span
-          className={`bg-secondary text-white lg:text-sm text-xs px-2 lg:px-5 py-1 rounded-r-[25px] absolute top-[20px] lg:top-[30px] left-0 font-semibold transition-opacity duration-300 ${
-            !isComboProduct && product?.stock <= 0
-              ? "opacity-100"
-              : "hover:opacity-75"
-          }`}
-        >
-          {!isComboProduct && product?.stock <= 0
-            ? "Stock Out"
-            : badgeText || stockStatus || "In Stock"}
-        </span>
+      <ProductCardImage
+        product={product}
+        productName={productName}
+        isComboProduct={isComboProduct}
+        defaultVariant={defaultVariant}
+        isInCart={isInCart}
+        comboImage={comboImage}
+      />
 
-        <ProductIcon
-          image={heartIcon}
-          className={`top-[15px] lg:top-[25px] hover:bg-secondary hover:text-white transition-all duration-200 ease-in-out transform hover:scale-110 ${
-            isFav ? "bg-secondary text-white" : ""
-          }`}
-          imgClassName="h-4 w-4"
-          product={product}
-          handleFav={handleFav}
-          name={"heart"}
-        />
-        <ProductIcon
-          image={cartIcon}
-          className={`bottom-[15px] lg:bottom-[25px] transition-all duration-200 ease-in-out transform ${
-            (!isComboProduct && stockStatus === "In Stock") || isComboProduct
-              ? "hover:scale-110 hover:bg-secondary cursor-pointer"
-              : "cursor-not-allowed opacity-60"
-          } ${
-            isInCart
-              ? "bg-secondary text-white"
-              : (!isComboProduct && stockStatus === "In Stock") ||
-                isComboProduct
-              ? "bg-primary text-white"
-              : "bg-gray text-white"
-          }`}
-          imgClassName=""
-          product={product}
-          handleAddToCart={
-            (!isComboProduct &&
-              product?.product_stock?.[0]?.StockQuantity > 0) ||
-            isComboProduct
-              ? handleAddToCart
-              : () => {}
-          }
-          name={"cart"}
-          defaultVariant={defaultVariant}
-        />
-      </figure>
-
-      <div
-        className={`card-body h-[200px] px-2 md:px-4 rounded-b-2xl flex flex-col justify-center transition-colors duration-300 ${
-          isDark
-            ? "bg-primary text-white text-center"
-            : "bg-white text-primary text-left"
-        }`}
-      >
-        <Link to={`/product/${product.slug || `combo/${product.id}`}`}>
-          <HeadTitle
-            className={`text-sm md:text-base lg:text-lg line-clamp-2 transition-colors duration-200 hover:text-secondary ${
-              isDark ? "text-white" : "text-primary"
-            }`}
-          >
-            {capitalizeText(productName) || "N/A"}
-          </HeadTitle>
-        </Link>
-        {isMobile ? (
-          <Paragraph className="text-xs min-h-[40px] transition-opacity duration-200 hover:opacity-80">
-            {(!isComboProduct &&
-              productdetails?.short_description?.slice(0, 40)) ||
-              (isComboProduct &&
-                product?.comboproduct?.[0]?.product?.productdetails?.short_description?.slice(
-                  0,
-                  40
-                )) ||
-              ""}
-          </Paragraph>
-        ) : (
-          <Paragraph className="text-sm lg:mt-2 line-clamp-2 min-h-[44px] transition-opacity duration-200 hover:opacity-80">
-            {(!isComboProduct &&
-              productdetails?.short_description?.slice(0, 60)) ||
-              (isComboProduct &&
-                product?.comboproduct?.[0]?.product?.productdetails?.short_description?.slice(
-                  0,
-                  60
-                )) ||
-              ""}
-          </Paragraph>
-        )}
-
-        <div
-          className={`flex gap-1 md:gap-2  items-center ${
-            isDark ? "text-center justify-center" : "text-start justify-start"
-          }`}
-        >
-          <span
-            className={`text-sm sm:text-base md:text-lg transition-transform duration-200 hover:scale-105 ${
-              isDark
-                ? "text-white border-gray-700"
-                : "text-secondary border-gray-300"
-            }`}
-          >
-            ৳ {formatPrice(finalPrice)}
-          </span>
-          {!isComboProduct && isPromotionValid && discountPercentage > 0 && (
-            <span
-              className={`text-xs sm:text-sm font-thin transition-opacity duration-200 hover:opacity-60 ${
-                isDark ? "text-light border-light" : "text-gray border-gray"
-              }`}
-            >
-              <del
-                aria-label={`Original price: ${defaultVariant?.regular_price} Bangladeshi Taka`}
-              >
-                ৳ {formatPrice(defaultVariant?.regular_price)}
-              </del>
-            </span>
-          )}
-        </div>
-      </div>
+      {/* product details Card */}
+      <ProductCardDetails
+        isDark={isDark}
+        product={product}
+        productName={productName}
+        isComboProduct={isComboProduct}
+        productdetails={productdetails}
+        isPromotionValid={isPromotionValid}
+        discountPercentage={discountPercentage}
+        isMobile={isMobile}
+        finalPrice={finalPrice}
+      />
     </div>
   );
 };
