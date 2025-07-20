@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import CartProductInfoOne from "./CartProductInfoOne";
 import CartProductInfoTwo from "./CartProductInfoTwo";
 import CartItemPrice from "./CartItemPrice";
+import formatPrice from "../../utils/formatPrice";
 
 const CartItemForSmallDevice = ({ item, handleDelete }) => {
   const [itemCount, setItemCount] = useState(item?.quantity || 1);
@@ -67,9 +68,8 @@ const CartItemForSmallDevice = ({ item, handleDelete }) => {
             badgeText={badgeText}
             regularPrice={regularPrice}
           />
-          <div className="text-lg">
-            <span>৳</span>
-            {total}
+          <div className="text-base sm:text-lg lg:text-xl">
+            ৳ {formatPrice(total)}
           </div>
           <div>
             <Checkbox checked={isSelected} onChange={handleCheckboxChange} />

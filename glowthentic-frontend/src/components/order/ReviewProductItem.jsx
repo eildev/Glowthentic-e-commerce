@@ -1,3 +1,4 @@
+import formatPrice from "../../utils/formatPrice";
 import { imagePath } from "../../utils/imagePath";
 import ShowRating from "../rating/ShowRating";
 
@@ -38,7 +39,7 @@ const ReviewProductItem = ({ selectedProduct }) => {
           <ShowRating rating={rating} width={100} length={reviews?.length} />
         </div>
         <p className="text-sm md:text-xl text-dark font-semibold font-encode">
-          ৳ {selectedProduct?.variant?.regular_price ?? 0}
+          ৳ {formatPrice(selectedProduct?.variant?.regular_price) ?? 0}
         </p>
       </div>
     </div>

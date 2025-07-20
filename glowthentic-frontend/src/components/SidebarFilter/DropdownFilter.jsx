@@ -20,6 +20,7 @@ import "rc-slider/assets/index.css";
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
 import _ from "lodash";
 import capitalizeText from "../../utils/capitalizeText";
+import DropdownFilterSkeleton from "./DropdownFilterSkeleton";
 
 // Slider styles
 const sliderStyles = `
@@ -65,7 +66,11 @@ const DropdownFilter = () => {
     selectedCategoryMap,
     filteredSearchQuery,
   } = useSelector((state) => state.filters);
-  const { data: categoryData, isLoading, refetch } = useGetCategoryQuery();
+  const {
+    data: categoryData,
+    isLoading: isCategoryLoading,
+    refetch,
+  } = useGetCategoryQuery();
   const { data: brandData, isLoading: isBrandLoading } = useGetBrandQuery();
   const { data: tagsData, isLoading: isTagsLoading } = useGetTagsQuery();
   const {
@@ -189,8 +194,13 @@ const DropdownFilter = () => {
     }
   };
 
-  if (isLoading || isBrandLoading || isTagsLoading || isProductsLoading) {
-    return <div className="text-gray-500">Loading filters...</div>;
+  if (
+    isCategoryLoading ||
+    isBrandLoading ||
+    isTagsLoading ||
+    isProductsLoading
+  ) {
+    return <DropdownFilterSkeleton />;
   }
   if (error || !categoryData || !brandData || !tagsData || !productData) {
     return (

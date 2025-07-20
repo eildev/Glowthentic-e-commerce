@@ -19,6 +19,7 @@ import {
 import { imagePath } from "../../utils/imagePath";
 import useMediaQuery from "./useMediaQuery";
 import capitalizeText from "../../utils/capitalizeText";
+import formatPrice from "../../utils/formatPrice";
 
 const Product = ({ product, isDark }) => {
   const navigate = useNavigate();
@@ -287,35 +288,31 @@ const Product = ({ product, isDark }) => {
         )}
 
         <div
-          className={`flex gap-1 sm:gap-2 md:gap-3 justify-start items-center w-full ${
-            isDark ? "text-center" : "text-start"
+          className={`flex gap-1 md:gap-2  items-center ${
+            isDark ? "text-center justify-center" : "text-start justify-start"
           }`}
         >
-          <Paragraph
-            className={`text-sm sm:text-base md:text-lg lg:text-xl mx-0 px-0 md:w-0 transition-transform duration-200 hover:scale-105 ${
+          <span
+            className={`text-sm sm:text-base md:text-lg transition-transform duration-200 hover:scale-105 ${
               isDark
                 ? "text-white border-gray-700"
                 : "text-secondary border-gray-300"
             }`}
           >
-            <span aria-label={`Price: ${finalPrice} Bangladeshi Taka`}>
-              ৳ {finalPrice}
-            </span>
-          </Paragraph>
+            ৳ {formatPrice(finalPrice)}
+          </span>
           {!isComboProduct && isPromotionValid && discountPercentage > 0 && (
-            <Paragraph
-              className={`text-xs sm:text-sm md:text-base px-0 transition-opacity duration-200 hover:opacity-60 ${
-                isDark
-                  ? "text-gray-300 border-gray-700 ml-1 sm:ml-2 md:ml-3"
-                  : "text-gray-400 border-gray-300 ml-1 sm:ml-2 md:ml-3"
+            <span
+              className={`text-xs sm:text-sm font-thin transition-opacity duration-200 hover:opacity-60 ${
+                isDark ? "text-light border-light" : "text-gray border-gray"
               }`}
             >
               <del
                 aria-label={`Original price: ${defaultVariant?.regular_price} Bangladeshi Taka`}
               >
-                ৳ {defaultVariant?.regular_price}
+                ৳ {formatPrice(defaultVariant?.regular_price)}
               </del>
-            </Paragraph>
+            </span>
           )}
         </div>
       </div>

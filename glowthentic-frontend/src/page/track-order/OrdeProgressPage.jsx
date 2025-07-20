@@ -8,10 +8,11 @@ import HeadTitle from "../../components/typography/HeadTitle";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ProgressProductTitle from "../../components/track-order/order-progress/ProgressProductTitle";
 import { useLocation } from "react-router-dom";
-import { useGetTrackingOrderQuery } from "../../redux/features/api/orderApi/orderApi";
 import { imagePath } from "../../utils/imagePath";
 import capitalizeText from "../../utils/capitalizeText";
 import OrderProgressSkeleton from "./OrderProgressSkeleton";
+import formatPrice from "../../utils/formatPrice";
+import { useGetTrackingOrderQuery } from "../../redux/features/api/orderApi/orderAPI";
 
 const OrdeProgressPage = () => {
   const location = useLocation();
@@ -263,7 +264,7 @@ const OrdeProgressPage = () => {
                           <p className="font-medium lg:text-md text-sm text-gray-800">
                             Price: <br />{" "}
                             <span className="font-bold lg:text-md text-xs">
-                              ৳{item.unit_price}
+                              ৳ {formatPrice(Math.floor(item?.unit_price))}
                             </span>
                           </p>
                           <p className=" font-medium  lg:text-md text-sm text-gray-500">
@@ -275,7 +276,7 @@ const OrdeProgressPage = () => {
                           <p className="font-medium lg:text-md text-sm text-gray-800">
                             Subtotal: <br />{" "}
                             <span className="font-bold lg:text-md text-xs">
-                              ৳{item.total_price}
+                              ৳{formatPrice(Math.floor(item?.total_price))}
                             </span>
                           </p>
                           {/* <RegularButton className="py-0 lg:h-11  bg-secondary  border h-8  hover:border-secondary text-white lg:bg-secondary  lg:text-md text-xs rounded-xl">
@@ -307,15 +308,21 @@ const OrdeProgressPage = () => {
                     </p>
                     <div className="flex justify-between text-sm text-gray-700">
                       <p className="lg:text-lg text-sm">Subtotal Price:</p>
-                      <p className="lg:text-lg text-sm">৳{subtotal} tk</p>
+                      <p className="lg:text-lg text-sm">
+                        ৳ {formatPrice(Math.floor(subtotal))} tk
+                      </p>
                     </div>
                     <div className="flex justify-between text-sm text-gray-700">
                       <p className="lg:text-lg text-sm">Shipping & Handling:</p>
-                      <p className="lg:text-lg text-sm">৳{shipping} tk</p>
+                      <p className="lg:text-lg text-sm">
+                        ৳ {formatPrice(Math.floor(shipping))} tk
+                      </p>
                     </div>
                     <div className="flex justify-between text-sm text-gray-700">
                       <p className="lg:text-lg text-sm">Est Sales Tax:</p>
-                      <p className="lg:text-lg text-sm">৳{tax} tk</p>
+                      <p className="lg:text-lg text-sm">
+                        ৳ {formatPrice(tax)} tk
+                      </p>
                     </div>
                     <div className="flex justify-end text-lg mt-4">
                       <p className="px-4">
@@ -327,7 +334,7 @@ const OrdeProgressPage = () => {
                         ):
                       </p>
                       <p className="font-bold text-gray-900 ">
-                        ৳{totalEstimated} tk
+                        ৳ {formatPrice(Math.floor(totalEstimated))} tk
                       </p>
                     </div>
                   </div>

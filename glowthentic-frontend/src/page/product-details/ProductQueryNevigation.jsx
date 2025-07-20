@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import ProductQueryNavigationSkeleton from "./ProductQueryNavigationSkeleton";
 
 const tabs = [
   { id: "details", label: "Product Details" },

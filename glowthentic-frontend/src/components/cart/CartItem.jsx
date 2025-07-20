@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import CartProductInfoOne from "./CartProductInfoOne";
 import CartProductInfoTwo from "./CartProductInfoTwo";
 import CartItemPrice from "./CartItemPrice";
+import formatPrice from "../../utils/formatPrice";
 
 const CartItem = ({ item, handleDelete }) => {
   const [itemCount, setItemCount] = useState(item?.quantity || 1);
@@ -65,11 +66,15 @@ const CartItem = ({ item, handleDelete }) => {
         />
       </td>
       <td>
-        <CartItemPrice finalPrice={finalPrice} badgeText={badgeText} regularPrice={regularPrice} />
+        <CartItemPrice
+          finalPrice={finalPrice}
+          badgeText={badgeText}
+          regularPrice={regularPrice}
+        />
       </td>
       <td>
-        <div className="text-[#191818] font-normal text-2xl h-fit text-center">
-          ৳{total}
+        <div className="font-normal text-base sm:text-lg lg:text-xl text-center">
+          ৳ {formatPrice(total)}
         </div>
       </td>
       <td>

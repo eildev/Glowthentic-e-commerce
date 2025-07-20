@@ -7,6 +7,7 @@ import OrderReviewModal from "./OrderReviewModal";
 import EmptyOrder from "./EmptyOrder";
 import orderImage1 from "../../assets/img/order-confirmation/Online-shopping.png";
 import orderImage2 from "../../assets/img/order-confirmation/no-order.webp";
+import formatPrice from "../../utils/formatPrice";
 
 const OrderCard = ({
   status,
@@ -90,7 +91,7 @@ const OrderCard = ({
                       {formattedDate}
                     </p>
                     <p className="text-xl my-2 md:text-2xl text-dark font-semibold font-encode">
-                      ৳ {item?.grand_total}
+                      ৳ {formatPrice(Math.floor(item?.grand_total))}
                     </p>
                     <div className="flex justify-between items-center gap-5">
                       <Link
@@ -162,7 +163,7 @@ const OrderCard = ({
                     {formattedDate}
                   </p>
                   <p className="text-xl my-2 md:text-2xl text-dark font-semibold font-encode">
-                    ৳ {item?.grand_total}
+                    ৳ {formatPrice(Math.floor(item?.grand_total))}
                   </p>
                   <div className="flex justify-between items-center gap-5">
                     <Link

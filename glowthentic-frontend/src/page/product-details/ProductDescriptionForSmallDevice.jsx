@@ -1,3 +1,5 @@
+import ProductDescriptionForSmallDeviceSkeleton from "./ProductDescriptionForSmallDeviceSkeleton";
+
 const ProductDescriptionForSmallDevice = ({
   productDetails,
   apply,

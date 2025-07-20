@@ -3,8 +3,9 @@ import capitalizeText from "../../utils/capitalizeText";
 import ShowRating from "../rating/ShowRating";
 import HeadTitle from "../typography/HeadTitle";
 import { Icon } from "@iconify/react";
+import ProductDetailsNameTagAndTagShowSkeleton from "./ProductDetailsNameTagAndTagShowSkeleton";
 
-const ProductDetailsNameTagAndTagShow = ({ data }) => {
+const ProductDetailsNameTagAndTagShow = ({ data, isLoading }) => {
   const reviews = data?.data?.reviews ?? [];
   const [liveView, setLiveView] = useState(Math.floor(Math.random() * 50) + 1);
 
@@ -51,20 +52,22 @@ const ProductDetailsNameTagAndTagShow = ({ data }) => {
     return () => clearTimeout(timeout); // Cleanup timeout on unmount
   }, []);
 
+  if (isLoading) return <ProductDetailsNameTagAndTagShowSkeleton />;
+
   return (
     <div className="w-full mt-4 p-2 sm:p-0">
       <HeadTitle className="mb-2">
         {capitalizeText(data?.data?.product_name) ?? ""}
       </HeadTitle>
       <h4
-        className="font-bold line-clamp-3"
+        className="font-thin line-clamp-3 text-gray"
         dangerouslySetInnerHTML={{
           __html: data?.data?.productdetails?.short_description,
         }}
       ></h4>
 
       <p>
-        <span className="font-thin text-sm text-gray">
+        <span className="font-semibold text-sm">
           {data?.data?.product_tags.map(
             (tagData, index) =>
               `${tagData?.tag?.tagName ?? ""}${

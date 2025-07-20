@@ -7,8 +7,9 @@ import "swiper/css/thumbs";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 import Panzoom from "@panzoom/panzoom";
 import { Icon } from "@iconify/react";
+import ProductSliderSkeleton from "./ProductSliderSkeleton";
 
-const ProductSlider = ({ data, variantId }) => {
+const ProductSlider = ({ data, variantId, isLoading }) => {
   const images = variantId
     ? data?.data?.variants?.find((variant) => variant.id === variantId)
         ?.variant_image || []
@@ -57,6 +58,8 @@ const ProductSlider = ({ data, variantId }) => {
   }, [showModal, images]);
 
   const enableLoop = images?.length >= 2;
+
+  if (isLoading) return <ProductSliderSkeleton />;
   return (
     <>
       {/* Large Device */}

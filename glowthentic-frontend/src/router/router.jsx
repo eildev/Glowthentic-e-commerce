@@ -56,14 +56,14 @@ const router = createBrowserRouter([
         path: "/product/:id",
         element: <ProductDetails />,
       },
-      {
-        path: "/wishlist",
-        element: (
-          <PrivateRoute>
-            <WishlistPage />
-          </PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "/wishlist",
+      //   element: (
+      //     <PrivateRoute>
+      //       <WishlistPage />
+      //     </PrivateRoute>
+      //   ),
+      // },
       {
         path: "/cart",
         element: <CartPage />,

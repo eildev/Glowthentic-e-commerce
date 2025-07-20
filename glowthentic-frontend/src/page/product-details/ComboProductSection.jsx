@@ -1,9 +1,15 @@
 import { useGetProductsQuery } from "../../redux/features/api/product-api/productApi";
+import formatPrice from "../../utils/formatPrice";
 import { imagePath } from "../../utils/imagePath";
 import { Link } from "react-router-dom";
+import ComboProductSectionSkeleton from "./ComboProductSectionSkeleton";
 
-const ComboProductSection = ({ data }) => {
+const ComboProductSection = ({ data, isLoading }) => {
   const combo = data?.data?.comboproduct?.[0]?.combo;
+
+  if (isLoading && data?.data?.comboproduct?.length > 0) {
+    return <ComboProductSectionSkeleton />;
+  }
   return (
     <section
       className={`py-10 bg-body ${
@@ -28,7 +34,7 @@ const ComboProductSection = ({ data }) => {
             {combo?.name ?? "Combo Package"}
           </h4>
           <h2 className="text-xl lg:text-2xl font-encode font-bold text-secondary mb-4">
-            ${combo?.offerd_price ?? "N/A"}
+            ৳ {formatPrice(combo?.offerd_price) ?? "N/A"}
           </h2>
           <div className="flex gap-4">
             <Link

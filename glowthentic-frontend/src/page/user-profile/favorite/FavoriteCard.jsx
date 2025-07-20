@@ -8,6 +8,7 @@ import { addToCart } from "../../../redux/features/slice/cartSlice";
 import toast from "react-hot-toast";
 import { useDeleteWishlistItemMutation } from "../../../redux/features/api/wishlistByUserAPI/wishlistByUserAPI";
 import DeleteModal from "../../../components/modal/DeleteModal";
+import formatPrice from "../../../utils/formatPrice";
 
 const FavoriteCard = ({ item }) => {
   const categories = item.wishlist_product.product_category ?? [];
@@ -106,7 +107,7 @@ const FavoriteCard = ({ item }) => {
 
   return (
     <>
-      <div className="relative flex flex-col sm:flex-row items-center pr-2 md:pr-5 bg-white rounded-md overflow-hidden">
+      <div className="flex flex-col sm:flex-row items-center pr-2 md:pr-5 bg-white rounded-md overflow-hidden">
         <div
           onClick={() => setShowConfirmModal(true)}
           className="absolute top-3 lg:top-5 right-3 lg:right-5 h-7 sm:h-8 lg:h-10 w-7 sm:w-8 lg:w-10 rounded-full bg-primary text-white z-10 flex justify-center items-center cursor-pointer text-sm lg:text-xl font-bold"
@@ -147,7 +148,7 @@ const FavoriteCard = ({ item }) => {
 
           <div className="w-full flex justify-between items-center mt-5">
             <p className="text-sm lg:text-xl text-dark font-semibold font-encode">
-              ৳ {item?.variant?.regular_price ?? 0}
+              ৳ {formatPrice(item?.variant?.regular_price) ?? 0}
             </p>
             <div className="flex gap-3">
               <button
@@ -176,7 +177,7 @@ const FavoriteCard = ({ item }) => {
       {showConfirmModal && (
         <DeleteModal
           title="Remove Item"
-          message="Are you sure you want to remove this item from your wishlist?"
+          message="Are you sure you want to remove this item from your Favorite?"
           confirmDelete={confirmDelete}
           cancelDelete={cancelDelete}
         />

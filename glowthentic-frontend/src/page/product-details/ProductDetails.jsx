@@ -15,6 +15,11 @@ import ProductDetailsTopSection from "./ProductDetailsTopSection";
 import ComboProductSection from "./ComboProductSection";
 import ProductDescriptionForSmallDevice from "./ProductDescriptionForSmallDevice";
 import ProductVideoSection from "./ProductVideoSection";
+import Breadcrumb from "../../components/navbar/Breadcrumb";
+import ProductQueryNavigationSkeleton from "./ProductQueryNavigationSkeleton";
+import ProductDescriptionForSmallDeviceSkeleton from "./ProductDescriptionForSmallDeviceSkeleton";
+import ProductReviewSkeleton from "../../components/product-details/ProductReviewSkeleton";
+import ProductVideoSectionSkeleton from "./ProductVideoSectionSkeleton";
 
 const TagElement = ({ value }) => {
   return <p>{value?.tagName ?? "No Value"}</p>;
@@ -145,34 +150,54 @@ const ProductDetails = () => {
     <div>
       <ProductHelmet product={data?.data} />
       <Container>
+        {/* product details Top section  */}
         <ProductDetailsTopSection data={data} isLoading={isLoading} />
 
         {/* combo product section  */}
-        <ComboProductSection data={data} />
+        <ComboProductSection data={data} isLoading={isLoading} />
 
         {/* Product Description Big Device */}
         <div className="hidden sm:block">
-          <ProductQueryNevigation data={data}></ProductQueryNevigation>
+          {!isLoading ? (
+            <ProductQueryNevigation
+              data={data}
+              isLoading={isLoading}
+            ></ProductQueryNevigation>
+          ) : (
+            <ProductQueryNavigationSkeleton />
+          )}
         </div>
         {/* Product Description Small Device */}
-        <ProductDescriptionForSmallDevice
-          productDetails={productDetails}
-          apply={apply}
-          ingredients={ingredients}
-        />
+        {!isLoading ? (
+          <ProductDescriptionForSmallDevice
+            productDetails={productDetails}
+            apply={apply}
+            ingredients={ingredients}
+          />
+        ) : (
+          <ProductDescriptionForSmallDeviceSkeleton />
+        )}
         {/* Review Section Start */}
         <div>
-          <ProductReviews data={data}></ProductReviews>
+          {!isLoading ? (
+            <ProductReviews data={data}></ProductReviews>
+          ) : (
+            <ProductReviewSkeleton />
+          )}
         </div>
         {/* Review Section End */}
 
         {/* Product video section  */}
-        <ProductVideoSection data={data} />
-
+        {!isLoading ? (
+          <ProductVideoSection data={data} />
+        ) : (
+          <ProductVideoSectionSkeleton />
+        )}
         {/* Recommended Products Slider */}
         <RecommendedSlider
           categoryId={categoryId}
           productData={data}
+          isLoading={isLoading}
         ></RecommendedSlider>
       </Container>
     </div>

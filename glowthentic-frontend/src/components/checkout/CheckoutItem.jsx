@@ -1,6 +1,7 @@
 import React from "react";
 import { imagePath } from "../../utils/imagePath";
 import capitalizeText from "../../utils/capitalizeText";
+import formatPrice from "../../utils/formatPrice";
 
 const CheckoutItem = ({ item }) => {
   const regularPrice = item?.regular_price;
@@ -45,12 +46,14 @@ const CheckoutItem = ({ item }) => {
         <div className="flex items-center gap-2">
           <span>
             {item?.quantity ?? 0} x{" "}
-            <span className="text-secondary font-bold">৳{finalPrice}</span>
+            <span className="text-secondary font-bold">
+              ৳ {formatPrice(regularPrice)}
+            </span>
           </span>
           {discountBadge && (
             <>
               <span className="line-through text-gray-500">
-                ৳{regularPrice}
+                ৳ {formatPrice(regularPrice)}
               </span>
               <span className="bg-secondary text-white text-xs font-medium px-2 py-0.5 rounded">
                 {discountBadge}

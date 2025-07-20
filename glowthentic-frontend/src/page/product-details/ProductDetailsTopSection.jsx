@@ -123,7 +123,7 @@ const ProductDetailsTopSection = ({ data, isLoading }) => {
     <div className="grid grid-cols-1 sm:grid-cols-10 gap-4">
       {/* Small Device Right Section Start */}
       <div className="sm:hidden block">
-        <ProductDetailsNameTagAndTagShow data={data} />
+        <ProductDetailsNameTagAndTagShow data={data} isLoading={isLoading} />
       </div>
       {/* Small Device Right Section End */}
 
@@ -132,6 +132,7 @@ const ProductDetailsTopSection = ({ data, isLoading }) => {
         <ProductSlider
           data={data}
           variantId={selectedVariant?.id}
+          isLoading={isLoading}
         ></ProductSlider>
       </div>
       {/* Slide End */}

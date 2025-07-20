@@ -140,14 +140,6 @@ const AllProductPage = () => {
     dispatch(setSortOption(e.target.value));
   };
   // Show skeleton if any data is loading
-  if (
-    isCategoryLoading ||
-    isNavbarCategoryLoading ||
-    isBrandLoading ||
-    isTagsLoading
-  ) {
-    return <AllProductPageSkeleton />;
-  }
 
   return (
     <Container>
